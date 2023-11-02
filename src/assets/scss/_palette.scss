@@ -1,0 +1,33 @@
+/* For use in src/lib/core/theming/_palette.scss */
+$Trading-theme: (
+    50 : #e2ecfc,
+    100 : #F0F5FF,
+    200 : #85b1f2,
+    300 : #CEE0FA,
+    400 : #307ae9,
+    500 : #0b63e5,
+    600 : #0a5be2,
+    700 : #094FB7,
+    800 : #0647da,
+    900 : #073B89,
+    A100 : #fbfcff,
+    A200 : #c8d2ff,
+    A400 : #95a8ff,
+    A700 : #7b94ff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);

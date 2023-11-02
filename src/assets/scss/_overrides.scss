@@ -1,0 +1,29 @@
+.mat-mdc-form-field {
+    width: 100%;
+}
+
+.primary-color {
+    color: var(--PRIMARY_COLOR);
+}
+
+.filter-input {
+    .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+        min-height: 40px;
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+
+    .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-floating-label {
+        top: 20px;
+    }
+
+    .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mdc-notched-outline--upgraded .mdc-floating-label--float-above {
+        --mat-mdc-form-field-label-transform: translateY( -25.75px) scale(var(--mat-mdc-form-field-floating-label-scale, 0.75));
+    }
+
+    &.no-error {
+        .mat-mdc-form-field-subscript-wrapper {
+            display: none;
+        }
+    }
+}

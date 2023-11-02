@@ -1,0 +1,33 @@
+<header fxLayout="row" fxLayoutAlign="start center">
+    <div fxFlex="initial" fxLayout="row" fxLayoutAlign="start center" class="logo-wrapper">
+        <div class="hamber">
+            <img src="assets/images/hamburger.svg" />
+        </div>
+        <div class="logo">
+            <img src="assets/images/logo.png" />
+        </div>
+    </div>
+    <div fxFlex fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="20px">
+        <div fxHide.xs class="header-search-input">
+            <mat-form-field appearance="outline">
+                <input matInput placeholder="Search">
+                <mat-icon matPrefix>search</mat-icon>
+            </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <div fxLayout="column" fxLayoutAlign="center center" class="avatar">
+                JW
+            </div>
+            <button mat-button [matMenuTriggerFor]="beforeMenu" class="profile-menu">
+                <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                    <span fxHide.xs class="profile-name">Joe Williams</span>
+                    <mat-icon>expand_more</mat-icon>
+                </div>
+            </button>
+            <mat-menu #beforeMenu="matMenu" xPosition="before">
+                <button mat-menu-item>Item 1</button>
+                <button mat-menu-item>Item 2</button>
+            </mat-menu>
+        </div>
+    </div>
+</header>

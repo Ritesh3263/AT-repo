@@ -1,0 +1,88 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    margin: 0px;
+}
+
+.header-search-input {
+    .mat-mdc-form-field-infix {
+        min-height: 36px;
+    }
+
+    .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+
+    .mat-mdc-form-field-icon-prefix>.mat-icon, .mat-mdc-form-field-icon-suffix>.mat-icon {
+        padding: 0 12px;
+    }
+
+    .mat-mdc-form-field-subscript-wrapper {
+        display: none;
+    }
+}
+
+.form-row {
+    margin-left: -10px;
+    margin-right: -10px;
+  
+    .form-group {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+}
+
+.basket-wrapper {
+    padding: 24px;
+
+    .basket-card {
+        border: 1px solid #CCCCCC;
+        box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        padding: 20px;
+        position: relative;
+        margin-bottom: 20px;
+
+        &.trade-down, &.trade-up, &.trade-stable {
+            &::before {
+                content: '';
+                position: absolute;
+                bottom: 0px;
+                left: 0px;
+                width: 100%;
+                height: 8px;
+                background: #EB5757;
+                border-bottom-left-radius: 8px;
+                border-bottom-right-radius: 8px;
+            }
+        }
+
+        &.trade-down {
+            &::before {
+                background: #EB5757;
+            }
+        }
+
+        &.trade-up {
+            &::before {
+                background: #0E8115;
+            }
+        }
+
+        &.trade-stable {
+            &::before {
+                background: #666666;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 599px) {
+    .basket-wrapper {
+        padding: 15px;
+    }
+}

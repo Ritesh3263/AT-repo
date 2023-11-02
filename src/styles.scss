@@ -1,1 +1,5 @@
-/* You can add global styles to this file, and also import other style files */
+@import './assets/scss/theming';
+@import './assets/scss/typography';
+@import './assets/scss/overrides';
+@import './assets/scss/reusables';
+@import './assets/scss/base-theme';

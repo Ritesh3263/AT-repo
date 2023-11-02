@@ -1,0 +1,78 @@
+/**
+* Generated theme by Material Theme Generator
+* https://materialtheme.arcsine.dev
+*/
+@use '@angular/material' as mat;
+@use 'palette';
+
+@include mat.core();
+
+$WHITE: #FFFFFF;
+$BLACK: #000000;
+
+:root {
+  --FONT_11: 11px;
+  --FONT_12: 12px;
+  --FONT_13: 13px;
+  --FONT_14: 14px;
+  --FONT_16: 16px;
+
+  --PRIMARY_COLOR: #0b63e5;
+  --SECONDARY_COLOR: #CEE0FA;
+  --BODY_BG: #F3F6FB;
+}
+
+// Theme Config
+
+$primary: mat.define-palette(palette.$Trading-theme, 500);
+$accent: mat.define-palette(palette.$Trading-theme, 300);
+$theme-warn: (
+  main: #EC5954,
+  lighter: #ffb3b3,
+  darker: #EC5954,
+  contrast: (main: #FFFFFF,
+    lighter: #000000,
+    darker: #FFFFFF,
+  ),
+);
+$warn: mat.define-palette($theme-warn, main, lighter, darker);
+
+$theme: mat.define-light-theme((color: (primary: $primary,
+    accent: $accent,
+    warn: $warn,
+    contrast: (primary: #FFFFFF,
+      accent: #FFFFFF,
+      warn: #FFFFFF,
+    ),
+  ),
+));
+
+@include mat.all-component-themes($theme);
+
+.material-icons {
+  font-size: 24px;
+  font-family: "Material Icons";
+}
+
+$fontConfig: mat.define-typography-config(
+  $headline-1: mat.define-typography-level(112px, 112px, 500, "'Inter', sans-serif", 0em),
+  $headline-2: mat.define-typography-level(56px, 56px, 500, "'Inter', sans-serif", 0em),
+  $headline-3: mat.define-typography-level(45px, 48px, 500, "'Inter', sans-serif", 0em),
+  $headline-4: mat.define-typography-level(34px, 40px, 500, "'Inter', sans-serif", 0em),
+  $headline-5: mat.define-typography-level(24px, 32px, 500, "'Inter', sans-serif", 0em),
+  $headline-6: mat.define-typography-level(20px, 28px, 500, "'Inter', sans-serif", 0em),
+  $subtitle-1: mat.define-typography-level(16px, 24px, 400, "'Inter', sans-serif", 0em),
+  $subtitle-2: mat.define-typography-level(15px, 20px, 400, "'Inter', sans-serif", 0em),
+  $body-1: mat.define-typography-level(14px, 20px, 400, "'Inter', sans-serif", 0.0179em),
+  $body-2: mat.define-typography-level(14px, 20px, 400, "'Inter', sans-serif", 0.0179em),
+  $button: mat.define-typography-level(14px, 20px, 500, "'Inter', sans-serif", 0em),
+  $caption: mat.define-typography-level(12px, 16px, 400, "'Inter', sans-serif", 0em),
+);
+
+:root {
+  font-family: 'Inter', sans-serif;
+  @include mat.all-component-typographies($fontConfig);
+  --FONT_REGULAR: 400;
+  --FONT_MEDIUM: 500;
+  --FONT_BOLD: 700;
+}
