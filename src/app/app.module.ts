@@ -16,8 +16,12 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatCardModule} from '@angular/material/card';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { MyBasketsComponent } from './pages/components/my-baskets/my-baskets.component';
 import { HomeComponent } from './pages/components/home/home.component';
+import { CreateBasketComponent } from './pages/components/create-basket/create-basket.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -25,7 +29,8 @@ import { HomeComponent } from './pages/components/home/home.component';
     HeaderComponent,
     MenuComponent,
     MyBasketsComponent,
-    HomeComponent
+    HomeComponent,
+    CreateBasketComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +45,11 @@ import { HomeComponent } from './pages/components/home/home.component';
     MatButtonModule,
     MatSelectModule,
     MatCheckboxModule,
-    MatCardModule
+    MatCardModule,
+    MatDialogModule,
+    MatAutocompleteModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
