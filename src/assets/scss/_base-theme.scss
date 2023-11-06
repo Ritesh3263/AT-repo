@@ -46,6 +46,125 @@ html, body {
         padding: 20px;
         position: relative;
         margin-bottom: 20px;
+        color: #888;
+        height: calc(100% - 20px);
+
+        .basket-header {
+
+            h2 {
+                margin-bottom: 5px;
+                white-space: nowrap;
+                overflow: hidden;
+                max-width: 85%;
+                text-overflow: ellipsis;
+            }
+
+            .desc {
+                font-size: var(--FONT_12);
+            }
+        }
+
+        .basket-content {
+            .acc-no {
+                color: var(--PRIMARY_COLOR);
+                font-size: var(--FONT_12);
+            }
+
+            .trade-icon {
+                width: 24px;
+                height: 24px;
+            }
+
+            h2 {
+                margin-bottom: 0px;
+                font-weight: 600;
+                padding: 0 10px;
+            }
+
+            .price {
+                padding: 0 10px;
+                border-left: 1px solid rgba(0,0,0,.08);
+            }
+        }
+
+        .basket-footer {
+            margin-top: 10px;
+
+            .invested {
+                p {
+                    margin: 0px;
+                    font-size: 12px;
+                }
+
+                h3 {
+                    margin-bottom: 0px;
+                }
+
+                &.market {
+                    padding: 0 10px;
+                    border-left: 1px solid rgba(0,0,0,.08);
+                }
+            }
+
+            .public-chip {
+                color: #9F4DB6;
+                font-size: 11px;
+                border: 1px solid #9F4DB6;
+                padding: 0px 10px;
+                border-radius: 20px;
+                line-height: 18px;
+            }
+        }
+
+        .basket-profile {
+            margin-top: 15px;
+
+            .profile-icon {
+                width: 35px;
+                height: 35px;
+                box-shadow: 0px 0px 10px 0px #0000004D;
+                border-radius: 50%;
+
+                img {
+                    max-width: 35px;
+                    max-height: 35px;
+                }
+            }
+
+            .profile-info {
+                padding: 0 10px;
+
+                p {
+                    margin: 0px;
+                    font-size: 12px;
+                    line-height: 14px;
+                }
+
+                h2 {
+                    margin-bottom: 0px;
+                    font-size: 18px;
+                }
+
+                &.accounts {
+                    border-left: 1px solid rgba(0,0,0,.08);
+                    border-right: 1px solid rgba(0,0,0,.08);
+                }
+            }
+        }
+
+        .more-btn {
+            position: absolute;
+            top: 10px;
+            right: 5px;
+            width: 40px;
+            height: 40px;
+            padding: 8px;
+
+            .mat-icon {
+                font-size: 21px;
+                line-height: 24px;
+            }
+        }
 
         &.trade-down, &.trade-up, &.trade-stable {
             &::before {
@@ -65,17 +184,47 @@ html, body {
             &::before {
                 background: #EB5757;
             }
+
+            .trade-icon {
+                background: url(../images/trade-down.svg) no-repeat;
+            }
+
+            .basket-content {
+                h2, .price {
+                    color: #EB5757;
+                }
+            }
         }
 
         &.trade-up {
             &::before {
                 background: #0E8115;
             }
+
+            .trade-icon {
+                background: url(../images/trade-up.svg) no-repeat;
+            }
+
+            .basket-content {
+                h2, .price {
+                    color: #0E8115;
+                }
+            }
         }
 
         &.trade-stable {
             &::before {
                 background: #666666;
+            }
+
+            .trade-icon {
+                background: url(../images/trade-stable.svg) no-repeat;
+            }
+
+            .basket-content {
+                h2, .price {
+                    color: #666666;
+                }
             }
         }
     }
@@ -84,5 +233,9 @@ html, body {
 @media screen and (max-width: 599px) {
     .basket-wrapper {
         padding: 15px;
+
+        .filter-input {
+            margin-bottom: 10px;
+        }
     }
 }

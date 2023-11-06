@@ -1,41 +1,41 @@
 <div class="basket-wrapper">
     <div fxLayout="row wrap" fxLayoutAlign="start center">
         <div fxFlex fxLayout="row wrap" fxLayoutAlign="start center" class="form-row">
-            <div fxFlex="initial" class="form-group">
+            <div fxFlex="initial" fxFlex.xs="100" class="form-group">
                 <mat-icon class="primary-color">filter_list</mat-icon>
             </div>
-            <div fxFlex="20" class="form-group filter-input no-error">
+            <div fxFlex="20" fxFlex.xs="100" class="form-group filter-input no-error">
                 <mat-form-field appearance="outline">
                     <mat-label>Account</mat-label>
                     <mat-select>
-                      <mat-option value="option1">Option 1</mat-option>
-                      <mat-option value="option3">Option 3</mat-option>
+                        <mat-option value="option1">Option 1</mat-option>
+                        <mat-option value="option3">Option 3</mat-option>
                     </mat-select>
-                  </mat-form-field>
-            </div> 
-            <div fxFlex="20" class="form-group filter-input no-error">
+                </mat-form-field>
+            </div>
+            <div fxFlex="20" fxFlex.xs="100" class="form-group filter-input no-error">
                 <mat-form-field appearance="outline">
                     <mat-label>Status</mat-label>
                     <mat-select>
-                      <mat-option value="option1">Option 1</mat-option>
-                      <mat-option value="option3">Option 3</mat-option>
+                        <mat-option value="option1">Option 1</mat-option>
+                        <mat-option value="option3">Option 3</mat-option>
                     </mat-select>
-                  </mat-form-field>
-            </div> 
-            <div fxFlex="20" class="form-group filter-input no-error">
+                </mat-form-field>
+            </div>
+            <div fxFlex="20" fxFlex.xs="100" class="form-group filter-input no-error">
                 <mat-form-field appearance="outline">
                     <mat-label>Link</mat-label>
                     <mat-select>
-                      <mat-option value="option1">Option 1</mat-option>
-                      <mat-option value="option3">Option 3</mat-option>
+                        <mat-option value="option1">Option 1</mat-option>
+                        <mat-option value="option3">Option 3</mat-option>
                     </mat-select>
-                  </mat-form-field>
+                </mat-form-field>
             </div>
-            <div class="form-group">
+            <div fxFlex.xs="100" class="form-group">
                 <mat-checkbox color="primary">Market Place</mat-checkbox>
-            </div>          
+            </div>
         </div>
-        <div fxFlex="initial">
+        <div fxFlex="initial" fxFlex.xs="100" fxLayoutAlign.xs="end center">
             <button mat-flat-button color="primary">
                 Create Basket
             </button>
@@ -44,23 +44,531 @@
     <div fxLayout="row wrap" fxLayoutAlign="start stretch" class="form-row mt-20">
         <div fxFlex="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
             <mat-card class="basket-card trade-down">
-                <mat-card-content>Simple card</mat-card-content>
-            </mat-card>              
+                <div class="basket-header">
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+                        <h2 class="mat-h2">Basket One</h2>
+                    </div>
+                    <p class="desc">
+                        In publishing and graphic design,
+                        Lorem ipsum is a placeholde...
+                    </p>                    
+                </div>
+                <div class="basket-content" fxLayout="row" fxLayoutAlign="start center">
+                    <div fxFlex fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon class="trade-icon"></mat-icon>
+                        <h2 class="mat-h2 mb-0">-21.4%</h2>
+                        <span class="price">$12.75</span>
+                    </div>
+                    <span fxFlex="initial" class="acc-no">(588746362)</span>
+                </div>
+                <div class="basket-footer" fxLayout="row" fxLayoutAlign="start center">
+                    <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                        <div class="invested">
+                            <p>Invested</p>
+                            <h3 class="mat-h3">$36.02k</h3>
+                        </div>
+                        <div class="invested market">
+                            <p>Market</p>
+                            <h3 class="mat-h3">$36.02k</h3>
+                        </div>
+                    </div>
+                    <span fxFlex="initial" class="public-chip">Public</span>
+                </div>
+                <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
+                    <div class="profile-icon">
+                        <img src="assets/images/basket-profile-icon.png" />
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
+                            <p>Stocks</p>
+                            <h2 class="mat-h2">101</h2>
+                        </div>
+                        <div class="profile-info accounts" fxLayout="column" fxLayoutAlign="center center">
+                            <p>Accounts</p>
+                            <h2 class="mat-h2">101</h2>
+                        </div>
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
+                            <p>Followers</p>
+                            <h2 class="mat-h2">101</h2>
+                        </div>
+                    </div>
+                </div>
+                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" xPosition="before">
+                    <button mat-menu-item>
+                        <mat-icon>dialpad</mat-icon>
+                        <span>Redial</span>
+                    </button>
+                    <button mat-menu-item>
+                        <mat-icon>notifications_off</mat-icon>
+                        <span>Disable alerts</span>
+                    </button>
+                </mat-menu>
+            </mat-card>
         </div>
         <div fxFlex="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
             <mat-card class="basket-card trade-up">
-                <mat-card-content>Simple card</mat-card-content>
-            </mat-card>              
+                <div class="basket-header">
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+                        <h2 class="mat-h2">Basket One</h2>
+                    </div>
+                    <p class="desc">
+                        In publishing and graphic design,
+                        Lorem ipsum is a placeholde...
+                    </p>
+                </div>
+                <div class="basket-content" fxLayout="row" fxLayoutAlign="start center">
+                    <div fxFlex fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon class="trade-icon"></mat-icon>
+                        <h2 class="mat-h2 mb-0">-21.4%</h2>
+                        <span class="price">$12.75</span>
+                    </div>
+                    <span fxFlex="initial" class="acc-no">(588746362)</span>
+                </div>
+                <div class="basket-footer" fxLayout="row" fxLayoutAlign="start center">
+                    <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                        <div class="invested">
+                            <p>Invested</p>
+                            <h3 class="mat-h3">$36.02k</h3>
+                        </div>
+                        <div class="invested market">
+                            <p>Market</p>
+                            <h3 class="mat-h3">$36.02k</h3>
+                        </div>
+                    </div>
+                    <span fxFlex="initial" class="public-chip">Public</span>
+                </div>
+                <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
+                    <div class="profile-icon">
+                        <img src="assets/images/basket-profile-icon.png" />
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
+                            <p>Stocks</p>
+                            <h2 class="mat-h2">101</h2>
+                        </div>
+                        <div class="profile-info accounts" fxLayout="column" fxLayoutAlign="center center">
+                            <p>Accounts</p>
+                            <h2 class="mat-h2">101</h2>
+                        </div>
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
+                            <p>Followers</p>
+                            <h2 class="mat-h2">101</h2>
+                        </div>
+                    </div>
+                </div>
+                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" xPosition="before">
+                    <button mat-menu-item>
+                        <mat-icon>dialpad</mat-icon>
+                        <span>Redial</span>
+                    </button>
+                    <button mat-menu-item>
+                        <mat-icon>notifications_off</mat-icon>
+                        <span>Disable alerts</span>
+                    </button>
+                </mat-menu>
+            </mat-card>
         </div>
         <div fxFlex="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
             <mat-card class="basket-card trade-stable">
-                <mat-card-content>Simple card</mat-card-content>
-            </mat-card>              
+                <div class="basket-header">
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+                        <h2 class="mat-h2">Basket One</h2>
+                    </div>
+                    <p class="desc">
+                        In publishing and graphic design,
+                        Lorem ipsum is a placeholde...
+                    </p>
+                </div>
+                <div class="basket-content" fxLayout="row" fxLayoutAlign="start center">
+                    <div fxFlex fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon class="trade-icon"></mat-icon>
+                        <h2 class="mat-h2 mb-0">-21.4%</h2>
+                        <span class="price">$12.75</span>
+                    </div>
+                    <span fxFlex="initial" class="acc-no">(588746362)</span>
+                </div>
+                <div class="basket-footer" fxLayout="row" fxLayoutAlign="start center">
+                    <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                        <div class="invested">
+                            <p>Invested</p>
+                            <h3 class="mat-h3">$36.02k</h3>
+                        </div>
+                        <div class="invested market">
+                            <p>Market</p>
+                            <h3 class="mat-h3">$36.02k</h3>
+                        </div>
+                    </div>
+                    <span fxFlex="initial" class="public-chip">Public</span>
+                </div>
+                <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
+                    <div class="profile-icon">
+                        <img src="assets/images/basket-profile-icon.png" />
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
+                            <p>Stocks</p>
+                            <h2 class="mat-h2">101</h2>
+                        </div>
+                        <div class="profile-info accounts" fxLayout="column" fxLayoutAlign="center center">
+                            <p>Accounts</p>
+                            <h2 class="mat-h2">101</h2>
+                        </div>
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
+                            <p>Followers</p>
+                            <h2 class="mat-h2">101</h2>
+                        </div>
+                    </div>
+                </div>
+                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" xPosition="before">
+                    <button mat-menu-item>
+                        <mat-icon>dialpad</mat-icon>
+                        <span>Redial</span>
+                    </button>
+                    <button mat-menu-item>
+                        <mat-icon>notifications_off</mat-icon>
+                        <span>Disable alerts</span>
+                    </button>
+                </mat-menu>
+            </mat-card>
         </div>
         <div fxFlex="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
             <mat-card class="basket-card trade-up">
-                <mat-card-content>Simple card</mat-card-content>
-            </mat-card>              
+                <div class="basket-header">
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+                        <h2 class="mat-h2">Basket One</h2>
+                    </div>
+                    <p class="desc">
+                        In publishing and graphic design,
+                        Lorem ipsum is a placeholde...
+                    </p>
+                </div>
+                <div class="basket-content" fxLayout="row" fxLayoutAlign="start center">
+                    <div fxFlex fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon class="trade-icon"></mat-icon>
+                        <h2 class="mat-h2 mb-0">-21.4%</h2>
+                        <span class="price">$12.75</span>
+                    </div>
+                    <span fxFlex="initial" class="acc-no">(588746362)</span>
+                </div>
+                <div class="basket-footer" fxLayout="row" fxLayoutAlign="start center">
+                    <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                        <div class="invested">
+                            <p>Invested</p>
+                            <h3 class="mat-h3">$36.02k</h3>
+                        </div>
+                        <div class="invested market">
+                            <p>Market</p>
+                            <h3 class="mat-h3">$36.02k</h3>
+                        </div>
+                    </div>
+                    <span fxFlex="initial" class="public-chip">Public</span>
+                </div>
+                <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
+                    <div class="profile-icon">
+                        <img src="assets/images/basket-profile-icon.png" />
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
+                            <p>Stocks</p>
+                            <h2 class="mat-h2">101</h2>
+                        </div>
+                        <div class="profile-info accounts" fxLayout="column" fxLayoutAlign="center center">
+                            <p>Accounts</p>
+                            <h2 class="mat-h2">101</h2>
+                        </div>
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
+                            <p>Followers</p>
+                            <h2 class="mat-h2">101</h2>
+                        </div>
+                    </div>
+                </div>
+                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" xPosition="before">
+                    <button mat-menu-item>
+                        <mat-icon>dialpad</mat-icon>
+                        <span>Redial</span>
+                    </button>
+                    <button mat-menu-item>
+                        <mat-icon>notifications_off</mat-icon>
+                        <span>Disable alerts</span>
+                    </button>
+                </mat-menu>
+            </mat-card>
+        </div>
+        <div fxFlex="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
+            <mat-card class="basket-card trade-down">
+                <div class="basket-header">
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+                        <h2 class="mat-h2">Basket One</h2>
+                    </div>
+                    <p class="desc">
+                        In publishing and graphic design,
+                        Lorem ipsum is a placeholde...
+                    </p>
+                </div>
+                <div class="basket-content" fxLayout="row" fxLayoutAlign="start center">
+                    <div fxFlex fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon class="trade-icon"></mat-icon>
+                        <h2 class="mat-h2 mb-0">-21.4%</h2>
+                        <span class="price">$12.75</span>
+                    </div>
+                    <span fxFlex="initial" class="acc-no">(588746362)</span>
+                </div>
+                <div class="basket-footer" fxLayout="row" fxLayoutAlign="start center">
+                    <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                        <div class="invested">
+                            <p>Invested</p>
+                            <h3 class="mat-h3">$36.02k</h3>
+                        </div>
+                        <div class="invested market">
+                            <p>Market</p>
+                            <h3 class="mat-h3">$36.02k</h3>
+                        </div>
+                    </div>
+                    <span fxFlex="initial" class="public-chip">Public</span>
+                </div>
+                <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
+                    <div class="profile-icon">
+                        <img src="assets/images/basket-profile-icon.png" />
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
+                            <p>Stocks</p>
+                            <h2 class="mat-h2">101</h2>
+                        </div>
+                        <div class="profile-info accounts" fxLayout="column" fxLayoutAlign="center center">
+                            <p>Accounts</p>
+                            <h2 class="mat-h2">101</h2>
+                        </div>
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
+                            <p>Followers</p>
+                            <h2 class="mat-h2">101</h2>
+                        </div>
+                    </div>
+                </div>
+                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" xPosition="before">
+                    <button mat-menu-item>
+                        <mat-icon>dialpad</mat-icon>
+                        <span>Redial</span>
+                    </button>
+                    <button mat-menu-item>
+                        <mat-icon>notifications_off</mat-icon>
+                        <span>Disable alerts</span>
+                    </button>
+                </mat-menu>
+            </mat-card>
+        </div>
+        <div fxFlex="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
+            <mat-card class="basket-card trade-down">
+                <div class="basket-header">
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+                        <h2 class="mat-h2">Basket One</h2>
+                    </div>
+                    <p class="desc">
+                        In publishing and graphic design,
+                        Lorem ipsum is a placeholde...
+                    </p>
+                </div>
+                <div class="basket-content" fxLayout="row" fxLayoutAlign="start center">
+                    <div fxFlex fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon class="trade-icon"></mat-icon>
+                        <h2 class="mat-h2 mb-0">-21.4%</h2>
+                        <span class="price">$12.75</span>
+                    </div>
+                    <span fxFlex="initial" class="acc-no">(588746362)</span>
+                </div>
+                <div class="basket-footer" fxLayout="row" fxLayoutAlign="start center">
+                    <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                        <div class="invested">
+                            <p>Invested</p>
+                            <h3 class="mat-h3">$36.02k</h3>
+                        </div>
+                        <div class="invested market">
+                            <p>Market</p>
+                            <h3 class="mat-h3">$36.02k</h3>
+                        </div>
+                    </div>
+                    <span fxFlex="initial" class="public-chip">Public</span>
+                </div>
+                <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
+                    <div class="profile-icon">
+                        <img src="assets/images/basket-profile-icon.png" />
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
+                            <p>Stocks</p>
+                            <h2 class="mat-h2">101</h2>
+                        </div>
+                        <div class="profile-info accounts" fxLayout="column" fxLayoutAlign="center center">
+                            <p>Accounts</p>
+                            <h2 class="mat-h2">101</h2>
+                        </div>
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
+                            <p>Followers</p>
+                            <h2 class="mat-h2">101</h2>
+                        </div>
+                    </div>
+                </div>
+                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" xPosition="before">
+                    <button mat-menu-item>
+                        <mat-icon>dialpad</mat-icon>
+                        <span>Redial</span>
+                    </button>
+                    <button mat-menu-item>
+                        <mat-icon>notifications_off</mat-icon>
+                        <span>Disable alerts</span>
+                    </button>
+                </mat-menu>
+            </mat-card>
+        </div>
+        <div fxFlex="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
+            <mat-card class="basket-card trade-down">
+                <div class="basket-header">
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+                        <h2 class="mat-h2">Basket One</h2>
+                    </div>
+                    <p class="desc">
+                        In publishing and graphic design,
+                        Lorem ipsum is a placeholde...
+                    </p>
+                </div>
+                <div class="basket-content" fxLayout="row" fxLayoutAlign="start center">
+                    <div fxFlex fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon class="trade-icon"></mat-icon>
+                        <h2 class="mat-h2 mb-0">-21.4%</h2>
+                        <span class="price">$12.75</span>
+                    </div>
+                    <span fxFlex="initial" class="acc-no">(588746362)</span>
+                </div>
+                <div class="basket-footer" fxLayout="row" fxLayoutAlign="start center">
+                    <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                        <div class="invested">
+                            <p>Invested</p>
+                            <h3 class="mat-h3">$36.02k</h3>
+                        </div>
+                        <div class="invested market">
+                            <p>Market</p>
+                            <h3 class="mat-h3">$36.02k</h3>
+                        </div>
+                    </div>
+                    <span fxFlex="initial" class="public-chip">Public</span>
+                </div>
+                <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
+                    <div class="profile-icon">
+                        <img src="assets/images/basket-profile-icon.png" />
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
+                            <p>Stocks</p>
+                            <h2 class="mat-h2">101</h2>
+                        </div>
+                        <div class="profile-info accounts" fxLayout="column" fxLayoutAlign="center center">
+                            <p>Accounts</p>
+                            <h2 class="mat-h2">101</h2>
+                        </div>
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
+                            <p>Followers</p>
+                            <h2 class="mat-h2">101</h2>
+                        </div>
+                    </div>
+                </div>
+                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" xPosition="before">
+                    <button mat-menu-item>
+                        <mat-icon>dialpad</mat-icon>
+                        <span>Redial</span>
+                    </button>
+                    <button mat-menu-item>
+                        <mat-icon>notifications_off</mat-icon>
+                        <span>Disable alerts</span>
+                    </button>
+                </mat-menu>
+            </mat-card>
+        </div>
+        <div fxFlex="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
+            <mat-card class="basket-card trade-down">
+                <div class="basket-header">
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+                        <h2 class="mat-h2">Basket One</h2>
+                    </div>
+                    <p class="desc">
+                        In publishing and graphic design,
+                        Lorem ipsum is a placeholde...
+                    </p>
+                </div>
+                <div class="basket-content" fxLayout="row" fxLayoutAlign="start center">
+                    <div fxFlex fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon class="trade-icon"></mat-icon>
+                        <h2 class="mat-h2 mb-0">-21.4%</h2>
+                        <span class="price">$12.75</span>
+                    </div>
+                    <span fxFlex="initial" class="acc-no">(588746362)</span>
+                </div>
+                <div class="basket-footer" fxLayout="row" fxLayoutAlign="start center">
+                    <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                        <div class="invested">
+                            <p>Invested</p>
+                            <h3 class="mat-h3">$36.02k</h3>
+                        </div>
+                        <div class="invested market">
+                            <p>Market</p>
+                            <h3 class="mat-h3">$36.02k</h3>
+                        </div>
+                    </div>
+                    <span fxFlex="initial" class="public-chip">Public</span>
+                </div>
+                <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
+                    <div class="profile-icon">
+                        <img src="assets/images/basket-profile-icon.png" />
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
+                            <p>Stocks</p>
+                            <h2 class="mat-h2">101</h2>
+                        </div>
+                        <div class="profile-info accounts" fxLayout="column" fxLayoutAlign="center center">
+                            <p>Accounts</p>
+                            <h2 class="mat-h2">101</h2>
+                        </div>
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
+                            <p>Followers</p>
+                            <h2 class="mat-h2">101</h2>
+                        </div>
+                    </div>
+                </div>
+                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" xPosition="before">
+                    <button mat-menu-item>
+                        <mat-icon>dialpad</mat-icon>
+                        <span>Redial</span>
+                    </button>
+                    <button mat-menu-item>
+                        <mat-icon>notifications_off</mat-icon>
+                        <span>Disable alerts</span>
+                    </button>
+                </mat-menu>
+            </mat-card>
         </div>
     </div>
 </div>
