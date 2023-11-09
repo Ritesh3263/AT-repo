@@ -1,0 +1,116 @@
+<div fxLayout="column">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="breadcrumb pt-15 pb-15 pl-20 pr-20">
+        <a routerLink="/" fxLayout="column" fxLayoutAlign="center center">
+            <img src="/assets/images/home-icon.svg" />
+        </a>
+        <span>/</span>
+        <a class="bold">Basket</a>
+    </div>
+    <div class="primary-sub-section">
+        <h1 class="mat-h1 font-700">Basket</h1>
+        <div fxLayout="row wrap" fxLayoutAlign="start start" class="form-row">
+            <div fxFlex fxFlex.sm="100" fxFlex.xs="100" class="form-group">
+                <span fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
+                    <p>Basket Name : <span class="font-600">Basket Two</span></p>
+                    <a fxLayout="column" fxLayoutAlign="center center"><img src="/assets/images/edit-icon.svg" /></a>
+                </span>
+                <span fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
+                    <p>Description : <span class="font-600">Demo Description comes here Demo Description comes hereDemo
+                            Description comes heres</span></p>
+                    <a fxLayout="column" fxLayoutAlign="center center"><img src="/assets/images/edit-icon.svg" /></a>
+                </span>
+            </div>
+            <div fxFlex.sm="100" fxFlex.xs="100" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px"
+                class="form-group">
+                <button mat-stroked-button color="primary" (click)="cloneBasket()">Clone Basket</button>
+                <button mat-stroked-button color="primary" (click)="deleteBasket()">Delete Basket</button>
+            </div>
+        </div>
+    </div>
+    <div class="pl-20 pr-20">
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="pt-15">
+            <span fxFlex="30" fxFlex.sm="50" fxFlex.xs>
+                <mat-form-field appearance="outline" class="no-error">
+                    <input matInput placeholder="Eg: AMZ, GOOG, TLS, MSOF, etc.,">
+                </mat-form-field>
+            </span>
+            <span fxLayout="row" fxLayoutAlign="end center">
+                <button mat-stroked-button color="primary" (click)="deleteSymbols()">Delete Symbols</button>
+            </span>
+        </div>
+        <div class="trading-table height-auto table-scroll pt-15">
+            <table mat-table [dataSource]="dataSource">
+
+                <!-- Checkbox Column -->
+                <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                            [checked]="selection.hasValue() && isAllSelected()"
+                            [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+                        </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <mat-checkbox (click)="$event.stopPropagation()"
+                            (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"
+                            [aria-label]="checkboxLabel(row)">
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tickersymbol">
+                    <th mat-header-cell *matHeaderCellDef> Ticker Symbol </th>
+                    <td mat-cell *matCellDef="let element"> {{element.tickersymbol}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tickername">
+                    <th mat-header-cell *matHeaderCellDef> Ticker Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.tickername}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="price">
+                    <th mat-header-cell *matHeaderCellDef> Price </th>
+                    <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="change">
+                    <th mat-header-cell *matHeaderCellDef> Change </th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="getChangeStyle(element.change)"> {{ element.change
+                        |
+                        currency:'USD':'symbol':'1.2-2' }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="changepercent">
+                    <th mat-header-cell *matHeaderCellDef> Change % </th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="getChangePercentStyle(element.changepercent)">
+                        {{element.changepercent | currency:'USD':'symbol':'1.2-2'}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="star">
+                    <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button [matMenuTriggerFor]="menu" color="primary">
+                            <mat-icon>more_horiz</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item>
+                                <mat-icon>add</mat-icon>
+                                <span>Add to Basket</span>
+                            </button>
+                        </mat-menu>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+                </tr>
+            </table>
+        </div>
+        <mat-paginator [pageSizeOptions]="[10, 50, 100]" showFirstLastButtons
+            aria-label="Select page of periodic elements">
+        </mat-paginator>
+        <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px" class="pt-15 pb-15">
+            <button mat-stroked-button color="primary">Cancel</button>
+            <button mat-flat-button color="primary">Save Changes</button>
+        </div>
+    </div>
+</div>

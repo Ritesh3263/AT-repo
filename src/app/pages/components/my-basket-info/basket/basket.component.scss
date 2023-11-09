@@ -1,0 +1,11 @@
+.trading-table {
+    .mat-mdc-cell {
+        &.positive-value {
+            color: #049501;
+        }
+
+        &.negative-value {
+            color: #D80032;
+        }
+    }
+}

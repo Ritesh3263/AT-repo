@@ -31,8 +31,8 @@
 // Input
 
 .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
-    padding-top: 12px;
-    padding-bottom: 12px;
+    padding-top: 14px;
+    padding-bottom: 14px;
 }
 
 .mat-mdc-form-field-infix {
@@ -45,4 +45,34 @@
 
 .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mdc-notched-outline--upgraded .mdc-floating-label--float-above {
     --mat-mdc-form-field-label-transform: translateY( -30px) scale(var(--mat-mdc-form-field-floating-label-scale, 0.75));
+}
+
+.mat-mdc-form-field {
+    &.no-error {
+        .mat-mdc-form-field-subscript-wrapper {
+            display: none;
+        }
+    }
+}
+
+.mat-mdc-paginator {
+    border: 1px solid rgba(0,0,0,.12);
+    border-top: none;
+    
+    .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+        padding-top: 6px;
+        padding-bottom: 6px;
+    }
+    
+    .mat-mdc-form-field-infix {
+        min-height: 36px;
+    }
+}
+
+.mat-primary.mat-mdc-outlined-button:not(:disabled) {
+    border-color: var(--PRIMARY_COLOR);
+}
+
+.mat-mdc-dialog-container .mdc-dialog__content {
+    color: #333 !important;
 }

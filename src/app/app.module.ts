@@ -22,6 +22,15 @@ import { MyBasketsComponent } from './pages/components/my-baskets/my-baskets.com
 import { HomeComponent } from './pages/components/home/home.component';
 import { CreateBasketComponent } from './pages/components/create-basket/create-basket.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {MatTableModule} from '@angular/material/table';
+import { JourneyInfoComponent } from './pages/components/my-basket-info/journey-info/journey-info.component';
+import { DashboardComponent } from './pages/components/my-basket-info/dashboard/dashboard.component';
+import { BasketComponent } from './pages/components/my-basket-info/basket/basket.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import { AddSymbolsComponent } from './pages/components/add-symbols/add-symbols.component';
+import { DeleteSymbolsComponent } from './pages/components/delete-symbols/delete-symbols.component';
+import { CloneBasketComponent } from './pages/components/my-basket-info/clone-basket/clone-basket.component';
+import { DeleteBasketComponent } from './pages/components/my-basket-info/delete-basket/delete-basket.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +39,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MenuComponent,
     MyBasketsComponent,
     HomeComponent,
-    CreateBasketComponent
+    CreateBasketComponent,
+    JourneyInfoComponent,
+    DashboardComponent,
+    BasketComponent,
+    AddSymbolsComponent,
+    DeleteSymbolsComponent,
+    CloneBasketComponent,
+    DeleteBasketComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +65,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatDialogModule,
     MatAutocompleteModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTableModule,
+    MatPaginatorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

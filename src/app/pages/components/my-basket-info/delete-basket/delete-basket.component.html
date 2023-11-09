@@ -1,0 +1,25 @@
+<div class="modal-dialog">
+    <div fxLayout="row" fxLayoutAlign="start center" class="dialog-header">
+        <h2 fxFlex class="mat-h2">Delete Basket</h2>
+        <button mat-icon-button mat-dialog-close class="close-btn">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div mat-dialog-content class="no-padding-bottom">
+        <p>Are you sure you want to delete tickers?</p>
+        <form class="example-form">
+            <mat-form-field appearance="outline">
+                <mat-label>Basket Name</mat-label>
+                <input matInput>
+            </mat-form-field>
+        </form>
+    </div>
+    <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
+        <button mat-stroked-button mat-dialog-close color="primary">
+            No
+        </button>
+        <button mat-flat-button color="primary">
+            Delete
+        </button>
+    </div>
+</div>

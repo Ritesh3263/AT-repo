@@ -267,6 +267,87 @@ html, body {
     }
 }
 
+.basket-sidebar {
+  
+    .main-nav {
+      margin: 1px 0px;
+      padding: 0px;
+  
+      li {
+        list-style: none;
+  
+        a {
+          padding: 14px;
+          cursor: pointer;
+          color: #333;
+          text-decoration: none;
+
+          &.active {
+              background: var(--PRIMARY_COLOR);
+              color: white;
+          }
+        }
+      }
+    }
+}
+
+.breadcrumb {
+    a {
+        text-decoration: none;
+        color: #333;
+        font-size: 13px;
+
+        &.bold {
+            font-weight: 600;
+        }
+    }
+}
+
+.primary-sub-section {
+    background: #F0F5FF;
+    padding: 10px 20px;
+}
+
+.trading-table {
+    .mat-mdc-table {
+        border: 1px solid rgba(0, 0, 0, 0.12);
+    }
+    .mat-mdc-header-row {
+        background: #F5F5F5;
+
+        .mat-mdc-header-cell {
+            font-weight: 600;
+        }
+    }
+
+    &.height-auto {
+        .mat-mdc-header-row, .mat-mdc-row {
+            height: auto;
+        }
+    }
+
+    &.with-padding {
+        .mat-mdc-header-row .mat-mdc-header-cell, .mat-mdc-cell {
+            padding-top: 6px;
+            padding-bottom: 6px;
+        }
+    }
+
+    &.no-cell-padding {
+        .mat-mdc-cell {
+            padding-top: 0px;
+            padding-bottom: 0px;
+        }
+    }
+}
+
+@media screen and (min-width: 600px) {
+    .basket-sidebar {
+        border-right: 1px solid #ccc;
+        width: 220px;
+    }
+}
+
 @media screen and (max-width: 599px) {
     .basket-wrapper {
         padding: 15px;
@@ -278,5 +359,19 @@ html, body {
 
     .custom-modal {
         width: 80%;
+    }
+
+    .basket-sidebar {
+        border-bottom: 1px solid #ccc;
+    }
+
+    .table-scroll {
+        width: 100%;
+        overflow: auto;
+    
+        .mat-mdc-header-cell,
+        .mat-mdc-cell {
+          min-width: 120px;
+        }
     }
 }

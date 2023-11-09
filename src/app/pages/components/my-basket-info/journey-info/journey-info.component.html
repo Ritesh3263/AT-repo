@@ -1,0 +1,23 @@
+<div fxFill fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start stretch">
+    <div fxFlex="none" fxFlex.xs="100" class="basket-sidebar overflow-auto">
+        <ul class="main-nav">
+            <li>
+                <a fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" routerLink="/my-basket-info" routerLinkActive="active" [routerLinkActiveOptions]={exact:true}>
+                    <span fxFlex>
+                        Dashboard
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" routerLink="/my-basket-info/basket" routerLinkActive="active">
+                    <span fxFlex>
+                        Basket
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div fxFlex fxFlex.xs="100" class="overflow-auto">
+        <router-outlet></router-outlet>
+    </div>
+</div>
