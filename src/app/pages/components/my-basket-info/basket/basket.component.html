@@ -28,13 +28,13 @@
         </div>
     </div>
     <div class="pl-20 pr-20">
-        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="pt-15">
-            <span fxFlex="30" fxFlex.sm="50" fxFlex.xs>
+        <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="10px" class="pt-15">
+            <span fxFlex="30" fxFlex.sm="50" fxFlex.xs="100">
                 <mat-form-field appearance="outline" class="no-error">
                     <input matInput placeholder="Eg: AMZ, GOOG, TLS, MSOF, etc.,">
                 </mat-form-field>
             </span>
-            <span fxLayout="row" fxLayoutAlign="end center">
+            <span fxFlex fxFlex.xs="100" fxLayout="row" fxLayoutAlign="end center">
                 <button mat-stroked-button color="primary" (click)="deleteSymbols()">Delete Symbols</button>
             </span>
         </div>

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { AddSymbolsComponent } from '../add-symbols/add-symbols.component';
-import { DeleteSymbolsComponent } from '../delete-symbols/delete-symbols.component';
+import { AddSymbolsComponent } from '../my-basket-info/add-symbols/add-symbols.component';
+import { DeleteSymbolsComponent } from '../my-basket-info/delete-symbols/delete-symbols.component';
 
 @Component({
   selector: 'app-create-basket',

@@ -3,10 +3,10 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
-import { AddSymbolsComponent } from '../../add-symbols/add-symbols.component';
-import { DeleteSymbolsComponent } from '../../delete-symbols/delete-symbols.component';
 import { CloneBasketComponent } from '../clone-basket/clone-basket.component';
 import { DeleteBasketComponent } from '../delete-basket/delete-basket.component';
+import { AddSymbolsComponent } from '../add-symbols/add-symbols.component';
+import { DeleteSymbolsComponent } from '../delete-symbols/delete-symbols.component';
 
 export interface PeriodicElement {
   tickersymbol: string;

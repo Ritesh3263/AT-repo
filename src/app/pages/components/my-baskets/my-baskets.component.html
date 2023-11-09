@@ -15,7 +15,7 @@
             </div>
             <div fxFlex="20" fxFlex.xs="100" class="form-group filter-input no-error">
                 <mat-form-field appearance="outline">
-                    <mat-label>Status</mat-label>
+                    <mat-label>Account Type</mat-label>
                     <mat-select>
                         <mat-option value="option1">Option 1</mat-option>
                         <mat-option value="option3">Option 3</mat-option>
@@ -24,7 +24,7 @@
             </div>
             <div fxFlex="20" fxFlex.xs="100" class="form-group filter-input no-error">
                 <mat-form-field appearance="outline">
-                    <mat-label>Link</mat-label>
+                    <mat-label>Basket Type</mat-label>
                     <mat-select>
                         <mat-option value="option1">Option 1</mat-option>
                         <mat-option value="option3">Option 3</mat-option>
@@ -109,7 +109,7 @@
             </mat-card>
         </div>
         <div fxFlex="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
-            <mat-card class="basket-card trade-up">
+            <mat-card class="basket-card trade-up" (click)="myBasketInfo()">
                 <div class="basket-header">
                     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
                         <h2 class="mat-h2">Basket One</h2>
@@ -175,7 +175,7 @@
             </mat-card>
         </div>
         <div fxFlex="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
-            <mat-card class="basket-card trade-stable">
+            <mat-card class="basket-card trade-stable" (click)="myBasketInfo()">
                 <div class="basket-header">
                     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
                         <h2 class="mat-h2">Basket One</h2>
@@ -241,7 +241,7 @@
             </mat-card>
         </div>
         <div fxFlex="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
-            <mat-card class="basket-card trade-up">
+            <mat-card class="basket-card trade-up" (click)="myBasketInfo()">
                 <div class="basket-header">
                     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
                         <h2 class="mat-h2">Basket One</h2>
@@ -307,7 +307,7 @@
             </mat-card>
         </div>
         <div fxFlex="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
-            <mat-card class="basket-card trade-down">
+            <mat-card class="basket-card trade-down" (click)="myBasketInfo()">
                 <div class="basket-header">
                     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
                         <h2 class="mat-h2">Basket One</h2>
@@ -373,7 +373,7 @@
             </mat-card>
         </div>
         <div fxFlex="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
-            <mat-card class="basket-card trade-down">
+            <mat-card class="basket-card trade-down" (click)="myBasketInfo()">
                 <div class="basket-header">
                     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
                         <h2 class="mat-h2">Basket One</h2>
@@ -439,7 +439,7 @@
             </mat-card>
         </div>
         <div fxFlex="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
-            <mat-card class="basket-card trade-down">
+            <mat-card class="basket-card trade-down" (click)="myBasketInfo()">
                 <div class="basket-header">
                     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
                         <h2 class="mat-h2">Basket One</h2>
@@ -505,7 +505,7 @@
             </mat-card>
         </div>
         <div fxFlex="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
-            <mat-card class="basket-card trade-down">
+            <mat-card class="basket-card trade-down" (click)="myBasketInfo()">
                 <div class="basket-header">
                     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
                         <h2 class="mat-h2">Basket One</h2>
