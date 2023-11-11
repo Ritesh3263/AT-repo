@@ -35,6 +35,8 @@ import { AccountsComponent } from './pages/components/my-basket-info/accounts/ac
 import { TradeComponent } from './pages/components/my-basket-info/trade/trade.component';
 import { SettingsComponent } from './pages/components/my-basket-info/settings/settings.component';
 import { SubscriptionComponent } from './pages/components/my-basket-info/subscription/subscription.component';
+import {MatDividerModule} from '@angular/material/divider';
+import { WidgetDialogComponent } from './pages/components/my-basket-info/widget-dialog/widget-dialog.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,8 @@ import { SubscriptionComponent } from './pages/components/my-basket-info/subscri
     AccountsComponent,
     TradeComponent,
     SettingsComponent,
-    SubscriptionComponent
+    SubscriptionComponent,
+    WidgetDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -75,7 +78,8 @@ import { SubscriptionComponent } from './pages/components/my-basket-info/subscri
     FormsModule,
     ReactiveFormsModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatDividerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

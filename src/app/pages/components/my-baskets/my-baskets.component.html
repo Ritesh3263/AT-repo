@@ -1,10 +1,10 @@
 <div class="basket-wrapper">
     <div fxLayout="row wrap" fxLayoutAlign="start center">
         <div fxFlex fxLayout="row wrap" fxLayoutAlign="start center" class="form-row">
-            <div fxFlex="initial" fxFlex.xs="100" class="form-group">
+            <div fxFlex="initial" fxFlex.sm="100" fxFlex.xs="100" class="form-group pb-sm-10">
                 <mat-icon class="primary-color">filter_list</mat-icon>
             </div>
-            <div fxFlex="20" fxFlex.xs="100" class="form-group filter-input no-error">
+            <div fxFlex="20" fxFlex.sm="25" fxFlex.xs="100" class="form-group filter-input no-error">
                 <mat-form-field appearance="outline">
                     <mat-label>Account</mat-label>
                     <mat-select>
@@ -13,7 +13,7 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div fxFlex="20" fxFlex.xs="100" class="form-group filter-input no-error">
+            <div fxFlex="20" fxFlex.sm="25" fxFlex.xs="100" class="form-group filter-input no-error">
                 <mat-form-field appearance="outline">
                     <mat-label>Account Type</mat-label>
                     <mat-select>
@@ -22,7 +22,7 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div fxFlex="20" fxFlex.xs="100" class="form-group filter-input no-error">
+            <div fxFlex="20" fxFlex.sm="25" fxFlex.xs="100" class="form-group filter-input no-error">
                 <mat-form-field appearance="outline">
                     <mat-label>Basket Type</mat-label>
                     <mat-select>
@@ -31,18 +31,18 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div fxFlex.xs="100" class="form-group">
+            <div fxFlex.sm="25" fxFlex.xs="100" class="form-group">
                 <mat-checkbox color="primary">Market Place</mat-checkbox>
             </div>
         </div>
-        <div fxFlex="initial" fxFlex.xs="100" fxLayoutAlign.xs="end center">
+        <div fxFlex="initial" fxFlex.sm="100" fxFlex.xs="100" fxLayoutAlign.sm="end center" fxLayoutAlign.xs="end center" class="pt-sm-10">
             <button mat-flat-button color="primary" (click)="createBasket()">
                 Create Basket
             </button>
         </div>
     </div>
     <div fxLayout="row wrap" fxLayoutAlign="start stretch" class="form-row mt-20">
-        <div fxFlex="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
+        <div fxFlex="25" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
             <mat-card class="basket-card trade-down" (click)="myBasketInfo()">
                 <div class="basket-header">
                     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
@@ -93,7 +93,7 @@
                         </div>
                     </div>
                 </div>
-                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn">
+                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn" (click)="$event.stopPropagation()">
                     <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu" xPosition="before">
@@ -108,7 +108,7 @@
                 </mat-menu>
             </mat-card>
         </div>
-        <div fxFlex="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
+        <div fxFlex="25" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
             <mat-card class="basket-card trade-up" (click)="myBasketInfo()">
                 <div class="basket-header">
                     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
@@ -159,7 +159,7 @@
                         </div>
                     </div>
                 </div>
-                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn">
+                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn" (click)="$event.stopPropagation()">
                     <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu" xPosition="before">
@@ -174,7 +174,7 @@
                 </mat-menu>
             </mat-card>
         </div>
-        <div fxFlex="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
+        <div fxFlex="25" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
             <mat-card class="basket-card trade-stable" (click)="myBasketInfo()">
                 <div class="basket-header">
                     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
@@ -225,7 +225,7 @@
                         </div>
                     </div>
                 </div>
-                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn">
+                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn" (click)="$event.stopPropagation()">
                     <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu" xPosition="before">
@@ -240,7 +240,7 @@
                 </mat-menu>
             </mat-card>
         </div>
-        <div fxFlex="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
+        <div fxFlex="25" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
             <mat-card class="basket-card trade-up" (click)="myBasketInfo()">
                 <div class="basket-header">
                     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
@@ -291,7 +291,7 @@
                         </div>
                     </div>
                 </div>
-                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn">
+                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn" (click)="$event.stopPropagation()">
                     <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu" xPosition="before">
@@ -306,7 +306,7 @@
                 </mat-menu>
             </mat-card>
         </div>
-        <div fxFlex="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
+        <div fxFlex="25" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
             <mat-card class="basket-card trade-down" (click)="myBasketInfo()">
                 <div class="basket-header">
                     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
@@ -357,7 +357,7 @@
                         </div>
                     </div>
                 </div>
-                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn">
+                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn" (click)="$event.stopPropagation()">
                     <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu" xPosition="before">
@@ -372,7 +372,7 @@
                 </mat-menu>
             </mat-card>
         </div>
-        <div fxFlex="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
+        <div fxFlex="25" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
             <mat-card class="basket-card trade-down" (click)="myBasketInfo()">
                 <div class="basket-header">
                     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
@@ -423,7 +423,7 @@
                         </div>
                     </div>
                 </div>
-                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn">
+                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn" (click)="$event.stopPropagation()">
                     <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu" xPosition="before">
@@ -438,7 +438,7 @@
                 </mat-menu>
             </mat-card>
         </div>
-        <div fxFlex="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
+        <div fxFlex="25" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
             <mat-card class="basket-card trade-down" (click)="myBasketInfo()">
                 <div class="basket-header">
                     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
@@ -489,7 +489,7 @@
                         </div>
                     </div>
                 </div>
-                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn">
+                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn" (click)="$event.stopPropagation()">
                     <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu" xPosition="before">
@@ -504,7 +504,7 @@
                 </mat-menu>
             </mat-card>
         </div>
-        <div fxFlex="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
+        <div fxFlex="25" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
             <mat-card class="basket-card trade-down" (click)="myBasketInfo()">
                 <div class="basket-header">
                     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
@@ -555,7 +555,7 @@
                         </div>
                     </div>
                 </div>
-                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn">
+                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn" (click)="$event.stopPropagation()">
                     <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu" xPosition="before">

@@ -7,6 +7,7 @@ import { CloneBasketComponent } from '../clone-basket/clone-basket.component';
 import { DeleteBasketComponent } from '../delete-basket/delete-basket.component';
 import { AddSymbolsComponent } from '../add-symbols/add-symbols.component';
 import { DeleteSymbolsComponent } from '../delete-symbols/delete-symbols.component';
+import { WidgetDialogComponent } from '../widget-dialog/widget-dialog.component';
 
 export interface PeriodicElement {
   tickersymbol: string;
@@ -119,6 +120,14 @@ export class BasketComponent implements AfterViewInit {
     this.dialog.open(DeleteBasketComponent, {
       panelClass: 'custom-modal',
       disableClose: true
+    });
+  }
+
+  widgetDialog() {
+    this.dialog.open(WidgetDialogComponent, {
+      panelClass: 'custom-modal',
+      disableClose: true,
+      position: { right: '0px', top: '0px' },
     });
   }
 }

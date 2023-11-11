@@ -1,5 +1,5 @@
 .no-margin {
-    margin: 0px;
+    margin: 0px !important;
 }
 
 .mt-0 {
@@ -130,4 +130,60 @@ a {
 
 .overflow-auto {
     overflow: auto;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+@media screen and (max-width: 959px) {
+    .mb-sm-15 {
+        margin-bottom: 15px;
+    }
+
+    .mb-sm-10 {
+        margin-bottom: 10px;
+    }
+
+    .pb-sm-15 {
+        padding-bottom: 15px;
+    }
+
+    .pb-sm-10 {
+        padding-bottom: 10px;
+    }
+
+    .pt-sm-15 {
+        padding-top: 15px;
+    }
+
+    .pt-sm-10 {
+        padding-top: 10px;
+    }
+}
+
+@media screen and (max-width: 599px) {
+    .mb-xs-15 {
+        margin-bottom: 15px;
+    }
+
+    .mb-xs-10 {
+        margin-bottom: 10px;
+    }
+
+    .pb-xs-15 {
+        padding-bottom: 15px;
+    }
+
+    .pb-xs-10 {
+        padding-bottom: 10px;
+    }
+
+    .pt-xs-15 {
+        padding-top: 15px;
+    }
+
+    .pt-xs-10 {
+        padding-top: 10px;
+    }
 }
