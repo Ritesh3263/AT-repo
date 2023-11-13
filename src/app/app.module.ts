@@ -37,6 +37,7 @@ import { SettingsComponent } from './pages/components/my-basket-info/settings/se
 import { SubscriptionComponent } from './pages/components/my-basket-info/subscription/subscription.component';
 import {MatDividerModule} from '@angular/material/divider';
 import { WidgetDialogComponent } from './pages/components/my-basket-info/widget-dialog/widget-dialog.component';
+import { ConfirmTradeComponent } from './pages/components/my-basket-info/confirm-trade/confirm-trade.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { WidgetDialogComponent } from './pages/components/my-basket-info/widget-
     TradeComponent,
     SettingsComponent,
     SubscriptionComponent,
-    WidgetDialogComponent
+    WidgetDialogComponent,
+    ConfirmTradeComponent
   ],
   imports: [
     BrowserModule,

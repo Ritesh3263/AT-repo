@@ -3,10 +3,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
-import { CloneBasketComponent } from '../clone-basket/clone-basket.component';
-import { DeleteBasketComponent } from '../delete-basket/delete-basket.component';
-import { AddSymbolsComponent } from '../add-symbols/add-symbols.component';
-import { DeleteSymbolsComponent } from '../delete-symbols/delete-symbols.component';
+import { ConfirmTradeComponent } from '../confirm-trade/confirm-trade.component';
 
 export interface PeriodicElement {
   symbol: string;
@@ -82,29 +79,8 @@ export class TradeComponent implements AfterViewInit {
     }
   }
 
-  addSymbols() {
-    this.dialog.open(AddSymbolsComponent, {
-      panelClass: 'custom-modal',
-      disableClose: true
-    });
-  }
-
-  deleteSymbols() {
-    this.dialog.open(DeleteSymbolsComponent, {
-      panelClass: 'custom-modal',
-      disableClose: true
-    });
-  }
-
-  cloneBasket() {
-    this.dialog.open(CloneBasketComponent, {
-      panelClass: 'custom-modal',
-      disableClose: true
-    });
-  }
-
-  deleteBasket() {
-    this.dialog.open(DeleteBasketComponent, {
+  confirmTrade() {
+    this.dialog.open(ConfirmTradeComponent, {
       panelClass: 'custom-modal',
       disableClose: true
     });

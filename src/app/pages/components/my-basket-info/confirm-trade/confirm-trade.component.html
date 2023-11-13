@@ -1,0 +1,91 @@
+<div class="modal-dialog">
+    <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="10px" fxLayoutGap.xs="0px" class="dialog-header">
+        <h2 class="mat-h2">Continue with Trading</h2>
+        <span fxFlex fxFlex.xs="100" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="15px" class="pt-xs-15">
+            <div fxLayout="column">
+                <p class="no-margin">Account Balance</p>
+                <h3 class="mat-h3 no-margin font-600">$98,891.710</h3>
+            </div>
+            <mat-divider vertical="true" style="height: 40px;"></mat-divider>
+            <div fxLayout="column">
+                <p class="no-margin">Current Cash Balance</p>
+                <h3 class="mat-h3 no-margin font-600">$98,891.710</h3>
+            </div>
+        </span>
+    </div>
+    <div mat-dialog-content class="no-padding-bottom">
+        <div class="trading-table height-auto with-padding table-scroll">
+            <table mat-table [dataSource]="dataSource">
+                <ng-container matColumnDef="tickersymbol">
+                    <th mat-header-cell *matHeaderCellDef> Ticker Symbol </th>
+                    <td mat-cell *matCellDef="let element"> {{element.tickersymbol}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="shares">
+                    <th mat-header-cell *matHeaderCellDef> Shares </th>
+                    <td mat-cell *matCellDef="let element"> {{element.shares}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="currentprice">
+                    <th mat-header-cell *matHeaderCellDef> Current Price </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.currentprice | currency:'USD':'symbol':'1.2-2' }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="investaccount">
+                    <th mat-header-cell *matHeaderCellDef> Invest Account </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.investaccount | currency:'USD':'symbol':'1.2-2' }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="empty">
+                    <td mat-footer-cell *matFooterCellDef>  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="title">
+                    <td mat-footer-cell *matFooterCellDef> Investment Amount </td>
+                </ng-container>
+
+                <ng-container matColumnDef="amount">
+                    <td mat-footer-cell *matFooterCellDef> $34,090.440 </td>
+                </ng-container>
+
+                <ng-container matColumnDef="empty2">
+                    <td mat-footer-cell *matFooterCellDef>  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="title2">
+                    <td mat-footer-cell *matFooterCellDef> Net Transaction Amount </td>
+                </ng-container>
+
+                <ng-container matColumnDef="amount2">
+                    <td mat-footer-cell *matFooterCellDef> $34,090.440 </td>
+                </ng-container>
+
+                <ng-container matColumnDef="empty3">
+                    <td mat-footer-cell *matFooterCellDef>  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="title3">
+                    <td mat-footer-cell *matFooterCellDef> Estimated New Cash Balance </td>
+                </ng-container>
+
+                <ng-container matColumnDef="amount3">
+                    <td mat-footer-cell *matFooterCellDef> $34,090.440 </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-footer-row *matFooterRowDef="displayedColumns2"></tr>
+                <tr mat-footer-row *matFooterRowDef="displayedColumns3"></tr>
+                <tr mat-footer-row *matFooterRowDef="displayedColumns4"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+    </div>
+    <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
+        <button mat-stroked-button color="primary" mat-dialog-close>
+            Cancel
+        </button>
+        <button mat-flat-button color="primary">
+            Confirm
+        </button>
+    </div>
+</div>
