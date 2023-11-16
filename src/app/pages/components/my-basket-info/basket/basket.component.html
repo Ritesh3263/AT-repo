@@ -31,7 +31,7 @@
         <div fxLayout="row wrap" fxLayoutAlign="start center" class="pt-15 form-row">
             <span fxFlex="30" fxFlex.md="50" fxFlex.sm="50" fxFlex.xs="100" class="form-group mb-sm-15">
                 <mat-form-field appearance="outline" class="no-error">
-                    <input matInput placeholder="Enter symbol to add.  Eg: AMZN, GOOG, TSLA, MSFT, etc.,">
+                    <input matInput placeholder="Enter symbol to add.  Eg: AAPL, GOOG, TSLA, DCTH, etc.,">
                 </mat-form-field>
             </span>
             <span fxFlex fxFlex.xs="100" fxLayout="row" fxLayoutAlign="end center" class="form-group">
@@ -70,19 +70,19 @@
                 </ng-container>
 
                 <ng-container matColumnDef="price">
-                    <th mat-header-cell *matHeaderCellDef> Price </th>
-                    <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+                    <th mat-header-cell *matHeaderCellDef class="right-align-cell"> Price </th>
+                    <td mat-cell *matCellDef="let element" class="right-align-cell"> {{element.price}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="change">
-                    <th mat-header-cell *matHeaderCellDef> Change </th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="getChangeStyle(element.change)"> 
+                    <th mat-header-cell *matHeaderCellDef class="right-align-cell"> Change </th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="getChangeStyle(element.change)" class="right-align-cell"> 
                         {{ element.change | currency:'USD':'symbol':'1.2-2' }} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="changepercent">
-                    <th mat-header-cell *matHeaderCellDef> Change % </th>
-                    <td mat-cell *matCellDef="let element" [ngClass]="getChangePercentStyle(element.changepercent)">
+                    <th mat-header-cell *matHeaderCellDef class="right-align-cell"> Change % </th>
+                    <td mat-cell *matCellDef="let element" [ngClass]="getChangePercentStyle(element.changepercent)"  class="right-align-cell">
                         {{element.changepercent | currency:'USD':'symbol':'1.2-2'}} </td>
                 </ng-container>
 

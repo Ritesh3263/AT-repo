@@ -18,18 +18,18 @@ export interface PeriodicElement {
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  {tickersymbol: 'Amazon', tickername: 'Amazon', price: '$170,872', change: 150.00, changepercent: 8585.00},
-  {tickersymbol: 'Google', tickername: 'Alphabet', price: '$136,600', change: -128.00, changepercent: -1039.00},
-  {tickersymbol: 'Tsla', tickername: 'Tesla', price: '$211,291', change: 0.0000, changepercent: -128.00},
-  {tickersymbol: 'Amazon', tickername: 'Amazon', price: '$170,872', change: 150.00, changepercent: 8585.00},
-  {tickersymbol: 'Google', tickername: 'Alphabet', price: '$136,600', change: -128.00, changepercent: -1039.00},
-  {tickersymbol: 'Tsla', tickername: 'Tesla', price: '$211,291', change: 0.0000, changepercent: -128.00},
-  {tickersymbol: 'Amazon', tickername: 'Amazon', price: '$170,872', change: 150.00, changepercent: 8585.00},
-  {tickersymbol: 'Google', tickername: 'Alphabet', price: '$136,600', change: -128.00, changepercent: -1039.00},
-  {tickersymbol: 'Tsla', tickername: 'Tesla', price: '$211,291', change: 0.0000, changepercent: -128.00},
-  {tickersymbol: 'Amazon', tickername: 'Amazon', price: '$170,872', change: 150.00, changepercent: 8585.00},
-  {tickersymbol: 'Google', tickername: 'Alphabet', price: '$136,600', change: -128.00, changepercent: -1039.00},
-  {tickersymbol: 'Tsla', tickername: 'Tesla', price: '$211,291', change: 0.0000, changepercent: -128.00},
+  {tickersymbol: 'AAPL', tickername: 'Apple,Inc', price: '$170,872', change: 150.00, changepercent: 8585.00},
+  {tickersymbol: 'GOOG', tickername: 'Alphabet,Inc', price: '$136,600', change: -128.00, changepercent: -1039.00},
+  {tickersymbol: 'TSLA', tickername: 'Tesla Inc', price: '$211,291', change: 0.0000, changepercent: -128.00},
+  {tickersymbol: 'META', tickername: 'Meta Platforms, Inc.', price: '$170,872', change: 150.00, changepercent: 8585.00},
+  {tickersymbol: 'IBM', tickername: 'International Business Machines Corporation', price: '$136,600', change: -128.00, changepercent: -1039.00},
+  {tickersymbol: 'MSFC', tickername: 'Microsoft Corporation', price: '$211,291', change: 0.0000, changepercent: -128.00},
+  {tickersymbol: 'DCTH', tickername: 'Delcath Systems, Inc.', price: '$170,872', change: 150.00, changepercent: 8585.00},
+  {tickersymbol: 'CRM', tickername: 'Salesforce, Inc.', price: '$136,600', change: -128.00, changepercent: -1039.00},
+  {tickersymbol: 'JPM', tickername: 'JPMorgan Chase & Co', price: '$211,291', change: 0.0000, changepercent: -128.00},
+  {tickersymbol: 'WFC', tickername: 'Wells Fargo & Company', price: '$170,872', change: 150.00, changepercent: 8585.00},
+  {tickersymbol: 'KO', tickername: 'Coca-Cola Company', price: '$136,600', change: -128.00, changepercent: -1039.00},
+  {tickersymbol: 'TSLA', tickername: 'Tesla Inc', price: '$211,291', change: 0.0000, changepercent: -128.00},
 ];
 
 @Component({
