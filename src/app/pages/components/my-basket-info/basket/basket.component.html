@@ -60,7 +60,7 @@
                 <ng-container matColumnDef="tickersymbol">
                     <th mat-header-cell *matHeaderCellDef> Ticker Symbol </th>
                     <td mat-cell *matCellDef="let element"> 
-                        <a (click)="widgetDialog(); $event.stopPropagation()">{{element.tickersymbol}}</a>
+                        <a (click)="widgetDialog(element.tickersymbol); $event.stopPropagation()">{{element.tickersymbol}}</a>
                      </td>
                 </ng-container>
 
