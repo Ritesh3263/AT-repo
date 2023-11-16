@@ -1,1 +1,60 @@
-<p>dashboard works!</p>
+
+
+
+<!-- <form [formGroup]="form" autocomplete="off" style="padding: 10px;"> -->
+    <!-- <div fxFlex="20" fxFlex.sm="25" fxFlex.xs="100" class="form-group filter-input no-error">
+        <mat-form-field appearance="outline">
+            <mat-label>Enter Symbol</mat-label>
+            <mat-select  formControlName="SymbolChange" >
+                <mat-option (click)="onChangeTicker()" value="AAPL">AAPL</mat-option>
+                <mat-option (click)="onChangeTicker()" value="GOOG">GOOG</mat-option>
+                <mat-option (click)="onChangeTicker()" value="TSLA">TSLA</mat-option>
+                <mat-option (click)="onChangeTicker()" value="META">META</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div> -->
+    <!-- <mat-form-field fxFlex="33" fxFlexAlign="center center" fxFlex.xs="100" class="mx-2 my-2" appearance="outline">
+        <mat-label>Enter Symbol </mat-label>
+        <input matInput autocompleteOff type="text"  placeholder="Enter Symbol" formControlName="SymbolChange" (keydown.enter)="onChangeTicker()"
+          [matAutocomplete]="tickerAuto"
+         >
+        <mat-autocomplete #tickerAuto="matAutocomplete"  [displayWith]="displayFn" (optionSelected)="onSelectTicker($event)">
+            <mat-option value="AAPL">AAPL</mat-option>
+            <mat-option value="GOOG">GOOG</mat-option>
+            <mat-option value="TSLA">TSLA</mat-option>
+            <mat-option value="META">META</mat-option>
+        </mat-autocomplete>
+      </mat-form-field> -->
+    
+<!-- </form> -->
+<div class="outer-div">
+
+<div style="width:50%;">
+    <h3 style="text-align: center;">Fundamental Data Widget</h3>
+    <div style="width: 100%;" #TradingFundamentalDataWidget ></div>
+
+</div>
+<div style="width:50%;">
+    <h3 style="text-align: center;">Company Profile Widget</h3>
+    <p id="four"  #TradingCompanyProfileWidget></p>
+
+</div>
+<!-- <div style="width:30%;">
+    <h3 style="text-align: center;">Technical Analysis Widget</h3>
+    <div  #TradingTechnicalAnalysisWidget></div>
+
+</div> -->
+</div>
+<div class="outer-div">
+
+    <div style="width:50%; text-align: center;">
+        <h3 style="text-align: center;">Min Chart Widget</h3>
+        <div  #tradingMinChartWidget ></div>
+
+    </div>
+    <div style="width:50%;text-align: center;">
+        <h3 style="text-align: center;">Technical Analysis Widget</h3>
+        <div  #TradingTechnicalAnalysisWidget></div>
+    
+    </div>
+    </div>
