@@ -69,11 +69,12 @@
         <div fxLayout="row wrap" fxLayoutAlign="start center" class="pt-15 form-row">
             <span fxFlex="20" fxFlex.sm="50" fxFlex.xs="100" class="form-group mb-sm-10">
                 <mat-form-field appearance="outline" class="no-error">
-                    <mat-label>Equal Distribution *</mat-label>
+                    <mat-label>Investment Type *</mat-label>
                     <mat-select>
-                        <mat-option value="option1">Option 1</mat-option>
-                        <mat-option value="option2">Option 2</mat-option>
-                        <mat-option value="option3">Option 3</mat-option>
+                        <mat-option value="option1">Equal Distribution</mat-option>
+                        <mat-option value="option1">Investment Per Stock</mat-option>
+                        <mat-option value="option2">Scale Up</mat-option>
+                        <mat-option value="option3">Scale Down</mat-option>
                     </mat-select>
                 </mat-form-field>
             </span>
@@ -215,7 +216,7 @@
                     <td mat-cell *matCellDef="let element"> 
                         {{ element.investedcurrent | currency:'USD':'symbol':'1.2-2' }}
                     </td>
-                    <td mat-footer-cell *matFooterCellDef> $14738.210 </td>
+                    <td mat-footer-cell *matFooterCellDef> $14738.21 </td>
                 </ng-container>  
                 
                 <ng-container matColumnDef="investednew">
@@ -223,7 +224,7 @@
                     <td mat-cell *matCellDef="let element"> 
                         {{ element.investednew | currency:'USD':'symbol':'1.2-2' }}
                     </td>
-                    <td mat-footer-cell *matFooterCellDef> +8512.780 </td>
+                    <td mat-footer-cell *matFooterCellDef> $8512.78 </td>
                 </ng-container>
 
                 <ng-container matColumnDef="invested">
@@ -236,7 +237,7 @@
                     <td mat-cell *matCellDef="let element"> 
                         {{ element.marketcurrent | currency:'USD':'symbol':'1.2-2' }}
                     </td>
-                    <td mat-footer-cell *matFooterCellDef> $13629.920 </td>
+                    <td mat-footer-cell *matFooterCellDef> $13629.92 </td>
                 </ng-container>  
                 
                 <ng-container matColumnDef="marketnew">
@@ -244,7 +245,7 @@
                     <td mat-cell *matCellDef="let element"> 
                         {{ element.marketnew | currency:'USD':'symbol':'1.2-2' }}
                     </td>
-                    <td mat-footer-cell *matFooterCellDef> +8512.780 </td>
+                    <td mat-footer-cell *matFooterCellDef> $8512.78 </td>
                 </ng-container>
 
                 <ng-container matColumnDef="marketvalue">
@@ -257,7 +258,7 @@
                     <td mat-cell *matCellDef="let element"> 
                         {{ element.pl | currency:'USD':'symbol':'1.2-2' }}
                      </td>
-                     <td mat-footer-cell *matFooterCellDef> $-1108.290 </td>
+                     <td mat-footer-cell *matFooterCellDef> -$1108.29 </td>
                 </ng-container>
 
                 <ng-container matColumnDef="plhide">
@@ -270,7 +271,7 @@
                     <td mat-cell *matCellDef="let element"> 
                         {{ element.plpercent | currency:'USD':'symbol':'1.2-2' }}
                      </td>
-                     <td mat-footer-cell *matFooterCellDef> $-7.52% </td>
+                     <td mat-footer-cell *matFooterCellDef> -$7.52% </td>
                 </ng-container>
 
                 <ng-container matColumnDef="plpercenthide">
