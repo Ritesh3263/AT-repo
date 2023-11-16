@@ -11,9 +11,9 @@ export class WidgetDialogComponent implements AfterViewInit {
   @ViewChild('TradingCompanyProfileWidget') TradingCompanyProfileWidget?: ElementRef;
   @ViewChild('TradingTechnicalAnalysisWidget') TradingTechnicalAnalysisWidget?: ElementRef;
   @ViewChild('tradingMinChartWidget', { static: true }) tradingMinChartWidget?: ElementRef;
+  @ViewChild('tradingSymbolInfoWidget') tradingSymbolInfoWidget?: ElementRef;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,private _renderer2: Renderer2) {
-  }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,private _renderer2: Renderer2) {  }
 
   ngAfterViewInit() {
 
@@ -22,6 +22,7 @@ export class WidgetDialogComponent implements AfterViewInit {
     this.fundamentalDataWidget();
     this.technicalAnalysisWidget();
     this.minChartWidget();
+    this.symbolInfoWidget();
 
   }
 
@@ -108,6 +109,28 @@ companyProfileWidget() {
     }`;
   
       this.tradingMinChartWidget?.nativeElement.appendChild(script);
+  
+    }
+
+
+    symbolInfoWidget() {
+      let script = this._renderer2.createElement('script');
+      script.type = `text/javascript`;
+      script.src = "https://s3.tradingview.com/external-embedding/embed-widget-symbol-info.js";
+      script.text = `
+    {
+      "symbol": ${JSON.stringify(this.data)},
+      "width": "500",
+      "locale": "en",
+      "colorTheme": "light",
+      "isTransparent": false
+    }
+  
+      
+    `;
+  
+      this.tradingSymbolInfoWidget?.nativeElement.appendChild(script);
+  
   
     }
 }
