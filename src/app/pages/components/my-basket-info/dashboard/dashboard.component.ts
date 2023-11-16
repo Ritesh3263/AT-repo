@@ -91,7 +91,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     "largeChartUrl": "",
     "displayMode": "regular",
     "width": 500,
-    "height": 100%,
+    "height": 500,
     "symbol": ${input},
     "locale": "en"
   }
@@ -114,7 +114,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     script.text = `
   {
     "width": 500,
-    "height": 100%,
+    "height": 500,
     "colorTheme": "light",
     "isTransparent": false,
     "symbol": ${input},
@@ -140,7 +140,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     "interval": "1m",
     "width": 500,
     "isTransparent": false,
-    "height": 100%,
+    "height": 300,
     "symbol": ${input},
     "showIntervalTabs": true,
     "locale": "en",
@@ -149,7 +149,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   `;
 
     this.TradingTechnicalAnalysisWidget?.nativeElement.appendChild(script);
-
   }
   displayFn(user: any) {
     if (user) {
