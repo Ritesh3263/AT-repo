@@ -22,8 +22,8 @@ export interface PeriodicElement {
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  {symbol: 'TSLA', purchasedate: '2023/10/18', costcurrent: 0.000, costnew: 19600, price: 19600, sharescurrent: 0, sharesnew: +443, investedcurrent: 0.000, investednew: +8512.780, marketcurrent: 0.000, marketnew: +8512.780, pl: 0.000, plpercent: 0.000},
-  {symbol: 'AAPL', purchasedate: '2023/10/18', costcurrent: 0.000, costnew: 19600, price: 19600, sharescurrent: 0, sharesnew: +443, investedcurrent: 0.000, investednew: +8512.780, marketcurrent: 0.000, marketnew: +8512.780, pl: 0.000, plpercent: 0.000},
+  {symbol: 'TSLA', purchasedate: '2023/10/18', costcurrent: 300.000, costnew: 25, price: 350.00, sharescurrent: 10, sharesnew: 10, investedcurrent: 3000.000, investednew: +3500.00, marketcurrent: 3500.000, marketnew: +3500, pl: 0.000, plpercent: 0.000},
+  {symbol: 'AAPL', purchasedate: '2023/10/18', costcurrent: 200.000, costnew: 0, price: 250.00, sharescurrent: 15, sharesnew: 10, investedcurrent: 2500.000, investednew: +2500.00, marketcurrent: 3750.000, marketnew: +2500.00, pl: 0.000, plpercent: 0.000},
 ];
 
 @Component({

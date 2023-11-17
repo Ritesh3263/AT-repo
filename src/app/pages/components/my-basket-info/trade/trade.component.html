@@ -148,7 +148,7 @@
                 <ng-container matColumnDef="purchasedate">
                     <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"> Purchase Date </th>
                     <td mat-cell *matCellDef="let element" class="right-align-cell ">
-                        {{ element.purchasedate | currency:'USD':'symbol':'1.2-2' }}
+                        {{ element.purchasedate  }}
                      </td>
                      <td mat-footer-cell *matFooterCellDef>  </td>
                 </ng-container>
@@ -195,7 +195,7 @@
                 <ng-container matColumnDef="sharescurrent">
                     <th mat-header-cell *matHeaderCellDef> Current </th>
                     <td mat-cell *matCellDef="let element" class="with-grey-bg right-align-cell">
-                        {{ element.sharescurrent | currency:'USD':'symbol':'1.2-2' }}
+                        {{ element.sharescurrent  }}
                     </td>
                     <td mat-footer-cell *matFooterCellDef>  </td>
                 </ng-container>  
@@ -203,7 +203,7 @@
                 <ng-container matColumnDef="sharesnew">
                     <th mat-header-cell *matHeaderCellDef> New </th>
                     <td mat-cell *matCellDef="let element" class="right-align-cell"> 
-                        {{ element.sharesnew | currency:'USD':'symbol':'1.2-2' }}
+                        {{ element.sharesnew }}
                     </td>
                     <td mat-footer-cell *matFooterCellDef> Total </td>
                 </ng-container>
@@ -218,7 +218,7 @@
                     <td mat-cell *matCellDef="let element" class="right-align-cell"> 
                         {{ element.investedcurrent | currency:'USD':'symbol':'1.2-2' }}
                     </td>
-                    <td mat-footer-cell *matFooterCellDef  class="right-align-cell"> $14738.21 </td>
+                    <td mat-footer-cell *matFooterCellDef  class="right-align-cell"> $5500.00 </td>
                 </ng-container>  
                 
                 <ng-container matColumnDef="investednew">
@@ -226,7 +226,7 @@
                     <td mat-cell *matCellDef="let element" class="right-align-cell"> 
                         {{ element.investednew | currency:'USD':'symbol':'1.2-2' }}
                     </td>
-                    <td mat-footer-cell *matFooterCellDef  class="right-align-cell"> $8512.78 </td>
+                    <td mat-footer-cell *matFooterCellDef  class="right-align-cell"> $6000.00 </td>
                 </ng-container>
 
                 <ng-container matColumnDef="invested">
@@ -239,7 +239,7 @@
                     <td mat-cell *matCellDef="let element" class="right-align-cell"> 
                         {{ element.marketcurrent | currency:'USD':'symbol':'1.2-2' }}
                     </td>
-                    <td mat-footer-cell *matFooterCellDef  class="right-align-cell"> $13629.92 </td>
+                    <td mat-footer-cell *matFooterCellDef  class="right-align-cell"> $5500.00 </td>
                 </ng-container>  
                 
                 <ng-container matColumnDef="marketnew">
@@ -247,7 +247,7 @@
                     <td mat-cell *matCellDef="let element" class="right-align-cell"> 
                         {{ element.marketnew | currency:'USD':'symbol':'1.2-2' }}
                     </td>
-                    <td mat-footer-cell *matFooterCellDef  class="right-align-cell"> $8512.78 </td>
+                    <td mat-footer-cell *matFooterCellDef  class="right-align-cell"> $6000.00 </td>
                 </ng-container>
 
                 <ng-container matColumnDef="marketvalue">
