@@ -76,3 +76,23 @@
 .mat-mdc-dialog-container .mdc-dialog__content {
     color: #333 !important;
 }
+
+.mat-mdc-menu-panel.mat-mdc-menu-panel {
+    overflow: hidden;
+    .mat-mdc-menu-content {
+        padding: 0px;
+    }
+    
+    &.filter-menu-sm {
+      width: 360px;
+      max-width: inherit;
+    }
+    &.filter-menu-lg {
+      width: 700px;
+      max-width: inherit;
+    }
+    &.filter-menu-md {
+      width: 500px;
+      max-width: inherit;
+    }
+  }

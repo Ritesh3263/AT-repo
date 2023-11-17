@@ -131,4 +131,38 @@ export class BasketComponent implements AfterViewInit {
       position: { right: '0px', top: '0px' },
     });
   }
+
+  yourText: string = "Austin Powers";
+  isEditMode: boolean = false;
+
+  enterEditMode() {
+    this.isEditMode = true;
+  }
+
+  exitEditMode() {
+    this.isEditMode = false;
+    // Additional logic to save changes if needed
+  }
+
+  descText: string = "Demo Description comes here Demo Description comes hereDemo Description comes heres";
+  isDescEditMode: boolean = false;
+
+  enterDescEditMode() {
+    this.isDescEditMode = true;
+  }
+
+  exitDescEditMode() {
+    this.isDescEditMode = false;
+    // Additional logic to save changes if needed
+  }
+
+  isMenuOpen: boolean = false;
+
+  openMenu() {
+    this.isMenuOpen = true;
+  }
+
+  closeMenu() {
+    this.isMenuOpen = false;
+  }
 }

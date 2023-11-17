@@ -4,6 +4,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmTradeComponent } from '../confirm-trade/confirm-trade.component';
+import { CalculateDialogComponent } from '../calculate-dialog/calculate-dialog.component';
 
 export interface PeriodicElement {
   symbol: string;
@@ -81,6 +82,13 @@ export class TradeComponent implements AfterViewInit {
 
   confirmTrade() {
     this.dialog.open(ConfirmTradeComponent, {
+      panelClass: 'custom-modal',
+      disableClose: true
+    });
+  }
+
+  calculateDialog() {
+    this.dialog.open(CalculateDialogComponent, {
       panelClass: 'custom-modal',
       disableClose: true
     });

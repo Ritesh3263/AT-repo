@@ -38,6 +38,7 @@ import { SubscriptionComponent } from './pages/components/my-basket-info/subscri
 import {MatDividerModule} from '@angular/material/divider';
 import { WidgetDialogComponent } from './pages/components/my-basket-info/widget-dialog/widget-dialog.component';
 import { ConfirmTradeComponent } from './pages/components/my-basket-info/confirm-trade/confirm-trade.component';
+import { CalculateDialogComponent } from './pages/components/my-basket-info/calculate-dialog/calculate-dialog.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { ConfirmTradeComponent } from './pages/components/my-basket-info/confirm
     SettingsComponent,
     SubscriptionComponent,
     WidgetDialogComponent,
-    ConfirmTradeComponent
+    ConfirmTradeComponent,
+    CalculateDialogComponent
   ],
   imports: [
     BrowserModule,
