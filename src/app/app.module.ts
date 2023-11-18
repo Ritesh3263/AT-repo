@@ -40,6 +40,9 @@ import { WidgetDialogComponent } from './pages/components/my-basket-info/widget-
 import { ConfirmTradeComponent } from './pages/components/my-basket-info/confirm-trade/confirm-trade.component';
 import { CalculateDialogComponent } from './pages/components/my-basket-info/calculate-dialog/calculate-dialog.component';
 import { LoginComponent } from './layouts/login/login.component';
+import { ProfileComponent } from './pages/components/profile/profile.component';
+import {MatRadioModule} from '@angular/material/radio';
+import { MarketplaceComponent } from './pages/components/my-basket-info/marketplace/marketplace.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +66,9 @@ import { LoginComponent } from './layouts/login/login.component';
     WidgetDialogComponent,
     ConfirmTradeComponent,
     CalculateDialogComponent,
-    LoginComponent
+    LoginComponent,
+    ProfileComponent,
+    MarketplaceComponent
   ],
   imports: [
     BrowserModule,
@@ -85,7 +90,8 @@ import { LoginComponent } from './layouts/login/login.component';
     ReactiveFormsModule,
     MatTableModule,
     MatPaginatorModule,
-    MatDividerModule
+    MatDividerModule,
+    MatRadioModule
   ],
   providers: [],
   bootstrap: [AppComponent]

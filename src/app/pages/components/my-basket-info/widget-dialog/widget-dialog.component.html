@@ -1,46 +1,32 @@
-<div class="modal-dialog slide-panel panel-lg">
-    <div fxLayout="row" fxLayoutAlign="start center" class="dialog-header">
+<div fxLayout="column" class="modal-dialog slide-panel panel-lg">
+    <div fxFlex="initial" fxLayout="row" fxLayoutAlign="start center" class="dialog-header">
         <h2 fxFlex class="mat-h2">Amazon</h2>
         <button mat-icon-button mat-dialog-close class="close-btn">
             <mat-icon>close</mat-icon>
         </button>
     </div>
-
- 
-        <div mat-dialog-content  style="height: fit-content;">
-            <div class="outer-div">
-
-                <div style="margin-right: 10px;">
-                    <h3 style="text-align: center;">Min Chart Widget</h3>
-                    <div  #tradingMinChartWidget ></div>
-            
-                </div>
-                <div >
-                    <h3 style="text-align: center;">Technical Analysis Widget</h3>
-                    <div  #TradingTechnicalAnalysisWidget></div>
-                
-                </div>
-                </div>
-            <div class="outer-div">
-    
-                <div style="margin-right: 10px;">
-                    <h3 style="text-align: center;">Fundamental Data Widget</h3>
-                    <div  #TradingFundamentalDataWidget ></div>
-                
-                </div>
-                <div >
-                    <h3 style="text-align: center;">Company Profile Widget</h3>
-                    <p id="four"  #TradingCompanyProfileWidget></p>
-                
-                </div>
-        </div>
-        <div class="outer-div">
-    
-            <div style="margin-right: 10px;">
-                <h3 style="text-align: center;">Symbol Info Widget</h3>
-                <div  #tradingSymbolInfoWidget ></div>
-            
+    <div fxFlex mat-dialog-content>
+        <div fxLayout="row wrap" class="form-row">
+            <div fxFlex="50" fxFlex.sm="100" fxFlex.xs="100" class="form-group pb-20">
+                <h3 class="mat-h3 text-center font-600">Min Chart Widget</h3>
+                <div #tradingMinChartWidget ></div>
             </div>
-        
+            <div fxFlex="50" fxFlex.sm="100" fxFlex.xs="100" class="form-group pb-20">
+                <h3 class="mat-h3 text-center font-600">Technical Analysis Widget</h3>
+                <div  #TradingTechnicalAnalysisWidget></div>
+            </div>
+            <div fxFlex="50" fxFlex.sm="100" fxFlex.xs="100" class="form-group pb-20">
+                <h3 class="mat-h3 text-center font-600">Fundamental Data Widget</h3>
+                <div  #TradingFundamentalDataWidget ></div>
+            </div>
+            <div fxFlex="50" fxFlex.sm="100" fxFlex.xs="100" class="form-group pb-20">
+                <h3 class="mat-h3 text-center font-600">Company Profile Widget</h3>
+                <p id="four"  #TradingCompanyProfileWidget></p>
+            </div>
+            <div fxFlex="50" fxFlex.sm="100" fxFlex.xs="100" class="form-group pb-20">
+                <h3 class="mat-h3 text-center font-600">Symbol Info Widget</h3>
+                <div  #tradingSymbolInfoWidget ></div>
+            </div>
+        </div>
     </div>
 </div>

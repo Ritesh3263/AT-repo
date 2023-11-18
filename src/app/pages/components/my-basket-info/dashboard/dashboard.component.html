@@ -1,8 +1,5 @@
-
-
-
 <!-- <form [formGroup]="form" autocomplete="off" style="padding: 10px;"> -->
-    <!-- <div fxFlex="20" fxFlex.sm="25" fxFlex.xs="100" class="form-group filter-input no-error">
+<!-- <div fxFlex="20" fxFlex.sm="25" fxFlex.xs="100" class="form-group filter-input no-error">
         <mat-form-field appearance="outline">
             <mat-label>Enter Symbol</mat-label>
             <mat-select  formControlName="SymbolChange" >
@@ -13,7 +10,7 @@
             </mat-select>
         </mat-form-field>
     </div> -->
-    <!-- <mat-form-field fxFlex="33" fxFlexAlign="center center" fxFlex.xs="100" class="mx-2 my-2" appearance="outline">
+<!-- <mat-form-field fxFlex="33" fxFlexAlign="center center" fxFlex.xs="100" class="mx-2 my-2" appearance="outline">
         <mat-label>Enter Symbol </mat-label>
         <input matInput autocompleteOff type="text"  placeholder="Enter Symbol" formControlName="SymbolChange" (keydown.enter)="onChangeTicker()"
           [matAutocomplete]="tickerAuto"
@@ -25,33 +22,25 @@
             <mat-option value="META">META</mat-option>
         </mat-autocomplete>
       </mat-form-field> -->
-    
+
 <!-- </form> -->
-<div fxLayout="column" >
-<div fxLayout="row" fxLayout.xs = "column">
-
-<div class="outer-div" fxLayout="column" >
-    <h3 style="text-align: center;">Fundamental Data Widget</h3>
-    <div style="width: 100%;" #TradingFundamentalDataWidget ></div>
-
-</div>
-<div class="outer-div" fxLayout="column" >
-    <h3 style="text-align: center;">Company Profile Widget</h3>
-    <p id="four"  #TradingCompanyProfileWidget></p>
-
-</div>
-</div>
-<div fxLayout="row" fxLayout.xs = "column" >
-
-    <div  class="outer-div" fxLayout="column">
-        <h3 style="text-align: center;">Min Chart Widget</h3>
-        <div  #tradingMinChartWidget ></div>
-
-    </div>
-    <div  class="outer-div" fxLayout="column" >
-        <h3 style="text-align: center;">Technical Analysis Widget</h3>
-        <div  #TradingTechnicalAnalysisWidget></div>
-    
-    </div>
+<div fxLayout="column" class="pl-20 pr-20 pt-20 dashboard-widget">
+    <div fxLayout="row wrap" class="form-row">
+        <div fxFlex="50" fxFlex.sm="100" fxFlex.xs="100" class="form-group pb-20">
+            <h3 class="mat-h3 text-center font-600">Fundamental Data Widget</h3>
+            <div style="width: 100%;" #TradingFundamentalDataWidget></div>
+        </div>
+        <div fxFlex="50" fxFlex.sm="100" fxFlex.xs="100" class="form-group pb-20">
+            <h3 class="mat-h3 text-center font-600">Company Profile Widget</h3>
+            <p id="four" #TradingCompanyProfileWidget></p>
+        </div>
+        <div fxFlex="50" fxFlex.sm="100" fxFlex.xs="100" class="form-group pb-20">
+            <h3 class="mat-h3 text-center font-600">Min Chart Widget</h3>
+            <div #tradingMinChartWidget></div>
+        </div>
+        <div fxFlex="50" fxFlex.sm="100" fxFlex.xs="100" class="form-group pb-20">
+            <h3 class="mat-h3 text-center font-600">Technical Analysis Widget</h3>
+            <div #TradingTechnicalAnalysisWidget></div>
+        </div>
     </div>
 </div>

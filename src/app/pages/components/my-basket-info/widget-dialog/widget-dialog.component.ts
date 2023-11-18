@@ -36,7 +36,6 @@ export class WidgetDialogComponent implements AfterViewInit {
     "isTransparent": false,
     "largeChartUrl": "",
     "displayMode": "regular",
-    "width": 500,
     "height": 500,
     "symbol": ${JSON.stringify(this.data)},
     "locale": "en"
@@ -55,7 +54,6 @@ companyProfileWidget() {
     script.src = "https://s3.tradingview.com/external-embedding/embed-widget-symbol-profile.js";
     script.text = `
   {
-    "width": 500,
     "height": 500,
     "colorTheme": "light",
     "isTransparent": false,
@@ -76,7 +74,6 @@ companyProfileWidget() {
     script.text = `
   {
     "interval": "1m",
-    "width": 500,
     "isTransparent": false,
     "height": 300,
     "symbol": ${JSON.stringify(this.data)},
@@ -98,7 +95,6 @@ companyProfileWidget() {
       script.text = `
     {
       "symbol": ${JSON.stringify(this.data)},
-      "width": 500,
       "height": 300,
       "locale": "en",
       "dateRange": "12M",
@@ -120,7 +116,7 @@ companyProfileWidget() {
       script.text = `
     {
       "symbol": ${JSON.stringify(this.data)},
-      "width": "500",
+      "height": "500",
       "locale": "en",
       "colorTheme": "light",
       "isTransparent": false

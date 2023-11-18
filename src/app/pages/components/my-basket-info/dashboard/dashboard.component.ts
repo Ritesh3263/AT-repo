@@ -90,7 +90,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     "isTransparent": false,
     "largeChartUrl": "",
     "displayMode": "regular",
-    "width": 500,
     "height": 500,
     "symbol": ${input},
     "locale": "en"
@@ -113,7 +112,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     script.src = "https://s3.tradingview.com/external-embedding/embed-widget-symbol-profile.js";
     script.text = `
   {
-    "width": 500,
     "height": 500,
     "colorTheme": "light",
     "isTransparent": false,
@@ -138,7 +136,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     script.text = `
   {
     "interval": "1m",
-    "width": 500,
     "isTransparent": false,
     "height": 300,
     "symbol": ${input},
@@ -169,8 +166,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       script.text = `
     {
       "symbol": ${input},
-      "width": 500,
-      "height": 260,
+      "height": 300,
       "locale": "en",
       "dateRange": "12M",
       "colorTheme": "light",

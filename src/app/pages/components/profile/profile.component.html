@@ -1,0 +1,85 @@
+<div class="modal-dialog">
+    <div fxLayout="row" fxLayoutAlign="start center" class="dialog-header">
+        <h2 fxFlex class="mat-h2">Profile</h2>
+        <button mat-icon-button mat-dialog-close class="close-btn">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div mat-dialog-content class="no-padding-bottom">
+        <form class="example-form">
+            <div fxLayout="row wrap" fxLayoutAlign="start center" class="form-row">
+                <div fxFlex="100" fxFlex.sm="100" fxFlex.xs="100" class="form-group">
+                    <mat-form-field appearance="outline">
+                        <mat-label>First Name</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="100" fxFlex.sm="100" fxFlex.xs="100" class="form-group">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Last Name</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="100" fxFlex.sm="100" fxFlex.xs="100" class="form-group">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Phone</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="100" class="form-group pb-20">
+                    <p class="form-label">Profile Picture</p>
+                    <div fxLayout="row" fxLayoutAlign="start center" class="mb-3">
+                        <div class="logo-upload">
+                            <div fxLayout="row" fxLayoutAlign="start center">
+                                <label>
+                                    <span>Browse</span>
+                                    <input #fileInput type="file" name="upload" class="upload-input"
+                                        placeholder="Upload" />
+                                </label>
+                            </div>
+                        </div>
+                        <div class="logo-file-name" fxLayout="row" fxLayoutAlign="start center">
+                            <span class="mx-2">File Name</span>
+                            <mat-icon class="material-icons close-icon">close</mat-icon>
+                        </div>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.sm="100" fxFlex.xs="100" class="form-group">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Job Role</mat-label>
+                        <mat-select>
+                            <mat-option value="option1">Option 1</mat-option>
+                            <mat-option value="option2">Option 2</mat-option>
+                            <mat-option value="option3">Option 3</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="100" fxFlex.sm="100" fxFlex.xs="100" class="form-group">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Industry</mat-label>
+                        <mat-select>
+                            <mat-option value="option1">Option 1</mat-option>
+                            <mat-option value="option2">Option 2</mat-option>
+                            <mat-option value="option3">Option 3</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="100" fxFlex.sm="100" fxFlex.xs="100" fxLayout="column" class="form-group">
+                    <span>Trading</span>
+                    <mat-radio-group aria-label="Select an option" color="primary">
+                        <mat-radio-button value="1">Full Time</mat-radio-button>
+                        <mat-radio-button value="2">Part Time</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
+        <button mat-stroked-button mat-dialog-close color="primary">
+            Cancel
+        </button>
+        <button mat-flat-button color="primary">
+            Save
+        </button>
+    </div>
+</div>
