@@ -1,5 +1,6 @@
 import {MediaMatcher} from '@angular/cdk/layout';
 import {ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +9,7 @@ import {ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
 })
 export class AppComponent {
   mobileQuery: MediaQueryList;
+  isLoginPage: boolean;
 
   fillerNav = Array.from({length: 50}, (_, i) => `Nav Item ${i + 1}`);
 
@@ -23,10 +25,18 @@ export class AppComponent {
 
   private _mobileQueryListener: () => void;
 
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
+  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private router: Router) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
+
+    this.isLoginPage = false;
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        // Check if the current route is the login page
+        this.isLoginPage = event.url === '/';
+      }
+    });
   }
 
   ngOnDestroy(): void {

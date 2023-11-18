@@ -1,0 +1,38 @@
+<div fxFill fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center center">
+    <div class="login-wrapper">
+        <header fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+            <h2 fxFlex="initial" class="mat-h2 font-600 mb-0">Sign in with</h2>
+            <span fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="social-icons">
+                <button mat-icon-button>
+                    <img src="/assets/images/facebook.svg" />
+                </button>
+                <button mat-icon-button>
+                    <img src="/assets/images/twitter.svg" />
+                </button>
+                <button mat-icon-button>
+                    <img src="/assets/images/linkedin.svg" />
+                </button>
+                <button mat-icon-button>
+                    <img src="/assets/images/google.svg" />
+                </button>
+            </span>
+        </header>
+        <div class="h-line"></div>
+        <div fxLayout="column">
+            <mat-form-field appearance="outline">
+                <mat-label>Email Address</mat-label>
+                <input matInput>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <input matInput type="password">
+            </mat-form-field>
+            <div fxLayout="row" fxLayoutAlign="space-between center">
+                <mat-checkbox color="primary">Remember Me</mat-checkbox>
+                <a class="forgot-link">Forgot Password?</a>
+            </div>
+        </div>
+        <button mat-flat-button color="primary" (click)="home()" class="login-btn">Login</button>
+        <p class="signup-link">Don't have an account? <a>Sign up</a></p>
+    </div>
+</div>
