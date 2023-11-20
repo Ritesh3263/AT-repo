@@ -1,1 +1,19 @@
-<p>marketplace works!</p>
+<div fxLayout="column" class="pl-20 pr-20">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="breadcrumb pt-15 pb-15">
+        <a routerLink="/" fxLayout="column" fxLayoutAlign="center center">
+            <img src="/assets/images/home-icon.svg" />
+        </a>
+        <span>/</span>
+        <a class="bold">Marketplace</a>
+    </div>
+    <h1 class="mat-h1 font-700">Marketplace</h1>
+    <span>
+        <button mat-flat-button color="primary" (click)="openTermsConditionsDialog()">Publish to Marketplace</button>
+    </span>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px" class="mt-20">
+        <span>Visible in Marketplace</span>
+        <span>
+            <mat-slide-toggle color="primary" checked="checked" [(ngModel)]="toggleValue" (change)="onToggleChange()"> {{ toggleText }} </mat-slide-toggle>
+        </span>
+    </div>
+</div>

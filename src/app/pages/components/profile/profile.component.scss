@@ -47,3 +47,19 @@
         cursor: pointer;
     }
 }
+
+.pic-uploaded {
+    .profile-pic {
+        border-radius: 50%;
+        background: #fff;
+        border: 1px solid #eee;
+        padding: 5px;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, .1);
+
+        img {
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 50%;
+        }
+    }
+}

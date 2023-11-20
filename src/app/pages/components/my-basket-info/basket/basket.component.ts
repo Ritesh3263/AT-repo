@@ -125,10 +125,9 @@ export class BasketComponent implements AfterViewInit {
 
   widgetDialog(eve:any) {
     this.dialog.open(WidgetDialogComponent, {
-      panelClass: 'custom-modal',
+      panelClass: 'custom-modal-lg',
       disableClose: true,
       data:eve,
-      position: { right: '0px', top: '0px' },
     });
   }
 

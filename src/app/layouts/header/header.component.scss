@@ -10,10 +10,6 @@ header {
     height: 22px;
 }
 
-.logo {
-    margin: 0 16px;
-}
-
 .avatar {
     width: 36px;
     height: 36px;
@@ -37,5 +33,9 @@ header {
     header {
         padding-left: 15px;
         padding-right: 15px;
+    }
+
+    .logo {
+        margin: 0 16px;
     }
 }

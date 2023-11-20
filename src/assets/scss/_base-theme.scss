@@ -38,6 +38,7 @@ html, body {
 
 .basket-wrapper {
     padding: 24px;
+    padding-top: 10px;
 
     .basket-card {
         border: 1px solid #CCCCCC;
@@ -48,7 +49,11 @@ html, body {
         margin-bottom: 20px;
         color: #888;
         height: calc(100% - 20px);
-        cursor: pointer;
+
+        &:hover {
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
+            
+        }
 
         .basket-header {
 
@@ -58,6 +63,11 @@ html, body {
                 overflow: hidden;
                 max-width: 85%;
                 text-overflow: ellipsis;
+                cursor: pointer;
+
+                &:hover {
+                    color: var(--PRIMARY_COLOR);
+                }
             }
 
             .desc {
@@ -233,6 +243,10 @@ html, body {
 
 .custom-modal {
     width: 600px;
+}
+
+.custom-modal-lg {
+    width: 960px;
 }
 
 .modal-dialog {
@@ -427,7 +441,7 @@ html, body {
         }
     }
 
-    .custom-modal {
+    .custom-modal, .custom-modal-lg {
         width: 80%;
     }
 
@@ -446,6 +460,10 @@ html, body {
         &.panel-lg {
           width: 90%;
         }
+    }
+
+    .custom-modal-lg {
+        width: 80%;
     }
 
     .table-scroll {

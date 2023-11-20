@@ -42,7 +42,11 @@ import { CalculateDialogComponent } from './pages/components/my-basket-info/calc
 import { LoginComponent } from './layouts/login/login.component';
 import { ProfileComponent } from './pages/components/profile/profile.component';
 import {MatRadioModule} from '@angular/material/radio';
+import {MatTabsModule} from '@angular/material/tabs';
 import { MarketplaceComponent } from './pages/components/my-basket-info/marketplace/marketplace.component';
+import { TermsConditionsComponent } from './pages/components/my-basket-info/terms-conditions/terms-conditions.component';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { TurnoffMarketplaceComponent } from './pages/components/my-basket-info/turnoff-marketplace/turnoff-marketplace.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +72,9 @@ import { MarketplaceComponent } from './pages/components/my-basket-info/marketpl
     CalculateDialogComponent,
     LoginComponent,
     ProfileComponent,
-    MarketplaceComponent
+    MarketplaceComponent,
+    TermsConditionsComponent,
+    TurnoffMarketplaceComponent
   ],
   imports: [
     BrowserModule,
@@ -91,7 +97,9 @@ import { MarketplaceComponent } from './pages/components/my-basket-info/marketpl
     MatTableModule,
     MatPaginatorModule,
     MatDividerModule,
-    MatRadioModule
+    MatRadioModule,
+    MatTabsModule,
+    MatSlideToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]
