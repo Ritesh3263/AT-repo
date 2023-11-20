@@ -44,7 +44,7 @@ export class MyBasketsComponent {
   accountControl = new FormControl('');
   accountGroups: AccountGroup[] = [
     {
-      name: 'Accounts',
+      name: 'Linked Baskets',
       account: [
         {value: '1234', viewValue: '1234'},
         {value: '7890', viewValue: '7890'},
