@@ -1,4 +1,8 @@
 <div class="basket-wrapper">
+    <div fxLayout="row" fxLayoutAlign="end center" class="follow-wrapper pb-xs-10">
+        <div class="pl-15 pr-15"><span class="font-600">25</span> <span class="text">Following</span></div>
+        <div class="pl-15 pr-15"><span class="font-600">85</span> <span class="text">Followers</span></div>
+    </div>
     <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" animationDuration="0ms" class="trade-tabs">
         <mat-tab>
             <ng-template mat-tab-label>
@@ -104,7 +108,7 @@
                             </div>
                         </div>
                         <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
-                            <div class="profile-icon">
+                            <div class="profile-icon" (click)="openOwnerProfile()">
                                 <img src="assets/images/basket-profile-icon.png" />
                             </div>
                             <div fxLayout="row" fxLayoutAlign="start center">
@@ -127,13 +131,29 @@
                             <mat-icon>more_vert</mat-icon>
                         </button>
                         <mat-menu #menu="matMenu" xPosition="before">
-                            <button mat-menu-item>
-                                <mat-icon>dialpad</mat-icon>
-                                <span>Redial</span>
+                            <button mat-menu-item routerLink="/my-basket-info/basket">
+                                <mat-icon>add</mat-icon>
+                                <span>Add / Edit Symbols</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/accounts">
+                                <mat-icon>link</mat-icon>
+                                <span>Link Account</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/trade">
+                                <mat-icon>trending_up</mat-icon>
+                                <span>Trade</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/marketplace">
+                                <mat-icon>ios_share</mat-icon>
+                                <span>Publish to Marketplace</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/subscription">
+                                <mat-icon>unsubscribe</mat-icon>
+                                <span>Unsubscribe</span>
                             </button>
                             <button mat-menu-item>
-                                <mat-icon>notifications_off</mat-icon>
-                                <span>Disable alerts</span>
+                                <mat-icon>archive</mat-icon>
+                                <span>Archive</span>
                             </button>
                         </mat-menu>
                     </mat-card>
@@ -181,7 +201,7 @@
                             </div>
                         </div>
                         <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
-                            <div class="profile-icon">
+                            <div class="profile-icon" (click)="openOwnerProfile()">
                                 <img src="assets/images/basket-profile-icon.png" />
                             </div>
                             <div fxLayout="row" fxLayoutAlign="start center">
@@ -204,13 +224,29 @@
                             <mat-icon>more_vert</mat-icon>
                         </button>
                         <mat-menu #menu="matMenu" xPosition="before">
-                            <button mat-menu-item>
-                                <mat-icon>dialpad</mat-icon>
-                                <span>Redial</span>
+                            <button mat-menu-item routerLink="/my-basket-info/basket">
+                                <mat-icon>add</mat-icon>
+                                <span>Add / Edit Symbols</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/accounts">
+                                <mat-icon>link</mat-icon>
+                                <span>Link Account</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/trade">
+                                <mat-icon>trending_up</mat-icon>
+                                <span>Trade</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/marketplace">
+                                <mat-icon>ios_share</mat-icon>
+                                <span>Publish to Marketplace</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/subscription">
+                                <mat-icon>unsubscribe</mat-icon>
+                                <span>Unsubscribe</span>
                             </button>
                             <button mat-menu-item>
-                                <mat-icon>notifications_off</mat-icon>
-                                <span>Disable alerts</span>
+                                <mat-icon>archive</mat-icon>
+                                <span>Archive</span>
                             </button>
                         </mat-menu>
                     </mat-card>
@@ -258,7 +294,7 @@
                             </div>
                         </div>
                         <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
-                            <div class="profile-icon">
+                            <div class="profile-icon" (click)="openOwnerProfile()">
                                 <img src="assets/images/basket-profile-icon.png" />
                             </div>
                             <div fxLayout="row" fxLayoutAlign="start center">
@@ -281,13 +317,29 @@
                             <mat-icon>more_vert</mat-icon>
                         </button>
                         <mat-menu #menu="matMenu" xPosition="before">
-                            <button mat-menu-item>
-                                <mat-icon>dialpad</mat-icon>
-                                <span>Redial</span>
+                            <button mat-menu-item routerLink="/my-basket-info/basket">
+                                <mat-icon>add</mat-icon>
+                                <span>Add / Edit Symbols</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/accounts">
+                                <mat-icon>link</mat-icon>
+                                <span>Link Account</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/trade">
+                                <mat-icon>trending_up</mat-icon>
+                                <span>Trade</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/marketplace">
+                                <mat-icon>ios_share</mat-icon>
+                                <span>Publish to Marketplace</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/subscription">
+                                <mat-icon>unsubscribe</mat-icon>
+                                <span>Unsubscribe</span>
                             </button>
                             <button mat-menu-item>
-                                <mat-icon>notifications_off</mat-icon>
-                                <span>Disable alerts</span>
+                                <mat-icon>archive</mat-icon>
+                                <span>Archive</span>
                             </button>
                         </mat-menu>
                     </mat-card>
@@ -335,7 +387,7 @@
                             </div>
                         </div>
                         <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
-                            <div class="profile-icon">
+                            <div class="profile-icon" (click)="openOwnerProfile()">
                                 <img src="assets/images/basket-profile-icon.png" />
                             </div>
                             <div fxLayout="row" fxLayoutAlign="start center">
@@ -358,13 +410,29 @@
                             <mat-icon>more_vert</mat-icon>
                         </button>
                         <mat-menu #menu="matMenu" xPosition="before">
-                            <button mat-menu-item>
-                                <mat-icon>dialpad</mat-icon>
-                                <span>Redial</span>
+                            <button mat-menu-item routerLink="/my-basket-info/basket">
+                                <mat-icon>add</mat-icon>
+                                <span>Add / Edit Symbols</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/accounts">
+                                <mat-icon>link</mat-icon>
+                                <span>Link Account</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/trade">
+                                <mat-icon>trending_up</mat-icon>
+                                <span>Trade</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/marketplace">
+                                <mat-icon>ios_share</mat-icon>
+                                <span>Publish to Marketplace</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/subscription">
+                                <mat-icon>unsubscribe</mat-icon>
+                                <span>Unsubscribe</span>
                             </button>
                             <button mat-menu-item>
-                                <mat-icon>notifications_off</mat-icon>
-                                <span>Disable alerts</span>
+                                <mat-icon>archive</mat-icon>
+                                <span>Archive</span>
                             </button>
                         </mat-menu>
                     </mat-card>
@@ -412,7 +480,7 @@
                             </div>
                         </div>
                         <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
-                            <div class="profile-icon">
+                            <div class="profile-icon" (click)="openOwnerProfile()">
                                 <img src="assets/images/basket-profile-icon.png" />
                             </div>
                             <div fxLayout="row" fxLayoutAlign="start center">
@@ -435,13 +503,29 @@
                             <mat-icon>more_vert</mat-icon>
                         </button>
                         <mat-menu #menu="matMenu" xPosition="before">
-                            <button mat-menu-item>
-                                <mat-icon>dialpad</mat-icon>
-                                <span>Redial</span>
+                            <button mat-menu-item routerLink="/my-basket-info/basket">
+                                <mat-icon>add</mat-icon>
+                                <span>Add / Edit Symbols</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/accounts">
+                                <mat-icon>link</mat-icon>
+                                <span>Link Account</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/trade">
+                                <mat-icon>trending_up</mat-icon>
+                                <span>Trade</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/marketplace">
+                                <mat-icon>ios_share</mat-icon>
+                                <span>Publish to Marketplace</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/subscription">
+                                <mat-icon>unsubscribe</mat-icon>
+                                <span>Unsubscribe</span>
                             </button>
                             <button mat-menu-item>
-                                <mat-icon>notifications_off</mat-icon>
-                                <span>Disable alerts</span>
+                                <mat-icon>archive</mat-icon>
+                                <span>Archive</span>
                             </button>
                         </mat-menu>
                     </mat-card>
@@ -489,7 +573,7 @@
                             </div>
                         </div>
                         <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
-                            <div class="profile-icon">
+                            <div class="profile-icon" (click)="openOwnerProfile()">
                                 <img src="assets/images/basket-profile-icon.png" />
                             </div>
                             <div fxLayout="row" fxLayoutAlign="start center">
@@ -512,13 +596,29 @@
                             <mat-icon>more_vert</mat-icon>
                         </button>
                         <mat-menu #menu="matMenu" xPosition="before">
-                            <button mat-menu-item>
-                                <mat-icon>dialpad</mat-icon>
-                                <span>Redial</span>
+                            <button mat-menu-item routerLink="/my-basket-info/basket">
+                                <mat-icon>add</mat-icon>
+                                <span>Add / Edit Symbols</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/accounts">
+                                <mat-icon>link</mat-icon>
+                                <span>Link Account</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/trade">
+                                <mat-icon>trending_up</mat-icon>
+                                <span>Trade</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/marketplace">
+                                <mat-icon>ios_share</mat-icon>
+                                <span>Publish to Marketplace</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/subscription">
+                                <mat-icon>unsubscribe</mat-icon>
+                                <span>Unsubscribe</span>
                             </button>
                             <button mat-menu-item>
-                                <mat-icon>notifications_off</mat-icon>
-                                <span>Disable alerts</span>
+                                <mat-icon>archive</mat-icon>
+                                <span>Archive</span>
                             </button>
                         </mat-menu>
                     </mat-card>
@@ -566,7 +666,7 @@
                             </div>
                         </div>
                         <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
-                            <div class="profile-icon">
+                            <div class="profile-icon" (click)="openOwnerProfile()">
                                 <img src="assets/images/basket-profile-icon.png" />
                             </div>
                             <div fxLayout="row" fxLayoutAlign="start center">
@@ -589,13 +689,29 @@
                             <mat-icon>more_vert</mat-icon>
                         </button>
                         <mat-menu #menu="matMenu" xPosition="before">
-                            <button mat-menu-item>
-                                <mat-icon>dialpad</mat-icon>
-                                <span>Redial</span>
+                            <button mat-menu-item routerLink="/my-basket-info/basket">
+                                <mat-icon>add</mat-icon>
+                                <span>Add / Edit Symbols</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/accounts">
+                                <mat-icon>link</mat-icon>
+                                <span>Link Account</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/trade">
+                                <mat-icon>trending_up</mat-icon>
+                                <span>Trade</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/marketplace">
+                                <mat-icon>ios_share</mat-icon>
+                                <span>Publish to Marketplace</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/subscription">
+                                <mat-icon>unsubscribe</mat-icon>
+                                <span>Unsubscribe</span>
                             </button>
                             <button mat-menu-item>
-                                <mat-icon>notifications_off</mat-icon>
-                                <span>Disable alerts</span>
+                                <mat-icon>archive</mat-icon>
+                                <span>Archive</span>
                             </button>
                         </mat-menu>
                     </mat-card>
@@ -643,7 +759,7 @@
                             </div>
                         </div>
                         <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
-                            <div class="profile-icon">
+                            <div class="profile-icon" (click)="openOwnerProfile()">
                                 <img src="assets/images/basket-profile-icon.png" />
                             </div>
                             <div fxLayout="row" fxLayoutAlign="start center">
@@ -666,13 +782,29 @@
                             <mat-icon>more_vert</mat-icon>
                         </button>
                         <mat-menu #menu="matMenu" xPosition="before">
-                            <button mat-menu-item>
-                                <mat-icon>dialpad</mat-icon>
-                                <span>Redial</span>
+                            <button mat-menu-item routerLink="/my-basket-info/basket">
+                                <mat-icon>add</mat-icon>
+                                <span>Add / Edit Symbols</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/accounts">
+                                <mat-icon>link</mat-icon>
+                                <span>Link Account</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/trade">
+                                <mat-icon>trending_up</mat-icon>
+                                <span>Trade</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/marketplace">
+                                <mat-icon>ios_share</mat-icon>
+                                <span>Publish to Marketplace</span>
+                            </button>
+                            <button mat-menu-item routerLink="/my-basket-info/subscription">
+                                <mat-icon>unsubscribe</mat-icon>
+                                <span>Unsubscribe</span>
                             </button>
                             <button mat-menu-item>
-                                <mat-icon>notifications_off</mat-icon>
-                                <span>Disable alerts</span>
+                                <mat-icon>archive</mat-icon>
+                                <span>Archive</span>
                             </button>
                         </mat-menu>
                     </mat-card>
@@ -682,23 +814,7 @@
         <mat-tab>
             <ng-template mat-tab-label>
                 <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
-                    <span>Following</span>
-                    <span class="count">0</span>
-                </span>
-            </ng-template>
-        </mat-tab>
-        <mat-tab>
-            <ng-template mat-tab-label>
-                <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
                     <span>Favourites</span>
-                    <span class="count">0</span>
-                </span>
-            </ng-template>
-        </mat-tab>
-        <mat-tab>
-            <ng-template mat-tab-label>
-                <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
-                    <span>Followers</span>
                     <span class="count">0</span>
                 </span>
             </ng-template>

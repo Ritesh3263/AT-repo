@@ -11,6 +11,7 @@ import { SettingsComponent } from './pages/components/my-basket-info/settings/se
 import { SubscriptionComponent } from './pages/components/my-basket-info/subscription/subscription.component';
 import { TradeComponent } from './pages/components/my-basket-info/trade/trade.component';
 import { MyBasketsComponent } from './pages/components/my-baskets/my-baskets.component';
+import { OwnerProfileComponent } from './pages/components/owner-profile/owner-profile.component';
 
 const routes: Routes = [
   {
@@ -58,7 +59,11 @@ const routes: Routes = [
         component: SubscriptionComponent,
       }
     ]
-  }
+  },
+  {
+    path: 'owner-profile',
+    component: OwnerProfileComponent,
+  },
 ];
 
 @NgModule({

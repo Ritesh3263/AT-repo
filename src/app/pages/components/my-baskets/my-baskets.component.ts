@@ -34,6 +34,10 @@ export class MyBasketsComponent {
     this.router.navigateByUrl('/my-basket-info');
   }
 
+  openOwnerProfile() {
+    this.router.navigateByUrl('/owner-profile');
+  }
+
   trackGroup(index: number, group: any): string {
     return group.name; // Use a unique identifier for the group
   }

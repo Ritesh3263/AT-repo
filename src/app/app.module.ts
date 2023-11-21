@@ -47,6 +47,7 @@ import { MarketplaceComponent } from './pages/components/my-basket-info/marketpl
 import { TermsConditionsComponent } from './pages/components/my-basket-info/terms-conditions/terms-conditions.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { TurnoffMarketplaceComponent } from './pages/components/my-basket-info/turnoff-marketplace/turnoff-marketplace.component';
+import { OwnerProfileComponent } from './pages/components/owner-profile/owner-profile.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import { TurnoffMarketplaceComponent } from './pages/components/my-basket-info/t
     ProfileComponent,
     MarketplaceComponent,
     TermsConditionsComponent,
-    TurnoffMarketplaceComponent
+    TurnoffMarketplaceComponent,
+    OwnerProfileComponent
   ],
   imports: [
     BrowserModule,
