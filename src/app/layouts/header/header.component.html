@@ -25,8 +25,14 @@
                 </div>
             </button>
             <mat-menu #beforeMenu="matMenu" xPosition="before">
-                <button mat-menu-item (click)="myProfile()">My Profile</button>
-                <button mat-menu-item routerLink="/">Sign Out</button>
+                <button mat-menu-item (click)="myProfile()">
+                    <mat-icon>person</mat-icon>
+                    <span>My Profile</span>
+                </button>
+                <button mat-menu-item routerLink="/">
+                    <mat-icon>logout</mat-icon>
+                    <span>Sign Out</span>
+                </button>
             </mat-menu>
         </div>
     </div>

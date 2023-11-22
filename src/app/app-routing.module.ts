@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './layouts/login/login.component';
 import { HomeComponent } from './pages/components/home/home.component';
+import { MarketplaceMainComponent } from './pages/components/marketplace/marketplace.component';
 import { AccountsComponent } from './pages/components/my-basket-info/accounts/accounts.component';
 import { BasketComponent } from './pages/components/my-basket-info/basket/basket.component';
 import { DashboardComponent } from './pages/components/my-basket-info/dashboard/dashboard.component';
@@ -64,6 +65,10 @@ const routes: Routes = [
     path: 'owner-profile',
     component: OwnerProfileComponent,
   },
+  {
+    path: 'marketplace',
+    component: MarketplaceMainComponent,
+  }
 ];
 
 @NgModule({

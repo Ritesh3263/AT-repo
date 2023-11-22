@@ -11,6 +11,11 @@
     }
 }
 
+.like-icon.active .mat-icon {
+    color: var(--PRIMARY_COLOR);
+    opacity: 1;
+}
+
 .profile-icon {
     cursor: pointer;
 
