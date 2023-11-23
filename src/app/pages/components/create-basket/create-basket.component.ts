@@ -12,6 +12,7 @@ import { DeleteSymbolsComponent } from '../my-basket-info/delete-symbols/delete-
 export class CreateBasketComponent {
   myControl = new FormControl('');
   options: string[] = ['One', 'Two', 'Three'];
+  selectedOption: string = '';
 
   constructor(public dialog: MatDialog) {}
 

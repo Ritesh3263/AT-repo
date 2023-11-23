@@ -49,6 +49,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { TurnoffMarketplaceComponent } from './pages/components/my-basket-info/turnoff-marketplace/turnoff-marketplace.component';
 import { OwnerProfileComponent } from './pages/components/owner-profile/owner-profile.component';
 import { MarketplaceMainComponent } from './pages/components/marketplace/marketplace.component';
+import { BrokerageComponent } from './pages/components/brokerage/brokerage.component';
+import { ConnectDialogComponent } from './pages/components/brokerage/connect-dialog/connect-dialog.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +80,9 @@ import { MarketplaceMainComponent } from './pages/components/marketplace/marketp
     TermsConditionsComponent,
     TurnoffMarketplaceComponent,
     OwnerProfileComponent,
-    MarketplaceMainComponent
+    MarketplaceMainComponent,
+    BrokerageComponent,
+    ConnectDialogComponent
   ],
   imports: [
     BrowserModule,

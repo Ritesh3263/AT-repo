@@ -17,31 +17,20 @@
             </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label>Action Type</mat-label>
-                <mat-select>
+                <mat-select [(value)]="selectedOption">
                     <mat-option value="option1">Create New Basket</mat-option>
                     <mat-option value="option2">Clone Existing Basket</mat-option>
                 </mat-select>
             </mat-form-field>
-            <!-- <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="10px">
-                <span fxFlex fxFlex.xs="100">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Ticket Symbol</mat-label>
-                        <input type="text" placeholder="Pick one" aria-label="Number" matInput
-                            [formControl]="myControl" [matAutocomplete]="auto">
-                        <mat-autocomplete #auto="matAutocomplete">
-                            <mat-option *ngFor="let option of options" [value]="option">
-                                {{option}}
-                            </mat-option>
-                        </mat-autocomplete>
-                    </mat-form-field>
-                </span>
-                <button mat-stroked-button color="primary" class="mb-20" (click)="addSymbols()">
-                    Add
-                </button>
-                <button mat-stroked-button color="primary" class="mb-20" (click)="deleteSymbols()">
-                    Delete Symbols
-                </button>
-            </div> -->
+            <ng-container *ngIf="selectedOption === 'option2'">
+                <mat-form-field appearance="outline">
+                    <mat-label>Basket</mat-label>
+                    <mat-select>
+                        <mat-option value="option1">Basket 1</mat-option>
+                        <mat-option value="option2">Basket 2</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </ng-container>
         </form>
     </div>
     <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './layouts/login/login.component';
+import { BrokerageComponent } from './pages/components/brokerage/brokerage.component';
 import { HomeComponent } from './pages/components/home/home.component';
 import { MarketplaceMainComponent } from './pages/components/marketplace/marketplace.component';
 import { AccountsComponent } from './pages/components/my-basket-info/accounts/accounts.component';
@@ -68,6 +69,10 @@ const routes: Routes = [
   {
     path: 'marketplace',
     component: MarketplaceMainComponent,
+  },
+  {
+    path: 'brokerage',
+    component: BrokerageComponent,
   }
 ];
 
