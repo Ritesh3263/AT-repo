@@ -426,6 +426,70 @@ html, body {
     }
 }
 
+.mat-mdc-menu-panel.notification-menu {
+    width: 330px;
+    min-width: unset;
+    max-width: unset;
+    border-radius: 5px;
+    // box-shadow: #959da533 0 3px 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-top: 5px;
+    max-height: 335px;
+
+    .menu-header {
+        border-radius: 5px 5px 0 0;
+        padding: 15px;
+        font-size: 18px;
+        border-bottom: 1px solid #eeeeee;
+
+        .count {
+            width: 20px;
+            height: 20px;
+            background: #42cd15;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 12px;
+            font-weight: normal;
+        }
+    }
+
+    .menu-body {
+        list-style-type: none;
+        padding-left: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+
+        li {
+            border-bottom: 1px solid #eeeeee;
+            padding: 15px;
+            cursor: pointer;
+
+            &:hover {
+                background: #f8f8f8;
+            }
+
+            &:last-child {
+                border-bottom: none;
+            }
+
+            .profile-img {
+                max-width: 30px;
+                max-height: 30px;
+                border-radius: 50%;
+            }
+
+            p {
+                margin: 0px;
+            }
+
+            &.unread {
+                background: #f9f9f9;
+            }
+        }
+    }
+}
+
 @media screen and (min-width: 600px) {
     .basket-sidebar {
         border-right: 1px solid #ccc;
