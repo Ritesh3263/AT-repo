@@ -51,6 +51,8 @@ import { OwnerProfileComponent } from './pages/components/owner-profile/owner-pr
 import { MarketplaceMainComponent } from './pages/components/marketplace/marketplace.component';
 import { BrokerageComponent } from './pages/components/brokerage/brokerage.component';
 import { ConnectDialogComponent } from './pages/components/brokerage/connect-dialog/connect-dialog.component';
+import { FollowingComponent } from './pages/components/following/following.component';
+import { FeedbackComponent } from './pages/components/feedback/feedback.component';
 
 @NgModule({
   declarations: [
@@ -82,7 +84,9 @@ import { ConnectDialogComponent } from './pages/components/brokerage/connect-dia
     OwnerProfileComponent,
     MarketplaceMainComponent,
     BrokerageComponent,
-    ConnectDialogComponent
+    ConnectDialogComponent,
+    FollowingComponent,
+    FeedbackComponent
   ],
   imports: [
     BrowserModule,

@@ -490,6 +490,59 @@ html, body {
     }
 }
 
+.following-box {
+    background: #fff;
+    // box-shadow: rgba(149, 157, 165, 0.15) 0 3px 15px;
+    border-radius: 5px;
+    border: 1px solid #eee;
+    padding: 40px 15px 15px 15px;
+    position: relative;
+    margin-top: 30px;
+    background: #fdfdfd;
+
+    &:hover {
+        box-shadow: rgba(149, 157, 165, 0.15) 0 3px 15px;
+    }
+
+    .profile-icon {
+        border-radius: 50%;
+        background: #fff;
+        position: absolute;
+        top: -30px;
+        left: 50%;
+        transform: translate(-50%, 0);
+
+        img {
+            max-width: 60px;
+            max-height: 60px;
+            border-radius: 50%;
+        }
+    }
+
+    .mat-h3 {
+        margin-bottom: 0px !important;
+    }
+
+    .doj {
+        font-size: 12px;
+        opacity: .5;
+    }
+
+    .follower-tab {
+        padding: 0 15px;
+        border-left: 1px solid #eee;
+
+        &:first-child {
+            border-left: none;
+        }
+
+        p {
+            margin-bottom: 0px;
+            opacity: .75;
+        }
+    }
+}
+
 @media screen and (min-width: 600px) {
     .basket-sidebar {
         border-right: 1px solid #ccc;
@@ -545,6 +598,6 @@ html, body {
 
 @media screen and (max-width: 399px) {
     .main-nav ul li a {
-        padding: 0 10px !important;
+        padding: 0 6px !important;
     }
 }
