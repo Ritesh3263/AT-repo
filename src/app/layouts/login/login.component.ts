@@ -87,7 +87,7 @@ export class LoginComponent {
 
   displayInfoMessage(message: string, error = false) {
     this._snackBar.open(message, 'Dismiss', {
-      duration: 2000,
+      duration: 3000,
       panelClass: error ? ['warn-snackbar'] : ['primary-snackbar']
     });
   }

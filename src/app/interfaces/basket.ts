@@ -13,5 +13,7 @@ export interface Basket {
     followers_count: number,
     created_date: Date,
     updated_date: Date,
-    owner_image: string
+    owner_image: string,
+    invested_market: number,
+    linked_accounts: number
 }
