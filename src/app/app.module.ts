@@ -54,6 +54,9 @@ import { ConnectDialogComponent } from './pages/components/brokerage/connect-dia
 import { FollowingComponent } from './pages/components/following/following.component';
 import { FeedbackComponent } from './pages/components/feedback/feedback.component';
 
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ForgotPasswordComponent } from './layouts/forgot-password/forgot-password.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -86,7 +89,8 @@ import { FeedbackComponent } from './pages/components/feedback/feedback.componen
     BrokerageComponent,
     ConnectDialogComponent,
     FollowingComponent,
-    FeedbackComponent
+    FeedbackComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -111,7 +115,8 @@ import { FeedbackComponent } from './pages/components/feedback/feedback.componen
     MatDividerModule,
     MatRadioModule,
     MatTabsModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

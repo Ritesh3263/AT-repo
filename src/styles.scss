@@ -3,3 +3,16 @@
 @import './assets/scss/overrides';
 @import './assets/scss/reusables';
 @import './assets/scss/base-theme';
+
+.mat-mdc-snack-bar-container {
+    &.primary-snackbar {
+      --mdc-snackbar-container-color: #0b63e5;
+      --mat-mdc-snack-bar-button-color: #fff;
+      --mdc-snackbar-supporting-text-color: #fff;
+    }
+    &.warn-snackbar {
+        --mdc-snackbar-container-color: #EC5954;
+        --mat-mdc-snack-bar-button-color: #fff;
+        --mdc-snackbar-supporting-text-color: #fff;
+      }
+  }

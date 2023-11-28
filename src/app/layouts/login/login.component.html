@@ -1,6 +1,6 @@
 <div fxFill fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center center">
     <div class="login-wrapper">
-        <header fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+        <header fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px" >
             <h2 fxFlex="initial" class="mat-h2 font-600 mb-0">Sign in with</h2>
             <span fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="social-icons">
                 <button mat-icon-button>
@@ -9,10 +9,10 @@
                 <button mat-icon-button>
                     <img src="/assets/images/twitter.svg" />
                 </button>
-                <button mat-icon-button>
+                <button mat-icon-button (click)='loginWithFederation(linkedin)'>
                     <img src="/assets/images/linkedin.svg" />
                 </button>
-                <button mat-icon-button>
+                <button mat-icon-button (click)='loginWithFederation(google)'>
                     <img src="/assets/images/google.svg" />
                 </button>
             </span>
@@ -21,18 +21,23 @@
         <div fxLayout="column">
             <mat-form-field appearance="outline">
                 <mat-label>Email Address</mat-label>
-                <input matInput>
+                <input matInput [formControl]="email">
+                <mat-error *ngIf="email.invalid">{{getErrorMessage(email, true)}}</mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label>Password</mat-label>
-                <input matInput type="password">
+                <input matInput [formControl]="password" [type]="hidePassword ? 'password' : 'text'">
+                <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+                <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="password.invalid">{{getErrorMessage(password)}}</mat-error>
             </mat-form-field>
             <div fxLayout="row" fxLayoutAlign="space-between center">
                 <mat-checkbox color="primary">Remember Me</mat-checkbox>
-                <a class="forgot-link">Forgot Password?</a>
+                <a class="forgot-link" (click)="resetPassword()">Forgot Password?</a>
             </div>
         </div>
-        <button mat-flat-button color="primary" (click)="home()" class="login-btn">Login</button>
-        <p class="signup-link">Don't have an account? <a>Sign up</a></p>
+        <button mat-flat-button color="primary" (click)="login()" class="login-btn" [disabled]="!isFormValid()">Login</button>
+        <p class="signup-link" (click)="signup()">Don't have an account? <a>Sign up</a></p>
     </div>
 </div>

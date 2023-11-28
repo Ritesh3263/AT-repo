@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './layouts/login/login.component';
+import { ForgotPasswordComponent } from './layouts/forgot-password/forgot-password.component';
 import { BrokerageComponent } from './pages/components/brokerage/brokerage.component';
 import { FollowingComponent } from './pages/components/following/following.component';
 import { HomeComponent } from './pages/components/home/home.component';
@@ -16,22 +17,35 @@ import { TradeComponent } from './pages/components/my-basket-info/trade/trade.co
 import { MyBasketsComponent } from './pages/components/my-baskets/my-baskets.component';
 import { OwnerProfileComponent } from './pages/components/owner-profile/owner-profile.component';
 
+import { AuthenticationGuard } from './authentication.guard';
+
 const routes: Routes = [
   {
     path: '',
     component: LoginComponent
   },
   {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'forgot-password',
+    component: ForgotPasswordComponent
+  },
+  {
     path: 'home',
-    component: HomeComponent
+    component: HomeComponent,
+    canActivate: [AuthenticationGuard]
   },
   {
     path: 'my-basket',
     component: MyBasketsComponent,
+    canActivate: [AuthenticationGuard]
   },
   {
     path: 'my-basket-info',
     component: JourneyInfoComponent,
+    canActivate: [AuthenticationGuard],
     children: [
       {
         path: '',
@@ -66,18 +80,22 @@ const routes: Routes = [
   {
     path: 'owner-profile',
     component: OwnerProfileComponent,
+    canActivate: [AuthenticationGuard]
   },
   {
     path: 'marketplace',
     component: MarketplaceMainComponent,
+    canActivate: [AuthenticationGuard]
   },
   {
     path: 'brokerage',
     component: BrokerageComponent,
+    canActivate: [AuthenticationGuard]
   },
   {
     path: 'following',
     component: FollowingComponent,
+    canActivate: [AuthenticationGuard]
   }
 ];
 

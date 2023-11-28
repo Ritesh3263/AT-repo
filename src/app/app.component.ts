@@ -34,7 +34,7 @@ export class AppComponent {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         // Check if the current route is the login page
-        this.isLoginPage = event.url === '/';
+        this.isLoginPage = (event.url === '/' || event.url.includes('login') || event.url.includes('sign-up') || event.url.includes('forgot-password'));
       }
     });
   }

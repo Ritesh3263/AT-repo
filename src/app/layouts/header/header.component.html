@@ -54,11 +54,11 @@
                 </ul>
             </mat-menu>
             <div fxLayout="column" fxLayoutAlign="center center" class="avatar">
-                JW
+                {{user.firstName ? (user.firstName[0] + user.lastName[0]) : ""}}
             </div>
             <button mat-button [matMenuTriggerFor]="beforeMenu" class="profile-menu">
                 <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-                    <span fxHide.xs class="profile-name">Joe Williams</span>
+                    <span fxHide.xs class="profile-name">{{user.displayName}}</span>
                     <mat-icon>expand_more</mat-icon>
                 </div>
             </button>
@@ -67,7 +67,7 @@
                     <mat-icon>person</mat-icon>
                     <span>My Profile</span>
                 </button>
-                <button mat-menu-item routerLink="/">
+                <button mat-menu-item (click)="logout()">
                     <mat-icon>logout</mat-icon>
                     <span>Sign Out</span>
                 </button>
