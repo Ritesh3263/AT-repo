@@ -25,9 +25,9 @@ export class BasketsService {
     return headers;
   }
 
-  async getAllBaskets(): Promise<any> {
+  async getAllBaskets(nameOnly = false): Promise<any> {
     try{
-      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/baskets`, this.getHeaders());
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/baskets${nameOnly ? '?nameOnly=true' : ''}`, this.getHeaders());
       let data = await res.json();
       return data;
     }
@@ -35,7 +35,7 @@ export class BasketsService {
       console.log("Get User Details Error: " + e.message);
       return {error: e.message}
     }
-  }  
+  }
 
   async getAllSymbols(pageNumber: Number, pageSize: Number, search:string): Promise<any> {
     try{
@@ -47,7 +47,7 @@ export class BasketsService {
       console.log("Get User Details Error: " + e.message);
       return {error: e.message}
     }
-  }    
+  }
 
   async createBasket(basket: any): Promise<any> {
     try{
@@ -59,7 +59,7 @@ export class BasketsService {
       console.log("Get User Details Error: " + e.message);
       return {error: e.message}
     }
-  }     
+  }
 
   async getBasketDetails(basketId: number): Promise<any> {
     try{
@@ -71,5 +71,5 @@ export class BasketsService {
       console.log("Get User Details Error: " + e.message);
       return {error: e.message}
     }
-  }  
+  }
 }

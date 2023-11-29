@@ -12,13 +12,13 @@
             <div fxFlex fxFlex.sm="100" fxFlex.xs="100" class="form-group">
                 <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="pb-10">
                     <span>Basket Name : </span>
-                    <span *ngIf="!isEditMode" class="font-600">{{yourText}}</span>
+                    <span *ngIf="!isEditMode" class="font-600">{{basket.name}}</span>
                     <a *ngIf="!isEditMode" fxLayout="column" fxLayoutAlign="center center"
                         (click)="enterEditMode()"><img src="/assets/images/edit-icon.svg" /></a>
                     <div *ngIf="isEditMode" fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
                         <span fxFlex="50">
                             <mat-form-field appearance="outline" class="no-error">
-                                <input matInput [(ngModel)]="yourText">
+                                <input matInput [(ngModel)]="yourText">                                                   <!-- TODO: Fixme -->
                             </mat-form-field>
                         </span>
                         <button mat-icon-button color="primary" (click)="exitEditMode()">
@@ -28,13 +28,13 @@
                 </span>
                 <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
                     <span>Description : </span>
-                    <span *ngIf="!isDescEditMode" class="font-600">{{descText}}</span>
+                    <span *ngIf="!isDescEditMode" class="font-600">{{basket.description}}</span>
                     <a *ngIf="!isDescEditMode" fxLayout="column" fxLayoutAlign="center center"
                         (click)="enterDescEditMode()"><img src="/assets/images/edit-icon.svg" /></a>
                     <div *ngIf="isDescEditMode" fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
                         <span fxFlex="50">
                             <mat-form-field appearance="outline" class="no-error">
-                                <textarea matInput [(ngModel)]="descText"></textarea>
+                                <textarea matInput [(ngModel)]="descText"></textarea>                                         <!-- TODO: Fixme -->
                             </mat-form-field>
                         </span>
                         <button mat-icon-button color="primary" (click)="exitDescEditMode()">
@@ -92,13 +92,13 @@
                     <th mat-header-cell *matHeaderCellDef> Ticker Symbol </th>
                     <td mat-cell *matCellDef="let element">
                         <a
-                            (click)="widgetDialog(element.tickersymbol); $event.stopPropagation()">{{element.tickersymbol}}</a>
+                            (click)="widgetDialog(element.symbol); $event.stopPropagation()">{{element.symbol}}</a>
                     </td>
                 </ng-container>
 
                 <ng-container matColumnDef="tickername">
                     <th mat-header-cell *matHeaderCellDef> Ticker Name </th>
-                    <td mat-cell *matCellDef="let element"> {{element.tickername}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="price">

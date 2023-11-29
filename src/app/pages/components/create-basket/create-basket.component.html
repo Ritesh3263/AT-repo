@@ -6,28 +6,30 @@
         </button>
     </div>
     <div mat-dialog-content class="no-padding-bottom">
-        <form class="example-form">
+        <form class="example-form" [formGroup]="form">
             <mat-form-field appearance="outline">
                 <mat-label>Basket Name</mat-label>
-                <input matInput>
+                <input matInput class="form-control" formControlName="name">
+                <mat-error *ngIf="isControlValid('name')">{{getErrorMessage('name')}}</mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label>Description</mat-label>
-                <textarea matInput></textarea>
+                <input matInput class="form-control" formControlName="description">
+                <mat-error *ngIf="isControlValid('description')">{{getErrorMessage('description')}}</mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label>Action Type</mat-label>
-                <mat-select [(value)]="selectedOption">
-                    <mat-option value="option1">Create New Basket</mat-option>
-                    <mat-option value="option2">Clone Existing Basket</mat-option>
+                <mat-select [(value)]="selectedOption" class="form-control" formControlName="action">
+                    <mat-option value="create">Create New Basket</mat-option>
+                    <mat-option value="clone">Clone Existing Basket</mat-option>
                 </mat-select>
+                <mat-error *ngIf="isControlValid('action')">{{getErrorMessage('action')}}</mat-error>
             </mat-form-field>
-            <ng-container *ngIf="selectedOption === 'option2'">
+            <ng-container *ngIf="selectedOption === 'clone'">
                 <mat-form-field appearance="outline">
                     <mat-label>Basket</mat-label>
-                    <mat-select>
-                        <mat-option value="option1">Basket 1</mat-option>
-                        <mat-option value="option2">Basket 2</mat-option>
+                    <mat-select >
+                        <mat-option *ngFor="let basket of baskets" value="basket.id">{{basket.name}}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </ng-container>
@@ -37,7 +39,7 @@
         <button mat-stroked-button mat-dialog-close color="primary">
             Cancel
         </button>
-        <button mat-flat-button color="primary">
+        <button mat-flat-button color="primary" [disabled]="!isFormValid()" (click)="createBasket()">
             Create
         </button>
     </div>

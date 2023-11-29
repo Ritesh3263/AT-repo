@@ -9,6 +9,9 @@ import { AddSymbolsComponent } from '../add-symbols/add-symbols.component';
 import { DeleteSymbolsComponent } from '../delete-symbols/delete-symbols.component';
 import { WidgetDialogComponent } from '../widget-dialog/widget-dialog.component';
 
+import { BasketsService } from 'src/app/services/baskets.service';
+import { ActivatedRoute } from '@angular/router';
+
 export interface PeriodicElement {
   tickersymbol: string;
   tickername: string;
@@ -39,12 +42,31 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class BasketComponent implements AfterViewInit {
   displayedColumns: string[] = ['select', 'tickersymbol', 'tickername', 'price', 'change', 'changepercent', 'star'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  basket: any = []
+  dataSource = new MatTableDataSource<PeriodicElement>(this.basket);
   selection = new SelectionModel<PeriodicElement>(true, []);
+  basketId: number = 0;
 
-  constructor(private renderer: Renderer2, public dialog: MatDialog) {}
+
+  constructor(private renderer: Renderer2, public dialog: MatDialog, private basketService: BasketsService, private activatedRoute: ActivatedRoute) {}
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  ngOnInit() {
+    this.activatedRoute.parent!.params.forEach((param) => {
+      for(let key in param) {
+        if(key == 'id') {
+          this.basketId = param[key];
+        }
+      }
+    })
+    this.basketService.getBasketDetails(this.basketId).then((data) => {
+      if(data && data.basket) {
+        this.basket = data.basket;
+        this.dataSource = new MatTableDataSource<PeriodicElement>(this.basket.tickers);
+      }
+    })
+  }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -53,7 +75,7 @@ export class BasketComponent implements AfterViewInit {
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
+    const numRows = this.dataSource.data ? this.dataSource.data.length : 0;
     return numSelected === numRows;
   }
 

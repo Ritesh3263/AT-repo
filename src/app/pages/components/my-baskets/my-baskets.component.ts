@@ -57,14 +57,19 @@ export class MyBasketsComponent {
   constructor(public dialog: MatDialog, private router: Router, private basketService: BasketsService, private userService: UserService) {}
 
   createBasket() {
-    this.dialog.open(CreateBasketComponent, {
+    let dialogRef = this.dialog.open(CreateBasketComponent, {
       panelClass: 'custom-modal',
       disableClose: true
     });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result && result.success && result.id) {
+        this.router.navigateByUrl(`/my-basket-info/${result.id}`);
+      }
+    });
   }
 
-  myBasketInfo() {
-    this.router.navigateByUrl('/my-basket-info');
+  myBasketInfo(basket: Basket) {
+    this.router.navigateByUrl(`/my-basket-info/${basket.id}`);
   }
 
   openOwnerProfile() {

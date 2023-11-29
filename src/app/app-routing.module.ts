@@ -43,7 +43,7 @@ const routes: Routes = [
     canActivate: [AuthenticationGuard]
   },
   {
-    path: 'my-basket-info',
+    path: 'my-basket-info/:id',
     component: JourneyInfoComponent,
     canActivate: [AuthenticationGuard],
     children: [
