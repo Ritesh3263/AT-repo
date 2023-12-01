@@ -7,12 +7,13 @@ import { environment } from 'src/environments/environment';
 export class BrokerageService {
 
   constructor() { }
-  getHeaders(method: string = "GET", body:any = null): RequestInit {
+  getHeaders(method: string = "GET", body:any = null,token:any=null): RequestInit {
     let headers: RequestInit = {
       method: method,
       // credentials: "include",
       headers: {
         "Content-Type": "application/json",
+        "token" : token
 
       },
       body: null
@@ -37,11 +38,10 @@ export class BrokerageService {
     }
   }
 
-  async getBrokerageAccounts(brokerage_id:any): Promise<any> {
+  async getBrokerageAccounts(brokerage_id:any,token:any): Promise<any> {
     try{
-      // console.log("res","http://34.228.194.95:8080/accounts")
 
-      let res = await fetch(`http://34.228.194.95:8080/accounts`, this.getHeaders());
+      let res = await fetch(`http://34.228.194.95:8080/accounts`, this.getHeaders("GET",null,token));
       let data = await res.json();
 
 
@@ -72,6 +72,32 @@ export class BrokerageService {
   }
 
 
+ 
 
-  // 
+  async getRedirectedUrl(): Promise<any> {
+    try{
+      let res = await fetch(`http://34.228.194.95:8080/redirect`, this.getHeaders());
+      let data = await res.json();
+      return data;
+    }
+    catch(e: any) {
+      console.log("Get User Details Error: " + e.message);
+      return {error: e.message}
+    }
+  }
+
+
+  async setAccessToken(input:any): Promise<any> {
+    try{
+      let apiInput = {code:input.code,user_id:input.user_id};
+      let res = await fetch(`http://34.228.194.95:8080/api/set-access-token`, this.getHeaders('POST', apiInput));
+      let data = await res.json();
+      return data;
+    }
+    catch(e: any) {
+      console.log("Get User Details Error: " + e.message);
+      return {error: e.message}
+    }
+  }
+
 }

@@ -7,6 +7,8 @@ import { ConnectDialogComponent } from './connect-dialog/connect-dialog.componen
 import { BrokerageService } from '../../../services/brokerage.service'
 import {FormControl, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
+import { ActivatedRoute } from '@angular/router';
+import { LocationStrategy } from '@angular/common';
 
 export interface PeriodicElement {
   accountNumber: number;
@@ -30,22 +32,39 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class BrokerageComponent {
   showSpinner: boolean = false;
+  isDisableAccounts :boolean=false;
 
-  displayedColumns: string[] = ['accountNumber', 'accountBalance', 'openPositions'];
+  // displayedColumns: string[] = ['accountNumber', 'accountBalance', 'openPositions'];
+  displayedColumns: string[] = ['accountId', 'accountType','cashBalance','buyingPower','equity','marketValue','overnightBuyingPower','status'];
+
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   selection = new SelectionModel<PeriodicElement>(true, []);
   selectedOption: string = 'option1';
   userData :any=null;
    brokerage_type = new FormControl('1', [Validators.required]);
+   state:any;
+   tokenForRetrieveAccounts :any=null;
+  constructor(public dialog: MatDialog,private brokerageService:BrokerageService,private spinner: NgxSpinnerService,private route: ActivatedRoute,private location:LocationStrategy) {
+    // getting access token from tradestation 
+    this.state = this.location.getState();
+    if(this.state && this.state.code){
+      this.steAccessToken(this.state.code,"Sreekanth")
+    }
+    // get tradestation token from session 
+    let isAccess_token = sessionStorage.getItem("token")
+    if(isAccess_token){
+      this.tokenForRetrieveAccounts =isAccess_token; 
+      this.isDisableAccounts = true;
+      this.getBrokerageAccount(1);
+    }
 
-  constructor(public dialog: MatDialog,private brokerageService:BrokerageService,private spinner: NgxSpinnerService) {}
+  }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.getAccessToken();
-    this.getBrokerageAccount(1);
   }
 
   getAccessToken(){
@@ -56,11 +75,9 @@ export class BrokerageComponent {
 
   getBrokerageAccount(event:any){
     this.showSpinner = true;
-    this.brokerageService.getBrokerageAccounts(event.value).then((data) => {
+    this.brokerageService.getBrokerageAccounts(event.value,this.tokenForRetrieveAccounts).then((data) => {
       this.showSpinner=false;
-      this.dataSource = data
-      // this.spinner.hide()
-
+        this.dataSource = data
     })
   }
 
@@ -95,4 +112,25 @@ export class BrokerageComponent {
       disableClose: true
     });
   }
+  steAccessToken(inputCode:any,inputUser:any){
+    this.showSpinner = true;
+    let input = {
+      code:inputCode,
+      user_id:inputUser
+    }
+    this.brokerageService.setAccessToken(input).then((data) => {
+      this.showSpinner=false;
+      if(data && data.access_token){
+        this.tokenForRetrieveAccounts = data.access_token;
+        this.isDisableAccounts = true;
+        this.getBrokerageAccount(1)
+        sessionStorage.setItem("token",data.access_token)
+      }
+
+      // this.spinner.hide()
+
+    })
+  }
+
+
 }
