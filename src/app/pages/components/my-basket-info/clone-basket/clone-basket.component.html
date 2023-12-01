@@ -1,6 +1,6 @@
 <div class="modal-dialog">
     <div fxLayout="row" fxLayoutAlign="start center" class="dialog-header">
-        <h2 fxFlex class="mat-h2">Clone Austin Powers</h2>
+        <h2 fxFlex class="mat-h2">Clone {{data.name}}</h2>
         <button mat-icon-button mat-dialog-close class="close-btn">
             <mat-icon>close</mat-icon>
         </button>
@@ -9,7 +9,7 @@
         <form class="example-form">
             <mat-form-field appearance="outline">
                 <mat-label>New Basket Name</mat-label>
-                <input matInput>
+                <input matInput [(ngModel)]="basketName" name="basket_name">
             </mat-form-field>
         </form>
     </div>
@@ -17,7 +17,7 @@
         <button mat-stroked-button mat-dialog-close color="primary">
             Cancel
         </button>
-        <button mat-flat-button color="primary">
+        <button mat-flat-button color="primary"  (click)="cloneBasket()" [disabled]="!basketName">
             Clone Basket
         </button>
     </div>

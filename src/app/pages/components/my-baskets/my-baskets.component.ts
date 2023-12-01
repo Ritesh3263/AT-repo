@@ -63,13 +63,13 @@ export class MyBasketsComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result && result.success && result.id) {
-        this.router.navigateByUrl(`/my-basket-info/${result.id}`);
+        this.router.navigateByUrl(`/my-basket-info/${result.id}/basket`);
       }
     });
   }
 
   myBasketInfo(basket: Basket) {
-    this.router.navigateByUrl(`/my-basket-info/${basket.id}`);
+    this.router.navigateByUrl(`/my-basket-info/${basket.id}/basket`);
   }
 
   openOwnerProfile() {

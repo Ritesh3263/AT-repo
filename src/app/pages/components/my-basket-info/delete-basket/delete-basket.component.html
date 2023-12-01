@@ -6,19 +6,19 @@
         </button>
     </div>
     <div mat-dialog-content class="no-padding-bottom">
-        <p>You are deleting the basket Austin Powers</p>
+        <p>You are deleting the basket {{data.name}}</p>
         <form class="example-form">
             <mat-form-field appearance="outline">
                 <mat-label>Enter name of basket to delete</mat-label>
-                <input matInput>
+                <input matInput [(ngModel)]="basketName" name="basket_name">
             </mat-form-field>
         </form>
     </div>
     <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
         <button mat-stroked-button mat-dialog-close color="primary">
-            No
+            Cancel
         </button>
-        <button mat-flat-button color="primary">
+        <button mat-flat-button color="primary" (click)="deleteBasket()" [disabled]="basketName != data.name">
             Delete Basket
         </button>
     </div>

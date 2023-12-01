@@ -29,8 +29,6 @@ import { BasketComponent } from './pages/components/my-basket-info/basket/basket
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { CloneBasketComponent } from './pages/components/my-basket-info/clone-basket/clone-basket.component';
 import { DeleteBasketComponent } from './pages/components/my-basket-info/delete-basket/delete-basket.component';
-import { AddSymbolsComponent } from './pages/components/my-basket-info/add-symbols/add-symbols.component';
-import { DeleteSymbolsComponent } from './pages/components/my-basket-info/delete-symbols/delete-symbols.component';
 import { AccountsComponent } from './pages/components/my-basket-info/accounts/accounts.component';
 import { TradeComponent } from './pages/components/my-basket-info/trade/trade.component';
 import { SettingsComponent } from './pages/components/my-basket-info/settings/settings.component';
@@ -56,6 +54,7 @@ import { FeedbackComponent } from './pages/components/feedback/feedback.componen
 
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ForgotPasswordComponent } from './layouts/forgot-password/forgot-password.component';
+import { EditSymbolsComponent } from './pages/components/my-basket-info/edit-symbols/edit-symbols.component';
 
 @NgModule({
   declarations: [
@@ -68,8 +67,7 @@ import { ForgotPasswordComponent } from './layouts/forgot-password/forgot-passwo
     JourneyInfoComponent,
     DashboardComponent,
     BasketComponent,
-    AddSymbolsComponent,
-    DeleteSymbolsComponent,
+    EditSymbolsComponent,
     CloneBasketComponent,
     DeleteBasketComponent,
     AccountsComponent,
@@ -90,7 +88,8 @@ import { ForgotPasswordComponent } from './layouts/forgot-password/forgot-passwo
     ConnectDialogComponent,
     FollowingComponent,
     FeedbackComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    EditSymbolsComponent
   ],
   imports: [
     BrowserModule,

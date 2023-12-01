@@ -5,35 +5,13 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { CloneBasketComponent } from '../clone-basket/clone-basket.component';
 import { DeleteBasketComponent } from '../delete-basket/delete-basket.component';
-import { AddSymbolsComponent } from '../add-symbols/add-symbols.component';
-import { DeleteSymbolsComponent } from '../delete-symbols/delete-symbols.component';
+import { EditSymbolsComponent } from '../edit-symbols/edit-symbols.component';
 import { WidgetDialogComponent } from '../widget-dialog/widget-dialog.component';
 
-import { BasketsService } from 'src/app/services/baskets.service';
 import { ActivatedRoute } from '@angular/router';
-
-export interface PeriodicElement {
-  tickersymbol: string;
-  tickername: string;
-  price: string;
-  change: number;
-  changepercent: number;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {tickersymbol: 'AAPL', tickername: 'Apple,Inc', price: '$170,872', change: 150.00, changepercent: 8585.00},
-  {tickersymbol: 'GOOG', tickername: 'Alphabet,Inc', price: '$136,600', change: -128.00, changepercent: -1039.00},
-  {tickersymbol: 'TSLA', tickername: 'Tesla Inc', price: '$211,291', change: 0.0000, changepercent: -128.00},
-  {tickersymbol: 'META', tickername: 'Meta Platforms, Inc.', price: '$170,872', change: 150.00, changepercent: 8585.00},
-  {tickersymbol: 'IBM', tickername: 'International Business Machines Corporation', price: '$136,600', change: -128.00, changepercent: -1039.00},
-  {tickersymbol: 'MSFC', tickername: 'Microsoft Corporation', price: '$211,291', change: 0.0000, changepercent: -128.00},
-  {tickersymbol: 'DCTH', tickername: 'Delcath Systems, Inc.', price: '$170,872', change: 150.00, changepercent: 8585.00},
-  {tickersymbol: 'CRM', tickername: 'Salesforce, Inc.', price: '$136,600', change: -128.00, changepercent: -1039.00},
-  {tickersymbol: 'JPM', tickername: 'JPMorgan Chase & Co', price: '$211,291', change: 0.0000, changepercent: -128.00},
-  {tickersymbol: 'WFC', tickername: 'Wells Fargo & Company', price: '$170,872', change: 150.00, changepercent: 8585.00},
-  {tickersymbol: 'KO', tickername: 'Coca-Cola Company', price: '$136,600', change: -128.00, changepercent: -1039.00},
-  {tickersymbol: 'TSLA', tickername: 'Tesla Inc', price: '$211,291', change: 0.0000, changepercent: -128.00},
-];
+import { Basket } from 'src/app/interfaces/basket';
+import { BasketsService } from 'src/app/services/baskets.service';
+import { UtilitiesService } from 'src/app/services/utilities.service';
 
 @Component({
   selector: 'app-basket',
@@ -43,12 +21,12 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class BasketComponent implements AfterViewInit {
   displayedColumns: string[] = ['select', 'tickersymbol', 'tickername', 'price', 'change', 'changepercent', 'star'];
   basket: any = []
-  dataSource = new MatTableDataSource<PeriodicElement>(this.basket);
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  dataSource = new MatTableDataSource<Basket>(this.basket);
+  selection = new SelectionModel<Basket>(this.basket, []);
   basketId: number = 0;
 
 
-  constructor(private renderer: Renderer2, public dialog: MatDialog, private basketService: BasketsService, private activatedRoute: ActivatedRoute) {}
+  constructor(private renderer: Renderer2, public dialog: MatDialog, private basketService: BasketsService, private activatedRoute: ActivatedRoute, private utilitiesService: UtilitiesService) {}
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -63,7 +41,8 @@ export class BasketComponent implements AfterViewInit {
     this.basketService.getBasketDetails(this.basketId).then((data) => {
       if(data && data.basket) {
         this.basket = data.basket;
-        this.dataSource = new MatTableDataSource<PeriodicElement>(this.basket.tickers);
+        this.dataSource = new MatTableDataSource<Basket>(this.basket.tickers);
+        this.selection = new SelectionModel<Basket>(this.basket, []);
       }
     })
   }
@@ -90,11 +69,11 @@ export class BasketComponent implements AfterViewInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
+  checkboxLabel(row?: any): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.tickersymbol + 1}`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.symbol + 1}`;
   }
 
   getChangeStyle(change: number): string {
@@ -118,30 +97,45 @@ export class BasketComponent implements AfterViewInit {
   }
 
   addSymbols() {
-    this.dialog.open(AddSymbolsComponent, {
+    let dialogRef= this.dialog.open(EditSymbolsComponent, {
       panelClass: 'custom-modal',
-      disableClose: true
+      disableClose: true,
+      data: {header: "Add Symbols to the Basket", description: "Enter symbols to add to the basket.  Use a comma separated list for multiple.", mode: "ADD", tickers: [], basket: JSON.parse(JSON.stringify(this.basket))}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result && result.success) {
+        this.ngOnInit();
+      }
     });
   }
 
   deleteSymbols() {
-    this.dialog.open(DeleteSymbolsComponent, {
+    let dialogRef = this.dialog.open(EditSymbolsComponent, {
       panelClass: 'custom-modal',
-      disableClose: true
+      disableClose: true,
+      data: {header: "Delete Symbols from the Basket", description: "The selected symbol(s) below will be deleted from the basket.", mode: "DELETE", tickers: JSON.parse(JSON.stringify(this.selection.selected)), basket: JSON.parse(JSON.stringify(this.basket))}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result && result.success) {
+        this.ngOnInit();
+      }
     });
   }
 
   cloneBasket() {
     this.dialog.open(CloneBasketComponent, {
       panelClass: 'custom-modal',
-      disableClose: true
+      disableClose: true,
+      data: this.basket
     });
   }
 
   deleteBasket() {
     this.dialog.open(DeleteBasketComponent, {
       panelClass: 'custom-modal',
-      disableClose: true
+      disableClose: true,
+      data: this.basket
     });
   }
 
@@ -153,7 +147,6 @@ export class BasketComponent implements AfterViewInit {
     });
   }
 
-  yourText: string = "Austin Powers";
   isEditMode: boolean = false;
 
   enterEditMode() {
@@ -162,10 +155,9 @@ export class BasketComponent implements AfterViewInit {
 
   exitEditMode() {
     this.isEditMode = false;
-    // Additional logic to save changes if needed
+    this.updateBasket();
   }
 
-  descText: string = "Demo Description comes here Demo Description comes hereDemo Description comes heres";
   isDescEditMode: boolean = false;
 
   enterDescEditMode() {
@@ -174,7 +166,7 @@ export class BasketComponent implements AfterViewInit {
 
   exitDescEditMode() {
     this.isDescEditMode = false;
-    // Additional logic to save changes if needed
+    this.updateBasket();
   }
 
   isMenuOpen: boolean = false;
@@ -185,5 +177,16 @@ export class BasketComponent implements AfterViewInit {
 
   closeMenu() {
     this.isMenuOpen = false;
+  }
+
+  updateBasket() {
+    this.basketService.updateBasket(this.basket).then((data) => {
+      if(data && data.success) {
+        this.utilitiesService.displayInfoMessage('Basket Updated Successfully')
+      }
+      else {
+        this.utilitiesService.displayInfoMessage(JSON.stringify(data), true)
+      }
+    })
   }
 }

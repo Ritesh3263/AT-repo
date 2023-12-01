@@ -1,27 +1,36 @@
 <div class="modal-dialog">
     <div fxLayout="row" fxLayoutAlign="start center" class="dialog-header">
-        <h2 fxFlex class="mat-h2">Add Tickers to Basket</h2>
+        <h2 fxFlex class="mat-h2">{{data.header}}</h2>
         <button mat-icon-button mat-dialog-close class="close-btn">
             <mat-icon>close</mat-icon>
         </button>
     </div>
     <div mat-dialog-content class="no-padding-bottom">
+        <p>{{data.description}}</p>
+        <div *ngIf="data.mode == 'ADD'">
+            <mat-form-field appearance="outline" class="no-error">
+                <input matInput placeholder="Enter symbol to add.  Eg: AAPL, GOOG, TSLA, DCTH, etc.," (keyup)="keyboardEventHandler($event)" (paste)="clipboardEventHandler($event)" [(ngModel)]="tickerSymbols">
+            </mat-form-field>
+            <br>
+            <br>
+        </div>
+
         <div class="trading-table height-auto with-padding no-cell-padding table-scroll">
             <table mat-table [dataSource]="dataSource">
-                <ng-container matColumnDef="tickersymbol">
+                <ng-container matColumnDef="symbol">
                     <th mat-header-cell *matHeaderCellDef> Ticker Symbol </th>
-                    <td mat-cell *matCellDef="let element"> {{element.tickersymbol}} </td>
+                    <td mat-cell *matCellDef="let element" > {{element.symbol}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="tickername">
+                <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef> Ticker Name </th>
-                    <td mat-cell *matCellDef="let element"> {{element.tickername}} </td>
+                    <td mat-cell *matCellDef="let element" > {{element.name}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef> Actions </th>
-                    <td mat-cell *matCellDef="let element">
-                        <button mat-icon-button>
+                    <td mat-cell *matCellDef="let element" >
+                        <button mat-icon-button (click)="deleteTicker(element.id)">
                             <img src="/assets/images/delete-icon.svg" style="width: 21px; height: 21px;" />
                         </button>
                     </td>
@@ -33,11 +42,11 @@
         </div>
     </div>
     <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
-        <button mat-stroked-button color="primary">
-            Clear
+        <button mat-stroked-button mat-dialog-close color="primary">
+            Cancel
         </button>
-        <button mat-flat-button color="primary">
-            Add
+        <button mat-flat-button color="primary" [disabled]="!data.tickers.length" (click)="updateBasket()">
+            {{data.mode == 'ADD' ? 'Add' : 'Delete'}}
         </button>
     </div>
 </div>

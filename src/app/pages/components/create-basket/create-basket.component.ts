@@ -58,7 +58,8 @@ export class CreateBasketComponent {
     // Deepcopy the basket object before sending to API to avoid altering FormControl data
     let basket = { name: form['name'].getRawValue(),
       description: form['description'].getRawValue(),
-      action: form['action'].getRawValue()
+      action: form['action'].getRawValue(),
+      tickers: []//this.basket.tickers // TODO
     }
 
     this.basketService.createBasket(basket).then((data) => {

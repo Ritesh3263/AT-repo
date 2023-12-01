@@ -37,9 +37,9 @@ export class BasketsService {
     }
   }
 
-  async getAllSymbols(pageNumber: Number, pageSize: Number, search:string): Promise<any> {
+  async getAllSymbols(pageNumber: Number, pageSize: Number, search:string, tickerSymbols: string | null = null): Promise<any> {
     try{
-      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/symbols?pageNumber=${pageNumber}&pageSize=${pageSize}&search=${encodeURI(search)}`, this.getHeaders());
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/symbols?pageNumber=${pageNumber}&pageSize=${pageSize}&search=${encodeURI(search)}&tickerSymbols=${tickerSymbols}`, this.getHeaders());
       let data = await res.json();
       return data;
     }
@@ -64,6 +64,30 @@ export class BasketsService {
   async getBasketDetails(basketId: number): Promise<any> {
     try{
       let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/basket/${basketId}`, this.getHeaders());
+      let data = await res.json();
+      return data;
+    }
+    catch(e: any) {
+      console.log("Get User Details Error: " + e.message);
+      return {error: e.message}
+    }
+  }
+
+  async updateBasket(basket: any): Promise<any> {
+    try{
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/basket`, this.getHeaders('PUT', {basket: basket}));
+      let data = await res.json();
+      return data;
+    }
+    catch(e: any) {
+      console.log("Get User Details Error: " + e.message);
+      return {error: e.message}
+    }
+  }
+
+  async deleteBasket(basketId: number): Promise<any> {
+    try{
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/basket/${basketId}`, this.getHeaders('DELETE'));
       let data = await res.json();
       return data;
     }
