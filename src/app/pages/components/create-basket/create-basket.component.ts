@@ -24,7 +24,8 @@ export class CreateBasketComponent {
     this.form = this.fb.group ({
       name: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
-      action: new FormControl('', [Validators.required])
+      action: new FormControl('', [Validators.required]),
+      sourceBasketId: new FormControl('')
     })
     this.basketService.getAllBaskets(true).then((basket: Basket[]) => {
       this.baskets = basket;
@@ -59,7 +60,7 @@ export class CreateBasketComponent {
     let basket = { name: form['name'].getRawValue(),
       description: form['description'].getRawValue(),
       action: form['action'].getRawValue(),
-      tickers: []//this.basket.tickers // TODO
+      sourceBasketId: form['sourceBasketId'].getRawValue()
     }
 
     this.basketService.createBasket(basket).then((data) => {

@@ -43,42 +43,20 @@ export class EditSymbolsComponent {
   }
 
   symbolLookup() {
-    this.basketService.getAllSymbols(1, 1000, '', this.tickerSymbols).then((data) => {
+    this.basketService.getAllSymbols(0, 1000, '', this.tickerSymbols).then((data) => {
       this.data.tickers = data.symbols;
       this.dataSource = new MatTableDataSource<any>(this.data.tickers)
     })
   }
 
   updateBasket() {
-    let basket = JSON.parse(JSON.stringify(this.data.basket));  // Deep Copy to prevent potential issues
-    let tickers = this.data.basket.tickers ? this.data.basket.tickers : [];
-    // We need to combine the newly added symbols to the existing list of symbols before sending to API
-    if(this.data.mode == 'ADD') {
-      basket.tickers = tickers.concat(this.data.tickers);
-    }
-    else {
-      // We need to remove the deleted symbols from the basket symol list before sending to API
-      // symbols from existing basket
-      let basketTickers = JSON.parse(JSON.stringify(tickers));
-      // deleted symbols
-      let deletedTickers = JSON.parse(JSON.stringify(this.data.tickers));
-      for(let i = 0; i < deletedTickers.length; i++) {
-        for(let j = 0; j < basketTickers.length; j++) {
-          if(deletedTickers[i].basket_ticker_id == basketTickers[j].basket_ticker_id) {
-            basketTickers.splice(j, 1)
-          }
-        }
-      }
-      basket.tickers = basketTickers;
-    }
-
-    this.basketService.updateBasket(basket).then((data) => {
+    this.basketService.editSymbols(this.data.basket.id, this.data.tickers, this.data.mode == 'ADD' ? 'PATCH' : 'DELETE').then((data) => {
       if(data && data.success) {
         this.utilityService.displayInfoMessage(`Tickers ${this.data.mode == 'ADD' ? 'Added' : 'Deleted'}`)
-        this.dialogRef.close({success: true, id: data.status.id})
+        this.dialogRef.close({success: true})
       }
       else {
-        this.utilityService.displayInfoMessage("Error deleting basket", false)
+        this.utilityService.displayInfoMessage("Error deleting basket", true)
       }
     })
   }

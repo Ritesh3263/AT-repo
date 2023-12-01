@@ -96,4 +96,28 @@ export class BasketsService {
       return {error: e.message}
     }
   }
+
+  async getSymbols(basketId: Number, pageNumber: Number, pageSize: Number): Promise<any> {
+    try{
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/basket/${basketId}/symbols?pageNumber=${pageNumber}&pageSize=${pageSize}`, this.getHeaders());
+      let data = await res.json();
+      return data;
+    }
+    catch(e: any) {
+      console.log("Get User Details Error: " + e.message);
+      return {error: e.message}
+    }
+  }
+
+  async editSymbols(basketId: Number, tickers: any, method: string): Promise<any> {
+    try{
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/basket/${basketId}/symbols`, this.getHeaders(method, {tickers: tickers}));
+      let data = await res.json();
+      return data;
+    }
+    catch(e: any) {
+      console.log("Get User Details Error: " + e.message);
+      return {error: e.message}
+    }
+  }
 }

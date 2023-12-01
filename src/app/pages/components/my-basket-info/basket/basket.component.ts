@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Renderer2, ViewChild } from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { CloneBasketComponent } from '../clone-basket/clone-basket.component';
 import { DeleteBasketComponent } from '../delete-basket/delete-basket.component';
@@ -19,11 +19,16 @@ import { UtilitiesService } from 'src/app/services/utilities.service';
   styleUrls: ['./basket.component.scss']
 })
 export class BasketComponent implements AfterViewInit {
-  displayedColumns: string[] = ['select', 'tickersymbol', 'tickername', 'price', 'change', 'changepercent', 'star'];
+  length = 0;
+  pageSize = 10;
+  pageIndex = 0;
+  search = '';
+  displayedColumns: string[] = ['select', 'symbol', 'name', 'price', 'change', 'changepercent', 'star'];
   basket: any = []
   dataSource = new MatTableDataSource<Basket>(this.basket);
   selection = new SelectionModel<Basket>(this.basket, []);
   basketId: number = 0;
+  symbols: any =[]
 
 
   constructor(private renderer: Renderer2, public dialog: MatDialog, private basketService: BasketsService, private activatedRoute: ActivatedRoute, private utilitiesService: UtilitiesService) {}
@@ -41,8 +46,22 @@ export class BasketComponent implements AfterViewInit {
     this.basketService.getBasketDetails(this.basketId).then((data) => {
       if(data && data.basket) {
         this.basket = data.basket;
-        this.dataSource = new MatTableDataSource<Basket>(this.basket.tickers);
-        this.selection = new SelectionModel<Basket>(this.basket, []);
+      }
+    })
+    this.getBasketSymbols(true);
+  }
+
+  getBasketSymbols(resetPage = false) {
+    if(resetPage) {
+      this.pageIndex = 0;
+      this.length = 0;
+    }
+    this.basketService.getSymbols(this.basketId, this.pageIndex, this.pageSize).then((data) => {
+      if(data && data.symbols) {
+        this.symbols = data.symbols;
+        this.dataSource = new MatTableDataSource<any>(this.symbols);
+        this.selection = new SelectionModel<any>(this.symbols, []);
+        this.length = this.symbols[0].totalRows;
       }
     })
   }
@@ -169,16 +188,6 @@ export class BasketComponent implements AfterViewInit {
     this.updateBasket();
   }
 
-  isMenuOpen: boolean = false;
-
-  openMenu() {
-    this.isMenuOpen = true;
-  }
-
-  closeMenu() {
-    this.isMenuOpen = false;
-  }
-
   updateBasket() {
     this.basketService.updateBasket(this.basket).then((data) => {
       if(data && data.success) {
@@ -188,5 +197,11 @@ export class BasketComponent implements AfterViewInit {
         this.utilitiesService.displayInfoMessage(JSON.stringify(data), true)
       }
     })
+  }
+
+  handlePageEvent(e: PageEvent) {
+    this.pageSize = e.pageSize;
+    this.pageIndex = e.pageIndex;
+    this.getBasketSymbols();
   }
 }
