@@ -108,8 +108,8 @@
                             <div fxLayout="column" fxLayoutAlign="center center" class="profile-icon" (click)="openOwnerProfile()">
                                 <img src="{{basket.owner_image}}" />
                             </div>
-                            <div fxLayout="row" fxLayoutAlign="start center">
-                                <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
+                            <div fxFlex fxLayout="row" fxLayoutAlign="start stretch" class="profile-info-border">
+                                <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
                                     <p>Stocks</p>
                                     <h2 class="mat-h2">{{basket.symbols_count}}</h2>
                                 </div>
@@ -120,6 +120,10 @@
                                 <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
                                     <p>Followers</p>
                                     <h2 class="mat-h2">{{basket.followers_count}}</h2>
+                                </div>
+                                <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
+                                    <p>Shares</p>
+                                    <h2 class="mat-h2">10</h2>
                                 </div>
                             </div>
                         </div>
@@ -210,8 +214,8 @@
                             <div fxLayout="column" fxLayoutAlign="center center" class="profile-icon" (click)="openOwnerProfile()">
                                 <img src="{{basket.owner_image}}" />
                             </div>
-                            <div fxLayout="row" fxLayoutAlign="start center">
-                                <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
+                            <div fxFlex fxLayout="row" fxLayoutAlign="start stretch" class="profile-info-border">
+                                <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
                                     <p>Stocks</p>
                                     <h2 class="mat-h2">{{basket.symbols_count}}</h2>
                                 </div>
@@ -222,6 +226,10 @@
                                 <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
                                     <p>Followers</p>
                                     <h2 class="mat-h2">{{basket.followers_count}}</h2>
+                                </div>
+                                <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
+                                    <p>Shares</p>
+                                    <h2 class="mat-h2">10</h2>
                                 </div>
                             </div>
                         </div>

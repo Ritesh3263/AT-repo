@@ -124,6 +124,18 @@ html, body {
                 padding: 0px 10px;
                 border-radius: 20px;
                 line-height: 18px;
+
+                &.subscribe {
+                    color: #0E8115;
+                    border: 1px solid #0E8115;
+                    cursor: pointer;
+                }
+
+                &.unsubscribe {
+                    color: #EB5757;
+                    border: 1px solid #EB5757;
+                    cursor: pointer;
+                }
             }
         }
 
@@ -144,7 +156,7 @@ html, body {
             }
 
             .profile-info {
-                padding: 0 10px;
+                padding: 0 8px;
 
                 p {
                     margin: 0px;
@@ -495,10 +507,12 @@ html, body {
     // box-shadow: rgba(149, 157, 165, 0.15) 0 3px 15px;
     border-radius: 5px;
     border: 1px solid #eee;
-    padding: 40px 15px 15px 15px;
+    padding: 40px 15px 20px 15px;
     position: relative;
     margin-top: 30px;
+    margin-bottom: 15px;
     background: #fdfdfd;
+    position: relative;
 
     &:hover {
         box-shadow: rgba(149, 157, 165, 0.15) 0 3px 15px;
@@ -539,6 +553,35 @@ html, body {
         p {
             margin-bottom: 0px;
             opacity: .75;
+        }
+    }
+
+    .unfollow-btn {
+        background: white;
+        color: #EB5757;
+        border: 1px solid #EB5757;
+        font-size: 11px;
+        padding: 3px 16px;
+        border-radius: 20px;
+        line-height: 18px;
+        cursor: pointer;
+        position: absolute;
+        bottom: -14px;
+        left: 50%;
+        transform: translate(-50%, 0);
+
+        &:hover {
+            background: #fff6f6;
+        }
+    }
+}
+
+.profile-info-border {
+    .profile-info {
+        border-left: 1px solid rgba(0, 0, 0, 0.08);
+
+        &:first-child {
+            border-left: none;
         }
     }
 }

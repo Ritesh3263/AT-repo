@@ -5,12 +5,12 @@
             <mat-icon matPrefix>search</mat-icon>
         </mat-form-field>
     </div>
-    <div fxLayout="row wrap" fxLayoutAlign="start stretch" class="form-row">
+    <div fxLayout="row wrap" fxLayoutAlign="start stretch" class="form-row mt-10">
         <div fxFlex="25" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
             <mat-card class="basket-card trade-down">
                 <div class="basket-header">
                     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
-                        <h2 class="mat-h2">Basket One</h2>
+                        <h2 class="mat-h2">Basket Twenty Two</h2>
                     </div>
                     <p class="desc">
                         In publishing and graphic design,
@@ -37,7 +37,7 @@
                         </div>
                     </div>
                     <div fxFlex="initial" fxLayout="column" fxLayoutGap="10px">
-                        <span fxFlex="initial" class="public-chip">Subscribe</span>
+                        <span fxFlex="initial" class="public-chip subscribe">Subscribe</span>
                         <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
                             <a class="like-icon">
                                 <mat-icon>favorite</mat-icon>
@@ -49,25 +49,30 @@
                     </div>
                 </div>
                 <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
-                    <div fxLayout="column" fxLayoutAlign="center center" class="profile-icon">
+                    <div fxFlex="initial" fxLayout="column" fxLayoutAlign="center center" class="profile-icon">
                         <img src="assets/images/profile-2.jpg" />
                     </div>
-                    <div fxLayout="row" fxLayoutAlign="start center">
-                        <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
+                    <div fxFlex fxLayout="row" fxLayoutAlign="start stretch" class="profile-info-border">
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
                             <p>Stocks</p>
                             <h2 class="mat-h2">101</h2>
                         </div>
-                        <div class="profile-info accounts" fxLayout="column" fxLayoutAlign="center center">
-                            <p>Accounts</p>
-                            <h2 class="mat-h2">101</h2>
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
+                            <p>Subscribers</p>
+                            <h2 class="mat-h2">100</h2>
                         </div>
-                        <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
-                            <p>Followers</p>
-                            <h2 class="mat-h2">101</h2>
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
+                            <p>Likes</p>
+                            <h2 class="mat-h2">25</h2>
+                        </div>
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
+                            <p>Shares</p>
+                            <h2 class="mat-h2">10</h2>
                         </div>
                     </div>
                 </div>
-                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn" (click)="$event.stopPropagation()">
+                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn"
+                    (click)="$event.stopPropagation()">
                     <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu" xPosition="before">
@@ -102,7 +107,7 @@
             <mat-card class="basket-card trade-up">
                 <div class="basket-header">
                     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
-                        <h2 class="mat-h2">Basket One</h2>
+                        <h2 class="mat-h2">Basket Thirty Four</h2>
                     </div>
                     <p class="desc">
                         In publishing and graphic design,
@@ -112,7 +117,7 @@
                 <div class="basket-content" fxLayout="row" fxLayoutAlign="start center">
                     <div fxFlex fxLayout="row" fxLayoutAlign="start center">
                         <mat-icon class="trade-icon"></mat-icon>
-                        <h2 class="mat-h2 mb-0">-21.4%</h2>
+                        <h2 class="mat-h2 mb-0">21.4%</h2>
                         <span class="price">$12.75</span>
                     </div>
                     <span fxFlex="initial" class="acc-no">A/C 588746362</span>
@@ -129,7 +134,7 @@
                         </div>
                     </div>
                     <div fxFlex="initial" fxLayout="column" fxLayoutGap="10px">
-                        <span fxFlex="initial" class="public-chip">subscribe</span>
+                        <span fxFlex="initial" class="public-chip unsubscribe">Unsubscribe</span>
                         <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
                             <a class="like-icon">
                                 <mat-icon>favorite</mat-icon>
@@ -141,25 +146,30 @@
                     </div>
                 </div>
                 <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
-                    <div fxLayout="column" fxLayoutAlign="center center" class="profile-icon">
+                    <div fxFlex="initial" fxLayout="column" fxLayoutAlign="center center" class="profile-icon">
                         <img src="assets/images/profile-3.jpg" />
                     </div>
-                    <div fxLayout="row" fxLayoutAlign="start center">
-                        <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
+                    <div fxFlex fxLayout="row" fxLayoutAlign="start stretch" class="profile-info-border">
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
                             <p>Stocks</p>
                             <h2 class="mat-h2">101</h2>
                         </div>
-                        <div class="profile-info accounts" fxLayout="column" fxLayoutAlign="center center">
-                            <p>Accounts</p>
-                            <h2 class="mat-h2">101</h2>
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
+                            <p>Subscribers</p>
+                            <h2 class="mat-h2">100</h2>
                         </div>
-                        <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
-                            <p>Followers</p>
-                            <h2 class="mat-h2">101</h2>
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
+                            <p>Likes</p>
+                            <h2 class="mat-h2">25</h2>
+                        </div>
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
+                            <p>Shares</p>
+                            <h2 class="mat-h2">10</h2>
                         </div>
                     </div>
                 </div>
-                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn" (click)="$event.stopPropagation()">
+                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn"
+                    (click)="$event.stopPropagation()">
                     <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu" xPosition="before">
@@ -194,7 +204,7 @@
             <mat-card class="basket-card trade-stable">
                 <div class="basket-header">
                     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
-                        <h2 class="mat-h2">Basket One</h2>
+                        <h2 class="mat-h2">Basket Eleven</h2>
                     </div>
                     <p class="desc">
                         In publishing and graphic design,
@@ -204,8 +214,8 @@
                 <div class="basket-content" fxLayout="row" fxLayoutAlign="start center">
                     <div fxFlex fxLayout="row" fxLayoutAlign="start center">
                         <mat-icon class="trade-icon"></mat-icon>
-                        <h2 class="mat-h2 mb-0">-21.4%</h2>
-                        <span class="price">$12.75</span>
+                        <h2 class="mat-h2 mb-0">0.0%</h2>
+                        <span class="price">$0.00</span>
                     </div>
                     <span fxFlex="initial" class="acc-no">A/C 588746362</span>
                 </div>
@@ -221,7 +231,7 @@
                         </div>
                     </div>
                     <div fxFlex="initial" fxLayout="column" fxLayoutGap="10px">
-                        <span fxFlex="initial" class="public-chip">Unsubscribe</span>
+                        <span fxFlex="initial" class="public-chip subscribe">Subscribe</span>
                         <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
                             <a class="like-icon">
                                 <mat-icon>favorite</mat-icon>
@@ -233,25 +243,30 @@
                     </div>
                 </div>
                 <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
-                    <div fxLayout="column" fxLayoutAlign="center center" class="profile-icon">
+                    <div fxFlex="initial" fxLayout="column" fxLayoutAlign="center center" class="profile-icon">
                         <img src="assets/images/profile-4.jpg" />
                     </div>
-                    <div fxLayout="row" fxLayoutAlign="start center">
-                        <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
+                    <div fxFlex fxLayout="row" fxLayoutAlign="start stretch" class="profile-info-border">
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
                             <p>Stocks</p>
                             <h2 class="mat-h2">101</h2>
                         </div>
-                        <div class="profile-info accounts" fxLayout="column" fxLayoutAlign="center center">
-                            <p>Accounts</p>
-                            <h2 class="mat-h2">101</h2>
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
+                            <p>Subscribers</p>
+                            <h2 class="mat-h2">100</h2>
                         </div>
-                        <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
-                            <p>Followers</p>
-                            <h2 class="mat-h2">101</h2>
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
+                            <p>Likes</p>
+                            <h2 class="mat-h2">25</h2>
+                        </div>
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
+                            <p>Shares</p>
+                            <h2 class="mat-h2">10</h2>
                         </div>
                     </div>
                 </div>
-                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn" (click)="$event.stopPropagation()">
+                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn"
+                    (click)="$event.stopPropagation()">
                     <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu" xPosition="before">
@@ -286,7 +301,7 @@
             <mat-card class="basket-card trade-up">
                 <div class="basket-header">
                     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
-                        <h2 class="mat-h2">Basket One</h2>
+                        <h2 class="mat-h2">Basket Fifty</h2>
                     </div>
                     <p class="desc">
                         In publishing and graphic design,
@@ -296,7 +311,7 @@
                 <div class="basket-content" fxLayout="row" fxLayoutAlign="start center">
                     <div fxFlex fxLayout="row" fxLayoutAlign="start center">
                         <mat-icon class="trade-icon"></mat-icon>
-                        <h2 class="mat-h2 mb-0">-21.4%</h2>
+                        <h2 class="mat-h2 mb-0">21.4%</h2>
                         <span class="price">$12.75</span>
                     </div>
                     <span fxFlex="initial" class="acc-no">A/C 588746362</span>
@@ -313,7 +328,7 @@
                         </div>
                     </div>
                     <div fxFlex="initial" fxLayout="column" fxLayoutGap="10px">
-                        <span fxFlex="initial" class="public-chip">Unsubscribe</span>
+                        <span fxFlex="initial" class="public-chip unsubscribe">Unsubscribe</span>
                         <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
                             <a class="like-icon">
                                 <mat-icon>favorite</mat-icon>
@@ -325,25 +340,30 @@
                     </div>
                 </div>
                 <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
-                    <div fxLayout="column" fxLayoutAlign="center center" class="profile-icon">
+                    <div fxFlex="initial" fxLayout="column" fxLayoutAlign="center center" class="profile-icon">
                         <img src="assets/images/profile-5.jpg" />
                     </div>
-                    <div fxLayout="row" fxLayoutAlign="start center">
-                        <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
+                    <div fxFlex fxLayout="row" fxLayoutAlign="start stretch" class="profile-info-border">
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
                             <p>Stocks</p>
                             <h2 class="mat-h2">101</h2>
                         </div>
-                        <div class="profile-info accounts" fxLayout="column" fxLayoutAlign="center center">
-                            <p>Accounts</p>
-                            <h2 class="mat-h2">101</h2>
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
+                            <p>Subscribers</p>
+                            <h2 class="mat-h2">100</h2>
                         </div>
-                        <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
-                            <p>Followers</p>
-                            <h2 class="mat-h2">101</h2>
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
+                            <p>Likes</p>
+                            <h2 class="mat-h2">25</h2>
+                        </div>
+                        <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
+                            <p>Shares</p>
+                            <h2 class="mat-h2">10</h2>
                         </div>
                     </div>
                 </div>
-                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn" (click)="$event.stopPropagation()">
+                <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn"
+                    (click)="$event.stopPropagation()">
                     <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu" xPosition="before">
