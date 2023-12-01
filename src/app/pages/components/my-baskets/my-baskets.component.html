@@ -64,10 +64,10 @@
             </div>
             <div fxLayout="row wrap" fxLayoutAlign="start stretch" class="form-row mt-20">
                 <div fxFlex="25" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" class="form-group" *ngFor="let basket of filteredBasket">
-                    <mat-card class="basket-card {{getBasketPeformanceClass(basket)}}">
+                    <mat-card class="basket-card {{getBasketPeformanceClass(basket)}}" (click)="myBasketInfo(basket)">
                         <div class="basket-header">
                             <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
-                                <h2 class="mat-h2" (click)="myBasketInfo(basket)">{{basket.name}}</h2>
+                                <h2 class="mat-h2">{{basket.name}}</h2>
                             </div>
                             <p class="desc">
                                 {{basket.description}}
@@ -93,7 +93,7 @@
                                 </div>
                             </div>
                             <div fxFlex="initial" fxLayout="column" fxLayoutGap="10px">
-                                <span fxFlex="initial" class="public-chip" [hidden]="!basket.public">Public</span>
+                                <span fxFlex="initial" class="public-chip">Public</span>
                                 <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
                                     <a class="like-icon">
                                         <mat-icon>favorite</mat-icon>
@@ -105,7 +105,7 @@
                             </div>
                         </div>
                         <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
-                            <div fxLayout="column" fxLayoutAlign="center center" class="profile-icon" (click)="openOwnerProfile()">
+                            <div fxFlex="initial" fxLayout="column" fxLayoutAlign="center center" class="profile-icon" (click)="openOwnerProfile()">
                                 <img src="{{basket.owner_image}}" />
                             </div>
                             <div fxFlex fxLayout="row" fxLayoutAlign="start stretch" class="profile-info-border">
@@ -113,13 +113,13 @@
                                     <p>Stocks</p>
                                     <h2 class="mat-h2">{{basket.symbols_count}}</h2>
                                 </div>
-                                <div class="profile-info accounts" fxLayout="column" fxLayoutAlign="center center">
-                                    <p>Accounts</p>
-                                    <h2 class="mat-h2">{{basket.linked_accounts}}</h2>
+                                <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
+                                    <p>Subscribers</p>
+                                    <h2 class="mat-h2">100</h2>
                                 </div>
-                                <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
-                                    <p>Followers</p>
-                                    <h2 class="mat-h2">{{basket.followers_count}}</h2>
+                                <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
+                                    <p>Likes</p>
+                                    <h2 class="mat-h2">25</h2>
                                 </div>
                                 <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
                                     <p>Shares</p>
@@ -160,7 +160,9 @@
                     </mat-card>
                 </div>
             </div>
+
         </mat-tab>
+
         <mat-tab>
             <ng-template mat-tab-label>
                 <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
@@ -170,10 +172,10 @@
             </ng-template>
             <div fxLayout="row wrap" fxLayoutAlign="start stretch" class="form-row mt-20">
                 <div fxFlex="25" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" class="form-group" *ngFor="let basket of filteredBasket">
-                    <mat-card class="basket-card {{getBasketPeformanceClass(basket)}}">
+                    <mat-card class="basket-card {{getBasketPeformanceClass(basket)}}" (click)="myBasketInfo(basket)">
                         <div class="basket-header">
                             <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
-                                <h2 class="mat-h2" (click)="myBasketInfo(basket)">{{basket.name}}</h2>
+                                <h2 class="mat-h2">{{basket.name}}</h2>
                             </div>
                             <p class="desc">
                                 {{basket.description}}
@@ -182,8 +184,8 @@
                         <div class="basket-content" fxLayout="row" fxLayoutAlign="start center">
                             <div fxFlex fxLayout="row" fxLayoutAlign="start center">
                                 <mat-icon class="trade-icon"></mat-icon>
-                                <h2 class="mat-h2 mb-0">{{basket.percent_change}}%</h2>
-                                <span class="price">{{basket.value_change}}</span>
+                                <h2 class="mat-h2 mb-0">{{basket.percent_change | number: '1.2-2'}}%</h2>
+                                <span class="price">{{basket.value_change | currency}}</span>
                             </div>
                             <span fxFlex="initial" class="acc-no">A/C {{basket.account}}</span>
                         </div>
@@ -191,15 +193,15 @@
                             <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
                                 <div class="invested">
                                     <p>Invested</p>
-                                    <h3 class="mat-h3">${{basket.invested_value}}</h3>
+                                    <h3 class="mat-h3">{{basket.invested_value | currency}}</h3>
                                 </div>
                                 <div class="invested market">
                                     <p>Market</p>
-                                    <h3 class="mat-h3">${{basket.invested_market}}</h3>
+                                    <h3 class="mat-h3">{{basket.invested_market | currency}}</h3>
                                 </div>
                             </div>
                             <div fxFlex="initial" fxLayout="column" fxLayoutGap="10px">
-                                <span fxFlex="initial" class="public-chip" [hidden]="!basket.public">Public</span>
+                                <span fxFlex="initial" class="public-chip">Public</span>
                                 <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
                                     <a class="like-icon">
                                         <mat-icon>favorite</mat-icon>
@@ -211,7 +213,7 @@
                             </div>
                         </div>
                         <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
-                            <div fxLayout="column" fxLayoutAlign="center center" class="profile-icon" (click)="openOwnerProfile()">
+                            <div fxFlex="initial" fxLayout="column" fxLayoutAlign="center center" class="profile-icon" (click)="openOwnerProfile()">
                                 <img src="{{basket.owner_image}}" />
                             </div>
                             <div fxFlex fxLayout="row" fxLayoutAlign="start stretch" class="profile-info-border">
@@ -219,13 +221,13 @@
                                     <p>Stocks</p>
                                     <h2 class="mat-h2">{{basket.symbols_count}}</h2>
                                 </div>
-                                <div class="profile-info accounts" fxLayout="column" fxLayoutAlign="center center">
-                                    <p>Accounts</p>
-                                    <h2 class="mat-h2">{{basket.linked_accounts}}</h2>
+                                <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
+                                    <p>Subscribers</p>
+                                    <h2 class="mat-h2">100</h2>
                                 </div>
-                                <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
-                                    <p>Followers</p>
-                                    <h2 class="mat-h2">{{basket.followers_count}}</h2>
+                                <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
+                                    <p>Likes</p>
+                                    <h2 class="mat-h2">25</h2>
                                 </div>
                                 <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
                                     <p>Shares</p>
