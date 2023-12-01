@@ -56,6 +56,7 @@ import { FeedbackComponent } from './pages/components/feedback/feedback.componen
 
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ForgotPasswordComponent } from './layouts/forgot-password/forgot-password.component';
+import { SpinnerComponent } from './pages/components/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -90,7 +91,8 @@ import { ForgotPasswordComponent } from './layouts/forgot-password/forgot-passwo
     ConnectDialogComponent,
     FollowingComponent,
     FeedbackComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
