@@ -4,6 +4,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ConnectDialogComponent } from './connect-dialog/connect-dialog.component';
+import { BrokerageService } from '../../../services/brokerage.service'
+import {FormControl, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { NgxSpinnerService } from "ngx-spinner";
 
 export interface PeriodicElement {
   accountNumber: number;
@@ -12,12 +15,13 @@ export interface PeriodicElement {
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  {accountNumber: 9954534354535489, accountBalance: 500, openPositions: 6},
-  {accountNumber: 9954534354535489, accountBalance: 500, openPositions: 6},
-  {accountNumber: 9954534354535489, accountBalance: 500, openPositions: 6},
-  {accountNumber: 9954534354535489, accountBalance: 500, openPositions: 6},
-  {accountNumber: 9954534354535489, accountBalance: 500, openPositions: 6},
+  // {accountNumber: 9954534354535489, accountBalance: 500, openPositions: 6},
+  // {accountNumber: 9954534354535489, accountBalance: 500, openPositions: 6},
+  // {accountNumber: 9954534354535489, accountBalance: 500, openPositions: 6},
+  // {accountNumber: 9954534354535489, accountBalance: 500, openPositions: 6},
+  // {accountNumber: 9954534354535489, accountBalance: 500, openPositions: 6},
 ];
+
 
 @Component({
   selector: 'app-brokerage',
@@ -25,18 +29,39 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./brokerage.component.scss']
 })
 export class BrokerageComponent {
+  showSpinner: boolean = false;
 
   displayedColumns: string[] = ['accountNumber', 'accountBalance', 'openPositions'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   selection = new SelectionModel<PeriodicElement>(true, []);
   selectedOption: string = 'option1';
+  userData :any=null;
+   brokerage_type = new FormControl('1', [Validators.required]);
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog,private brokerageService:BrokerageService,private spinner: NgxSpinnerService) {}
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+    this.getAccessToken();
+    this.getBrokerageAccount(1);
+  }
+
+  getAccessToken(){
+    this.brokerageService.getAccessToken("wences").then((data) => {
+      this.userData= data;
+    })
+  }
+
+  getBrokerageAccount(event:any){
+    this.showSpinner = true;
+    this.brokerageService.getBrokerageAccounts(event.value).then((data) => {
+      this.showSpinner=false;
+      this.dataSource = data
+      // this.spinner.hide()
+
+    })
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

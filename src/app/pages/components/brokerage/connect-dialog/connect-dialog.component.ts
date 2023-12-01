@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { environment } from '../../../../../environments/environment'
 
 @Component({
   selector: 'app-connect-dialog',
@@ -6,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./connect-dialog.component.scss']
 })
 export class ConnectDialogComponent {
+  // constructor(private env:environment){
+
+  // }
+
+  brokerageURl :string = environment.brokerageUrl;
 
 }
