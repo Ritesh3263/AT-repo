@@ -7,13 +7,21 @@
         <a class="bold">Marketplace</a>
     </div>
     <h1 class="mat-h1 font-700">Marketplace</h1>
+    <!--
     <span>
         <button mat-flat-button color="primary" (click)="openTermsConditionsDialog()">Publish to Marketplace</button>
     </span>
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px" class="mt-20">
-        <span>Visible in Marketplace</span>
+    -->
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px" class="mt-20" *ngIf="basket.active">
+        <span >Visible in Marketplace</span>
         <span>
-            <mat-slide-toggle color="primary" checked="checked" [(ngModel)]="toggleValue" (change)="onToggleChange()"> {{ toggleText }} </mat-slide-toggle>
+            <form class="example-form" [formGroup]="form">
+                <mat-slide-toggle color="primary" formControlName="public" (change)="onToggleChange()"> {{ toggleText }} </mat-slide-toggle>
+            </form>
         </span>
     </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px" class="mt-20" *ngIf="!basket.active">
+        <span >This basket has previously been removed from the Marketplace and can no longer be edited.  You may clone this basket if you wish to make further changes.</span>
+    </div>
+
 </div>

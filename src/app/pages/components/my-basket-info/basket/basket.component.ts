@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Renderer2, ViewChild, Inject } from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -9,6 +9,7 @@ import { EditSymbolsComponent } from '../edit-symbols/edit-symbols.component';
 import { WidgetDialogComponent } from '../widget-dialog/widget-dialog.component';
 
 import { ActivatedRoute } from '@angular/router';
+import { JourneyInfoComponent } from '../journey-info/journey-info.component';
 import { Basket } from 'src/app/interfaces/basket';
 import { BasketsService } from 'src/app/services/baskets.service';
 import { UtilitiesService } from 'src/app/services/utilities.service';
@@ -31,21 +32,17 @@ export class BasketComponent implements AfterViewInit {
   symbols: any =[]
 
 
-  constructor(private renderer: Renderer2, public dialog: MatDialog, private basketService: BasketsService, private activatedRoute: ActivatedRoute, private utilitiesService: UtilitiesService) {}
+  constructor(@Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, private renderer: Renderer2, public dialog: MatDialog, private basketService: BasketsService, private activatedRoute: ActivatedRoute, private utilitiesService: UtilitiesService) {}
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  ngOnInit() {
-    this.activatedRoute.parent!.params.forEach((param) => {
-      for(let key in param) {
-        if(key == 'id') {
-          this.basketId = param[key];
-        }
-      }
-    })
+  ngOnInit(id = null) {
+    this.basketId = id || this.parentComponent.getBasketId();
     this.basketService.getBasketDetails(this.basketId).then((data) => {
       if(data && data.basket) {
         this.basket = data.basket;
+        console.log(this.basket)
+        console.log(this.basket.active)
       }
     })
     this.getBasketSymbols(true);
@@ -143,10 +140,16 @@ export class BasketComponent implements AfterViewInit {
   }
 
   cloneBasket() {
-    this.dialog.open(CloneBasketComponent, {
+    let dialogRef = this.dialog.open(CloneBasketComponent, {
       panelClass: 'custom-modal',
       disableClose: true,
       data: this.basket
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result && result.success && result.id) {
+        this.utilitiesService.navigate(`/my-basket-info/${result.id}/basket`)
+        this.ngOnInit(result.id);
+      }
     });
   }
 
@@ -194,7 +197,7 @@ export class BasketComponent implements AfterViewInit {
         this.utilitiesService.displayInfoMessage('Basket Updated Successfully')
       }
       else {
-        this.utilitiesService.displayInfoMessage(JSON.stringify(data), true)
+        this.utilitiesService.displayInfoMessage(JSON.stringify(data.status.error), true)
       }
     })
   }

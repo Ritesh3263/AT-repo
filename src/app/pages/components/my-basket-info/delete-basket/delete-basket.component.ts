@@ -23,7 +23,7 @@ export class DeleteBasketComponent {
           this.utilityService.navigate('/my-basket')
         }
         else {
-          this.utilityService.displayInfoMessage("Error deleting basket", false)
+          this.utilityService.displayInfoMessage(data.status.error, true)
         }
       })
     }

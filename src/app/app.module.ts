@@ -55,6 +55,7 @@ import { FeedbackComponent } from './pages/components/feedback/feedback.componen
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ForgotPasswordComponent } from './layouts/forgot-password/forgot-password.component';
 import { EditSymbolsComponent } from './pages/components/my-basket-info/edit-symbols/edit-symbols.component';
+import { EditMarketplaceComponent } from './pages/components/my-basket-info/edit-marketplace/edit-marketplace.component';
 
 @NgModule({
   declarations: [
@@ -89,7 +90,8 @@ import { EditSymbolsComponent } from './pages/components/my-basket-info/edit-sym
     FollowingComponent,
     FeedbackComponent,
     ForgotPasswordComponent,
-    EditSymbolsComponent
+    EditSymbolsComponent,
+    EditMarketplaceComponent
   ],
   imports: [
     BrowserModule,

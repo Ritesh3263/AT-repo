@@ -20,12 +20,12 @@
             <mat-form-field appearance="outline">
                 <mat-label>Action Type</mat-label>
                 <mat-select [(value)]="selectedOption" class="form-control" formControlName="action">
-                    <mat-option value="create">Create New Basket</mat-option>
-                    <mat-option value="clone">Clone Existing Basket</mat-option>
+                    <mat-option value="CREATE">Create New Basket</mat-option>
+                    <mat-option value="CLONE">Clone Existing Basket</mat-option>
                 </mat-select>
                 <mat-error *ngIf="isControlValid('action')">{{getErrorMessage('action')}}</mat-error>
             </mat-form-field>
-            <ng-container *ngIf="selectedOption === 'clone'">
+            <ng-container *ngIf="selectedOption === 'CLONE'">
                 <mat-form-field appearance="outline">
                     <mat-label>Basket</mat-label>
                     <mat-select formControlName="sourceBasketId">

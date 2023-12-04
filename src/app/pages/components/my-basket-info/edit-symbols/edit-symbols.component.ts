@@ -56,7 +56,7 @@ export class EditSymbolsComponent {
         this.dialogRef.close({success: true})
       }
       else {
-        this.utilityService.displayInfoMessage("Error deleting basket", true)
+        this.utilityService.displayInfoMessage(JSON.stringify(data.status.error), true)
       }
     })
   }
