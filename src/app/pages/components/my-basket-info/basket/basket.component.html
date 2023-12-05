@@ -160,8 +160,8 @@
             aria-label="Select page of notifications">
         </mat-paginator>
         <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px" class="pt-15 pb-15">
-            <button mat-stroked-button color="primary" *ngIf="basket.is_owner && basket.active">Cancel</button>
-            <button mat-flat-button color="primary" (click)="updateBasket()" *ngIf="basket.is_owner && basket.active">Save Changes</button>
+            <button mat-stroked-button color="primary" *ngIf="basket.is_owner && basket.active" [hidden]="true">Cancel</button>
+            <button mat-flat-button color="primary" (click)="updateBasket()" *ngIf="basket.is_owner && basket.active" [hidden]="true">Save Changes</button>
         </div>
     </div>
 </div>
