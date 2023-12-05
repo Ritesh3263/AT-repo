@@ -56,8 +56,8 @@ export class EditSymbolsComponent {
         if(data.symbols.length !== inputSymbols.length) {
           let invalidSymbols = [];
           for(let i = 0; i < inputSymbols.length; i++) {
-            let valid = data.symbols.find((symbol:any) => {return symbol.symbol === inputSymbols[i]})
-            if(!(valid && valid.id) && inputSymbols[i]) {
+            let valid = data.symbols.find((symbol:any) => {return symbol.symbol.toUpperCase().trim() === inputSymbols[i].toUpperCase().trim()})
+            if(!(valid && valid.id) && inputSymbols[i].trim()) {
               invalidSymbols.push(inputSymbols[i])
             }
           }
