@@ -9,34 +9,16 @@
 </div>
 <div fxLayout="column" class="pt-10 pl-20 pr-20">
     <h1 class="mat-h1 font-700">Subscription</h1>
-    <div fxLayout="column" class="pt-10">
-        <h2 class="mat-h2 font-600" style="margin-bottom: 5px">Section 1</h2>
-        <mat-radio-group aria-label="Select an option" fxLayout="column" color="primary">
-            <mat-radio-button value="1">Description Come Here</mat-radio-button>
-            <mat-radio-button value="2">Description Come Here</mat-radio-button>
-        </mat-radio-group>
-    </div>
-    <div fxLayout="column" class="pt-20">
-        <h2 class="mat-h2 font-600" style="margin-bottom: 5px">Section 2</h2>
-        <mat-checkbox class="example-margin">Check me!</mat-checkbox>
-        <mat-checkbox class="example-margin">Check me!</mat-checkbox>
-    </div>
-    <div class="pt-20">
-        <span fxLayout="row">
-            <mat-form-field appearance="outline" fxFlex="30">
-                <mat-label>Label Name</mat-label>
-                <input matInput>
-            </mat-form-field>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px" class="mt-20" *ngIf="!basket.is_owner">
+        <span >Subscribe to this basket</span>
+        <span>
+            <mat-slide-toggle color="primary" [(ngModel)]="subscribed" (change)="onToggleChange()"> {{ toggleText }} </mat-slide-toggle>
         </span>
-        <span fxLayout="row">
-            <mat-form-field appearance="outline" fxFlex="30">
-                <mat-label>Choose an option</mat-label>
-                <mat-select>
-                    <mat-option value="option1">Option 1</mat-option>
-                    <mat-option value="option2">Option 2 </mat-option>
-                    <mat-option value="option3">Option 3</mat-option>
-                </mat-select>
-            </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px" class="mt-20" *ngIf="basket.is_owner">
+        <span >Subscribe to this basket</span>
+        <span>
+            <mat-slide-toggle color="primary" [(ngModel)]="subscribed" (change)="onToggleChange()" [disabled]="true"> {{ toggleText }} </mat-slide-toggle>
         </span>
     </div>
 </div>

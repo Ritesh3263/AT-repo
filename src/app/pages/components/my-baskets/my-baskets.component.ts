@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { CreateBasketComponent } from '../create-basket/create-basket.component';
 
 import { KeyValue, KeyValuePipe } from '@angular/common';
@@ -55,7 +54,7 @@ export class MyBasketsComponent {
     visibilityFilter: this.visibilityFilter['All']
   }
 
-  constructor(public dialog: MatDialog, private router: Router, private basketService: BasketsService, private userService: UserService, private utilityService: UtilitiesService) {}
+  constructor(public dialog: MatDialog, private basketService: BasketsService, private userService: UserService, private utilityService: UtilitiesService) {}
 
   createBasket() {
     let dialogRef = this.dialog.open(CreateBasketComponent, {
@@ -64,17 +63,17 @@ export class MyBasketsComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result && result.success && result.id) {
-        this.router.navigateByUrl(`/my-basket-info/${result.id}/basket`);
+        this.utilityService.navigate(`/my-basket-info/${result.id}/basket`);
       }
     });
   }
 
   myBasketInfo(basket: Basket) {
-    this.router.navigateByUrl(`/my-basket-info/${basket.id}/basket`);
+    this.utilityService.navigate(`/my-basket-info/${basket.id}/basket`);
   }
 
   openOwnerProfile() {
-    this.router.navigateByUrl('/owner-profile');
+    this.utilityService.navigate('/owner-profile');
   }
 
   trackGroup(index: number, group: any): string {
@@ -163,5 +162,9 @@ export class MyBasketsComponent {
 
   getBasketPeformanceClass(basket: Basket) {
     return basket.percent_change < 0 ? "trade-down" : (basket.percent_change == 0 ? "trade-stable" : "trade-up");
+  }
+
+  navigate(basket: Basket, path: string) {
+    this.utilityService.navigate(`/my-basket-info/${basket.id}/${path}`)
   }
 }

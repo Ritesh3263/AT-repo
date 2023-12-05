@@ -126,7 +126,18 @@ export class BasketsService {
 
   async subscribeToBasket(basketId: number): Promise<any> {
     try{
-      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/basket/subscribers`, this.getHeaders('PUT', {basketId: basketId}));
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/basket/subscribers/subscribe`, this.getHeaders('PUT', {basketId: basketId}));
+      let data = await res.json();
+      return data;
+    }
+    catch(e: any) {
+      return {error: e.message}
+    }
+  }
+
+  async unsubscribeFromBasket(basketId: number): Promise<any> {
+    try{
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/basket/subscribers/unsubscribe`, this.getHeaders('PUT', {basketId: basketId}));
       let data = await res.json();
       return data;
     }

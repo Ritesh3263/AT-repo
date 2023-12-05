@@ -14,7 +14,7 @@
         <button mat-flat-button color="primary" (click)="openTermsConditionsDialog()">Publish to Marketplace</button>
     </span>
     -->
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px" class="mt-20" *ngIf="basket.is_owner && basket.active">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px" class="mt-20" *ngIf="basket.active && basket.is_owner">
         <span >Visible in Marketplace</span>
         <span>
             <form class="example-form" [formGroup]="form">
@@ -22,7 +22,7 @@
             </form>
         </span>
     </div>
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px" class="mt-20" *ngIf="!basket.active">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px" class="mt-20" *ngIf="!basket.active && basket.is_owner">
         <span >This basket has previously been removed from the Marketplace and can no longer be edited.  You may clone this basket if you wish to make further changes.</span>
     </div>
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px" class="mt-20" *ngIf="!basket.is_owner">
