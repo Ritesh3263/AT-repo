@@ -50,6 +50,20 @@ export class EditSymbolsComponent {
       else {
         this.data.tickers = data.symbols;
         this.dataSource = new MatTableDataSource<any>(this.data.tickers)
+
+        // Now we must validate all input symbols were able to be retrieved
+        let inputSymbols = this.tickerSymbols.split(',')
+        if(data.symbols.length !== inputSymbols.length) {
+          let invalidSymbols = [];
+          for(let i = 0; i < inputSymbols.length; i++) {
+            let valid = data.symbols.find((symbol:any) => {return symbol.symbol === inputSymbols[i]})
+            if(!(valid && valid.id) && inputSymbols[i]) {
+              invalidSymbols.push(inputSymbols[i])
+            }
+          }
+          if(invalidSymbols.length)
+            this.utilityService.displayInfoMessage("Some symbols are invalid: " + invalidSymbols.toString(), true, 8000)
+        }
       }
     })
   }
