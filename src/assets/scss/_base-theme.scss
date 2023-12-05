@@ -319,10 +319,23 @@ html, body {
 }
 
 .breadcrumb {
+
+    &.with-bg {
+        background: #fbfbfb;
+    }
+
+    &.with-border {
+        border-bottom: 1px solid #eee;
+    }
+
     a {
         text-decoration: none;
         color: #333;
         font-size: 13px;
+
+        &:hover {
+            color: var(--PRIMARY_COLOR);
+        }
 
         &.bold {
             font-weight: 600;
