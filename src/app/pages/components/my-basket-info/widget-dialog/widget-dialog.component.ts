@@ -37,10 +37,10 @@ export class WidgetDialogComponent implements AfterViewInit {
     "largeChartUrl": "",
     "displayMode": "regular",
     "height": 500,
-    "symbol": ${JSON.stringify(this.data)},
+    "symbol": ${JSON.stringify(this.data.symbol)},
     "locale": "en"
   }
-  
+
   `;
 
     this.TradingFundamentalDataWidget?.nativeElement.appendChild(script);
@@ -57,10 +57,10 @@ companyProfileWidget() {
     "height": 500,
     "colorTheme": "light",
     "isTransparent": false,
-    "symbol": ${JSON.stringify(this.data)},
+    "symbol": ${JSON.stringify(this.data.symbol)},
     "locale": "en"
   }
-  
+
   `;
 
     this.TradingCompanyProfileWidget?.nativeElement.appendChild(script);
@@ -76,7 +76,7 @@ companyProfileWidget() {
     "interval": "1m",
     "isTransparent": false,
     "height": 300,
-    "symbol": ${JSON.stringify(this.data)},
+    "symbol": ${JSON.stringify(this.data.symbol)},
     "showIntervalTabs": true,
     "locale": "en",
     "colorTheme": "light"
@@ -86,7 +86,7 @@ companyProfileWidget() {
     this.TradingTechnicalAnalysisWidget?.nativeElement.appendChild(script);
 
   }
-  
+
     /***Market Data Widget***/
     minChartWidget() {
       let script = this._renderer2.createElement('script');
@@ -94,7 +94,7 @@ companyProfileWidget() {
       script.src = "https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js";
       script.text = `
     {
-      "symbol": ${JSON.stringify(this.data)},
+      "symbol": ${JSON.stringify(this.data.symbol)},
       "height": 300,
       "locale": "en",
       "dateRange": "12M",
@@ -103,9 +103,9 @@ companyProfileWidget() {
       "autosize": false,
       "largeChartUrl": ""
     }`;
-  
+
       this.tradingMinChartWidget?.nativeElement.appendChild(script);
-  
+
     }
 
 
@@ -115,18 +115,18 @@ companyProfileWidget() {
       script.src = "https://s3.tradingview.com/external-embedding/embed-widget-symbol-info.js";
       script.text = `
     {
-      "symbol": ${JSON.stringify(this.data)},
+      "symbol": ${JSON.stringify(this.data.symbol)},
       "height": "500",
       "locale": "en",
       "colorTheme": "light",
       "isTransparent": false
     }
-  
-      
+
+
     `;
-  
+
       this.tradingSymbolInfoWidget?.nativeElement.appendChild(script);
-  
-  
+
+
     }
 }
