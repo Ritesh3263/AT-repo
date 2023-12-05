@@ -52,7 +52,7 @@ export class EditSymbolsComponent {
   updateBasket() {
     this.basketService.editSymbols(this.data.basket.id, this.data.tickers, this.data.mode == 'ADD' ? 'PATCH' : 'DELETE').then((data) => {
       if(data && data.success) {
-        this.utilityService.displayInfoMessage(`Tickers ${this.data.mode == 'ADD' ? 'Added' : 'Deleted'}`)
+        this.utilityService.displayInfoMessage(`Symbols ${this.data.mode == 'ADD' ? 'Added' : 'Deleted'}`)
         this.dialogRef.close({success: true})
       }
       else {

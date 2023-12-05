@@ -15,5 +15,7 @@ export interface Basket {
     updated_date: Date,
     owner_image: string,
     invested_market: number,
-    linked_accounts: number
+    linked_accounts: number,
+    basket_subscribers: number,
+    is_owner : boolean
 }

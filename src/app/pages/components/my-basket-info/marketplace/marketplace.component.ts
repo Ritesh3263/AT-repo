@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { EditMarketplaceComponent } from '../edit-marketplace/edit-marketplace.component';
 import { JourneyInfoComponent } from '../journey-info/journey-info.component';
 import { BasketsService } from 'src/app/services/baskets.service';
-import {FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormBuilder} from '@angular/forms';
 
 @Component({
   selector: 'app-marketplace',
@@ -44,7 +44,6 @@ export class MarketplaceComponent {
 
   editMarketplaceDialog() {
     this.basket.public = this.form.controls['public'].getRawValue();
-    console.log(this.basket)
     this.dialog.open(EditMarketplaceComponent, {
       panelClass: 'custom-modal',
       disableClose: true,

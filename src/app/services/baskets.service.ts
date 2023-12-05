@@ -37,6 +37,18 @@ export class BasketsService {
     }
   }
 
+  async getAllBasketsForMarketplace(pageNumber: number, pageSize: number, search: string): Promise<any> {
+    try{
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/baskets/marketplace?pageNumber=${pageNumber}&pageSize=${pageSize}&search=${encodeURI(search)}`, this.getHeaders());
+      let data = await res.json();
+      return data;
+    }
+    catch(e: any) {
+      console.log("Get User Details Error: " + e.message);
+      return {error: e.message}
+    }
+  }
+
   async getAllSymbols(pageNumber: Number, pageSize: Number, search:string, tickerSymbols: string | null = null): Promise<any> {
     try{
       let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/symbols?pageNumber=${pageNumber}&pageSize=${pageSize}&search=${encodeURI(search)}&tickerSymbols=${tickerSymbols}`, this.getHeaders());
@@ -112,6 +124,18 @@ export class BasketsService {
   async editSymbols(basketId: Number, tickers: any, method: string): Promise<any> {
     try{
       let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/basket/${basketId}/symbols`, this.getHeaders(method, {tickers: tickers}));
+      let data = await res.json();
+      return data;
+    }
+    catch(e: any) {
+      console.log("Get User Details Error: " + e.message);
+      return {error: e.message}
+    }
+  }
+
+  async subscribeToBasket(basketId: number): Promise<any> {
+    try{
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/basket/subscribers`, this.getHeaders('PUT', {basketId: basketId}));
       let data = await res.json();
       return data;
     }
