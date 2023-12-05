@@ -19,18 +19,23 @@ export class MarketplaceMainComponent {
 
   ngOnInit() {
     // Get users baskets
-    this.basketService.getAllBasketsForMarketplace(0, 1000, this.search).then((basket: Basket[]) => {
-      this.baskets = basket;
+    this.basketService.getAllBasketsForMarketplace(0, 1000, this.search).then((data) => {
+      if(data.error || !data.baskets) {
+        this.utilityService.displayInfoMessage(data.error, true)
+      }
+      else {
+        this.baskets = data.baskets;
+      }
     });
   }
 
   subscribeToBasket(basket: Basket) {
     this.basketService.subscribeToBasket(basket.id).then((data) => {
-      if(data && data.success) {
-        this.utilityService.displayInfoMessage("Subscribed to this basket!")
+      if(data.error || !data.success) {
+        this.utilityService.displayInfoMessage(data.error, true)
       }
       else {
-        this.utilityService.displayInfoMessage(data.status.error, true)
+        this.utilityService.displayInfoMessage("Subscribed to this basket!")
       }
     })
   }

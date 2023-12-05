@@ -32,7 +32,6 @@ export class BasketsService {
       return data;
     }
     catch(e: any) {
-      console.log("Get User Details Error: " + e.message);
       return {error: e.message}
     }
   }
@@ -44,7 +43,6 @@ export class BasketsService {
       return data;
     }
     catch(e: any) {
-      console.log("Get User Details Error: " + e.message);
       return {error: e.message}
     }
   }
@@ -56,7 +54,6 @@ export class BasketsService {
       return data;
     }
     catch(e: any) {
-      console.log("Get User Details Error: " + e.message);
       return {error: e.message}
     }
   }
@@ -68,7 +65,6 @@ export class BasketsService {
       return data;
     }
     catch(e: any) {
-      console.log("Get User Details Error: " + e.message);
       return {error: e.message}
     }
   }
@@ -80,7 +76,6 @@ export class BasketsService {
       return data;
     }
     catch(e: any) {
-      console.log("Get User Details Error: " + e.message);
       return {error: e.message}
     }
   }
@@ -92,7 +87,6 @@ export class BasketsService {
       return data;
     }
     catch(e: any) {
-      console.log("Get User Details Error: " + e.message);
       return {error: e.message}
     }
   }
@@ -104,7 +98,6 @@ export class BasketsService {
       return data;
     }
     catch(e: any) {
-      console.log("Get User Details Error: " + e.message);
       return {error: e.message}
     }
   }
@@ -116,7 +109,6 @@ export class BasketsService {
       return data;
     }
     catch(e: any) {
-      console.log("Get User Details Error: " + e.message);
       return {error: e.message}
     }
   }
@@ -128,7 +120,6 @@ export class BasketsService {
       return data;
     }
     catch(e: any) {
-      console.log("Get User Details Error: " + e.message);
       return {error: e.message}
     }
   }
@@ -140,7 +131,6 @@ export class BasketsService {
       return data;
     }
     catch(e: any) {
-      console.log("Get User Details Error: " + e.message);
       return {error: e.message}
     }
   }

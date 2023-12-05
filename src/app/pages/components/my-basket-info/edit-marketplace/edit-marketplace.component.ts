@@ -10,18 +10,16 @@ import { UtilitiesService } from 'src/app/services/utilities.service';
 })
 export class EditMarketplaceComponent {
   termsAgreed: boolean = false;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private basketService: BasketsService, private utilityService: UtilitiesService, private dialogRef: MatDialogRef<EditMarketplaceComponent>) {
-    console.log(this.data.basket.public)
-  }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private basketService: BasketsService, private utilityService: UtilitiesService, private dialogRef: MatDialogRef<EditMarketplaceComponent>) {}
 
   updateBasket() {
     this.basketService.updateBasket(this.data.basket).then((data) => {
-      if(data && data.success) {
-        this.utilityService.displayInfoMessage(`Marketplace Visibility Updated`)
-        this.dialogRef.close({success: true})
+      if(data.error || !data.success) {
+        this.utilityService.displayInfoMessage(data.error, true)
       }
       else {
-        this.utilityService.displayInfoMessage(JSON.stringify(data.status.error), true)
+        this.utilityService.displayInfoMessage(`Marketplace Visibility Updated`)
+        this.dialogRef.close({success: true})
       }
     })
   }

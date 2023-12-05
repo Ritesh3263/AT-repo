@@ -39,10 +39,11 @@ export class BasketComponent implements AfterViewInit {
   ngOnInit(id = null) {
     this.basketId = id || this.parentComponent.getBasketId();
     this.basketService.getBasketDetails(this.basketId).then((data) => {
-      if(data && data.basket) {
+      if(data.error || !data.basket) {
+        this.utilitiesService.displayInfoMessage(data.error, true)
+      }
+      else {
         this.basket = data.basket;
-        console.log(this.basket)
-        console.log(this.basket.active)
       }
     })
     this.getBasketSymbols(true);
@@ -54,7 +55,10 @@ export class BasketComponent implements AfterViewInit {
       this.length = 0;
     }
     this.basketService.getSymbols(this.basketId, this.pageIndex, this.pageSize).then((data) => {
-      if(data && data.symbols) {
+      if(data.error || !data.symbols) {
+        this.utilitiesService.displayInfoMessage(data.error, true)
+      }
+      else {
         this.symbols = data.symbols;
         this.dataSource = new MatTableDataSource<any>(this.symbols);
         this.selection = new SelectionModel<any>(this.symbols, []);
@@ -193,11 +197,11 @@ export class BasketComponent implements AfterViewInit {
 
   updateBasket() {
     this.basketService.updateBasket(this.basket).then((data) => {
-      if(data && data.success) {
-        this.utilitiesService.displayInfoMessage('Basket Updated Successfully')
+      if(data.error || !data.success) {
+        this.utilitiesService.displayInfoMessage(data.error, true)
       }
       else {
-        this.utilitiesService.displayInfoMessage(JSON.stringify(data.status.error), true)
+        this.utilitiesService.displayInfoMessage('Basket Updated Successfully')
       }
     })
   }

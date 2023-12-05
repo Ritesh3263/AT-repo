@@ -10,7 +10,9 @@ import { UtilitiesService } from 'src/app/services/utilities.service';
 })
 export class CloneBasketComponent {
   basketName!: string;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private basketService: BasketsService, private dialogRef: MatDialogRef<CloneBasketComponent>, private utilitiesService: UtilitiesService) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private basketService: BasketsService, private dialogRef: MatDialogRef<CloneBasketComponent>, private utilitiesService: UtilitiesService) {
+    this.basketName = 'Clone of ' + this.data.name
+  }
 
   cloneBasket() {
     let basket = {
@@ -21,12 +23,12 @@ export class CloneBasketComponent {
     }
 
     this.basketService.createBasket(basket).then((data) => {
-      if(data && data.status.id) {
-        this.utilitiesService.displayInfoMessage(`${basket.name} created!`);
-        this.dialogRef.close({success: true, id: data.status.id});
+      if(data.error || !data.id) {
+        this.utilitiesService.displayInfoMessage("Error Creating Basket: " + data.error);
       }
       else {
-        this.utilitiesService.displayInfoMessage("Error Creating Basket: " + JSON.stringify(data,null,2));
+        this.utilitiesService.displayInfoMessage(`${basket.name} created!`);
+        this.dialogRef.close({success: true, id: data.id});
       }
     })
   }

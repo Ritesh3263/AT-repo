@@ -17,13 +17,13 @@ export class DeleteBasketComponent {
   deleteBasket() {
     if(this.basketName == this.data.name) {
       this.basketService.deleteBasket(this.data.id).then((data) => {
-        if(data && data.success) {
-          this.utilityService.displayInfoMessage("Basket Deleted")
-          this.dialogRef.close({success: true, id: data.status.id})
-          this.utilityService.navigate('/my-basket')
+        if(data.error || !data.success) {
+          this.utilityService.displayInfoMessage(data.error, true)
         }
         else {
-          this.utilityService.displayInfoMessage(data.status.error, true)
+          this.utilityService.displayInfoMessage("Basket Deleted")
+          this.dialogRef.close({success: true, id: data.id})
+          this.utilityService.navigate('/my-basket')
         }
       })
     }
