@@ -64,12 +64,12 @@ export class CreateBasketComponent {
     }
 
     this.basketService.createBasket(basket).then((data) => {
-      if(!(data && data.status.id)) {
-        this.displayInfoMessage("Error Creating Basket: " + JSON.stringify(data,null,2));
+      if(data.error || !data.id) {
+        this.displayInfoMessage("Error Creating Basket: " + data.error);
       }
       else {
         this.displayInfoMessage(`${basket.name} created!`);
-        this.dialogRef.close({success: true, id: data.status.id});
+        this.dialogRef.close({success: true, id: data.id});
       }
     })
   }

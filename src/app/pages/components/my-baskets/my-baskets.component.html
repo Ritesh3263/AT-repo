@@ -1,3 +1,10 @@
+<div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="breadcrumb with-bg with-border pt-10 pb-10 pl-20 pr-20">
+    <a routerLink="/home" fxLayout="column" fxLayoutAlign="center center">
+        <img src="/assets/images/home-icon.svg" />
+    </a>
+    <span>/</span>
+    <a class="bold">Baskets</a>
+</div>
 <div class="basket-wrapper">
     <!-- <div fxLayout="row" fxLayoutAlign="end center" class="follow-wrapper pb-xs-10">
         <div class="pl-15 pr-15"><span class="font-600">25</span> <span class="text">Following</span></div>
@@ -93,7 +100,7 @@
                                 </div>
                             </div>
                             <div fxFlex="initial" fxLayout="column" fxLayoutGap="10px">
-                                <span fxFlex="initial" class="public-chip">Public</span>
+                                <span fxFlex="initial" class="public-chip" [hidden]="!basket.public">Public</span>
                                 <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
                                     <a class="like-icon">
                                         <mat-icon>favorite</mat-icon>
@@ -115,7 +122,7 @@
                                 </div>
                                 <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
                                     <p>Subscribers</p>
-                                    <h2 class="mat-h2">100</h2>
+                                    <h2 class="mat-h2">{{basket.basket_subscribers}}</h2>
                                 </div>
                                 <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
                                     <p>Likes</p>
@@ -201,7 +208,7 @@
                                 </div>
                             </div>
                             <div fxFlex="initial" fxLayout="column" fxLayoutGap="10px">
-                                <span fxFlex="initial" class="public-chip">Public</span>
+                                <span fxFlex="initial" class="public-chip" [hidden]="!basket.public">Public</span>
                                 <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
                                     <a class="like-icon">
                                         <mat-icon>favorite</mat-icon>
@@ -223,7 +230,7 @@
                                 </div>
                                 <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
                                     <p>Subscribers</p>
-                                    <h2 class="mat-h2">100</h2>
+                                    <h2 class="mat-h2">{{basket.basket_subscribers}}</h2>
                                 </div>
                                 <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
                                     <p>Likes</p>

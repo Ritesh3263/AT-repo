@@ -1,19 +1,32 @@
-<div fxLayout="column" class="pl-20 pr-20">
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="breadcrumb pt-15 pb-15">
-        <a routerLink="/" fxLayout="column" fxLayoutAlign="center center">
-            <img src="/assets/images/home-icon.svg" />
-        </a>
-        <span>/</span>
-        <a class="bold">Marketplace</a>
-    </div>
+<div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="breadcrumb with-bg with-border pt-10 pb-10 pl-20 pr-20">
+    <a routerLink="/" fxLayout="column" fxLayoutAlign="center center">
+        <img src="/assets/images/home-icon.svg" />
+    </a>
+    <span>/</span>
+    <a routerLink="/my-basket" class="bold">Baskets</a>
+    <span>/</span>
+    <a class="bold">Marketplace</a>
+</div>
+<div fxLayout="column" class="pt-10 pl-20 pr-20">
     <h1 class="mat-h1 font-700">Marketplace</h1>
+    <!--
     <span>
         <button mat-flat-button color="primary" (click)="openTermsConditionsDialog()">Publish to Marketplace</button>
     </span>
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px" class="mt-20">
-        <span>Visible in Marketplace</span>
+    -->
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px" class="mt-20" *ngIf="basket.is_owner && basket.active">
+        <span >Visible in Marketplace</span>
         <span>
-            <mat-slide-toggle color="primary" checked="checked" [(ngModel)]="toggleValue" (change)="onToggleChange()"> {{ toggleText }} </mat-slide-toggle>
+            <form class="example-form" [formGroup]="form">
+                <mat-slide-toggle color="primary" formControlName="public" (change)="onToggleChange()"> {{ toggleText }} </mat-slide-toggle>
+            </form>
         </span>
     </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px" class="mt-20" *ngIf="!basket.active">
+        <span >This basket has previously been removed from the Marketplace and can no longer be edited.  You may clone this basket if you wish to make further changes.</span>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px" class="mt-20" *ngIf="!basket.is_owner">
+        <span >This basket was created in the Marketplace and cannot be edited.  You may clone this basket if you wish to make further changes.</span>
+    </div>
+
 </div>

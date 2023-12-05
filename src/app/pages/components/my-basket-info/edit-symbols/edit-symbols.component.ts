@@ -44,19 +44,38 @@ export class EditSymbolsComponent {
 
   symbolLookup() {
     this.basketService.getAllSymbols(0, 1000, '', this.tickerSymbols).then((data) => {
-      this.data.tickers = data.symbols;
-      this.dataSource = new MatTableDataSource<any>(this.data.tickers)
+      if(data.error || !data.symbols) {
+        this.utilityService.displayInfoMessage(data.error, true)
+      }
+      else {
+        this.data.tickers = data.symbols;
+        this.dataSource = new MatTableDataSource<any>(this.data.tickers)
+
+        // Now we must validate all input symbols were able to be retrieved
+        let inputSymbols = this.tickerSymbols.split(',')
+        if(data.symbols.length !== inputSymbols.length) {
+          let invalidSymbols = [];
+          for(let i = 0; i < inputSymbols.length; i++) {
+            let valid = data.symbols.find((symbol:any) => {return symbol.symbol === inputSymbols[i]})
+            if(!(valid && valid.id) && inputSymbols[i]) {
+              invalidSymbols.push(inputSymbols[i])
+            }
+          }
+          if(invalidSymbols.length)
+            this.utilityService.displayInfoMessage("Some symbols are invalid: " + invalidSymbols.toString(), true, 8000)
+        }
+      }
     })
   }
 
   updateBasket() {
     this.basketService.editSymbols(this.data.basket.id, this.data.tickers, this.data.mode == 'ADD' ? 'PATCH' : 'DELETE').then((data) => {
-      if(data && data.success) {
-        this.utilityService.displayInfoMessage(`Tickers ${this.data.mode == 'ADD' ? 'Added' : 'Deleted'}`)
-        this.dialogRef.close({success: true})
+      if(data.error || !data.success) {
+        this.utilityService.displayInfoMessage(data.error, true)
       }
       else {
-        this.utilityService.displayInfoMessage("Error deleting basket", true)
+        this.utilityService.displayInfoMessage(`Symbols ${this.data.mode == 'ADD' ? 'Added' : 'Deleted'}`)
+        this.dialogRef.close({success: true})
       }
     })
   }

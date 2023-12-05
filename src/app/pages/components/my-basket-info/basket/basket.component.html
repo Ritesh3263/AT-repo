@@ -1,10 +1,12 @@
 <div fxLayout="column">
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="breadcrumb pt-15 pb-15 pl-20 pr-20">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="breadcrumb with-border pt-10 pb-10 pl-20 pr-20">
         <a routerLink="/" fxLayout="column" fxLayoutAlign="center center">
             <img src="/assets/images/home-icon.svg" />
         </a>
         <span>/</span>
-        <a class="bold">Basket</a>
+        <a routerLink="/my-basket" class="bold">Baskets</a>
+        <span>/</span>
+        <a class="bold">Basket / Symbols</a>
     </div>
     <div class="primary-sub-section">
         <h1 class="mat-h1 font-700">Basket Info</h1>
@@ -13,7 +15,7 @@
                 <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="pb-10">
                     <span>Basket Name : </span>
                     <span *ngIf="!isEditMode" class="font-600">{{basket.name}}</span>
-                    <a *ngIf="!isEditMode" fxLayout="column" fxLayoutAlign="center center"
+                    <a *ngIf="basket.is_owner && basket.active && !isEditMode" fxLayout="column" fxLayoutAlign="center center"
                         (click)="enterEditMode()"><img src="/assets/images/edit-icon.svg" /></a>
                     <div *ngIf="isEditMode" fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
                         <span fxFlex="50">
@@ -29,7 +31,7 @@
                 <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
                     <span>Description : </span>
                     <span *ngIf="!isDescEditMode" class="font-600">{{basket.description}}</span>
-                    <a *ngIf="!isDescEditMode" fxLayout="column" fxLayoutAlign="center center"
+                    <a *ngIf="basket.is_owner && basket.active && !isDescEditMode" fxLayout="column" fxLayoutAlign="center center"
                         (click)="enterDescEditMode()"><img src="/assets/images/edit-icon.svg" /></a>
                     <div *ngIf="isDescEditMode" fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
                         <span fxFlex="50">
@@ -45,8 +47,8 @@
             </div>
             <div fxFlex.sm="100" fxFlex.xs="100" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px"
                 class="form-group pt-sm-15">
-                <button mat-stroked-button color="primary" (click)="cloneBasket()">Clone Basket</button>
-                <button mat-stroked-button color="primary" (click)="deleteBasket()">Delete Basket</button>
+                <button mat-stroked-button color="primary" (click)="cloneBasket()" >Clone Basket</button>
+                <button mat-stroked-button color="primary" (click)="deleteBasket()" *ngIf="basket.is_owner && basket.active">Delete Basket</button>
             </div>
         </div>
     </div>
@@ -67,11 +69,11 @@
                     </div>
                 </mat-menu>
                 -->
-                <button mat-stroked-button color="primary" (click)="addSymbols()">Add Symbols</button>
+                <button mat-stroked-button color="primary" (click)="addSymbols()" *ngIf="basket.is_owner && basket.active">Add Symbols</button>
             </span>
 
             <span fxFlex fxFlex.xs="100" fxLayout="row" fxLayoutAlign="end center" class="form-group">
-                <button mat-stroked-button color="primary" (click)="deleteSymbols()">Delete Symbols</button>
+                <button mat-stroked-button color="primary" (click)="deleteSymbols()" *ngIf="basket.is_owner && basket.active">Delete Symbols</button>
             </span>
         </div>
         <div class="trading-table height-auto table-scroll pt-15">
@@ -158,8 +160,8 @@
             aria-label="Select page of notifications">
         </mat-paginator>
         <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px" class="pt-15 pb-15">
-            <button mat-stroked-button color="primary">Cancel</button>
-            <button mat-flat-button color="primary" (click)="updateBasket()">Save Changes</button>
+            <button mat-stroked-button color="primary" *ngIf="basket.is_owner && basket.active">Cancel</button>
+            <button mat-flat-button color="primary" (click)="updateBasket()" *ngIf="basket.is_owner && basket.active">Save Changes</button>
         </div>
     </div>
 </div>

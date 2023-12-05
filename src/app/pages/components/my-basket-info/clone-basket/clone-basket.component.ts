@@ -10,18 +10,25 @@ import { UtilitiesService } from 'src/app/services/utilities.service';
 })
 export class CloneBasketComponent {
   basketName!: string;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private basketService: BasketsService, private dialogRef: MatDialogRef<CloneBasketComponent>, private utilitiesService: UtilitiesService) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private basketService: BasketsService, private dialogRef: MatDialogRef<CloneBasketComponent>, private utilitiesService: UtilitiesService) {
+    this.basketName = 'Clone of ' + this.data.name
+  }
 
   cloneBasket() {
-    this.data.action = 'clone';
-    this.data.name = this.basketName;
-    this.basketService.createBasket(this.data).then((data) => {
-      if(!(data && data.status.id)) {
-        this.utilitiesService.displayInfoMessage("Error Creating Basket: " + JSON.stringify(data,null,2));
+    let basket = {
+      name: this.basketName,
+      description: this.data.description,
+      action: 'CLONE',
+      sourceBasketId: this.data.id
+    }
+
+    this.basketService.createBasket(basket).then((data) => {
+      if(data.error || !data.id) {
+        this.utilitiesService.displayInfoMessage("Error Creating Basket: " + data.error);
       }
       else {
-        this.utilitiesService.displayInfoMessage(`${this.basketName} created!`);
-        this.dialogRef.close({success: true, id: data.status.id});
+        this.utilitiesService.displayInfoMessage(`${basket.name} created!`);
+        this.dialogRef.close({success: true, id: data.id});
       }
     })
   }

@@ -8,6 +8,7 @@ import { KeyValue, KeyValuePipe } from '@angular/common';
 import { Basket } from 'src/app/interfaces/basket';
 import { BasketsService } from 'src/app/services/baskets.service';
 import { UserService } from 'src/app/services/user.service';
+import { UtilitiesService } from 'src/app/services/utilities.service';
 
 interface Account {
   value: string;
@@ -54,7 +55,7 @@ export class MyBasketsComponent {
     visibilityFilter: this.visibilityFilter['All']
   }
 
-  constructor(public dialog: MatDialog, private router: Router, private basketService: BasketsService, private userService: UserService) {}
+  constructor(public dialog: MatDialog, private router: Router, private basketService: BasketsService, private userService: UserService, private utilityService: UtilitiesService) {}
 
   createBasket() {
     let dialogRef = this.dialog.open(CreateBasketComponent, {
@@ -96,10 +97,16 @@ export class MyBasketsComponent {
 
   ngOnInit() {
     // Get users baskets
-    this.basketService.getAllBaskets().then((basket: Basket[]) => {
-      this.basket = basket;
-      this.filteredBasket = basket;//this.getActiveBaskets();
-      this.getAllLinkedAccounts();
+    this.basketService.getAllBaskets().then((data) => {
+      if(data.error || !data.baskets) {
+        this.utilityService.displayInfoMessage(data.error, true)
+      }
+      else {
+        this.basket = data.baskets;
+        this.filteredBasket = data.baskets;//this.getActiveBaskets();
+        this.getAllLinkedAccounts();
+      }
+
     });
     // Get current user
     this.userService.getUserDetails().then((user:any) => {

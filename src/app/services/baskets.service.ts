@@ -32,7 +32,17 @@ export class BasketsService {
       return data;
     }
     catch(e: any) {
-      console.log("Get User Details Error: " + e.message);
+      return {error: e.message}
+    }
+  }
+
+  async getAllBasketsForMarketplace(pageNumber: number, pageSize: number, search: string): Promise<any> {
+    try{
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/baskets/marketplace?pageNumber=${pageNumber}&pageSize=${pageSize}&search=${encodeURI(search)}`, this.getHeaders());
+      let data = await res.json();
+      return data;
+    }
+    catch(e: any) {
       return {error: e.message}
     }
   }
@@ -44,7 +54,6 @@ export class BasketsService {
       return data;
     }
     catch(e: any) {
-      console.log("Get User Details Error: " + e.message);
       return {error: e.message}
     }
   }
@@ -56,7 +65,6 @@ export class BasketsService {
       return data;
     }
     catch(e: any) {
-      console.log("Get User Details Error: " + e.message);
       return {error: e.message}
     }
   }
@@ -68,7 +76,6 @@ export class BasketsService {
       return data;
     }
     catch(e: any) {
-      console.log("Get User Details Error: " + e.message);
       return {error: e.message}
     }
   }
@@ -80,7 +87,6 @@ export class BasketsService {
       return data;
     }
     catch(e: any) {
-      console.log("Get User Details Error: " + e.message);
       return {error: e.message}
     }
   }
@@ -92,7 +98,6 @@ export class BasketsService {
       return data;
     }
     catch(e: any) {
-      console.log("Get User Details Error: " + e.message);
       return {error: e.message}
     }
   }
@@ -104,7 +109,6 @@ export class BasketsService {
       return data;
     }
     catch(e: any) {
-      console.log("Get User Details Error: " + e.message);
       return {error: e.message}
     }
   }
@@ -116,7 +120,17 @@ export class BasketsService {
       return data;
     }
     catch(e: any) {
-      console.log("Get User Details Error: " + e.message);
+      return {error: e.message}
+    }
+  }
+
+  async subscribeToBasket(basketId: number): Promise<any> {
+    try{
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/basket/subscribers`, this.getHeaders('PUT', {basketId: basketId}));
+      let data = await res.json();
+      return data;
+    }
+    catch(e: any) {
       return {error: e.message}
     }
   }

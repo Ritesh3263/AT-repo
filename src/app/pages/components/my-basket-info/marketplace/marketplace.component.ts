@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { TermsConditionsComponent } from '../terms-conditions/terms-conditions.component';
-import { TurnoffMarketplaceComponent } from '../turnoff-marketplace/turnoff-marketplace.component';
+import { EditMarketplaceComponent } from '../edit-marketplace/edit-marketplace.component';
+import { JourneyInfoComponent } from '../journey-info/journey-info.component';
+import { BasketsService } from 'src/app/services/baskets.service';
+import {FormBuilder} from '@angular/forms';
 
 @Component({
   selector: 'app-marketplace',
@@ -11,28 +13,41 @@ import { TurnoffMarketplaceComponent } from '../turnoff-marketplace/turnoff-mark
 export class MarketplaceComponent {
   toggleValue = true;
   toggleText = 'ON';
+  basket: any = {};
+  basketId!: number;
 
-  constructor(public dialog: MatDialog) {}
+  form = this._formBuilder.group({
+    public: ''
+  });
+
+
+  constructor(@Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, public dialog: MatDialog, private basketService: BasketsService, private _formBuilder: FormBuilder) {
+    this.basket = {}
+  }
+
+  ngOnInit() {
+    this.basketId = this.parentComponent.getBasketId();
+    this.basketService.getBasketDetails(this.basketId).then((data) => {
+      if(data && data.basket) {
+        this.basket = data.basket;
+        this.form.controls['public'].setValue(this.basket.public)
+      }
+    })
+  }
 
   onToggleChange() {
-    this.toggleText = this.toggleValue ? 'ON' : 'OFF';
+    this.basket.public = !this.basket.public
+    this.toggleText = this.basket.public ? 'ON' : 'OFF';
 
-    if (!this.toggleValue) {
-      this.turnOffMarketplaceDialog();
-    }
+    this.editMarketplaceDialog();
   }
 
-  openTermsConditionsDialog() {
-    this.dialog.open(TermsConditionsComponent, {
+  editMarketplaceDialog() {
+    this.basket.public = this.form.controls['public'].getRawValue();
+    this.dialog.open(EditMarketplaceComponent, {
       panelClass: 'custom-modal',
-      disableClose: true
-    });
-  }
-
-  turnOffMarketplaceDialog() {
-    this.dialog.open(TurnoffMarketplaceComponent, {
-      panelClass: 'custom-modal',
-      disableClose: true
+      disableClose: true,
+      data: {basket: this.basket}
     });
   }
 }
