@@ -24,31 +24,13 @@
             <mat-menu #menu="matMenu" xPosition="before" [overlapTrigger]="false" class="notification-menu">
                 <div class="menu-header" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
                     <span>Notifications</span>
-                    <span fxLayout="column" fxLayoutAlign="center center" class="count">4</span>
+                    <span fxLayout="column" fxLayoutAlign="center center" class="count">{{newNotificationCount}}</span>
                 </div>
                 <ul class="menu-body">
-                    <li class="unread">
+                    <li class="unread" *ngFor="let notification of notifications">
                         <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
-                            <img src="/assets/images/profile-2.jpg" class="profile-img" />
-                            <p><span class="font-600">Cody Edvards</span> commented on your latest basket</p>
-                        </div>
-                    </li>
-                    <li class="unread">
-                        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
-                            <img src="/assets/images/profile-3.jpg" class="profile-img" />
-                            <p><span class="font-600">Cody Edvards</span> commented on your latest basket</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
-                            <img src="/assets/images/profile-4.jpg" class="profile-img" />
-                            <p><span class="font-600">Cody Edvards</span> commented on your latest basket</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
-                            <img src="/assets/images/profile-5.jpg" class="profile-img" />
-                            <p><span class="font-600">Cody Edvards</span> commented on your latest basket</p>
+                            <img src="{{notification.publisher_image}}" class="profile-img" />
+                            <p><span class="font-600">{{notification.publisher_name}}</span> {{notification.subject}}</p>
                         </div>
                     </li>
                 </ul>

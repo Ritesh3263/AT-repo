@@ -37,9 +37,9 @@ export class NotificationsService {
     }
   }
 
-  async getUserNotifications(pagination: any) {
+  async getUserNotifications(pagination: any, onlyUnread: number = 0) {
     try{
-      let res = await fetch(`${this.baseUrl}/user-notifications?pageNumber=${pagination.pageNumber}&pageSize=${pagination.pageSize}`, this.getHeaders());
+      let res = await fetch(`${this.baseUrl}/user-notifications?pageNumber=${pagination.pageNumber}&pageSize=${pagination.pageSize}&onlyUnread=${onlyUnread}`, this.getHeaders());
       let data = await res.json();
       return data;
     }

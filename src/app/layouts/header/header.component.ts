@@ -15,8 +15,9 @@ import { NotificationsService } from 'src/app/services/notifications.service';
 })
 export class HeaderComponent {
   user: any = {};
-  newNotifications = 0;
+  newNotificationCount = 0;
   loadUserEventSubscriber: any = null;
+  notifications: any[] = [];
 
   myProfile() {
     this.dialog.open(ProfileComponent, {
@@ -46,9 +47,10 @@ export class HeaderComponent {
     this.userService.getUserDetails().then((user:any) => {
       this.user = user || {};
     })
-    this.notificationService.getUserNewNotificationCount().then((data: any) => {
-      if(data && data.new_notification_count)
-        this.newNotifications = data.new_notification_count;
+    this.notificationService.getUserNotifications({pageNumber: 0, pageSize: 5}, 1).then((data: any) => {
+      if(data && data.notifications)
+        this.newNotificationCount = data.notifications[0].totalRows;
+        this.notifications = data.notifications;
     })
   }
 
