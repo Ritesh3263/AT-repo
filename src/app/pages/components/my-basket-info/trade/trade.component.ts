@@ -37,10 +37,13 @@ export interface PeriodicElement {
 export class TradeComponent implements AfterViewInit {
  displayedColumns: string[]  = ['select', 'symbol', 'purchasedate', 'costcurrent', 'price', 'sharescurrent', 'investedcurrent', 'marketcurrent', 'pl', 'plpercent'];
  form: FormGroup = new FormGroup(''); // FormGroup
-
+ dropDownDetails = ["Equal Distribution","Investment Per stock","Scale Up","Scale Down"]
   // displayedColumns: string[] = ['select', 'symbol', 'purchasedate', 'costcurrent', 'costnew', 'price', 'sharescurrent', 'sharesnew', 'investedcurrent', 'investednew', 'marketcurrent', 'marketnew', 'pl', 'plpercent'];
   // displayedColumnsOne: string[] = ['select', 'symbol', 'purchasedate', 'costcurrent', 'price', 'sharescurrent', 'investedcurrent', 'marketcurrent', 'pl', 'plpercent'];
-
+  cash_balance :any= 55530.00;
+  account_balance :any = 100000.00;
+  invested:any=0.00
+  market_value:any = 0.00
   dataSource = new MatTableDataSource<PeriodicElement>([]);
   selection = new SelectionModel<PeriodicElement>(true, []);
   isDisplayColumn:boolean=true;
@@ -48,7 +51,7 @@ export class TradeComponent implements AfterViewInit {
     this.getAccountBasketPosition();
     this.form = this.fb.group ({
       investmentType: new FormControl('', [Validators.required]),
-      percentage: new FormControl('', [Validators.required]),
+      percent: new FormControl('', [Validators.required]),
       amount: new FormControl('', [Validators.required])
     })
   }
@@ -115,9 +118,13 @@ export class TradeComponent implements AfterViewInit {
     this.basketTradeService.getAccountBasketPosition(1).then((data) => {
       if(data) {
         this.displayedColumns = ['select', 'symbol', 'purchasedate', 'costcurrent', 'price', 'sharescurrent', 'investedcurrent', 'marketcurrent', 'pl', 'plpercent'];
-        this.dataSource.data= data
-        this.isDisplayColumn =false;
-        console.log("svlslvnskkdnskn",data)
+        for(let i=0;i<data.length;i++){
+          data[i].current_market_value =Number((data[i].price*data[i].current_shares).toFixed(2))
+          this.dataSource.data= data
+          this.isDisplayColumn =false;
+        }
+        
+        
         // this.basket = data.basket;
         // this.dataSource = new MatTableDataSource<PeriodicElement>(this.basket.tickers);
       }
@@ -153,8 +160,142 @@ export class TradeComponent implements AfterViewInit {
   }
 
   calculateTotal(column: string): number {
-    console.log("hhhhh",this.dataSource.data,this.dataSource.data.reduce((acc, current:any) => acc + current[column], 0))
+    let total:number = this.dataSource.data.reduce((acc, current:any) => acc + current[column], 0)
+    if(column == 'current_market_value'){
+      this.market_value = total
+    }else if(column == 'current_invested'){
+      this.invested = total
+    }
     // Sum the values in the column
-    return this.dataSource.data.reduce((acc, current:any) => acc + current[column], 0);
+    return Number(total);
   }
+
+/****
+ * on selected investmentment type onSelectInvestmentType function is called 
+ */
+  onSelectInvestmentType(investmentType:any){
+    this.form.controls['percent'].setValue(null);
+    this.form.controls['amount'].setValue(null);
+  }
+
+/****
+ * on entering percent value onChangePercent function is called 
+ */
+  onChangePercent(percent:any){
+    percent = Number(percent);
+      /**convert string to number **/
+      if (0 < percent && percent <= 100) {
+          var selectedPosition = this.selection.selected;
+          let totalAmount = 0;
+          for (let i = 0; i < selectedPosition.length; i++) {
+              if ((this.form.controls['investmentType'].value == 'Equal Distribution') || (this.form.controls['investmentType'].value == 'Investment Per stock')) {
+                  let Amount = ((percent * this.cash_balance) / 100).toFixed(3);
+                  this.form.controls['amount'].setValue(Number(Amount));
+                  let total = this.form.controls['investmentType'].value == 'Equal Distribution' ? this.form.controls['amount'].value / selectedPosition.length : this.form.controls['amount'].value;
+                  selectedPosition[i].new_shares = ~~(total / selectedPosition[i].price);
+
+                  if (selectedPosition[i].new_shares != 0) {
+                      selectedPosition[i].new_invested = Number((selectedPosition[i].new_shares * selectedPosition[i].price).toFixed(3));
+                      selectedPosition[i].new_market_value = Number((selectedPosition[i].new_shares * selectedPosition[i].price).toFixed(3))
+                      selectedPosition[i].new_cost = Number((((selectedPosition[i].current_invested + Number(selectedPosition[i].new_invested)) / (selectedPosition[i].new_shares + selectedPosition[i].current_shares)) - selectedPosition[i].current_cost).toFixed(3));
+                  }
+              }
+              else {
+                  for(let i=0;i<selectedPosition.length;i++){
+                  selectedPosition[i].new_shares = selectedPosition[i].current_shares == 0 ? 0 : ~~((selectedPosition[i].current_shares * percent) / 100);
+                  selectedPosition[i].new_invested = Number((selectedPosition[i].new_shares * selectedPosition[i].price).toFixed(3));
+                  selectedPosition[i].new_market_value = Number((selectedPosition[i].new_shares * selectedPosition[i].price).toFixed(3));
+                  totalAmount = totalAmount + Number(selectedPosition[i].new_shares * selectedPosition[i].price);
+                  if (selectedPosition.length - 1 == i) {
+                      this.form.controls['amount'].setValue(totalAmount.toFixed(3))
+                  }
+                  if (this.form.controls['investmentType'].value == 'Scale Down' && selectedPosition[i].current_shares != 0 && selectedPosition[i].new_shares != 0) {
+                        selectedPosition[i].new_cost = Number(((selectedPosition[i].current_shares - selectedPosition[i].new_shares) <= 0 ? (selectedPosition[i].price - selectedPosition[i].current_cost) : ((selectedPosition[i].current_invested - selectedPosition[i].new_invested) / (selectedPosition[i].current_shares - selectedPosition[i].new_shares)) - selectedPosition[i].current_cost).toFixed(3));
+                      selectedPosition[i].new_shares = -1 *  selectedPosition[i].new_shares;
+                      selectedPosition[i].new_invested = -1 *  selectedPosition[i].new_invested;
+                      selectedPosition[i].new_market_value = -1 * selectedPosition[i].new_market_value;
+                  } else if (this.form.controls['investmentType'].value == 'Scale Up' && selectedPosition[i].new_shares != 0) {
+                     selectedPosition[i].new_cost =Number((((selectedPosition[i].current_invested + selectedPosition[i].new_invested) / (selectedPosition[i].current_shares + selectedPosition[i].new_shares)) - selectedPosition[i].current_cost).toFixed(3));
+                  }
+
+
+              }
+          }
+        }
+      } else {
+          this.form.controls['amount'].setValue(0);
+
+      }
+
+  }
+
+onChangeAmount(amount:any){
+  amount = Number(amount);
+  /**convert string to number **/
+  if (0 < amount) {
+
+      var selectedTickers = this.selection.selected;
+      /***
+       * mValue is selected tickers sum of market value, Used for calculating the percent
+       * 
+       */
+      var mValue = selectedTickers.reduce(function (total:any, currentValue:any) {
+          return total + currentValue.current_market_value; // Add the value of the 'value' key to the total
+      }, 0);
+
+      for (let i = 0; i < selectedTickers.length; i++) {
+          if ((this.form.controls['investmentType'].value == 'Equal Distribution') || (this.form.controls['investmentType'].value == 'Investment Per stock')) {
+              if (selectedTickers.length - 1 == i) {
+                  let percent = ((amount / this.cash_balance) * 100).toFixed(2);
+                  this.form.controls['percent'].setValue(Number(percent));
+              }
+              let total = this.form.controls['investmentType'].value == 'Equal Distribution' ? this.form.controls['amount'].value / selectedTickers.length : this.form.controls['amount'].value;
+              selectedTickers[i].new_shares = ~~(total / selectedTickers[i].price);
+              if (selectedTickers[i].new_shares != 0) {
+                  selectedTickers[i].new_invested = Number((selectedTickers[i].new_shares * selectedTickers[i].price).toFixed(3));
+                  selectedTickers[i].new_market_value = Number((selectedTickers[i].new_shares * selectedTickers[i].price).toFixed(3));
+                  selectedTickers[i].new_cost = Number((((selectedTickers[i].current_invested + Number(selectedTickers[i].new_invested)) / (selectedTickers[i].new_shares + selectedTickers[i].current_shares)) - selectedTickers[i].current_cost).toFixed(3));
+                }
+            
+          }
+          else {
+              let percent = Number(((amount * 100) / mValue).toFixed(2));
+              selectedTickers[i].new_shares = selectedTickers[i].current_shares == 0 ? 0 : ~~((selectedTickers[i].current_shares * percent) / 100);
+              selectedTickers[i].new_invested = Number((selectedTickers[i].new_shares * selectedTickers[i].price).toFixed(3));
+              selectedTickers[i].new_market_value = Number((selectedTickers[i].new_shares * selectedTickers[i].price).toFixed(3));
+              if (selectedTickers.length - 1 == i) {
+                  this.form.controls['percent'].setValue(percent)
+              }
+              if (this.form.controls['investmentType'].value == 'Scale Down' && selectedTickers[i].current_shares != 0 && selectedTickers[i].new_shares != 0) {
+                  selectedTickers[i].new_cost = Number(((selectedTickers[i].current_shares - selectedTickers[i].new_shares) <= 0 ? (selectedTickers[i].price - selectedTickers[i].current_cost) : ((selectedTickers[i].current_invested - selectedTickers[i].new_invested) / (selectedTickers[i].current_shares - selectedTickers[i].new_shares)) - selectedTickers[i].current_cost).toFixed(3));
+                  selectedTickers[i].new_shares = -1 *  selectedTickers[i].new_shares;
+                  selectedTickers[i].new_invested = -1 *  selectedTickers[i].new_invested;
+                  selectedTickers[i].new_market_value = -1 * selectedTickers[i].new_market_value;
+              } else if (this.form.controls['investmentType'].value == 'Scale up' && selectedTickers[i].new_shares != 0) {
+                  selectedTickers[i].new_cost = Number((((selectedTickers[i].current_invested + selectedTickers[i].new_invested) / (selectedTickers[i].current_shares + selectedTickers[i].new_shares)) - selectedTickers[i].current_cost).toFixed(3));
+                  // selectedTickers[i].transaction_type = 'Buy';
+                  
+              } 
+          }
+      }
+
+  } else {
+      this.form.controls['percent'].setValue(0);
+
+  }
+}
+
+closeAllPositions(){
+  this.calculateDialog();
+ var selectedPosition = this.selection.selected;
+ for(let i =0;i<selectedPosition.length;i++){
+  selectedPosition[i].new_shares = -1 * selectedPosition[i].current_shares
+  selectedPosition[i].new_invested =-1 * Number((selectedPosition[i].current_shares * selectedPosition[i].price).toFixed(3))
+  selectedPosition[i].new_market_value = -1 *Number((selectedPosition[i].current_shares * selectedPosition[i].price).toFixed(3))
+  selectedPosition[i].new_cost = Number((selectedPosition[i].price - selectedPosition[i].current_cost).toFixed(3));
+
+ }
+
+
+}
 }
