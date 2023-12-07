@@ -4,12 +4,12 @@
         <span fxFlex fxFlex.xs="100" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="15px" class="pt-xs-15">
             <div fxLayout="column">
                 <p class="no-margin">Account Balance</p>
-                <h3 class="mat-h3 no-margin font-600">$98,891.710</h3>
+                <h3 class="mat-h3 no-margin font-600">{{data.account_balance | currency:'USD':'symbol':'1.2-2' }}</h3>
             </div>
             <mat-divider vertical="true" style="height: 40px;"></mat-divider>
             <div fxLayout="column">
                 <p class="no-margin">Current Cash Balance</p>
-                <h3 class="mat-h3 no-margin font-600">$98,891.710</h3>
+                <h3 class="mat-h3 no-margin font-600">{{data.cash_balance | currency:'USD':'symbol':'1.2-2' }}</h3>
             </div>
         </span>
     </div>
@@ -18,22 +18,22 @@
             <table mat-table [dataSource]="dataSource">
                 <ng-container matColumnDef="tickersymbol">
                     <th mat-header-cell *matHeaderCellDef> Ticker Symbol </th>
-                    <td mat-cell *matCellDef="let element"> {{element.tickersymbol}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.ticker_id}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="shares">
                     <th mat-header-cell *matHeaderCellDef> Shares </th>
-                    <td mat-cell *matCellDef="let element"> {{element.shares}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.current_shares}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="currentprice">
                     <th mat-header-cell *matHeaderCellDef> Current Price </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.currentprice | currency:'USD':'symbol':'1.2-2' }} </td>
+                    <td mat-cell *matCellDef="let element"> {{ element.price | currency:'USD':'symbol':'1.2-2' }} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="investaccount">
                     <th mat-header-cell *matHeaderCellDef> Invest Account </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.investaccount | currency:'USD':'symbol':'1.2-2' }} </td>
+                    <td mat-cell *matCellDef="let element"> {{ element.current_invested | currency:'USD':'symbol':'1.2-2' }} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="empty">

@@ -6,7 +6,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ConnectDialogComponent } from './connect-dialog/connect-dialog.component';
 import { BrokerageService } from '../../../services/brokerage.service'
 import {FormControl, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { NgxSpinnerService } from "ngx-spinner";
 import { ActivatedRoute } from '@angular/router';
 import { LocationStrategy } from '@angular/common';
 
@@ -44,7 +43,7 @@ export class BrokerageComponent {
    brokerage_type = new FormControl('1', [Validators.required]);
    state:any;
    tokenForRetrieveAccounts :any=null;
-  constructor(public dialog: MatDialog,private brokerageService:BrokerageService,private spinner: NgxSpinnerService,private route: ActivatedRoute,private location:LocationStrategy) {
+  constructor(public dialog: MatDialog,private brokerageService:BrokerageService,private route: ActivatedRoute,private location:LocationStrategy) {
     // getting access token from tradestation 
     this.state = this.location.getState();
     if(this.state && this.state.code){

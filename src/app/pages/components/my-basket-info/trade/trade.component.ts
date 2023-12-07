@@ -55,11 +55,14 @@ export class TradeComponent implements AfterViewInit {
       amount: new FormControl('', [Validators.required])
     })
   }
+  symbolInput:any;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+   
+    
     
   }
 
@@ -99,9 +102,16 @@ export class TradeComponent implements AfterViewInit {
   }
 
   confirmTrade() {
+
+    let inputModelPopup={
+     account_balance:this.cash_balance+this.market_value,
+     cash_balance : this.cash_balance,
+     symbols :this.selection.selected
+    }
     this.dialog.open(ConfirmTradeComponent, {
       panelClass: 'custom-modal',
-      disableClose: true
+      disableClose: true,
+      data:inputModelPopup
     });
   }
 
@@ -120,11 +130,15 @@ export class TradeComponent implements AfterViewInit {
         this.displayedColumns = ['select', 'symbol', 'purchasedate', 'costcurrent', 'price', 'sharescurrent', 'investedcurrent', 'marketcurrent', 'pl', 'plpercent'];
         for(let i=0;i<data.length;i++){
           data[i].current_market_value =Number((data[i].price*data[i].current_shares).toFixed(2))
+          if(i==0){
+            this.symbolInput = data[i].ticker_id;
+          }else{
+            this.symbolInput = this.symbolInput+','+data[i].ticker_id;
+          }
           this.dataSource.data= data
           this.isDisplayColumn =false;
         }
-        
-        
+        this.getSymbolPrice();
         // this.basket = data.basket;
         // this.dataSource = new MatTableDataSource<PeriodicElement>(this.basket.tickers);
       }
@@ -297,5 +311,10 @@ closeAllPositions(){
  }
 
 
+}
+
+getSymbolPrice(){
+  this.basketTradeService.getSymbolPrice(this.symbolInput).then((data) => {
+  });
 }
 }

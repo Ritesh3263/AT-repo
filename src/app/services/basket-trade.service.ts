@@ -6,6 +6,8 @@ import { environment } from 'src/environments/environment';
 })
 export class BasketTradeService {
 
+  externalApiUrl:any=environment.externalApiUrl;
+
   constructor() { }
   getHeaders(method: string = "GET", body:any = null): RequestInit {
     let headers: RequestInit = {
@@ -31,6 +33,21 @@ export class BasketTradeService {
     }
     catch(e: any) {
       console.log("Get User Details Error: " + e.message);
+      return {error: e.message}
+    }
+  }
+
+
+  async getSymbolPrice(input: any): Promise<any> {
+    try{
+      let header = this.getHeaders('POST', {"tickers": input})
+      delete header.credentials;
+      let res = await fetch(`${environment.externalApiUrl}`, header);
+      let data = await res.json();
+      return data;
+    }
+    catch(e: any) {
+      console.log("Get symbol price: " + e.message);
       return {error: e.message}
     }
   }

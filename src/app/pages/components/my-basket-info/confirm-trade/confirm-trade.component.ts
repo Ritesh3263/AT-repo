@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export interface PeriodicElement {
   tickersymbol: string;
@@ -17,9 +18,12 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./confirm-trade.component.scss']
 })
 export class ConfirmTradeComponent {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
+  }
+
   displayedColumns: string[] = ['tickersymbol', 'shares', 'currentprice', 'investaccount'];
   displayedColumns2: string[] = ['empty','empty','title', 'amount'];
   displayedColumns3: string[] = ['empty2','empty2','title2', 'amount2'];
   displayedColumns4: string[] = ['empty3','empty3','title3', 'amount3'];
-  dataSource = ELEMENT_DATA;
+  dataSource = this.data.symbols;
 }
