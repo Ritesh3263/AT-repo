@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import {FormControl, Validators, FormBuilder, FormsModule, ReactiveFormsModule, FormGroup} from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Basket } from 'src/app/interfaces/basket';
 import { BasketsService } from 'src/app/services/baskets.service';
+import { UtilitiesService } from 'src/app/services/utilities.service';
 
 @Component({
   selector: 'app-create-basket',
@@ -18,7 +18,7 @@ export class CreateBasketComponent {
   form: FormGroup = new FormGroup(''); // FormGroup
   baskets: Basket[] = []
 
-  constructor(private fb: FormBuilder, public dialog: MatDialog, private basketService: BasketsService, private dialogRef: MatDialogRef<CreateBasketComponent>, private _snackBar: MatSnackBar) {}
+  constructor(private fb: FormBuilder, public dialog: MatDialog, private basketService: BasketsService, private dialogRef: MatDialogRef<CreateBasketComponent>, private utilityService: UtilitiesService) {}
 
   ngOnInit() {
     this.form = this.fb.group ({
@@ -27,8 +27,13 @@ export class CreateBasketComponent {
       action: new FormControl('', [Validators.required]),
       sourceBasketId: new FormControl('')
     })
-    this.basketService.getAllBaskets(true).then((basket: Basket[]) => {
-      this.baskets = basket;
+    this.basketService.getAllBaskets(1, 1).then((data: any) => {
+      if(data.error || !data.baskets) {
+        this.utilityService.displayInfoMessage("Error Loading Basket List: " + data.error, true);
+      }
+      else {
+        this.baskets = data.baskets;
+      }
     });
   }
 
@@ -47,13 +52,6 @@ export class CreateBasketComponent {
    return this.form.valid;
   }
 
-  displayInfoMessage(message: string, error = false) {
-    this._snackBar.open(message, 'Dismiss', {
-      duration: 5000,
-      panelClass: error ? ['warn-snackbar'] : ['primary-snackbar']
-    });
-  }
-
   createBasket() {
     let form = this.form.controls;
     // Deepcopy the basket object before sending to API to avoid altering FormControl data
@@ -65,10 +63,10 @@ export class CreateBasketComponent {
 
     this.basketService.createBasket(basket).then((data) => {
       if(data.error || !data.id) {
-        this.displayInfoMessage("Error Creating Basket: " + data.error);
+        this.utilityService.displayInfoMessage("Error Creating Basket: " + data.error, true);
       }
       else {
-        this.displayInfoMessage(`${basket.name} created!`);
+        this.utilityService.displayInfoMessage(`${basket.name} created!`);
         this.dialogRef.close({success: true, id: data.id});
       }
     })

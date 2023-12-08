@@ -10,3 +10,16 @@
         opacity: 1;
     }
 }
+
+.like-icon.active {
+    //color: var(--PRIMARY_COLOR);
+    color: #EC5954;
+    opacity: 1;
+}
+
+.like-icon.disabled {
+    //color: var(--PRIMARY_COLOR);
+    opacity: .85;
+    cursor: not-allowed;
+
+}

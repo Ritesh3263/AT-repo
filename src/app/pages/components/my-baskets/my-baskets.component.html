@@ -71,9 +71,9 @@
             </div>
             <div fxLayout="row wrap" fxLayoutAlign="start stretch" class="form-row mt-20">
                 <div fxFlex="25" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" class="form-group" *ngFor="let basket of filteredBasket">
-                    <mat-card class="basket-card {{getBasketPeformanceClass(basket)}}" (click)="myBasketInfo(basket)">
+                    <mat-card class="basket-card {{getBasketPeformanceClass(basket)}}" >
                         <div class="basket-header">
-                            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+                            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" (click)="myBasketInfo(basket)">
                                 <h2 class="mat-h2">{{basket.name}}</h2>
                             </div>
                             <p class="desc">
@@ -102,9 +102,11 @@
                             <div fxFlex="initial" fxLayout="column" fxLayoutGap="10px">
                                 <span fxFlex="initial" class="public-chip" [hidden]="!basket.public">Public</span>
                                 <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
+                                    <!--
                                     <a class="like-icon">
                                         <mat-icon>favorite</mat-icon>
                                     </a>
+                                    -->
                                     <a class="like-icon">
                                         <mat-icon>share</mat-icon>
                                     </a>
@@ -153,7 +155,7 @@
                             </button>
                             <button mat-menu-item (click)="navigate(basket, 'marketplace')">
                                 <mat-icon>ios_share</mat-icon>
-                                <span>Publish to Marketplace</span>
+                                <span>{{basket.public ? 'Remove from Marketplace' : 'Publish to Marketplace'}}</span>
                             </button>
                             <button mat-menu-item (click)="navigate(basket, 'subscription')" *ngIf="!basket.is_owner">
                                 <mat-icon>unsubscribe</mat-icon>
@@ -173,15 +175,15 @@
         <mat-tab>
             <ng-template mat-tab-label>
                 <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
-                    <span>Favourites</span>
-                    <span class="count">{{filteredBasket.length}}</span>
+                    <span>Favorites</span>
+                    <span class="count">{{favoriteBaskets.length}}</span>
                 </span>
             </ng-template>
             <div fxLayout="row wrap" fxLayoutAlign="start stretch" class="form-row mt-20">
-                <div fxFlex="25" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" class="form-group" *ngFor="let basket of filteredBasket">
-                    <mat-card class="basket-card {{getBasketPeformanceClass(basket)}}" (click)="myBasketInfo(basket)">
+                <div fxFlex="25" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" class="form-group" *ngFor="let basket of favoriteBaskets">
+                    <mat-card class="basket-card {{getBasketPeformanceClass(basket)}}">
                         <div class="basket-header">
-                            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+                            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" (click)="myBasketInfo(basket)">
                                 <h2 class="mat-h2">{{basket.name}}</h2>
                             </div>
                             <p class="desc">
@@ -210,8 +212,8 @@
                             <div fxFlex="initial" fxLayout="column" fxLayoutGap="10px">
                                 <span fxFlex="initial" class="public-chip" [hidden]="!basket.public">Public</span>
                                 <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
-                                    <a class="like-icon">
-                                        <mat-icon>favorite</mat-icon>
+                                    <a class="like-icon {{basket.is_favorite ? 'active' : ''}}">
+                                        <mat-icon (click)="setFavoriteBasket(basket)">favorite</mat-icon>
                                     </a>
                                     <a class="like-icon">
                                         <mat-icon>share</mat-icon>
@@ -259,13 +261,15 @@
                                 <mat-icon>trending_up</mat-icon>
                                 <span>Trade</span>
                             </button>
+                            <!--
                             <button mat-menu-item routerLink="/my-basket-info/marketplace">
                                 <mat-icon>ios_share</mat-icon>
                                 <span>Publish to Marketplace</span>
                             </button>
-                            <button mat-menu-item routerLink="/my-basket-info/subscription">
+                            -->
+                            <button mat-menu-item routerLink="/my-basket-info/subscription" *ngIf="!basket.is_owner">
                                 <mat-icon>unsubscribe</mat-icon>
-                                <span>Unsubscribe</span>
+                                <span>{{basket.is_subscribed ? 'Unsubscribe' : 'Subscribe'}}</span>
                             </button>
                             <button mat-menu-item>
                                 <mat-icon>archive</mat-icon>

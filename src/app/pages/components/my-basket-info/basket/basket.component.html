@@ -9,27 +9,26 @@
         <a class="bold">Basket / Symbols</a>
     </div>
     <div class="primary-sub-section">
-        <h1 class="mat-h1 font-700">Basket Info</h1>
+
+        <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="pb-10">
+            <h1 class="mat-h1 font-700" *ngIf="!isEditMode">{{basket.name}}</h1>
+            <a *ngIf="basket.is_owner && basket.active && !isEditMode" fxLayout="column" fxLayoutAlign="center center"
+                (click)="enterEditMode()"><img src="/assets/images/edit-icon.svg" class="h1-image"/></a>
+            <div *ngIf="isEditMode" fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <span fxFlex="50">
+                    <mat-form-field appearance="outline" class="no-error">
+                        <input matInput [(ngModel)]="basket.name">
+                    </mat-form-field>
+                </span>
+                <button mat-icon-button color="primary" (click)="exitEditMode()">
+                    <mat-icon>save</mat-icon>
+                </button>
+            </div>
+        </span>
         <div fxLayout="row wrap" fxLayoutAlign="start start" class="form-row">
             <div fxFlex fxFlex.sm="100" fxFlex.xs="100" class="form-group">
-                <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="pb-10">
-                    <span>Basket Name : </span>
-                    <span *ngIf="!isEditMode" class="font-600">{{basket.name}}</span>
-                    <a *ngIf="basket.is_owner && basket.active && !isEditMode" fxLayout="column" fxLayoutAlign="center center"
-                        (click)="enterEditMode()"><img src="/assets/images/edit-icon.svg" /></a>
-                    <div *ngIf="isEditMode" fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-                        <span fxFlex="50">
-                            <mat-form-field appearance="outline" class="no-error">
-                                <input matInput [(ngModel)]="basket.name">                                                   <!-- TODO: Fixme -->
-                            </mat-form-field>
-                        </span>
-                        <button mat-icon-button color="primary" (click)="exitEditMode()">
-                            <mat-icon>save</mat-icon>
-                        </button>
-                    </div>
-                </span>
                 <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-                    <span>Description : </span>
+                    <!-- <span>Description : </span> -->
                     <span *ngIf="!isDescEditMode" class="font-600">{{basket.description}}</span>
                     <a *ngIf="basket.is_owner && basket.active && !isDescEditMode" fxLayout="column" fxLayoutAlign="center center"
                         (click)="enterDescEditMode()"><img src="/assets/images/edit-icon.svg" /></a>
@@ -139,9 +138,7 @@
                         </mat-menu>
 
                         <mat-menu #baskets="matMenu">
-                            <button mat-menu-item>Basket 1</button>
-                            <button mat-menu-item>Basket 2</button>
-                            <button mat-menu-item>Basket 3</button>
+                            <button mat-menu-item *ngFor="let basket of basketList" (click)="addSymbolToBasket(basket, element)">{{basket.name}}</button>
                         </mat-menu>
                     </td>
                 </ng-container>
