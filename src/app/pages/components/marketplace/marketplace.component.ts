@@ -18,6 +18,10 @@ export class MarketplaceMainComponent {
   constructor(private router: Router, private basketService: BasketsService, private utilityService: UtilitiesService) {}
 
   ngOnInit() {
+    this.getBaskets();
+  }
+
+  getBaskets() {
     // Get users baskets
     this.basketService.getAllBasketsForMarketplace(0, 1000, this.search).then((data) => {
       if(data.error || !data.baskets) {
@@ -50,6 +54,7 @@ export class MarketplaceMainComponent {
       }
       else {
         this.utilityService.displayInfoMessage(basket.is_favorite ? "Basket added to favorites" : "Basket removed from favorites")
+        basket.basket_favorites += basket.is_favorite ? 1 : -1;
       }
     })
   }

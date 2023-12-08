@@ -28,7 +28,7 @@
         <div fxLayout="row wrap" fxLayoutAlign="start start" class="form-row">
             <div fxFlex fxFlex.sm="100" fxFlex.xs="100" class="form-group">
                 <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-                    <!-- <span>Description : </span> -->
+                    <span>Description : </span>
                     <span *ngIf="!isDescEditMode" class="font-600">{{basket.description}}</span>
                     <a *ngIf="basket.is_owner && basket.active && !isDescEditMode" fxLayout="column" fxLayoutAlign="center center"
                         (click)="enterDescEditMode()"><img src="/assets/images/edit-icon.svg" /></a>
@@ -39,6 +39,26 @@
                             </mat-form-field>
                         </span>
                         <button mat-icon-button color="primary" (click)="exitDescEditMode()">
+                            <mat-icon>save</mat-icon>
+                        </button>
+                    </div>
+                </span>
+            </div>
+        </div>
+        <div fxLayout="row wrap" fxLayoutAlign="start start" class="form-row">
+            <div fxFlex fxFlex.sm="100" fxFlex.xs="100" class="form-group">
+                <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                    <span>Tags : </span>
+                    <span *ngIf="!isTagsEditMode" class="font-600">{{basket.tags}}</span>
+                    <a *ngIf="basket.is_owner && basket.active && !isTagsEditMode" fxLayout="column" fxLayoutAlign="center center"
+                        (click)="enterTagsEditMode()"><img src="/assets/images/edit-icon.svg" /></a>
+                    <div *ngIf="isTagsEditMode" fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                        <span fxFlex="50">
+                            <mat-form-field appearance="outline" class="no-error">
+                                <textarea matInput [(ngModel)]="basket.tags"></textarea>                                         <!-- TODO: Fixme -->
+                            </mat-form-field>
+                        </span>
+                        <button mat-icon-button color="primary" (click)="exitTagsEditMode()">
                             <mat-icon>save</mat-icon>
                         </button>
                     </div>
