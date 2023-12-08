@@ -45,8 +45,8 @@
                     <div fxFlex="initial" fxLayout="column" fxLayoutGap="10px">
                         <span fxFlex="initial" class="public-chip subscribe" (click)="subscribeToBasket(basket)">Subscribe</span>
                         <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
-                            <a class="like-icon">
-                                <mat-icon>favorite</mat-icon>
+                            <a class="like-icon {{basket.is_favorite ? 'active' : basket.is_owner ? 'disabled' : ''}}" >
+                                <mat-icon (click)="setFavoriteBasket(basket)">favorite</mat-icon>
                             </a>
                             <a class="like-icon">
                                 <mat-icon>share</mat-icon>

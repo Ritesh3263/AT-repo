@@ -39,4 +39,18 @@ export class MarketplaceMainComponent {
       }
     })
   }
+
+  setFavoriteBasket(basket: Basket) {
+    if(basket.is_owner)
+      return;
+    basket.is_favorite = !basket.is_favorite;
+    this.basketService.setFavoriteBasket(basket.id, basket.is_favorite ? 'PUT' : 'DELETE').then((data) => {
+      if(data.error || !data.success) {
+        this.utilityService.displayInfoMessage(data.error, true)
+      }
+      else {
+        this.utilityService.displayInfoMessage(basket.is_favorite ? "Basket added to favorites" : "Basket removed from favorites")
+      }
+    })
+  }
 }

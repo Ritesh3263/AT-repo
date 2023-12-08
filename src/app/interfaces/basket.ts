@@ -17,5 +17,7 @@ export interface Basket {
     invested_market: number,
     linked_accounts: number,
     basket_subscribers: number,
-    is_owner : boolean
+    is_owner : boolean,
+    is_favorite: boolean,
+    is_subscribed: boolean
 }

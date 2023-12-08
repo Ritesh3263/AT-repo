@@ -31,6 +31,7 @@ export class MyBasketsComponent {
   user: any = {};
   // Full Basket ( Retrieved from API)
   basket: any[] = [];
+  favoriteBaskets: Basket[] = [];
   // Filtered Basket for In-Memory Searching, Sorting, Ordering etc.
   filteredBasket: Basket[] = [];
 
@@ -111,6 +112,16 @@ export class MyBasketsComponent {
     this.userService.getUserDetails().then((user:any) => {
       this.user = user || {};
     })
+
+    this.basketService.getFavoriteBaskets().then((data) => {
+      if(data.error || !data.baskets) {
+        this.utilityService.displayInfoMessage(data.error, true)
+      }
+      else {
+        this.favoriteBaskets = data.baskets;
+      }
+
+    });
   }
 
   getAllLinkedAccounts() {
@@ -167,4 +178,41 @@ export class MyBasketsComponent {
   navigate(basket: Basket, path: string) {
     this.utilityService.navigate(`/my-basket-info/${basket.id}/${path}`)
   }
+
+  removeFavoriteFromBasket(basket: Basket) {
+    for(let i = 0; i < this.favoriteBaskets.length; i++) {
+      if(this.favoriteBaskets[i].id == basket.id) {
+        this.favoriteBaskets.splice(i,1);
+      }
+    }
+  }
+
+  setFavoriteBasket(basket: Basket) {
+    basket.is_favorite = !basket.is_favorite;
+    this.basketService.setFavoriteBasket(basket.id, basket.is_favorite ? 'PUT' : 'DELETE').then((data) => {
+      if(data.error || !data.success) {
+        this.utilityService.displayInfoMessage(data.error, true)
+      }
+      else {
+        this.utilityService.displayInfoMessage(basket.is_favorite ? "Basket added to favorites" : "Basket removed from favorites");
+        if(!basket.is_favorite) {
+          // Remove this basket from in-memory array
+          this.removeFavoriteFromBasket(basket);
+        }
+      }
+    })
+  }
+
+  updateSubscription(basket: Basket) {
+    basket.is_subscribed = !basket.is_subscribed
+    // Subscribe to basket
+    this.basketService.subscribeToBasket(basket.id, basket.is_subscribed ? 'PUT' : 'DELETE').then((data) => {
+      if(data.error || !data.success) {
+        this.utilityService.displayInfoMessage("Error subscribing to basket.", true)
+      }
+      else {
+        this.utilityService.displayInfoMessage(basket.is_subscribed ? "Subscribed to basket." : "Unsubscribed from basket.")
+      }
+    })
+}
 }

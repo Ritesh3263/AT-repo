@@ -37,28 +37,14 @@ export class SubscriptionComponent {
   }
 
   updateSubscription() {
-    if(this.subscribed) {
       // Subscribe to basket
-      this.basketService.subscribeToBasket(this.basket.id).then((data) => {
+      this.basketService.subscribeToBasket(this.basket.id, this.subscribed ? 'PUT' : 'DELETE').then((data) => {
         if(data.error || !data.success) {
           this.utilityService.displayInfoMessage("Error subscribing to basket.", true)
         }
         else {
-          this.utilityService.displayInfoMessage("Subscribed to basket.")
+          this.utilityService.displayInfoMessage(this.subscribed ? "Subscribed to basket." : "Unsubscribed from basket.")
         }
       })
-    }
-    else {
-      // Unsubscribe from basket
-      this.basketService.unsubscribeFromBasket(this.basket.id).then((data) => {
-        if(data.error || !data.success) {
-          this.utilityService.displayInfoMessage("Error unsubscribing from basket.", true)
-        }
-        else {
-          this.utilityService.displayInfoMessage("Unsubscribed from basket.")
-          this.utilityService.navigate('/my-basket')
-        }
-      })
-    }
   }
 }

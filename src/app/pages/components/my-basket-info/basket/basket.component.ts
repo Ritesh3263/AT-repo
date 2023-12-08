@@ -30,9 +30,9 @@ export class BasketComponent implements AfterViewInit {
   selection = new SelectionModel<Basket>(this.basket, []);
   basketId: number = 0;
   symbols: any =[]
+  basketList: any = []
 
-
-  constructor(@Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, private renderer: Renderer2, public dialog: MatDialog, private basketService: BasketsService, private activatedRoute: ActivatedRoute, private utilitiesService: UtilitiesService) {}
+  constructor(@Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, private renderer: Renderer2, public dialog: MatDialog, private basketService: BasketsService, private activatedRoute: ActivatedRoute, private utilityService: UtilitiesService) {}
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -40,13 +40,23 @@ export class BasketComponent implements AfterViewInit {
     this.basketId = id || this.parentComponent.getBasketId();
     this.basketService.getBasketDetails(this.basketId).then((data) => {
       if(data.error || !data.basket) {
-        this.utilitiesService.displayInfoMessage(data.error, true)
+        this.utilityService.displayInfoMessage(data.error, true)
       }
       else {
         this.basket = data.basket;
       }
     })
+
     this.getBasketSymbols(true);
+
+    this.basketService.getAllBaskets(1, 0).then((data: any) => {
+      if(data.error || !data.baskets) {
+        this.utilityService.displayInfoMessage("Error Loading Basket List: " + data.error, true);
+      }
+      else {
+        this.basketList = data.baskets;
+      }
+    });
   }
 
   getBasketSymbols(resetPage = false) {
@@ -56,13 +66,13 @@ export class BasketComponent implements AfterViewInit {
     }
     this.basketService.getSymbols(this.basketId, this.pageIndex, this.pageSize).then((data) => {
       if(data.error || !data.symbols) {
-        this.utilitiesService.displayInfoMessage(data.error, true)
+        this.utilityService.displayInfoMessage(data.error, true)
       }
       else {
         this.symbols = data.symbols;
         this.dataSource = new MatTableDataSource<any>(this.symbols);
         this.selection = new SelectionModel<any>(this.symbols, []);
-        this.length = this.symbols[0].totalRows;
+        this.length = this.symbols && this.symbols.length ? this.symbols[0].totalRows : 0;
       }
     })
   }
@@ -151,7 +161,7 @@ export class BasketComponent implements AfterViewInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result && result.success && result.id) {
-        this.utilitiesService.navigate(`/my-basket-info/${result.id}/basket`)
+        this.utilityService.navigate(`/my-basket-info/${result.id}/basket`)
         this.ngOnInit(result.id);
       }
     });
@@ -198,10 +208,21 @@ export class BasketComponent implements AfterViewInit {
   updateBasket() {
     this.basketService.updateBasket(this.basket).then((data) => {
       if(data.error || !data.success) {
-        this.utilitiesService.displayInfoMessage(data.error, true)
+        this.utilityService.displayInfoMessage(data.error, true)
       }
       else {
-        this.utilitiesService.displayInfoMessage('Basket Updated Successfully')
+        this.utilityService.displayInfoMessage('Basket Updated Successfully')
+      }
+    })
+  }
+
+  addSymbolToBasket(basket: any, symbol: any) {
+    this.basketService.editSymbols(basket.id, [{id: symbol.id}], 'PATCH').then((data) => {
+      if(data.error || !data.success) {
+        this.utilityService.displayInfoMessage(data.error, true)
+      }
+      else {
+        this.utilityService.displayInfoMessage(`Symbols Added`)
       }
     })
   }
