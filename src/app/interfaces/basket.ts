@@ -19,5 +19,6 @@ export interface Basket {
     basket_subscribers: number,
     is_owner : boolean,
     is_favorite: boolean,
+    basket_favorites: number,
     is_subscribed: boolean
 }
