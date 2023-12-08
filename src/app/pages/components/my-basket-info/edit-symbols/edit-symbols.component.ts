@@ -15,7 +15,6 @@ export class EditSymbolsComponent {
   dataSource !: any;
   tickerSymbols !: string;
 
-
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private basketService: BasketsService, private utilityService: UtilitiesService, private dialogRef: MatDialogRef<EditSymbolsComponent>) {
     this.dataSource = new MatTableDataSource<any>(data.tickers)
   }
@@ -42,13 +41,32 @@ export class EditSymbolsComponent {
     }
   }
 
+  concatTickers(tickers: any) {
+    if(!tickers && tickers.length){
+      return;
+    }
+    if(!(this.data.tickers && this.data.tickers.length)) {
+      this.data.tickers = tickers;
+      return;
+    }
+    for(let i = 0; i < tickers.length; i++) {
+      let existing = this.data.tickers.find((ticker: any) => {return ticker.id == tickers[i].id});
+      if(!(existing && existing.id)) {
+        this.data.tickers.push(tickers[i])
+      }
+    }
+  }
+
   symbolLookup() {
+    if(!this.tickerSymbols || this.tickerSymbols == '')
+      return;
     this.basketService.getAllSymbols(0, 1000, '', this.tickerSymbols).then((data) => {
       if(data.error || !data.symbols) {
         this.utilityService.displayInfoMessage(data.error, true)
       }
       else {
-        this.data.tickers = data.symbols;
+        if(data && data.symbols)
+          this.concatTickers(data.symbols)
         this.dataSource = new MatTableDataSource<any>(this.data.tickers)
 
         // Now we must validate all input symbols were able to be retrieved
