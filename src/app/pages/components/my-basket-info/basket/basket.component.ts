@@ -205,6 +205,17 @@ export class BasketComponent implements AfterViewInit {
     this.updateBasket();
   }
 
+  isTagsEditMode: boolean = false;
+
+  enterTagsEditMode() {
+    this.isTagsEditMode = true;
+  }
+
+  exitTagsEditMode() {
+    this.isTagsEditMode = false;
+    this.updateBasket();
+  }
+
   updateBasket() {
     this.basketService.updateBasket(this.basket).then((data) => {
       if(data.error || !data.success) {

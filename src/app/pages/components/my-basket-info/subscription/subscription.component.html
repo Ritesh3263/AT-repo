@@ -12,13 +12,13 @@
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px" class="mt-20" *ngIf="!basket.is_owner">
         <span >Subscribe to this basket</span>
         <span>
-            <mat-slide-toggle color="primary" [(ngModel)]="subscribed" (change)="onToggleChange()"> {{ toggleText }} </mat-slide-toggle>
+            <mat-slide-toggle color="primary" (change)="updateSubscription()"> {{ basket.is_subscribed ? 'ON' : 'OFF' }} </mat-slide-toggle>
         </span>
     </div>
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px" class="mt-20" *ngIf="basket.is_owner">
         <span >Subscribe to this basket</span>
         <span>
-            <mat-slide-toggle color="primary" [(ngModel)]="subscribed" (change)="onToggleChange()" [disabled]="true"> {{ toggleText }} </mat-slide-toggle>
+            <mat-slide-toggle color="primary" (change)="updateSubscription()" [disabled]="true"> {{basket.is_subscribed ? 'ON' : 'OFF'}} </mat-slide-toggle>
         </span>
     </div>
 </div>

@@ -18,6 +18,11 @@
                 <mat-error *ngIf="isControlValid('description')">{{getErrorMessage('description')}}</mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline">
+                <mat-label>Tags (search optimization)</mat-label>
+                <input matInput class="form-control" formControlName="tags">
+                <mat-error *ngIf="isControlValid('tags')">{{getErrorMessage('tags')}}</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>Action Type</mat-label>
                 <mat-select [(value)]="selectedOption" class="form-control" formControlName="action">
                     <mat-option value="CREATE">Create New Basket</mat-option>

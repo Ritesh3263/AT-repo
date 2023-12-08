@@ -20,5 +20,6 @@ export interface Basket {
     is_owner : boolean,
     is_favorite: boolean,
     basket_favorites: number,
-    is_subscribed: boolean
+    is_subscribed: boolean,
+    tags: string
 }

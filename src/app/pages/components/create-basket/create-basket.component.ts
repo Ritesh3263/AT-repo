@@ -25,6 +25,7 @@ export class CreateBasketComponent {
       name: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
       action: new FormControl('', [Validators.required]),
+      tags: new FormControl(''),
       sourceBasketId: new FormControl('')
     })
     this.basketService.getAllBaskets(1, 1).then((data: any) => {
@@ -58,7 +59,8 @@ export class CreateBasketComponent {
     let basket = { name: form['name'].getRawValue(),
       description: form['description'].getRawValue(),
       action: form['action'].getRawValue(),
-      sourceBasketId: form['sourceBasketId'].getRawValue()
+      sourceBasketId: form['sourceBasketId'].getRawValue(),
+      tags: form['tags'].getRawValue()
     }
 
     this.basketService.createBasket(basket).then((data) => {
