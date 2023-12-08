@@ -69,10 +69,6 @@ export class MyBasketsComponent {
     });
   }
 
-  myBasketInfo(basket: Basket) {
-    this.utilityService.navigate(`/my-basket-info/${basket.id}/basket`);
-  }
-
   openOwnerProfile() {
     this.utilityService.navigate('/owner-profile');
   }
@@ -179,10 +175,10 @@ export class MyBasketsComponent {
     this.utilityService.navigate(`/my-basket-info/${basket.id}/${path}`)
   }
 
-  removeFavoriteFromBasket(basket: Basket) {
-    for(let i = 0; i < this.favoriteBaskets.length; i++) {
-      if(this.favoriteBaskets[i].id == basket.id) {
-        this.favoriteBaskets.splice(i,1);
+  removeFromBasket(baskets: Basket[], basket: Basket, extraCondition:boolean = true) {
+    for(let i = 0; i < baskets.length; i++) {
+      if(baskets[i].id == basket.id && extraCondition) {
+        baskets.splice(i,1);
       }
     }
   }
@@ -197,22 +193,27 @@ export class MyBasketsComponent {
         this.utilityService.displayInfoMessage(basket.is_favorite ? "Basket added to favorites" : "Basket removed from favorites");
         if(!basket.is_favorite) {
           // Remove this basket from in-memory array
-          this.removeFavoriteFromBasket(basket);
+          this.removeFromBasket(this.favoriteBaskets, basket);
+          this.removeFromBasket(this.basket, basket, !basket.is_subscribed);
         }
       }
     })
   }
 
   updateSubscription(basket: Basket) {
-    basket.is_subscribed = !basket.is_subscribed
     // Subscribe to basket
+    basket.is_subscribed  = !basket.is_subscribed;
     this.basketService.subscribeToBasket(basket.id, basket.is_subscribed ? 'PUT' : 'DELETE').then((data) => {
       if(data.error || !data.success) {
         this.utilityService.displayInfoMessage("Error subscribing to basket.", true)
       }
       else {
         this.utilityService.displayInfoMessage(basket.is_subscribed ? "Subscribed to basket." : "Unsubscribed from basket.")
+        if(!basket.is_subscribed) {
+          // Remove this basket from in-memory array
+          this.removeFromBasket(this.basket, basket, !basket.is_favorite);
+        }
       }
     })
-}
+  }
 }

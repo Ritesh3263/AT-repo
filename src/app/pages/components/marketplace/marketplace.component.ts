@@ -33,13 +33,16 @@ export class MarketplaceMainComponent {
     });
   }
 
-  subscribeToBasket(basket: Basket) {
-    this.basketService.subscribeToBasket(basket.id).then((data) => {
+  updateSubscription(basket: Basket) {
+    // Subscribe to basket
+    basket.is_subscribed  = !basket.is_subscribed;
+    this.basketService.subscribeToBasket(basket.id, basket.is_subscribed ? 'PUT' : 'DELETE').then((data) => {
       if(data.error || !data.success) {
-        this.utilityService.displayInfoMessage(data.error, true)
+        this.utilityService.displayInfoMessage("Error subscribing to basket.", true)
       }
       else {
-        this.utilityService.displayInfoMessage("Subscribed to this basket!")
+        this.utilityService.displayInfoMessage(basket.is_subscribed ? "Subscribed to basket." : "Unsubscribed from basket.")
+        basket.basket_subscribers += basket.is_subscribed ? 1 : -1;
       }
     })
   }
@@ -57,5 +60,13 @@ export class MarketplaceMainComponent {
         basket.basket_favorites += basket.is_favorite ? 1 : -1;
       }
     })
+  }
+
+  getBasketPeformanceClass(basket: Basket) {
+    return basket.percent_change < 0 ? "trade-down" : (basket.percent_change == 0 ? "trade-stable" : "trade-up");
+  }
+
+  navigate(basket: Basket, path: string) {
+    this.utilityService.navigate(`/my-basket-info/${basket.id}/${path}`)
   }
 }

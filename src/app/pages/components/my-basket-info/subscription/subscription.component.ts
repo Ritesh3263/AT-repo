@@ -13,7 +13,6 @@ export class SubscriptionComponent {
   toggleText = 'ON';
   basket: any = {};
   basketId!: number;
-  subscribed: boolean = false;
 
   constructor(@Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, private basketService: BasketsService, private utilityService: UtilitiesService) {
     this.basket = {}
@@ -24,27 +23,20 @@ export class SubscriptionComponent {
     this.basketService.getBasketDetails(this.basketId).then((data) => {
       if(data && data.basket) {
         this.basket = data.basket;
-        if(!this.basket.is_owner)
-          this.subscribed = true;
       }
     })
   }
 
-  onToggleChange() {
-    this.toggleText = this.subscribed ? 'ON' : 'OFF';
-
-    this.updateSubscription();
-  }
-
   updateSubscription() {
-      // Subscribe to basket
-      this.basketService.subscribeToBasket(this.basket.id, this.subscribed ? 'PUT' : 'DELETE').then((data) => {
-        if(data.error || !data.success) {
-          this.utilityService.displayInfoMessage("Error subscribing to basket.", true)
-        }
-        else {
-          this.utilityService.displayInfoMessage(this.subscribed ? "Subscribed to basket." : "Unsubscribed from basket.")
-        }
-      })
+    // Subscribe to basket
+    this.basket.is_subscribed  = !this.basket.is_subscribed;
+    this.basketService.subscribeToBasket(this.basket.id, this.basket.is_subscribed ? 'PUT' : 'DELETE').then((data) => {
+      if(data.error || !data.success) {
+        this.utilityService.displayInfoMessage("Error subscribing to basket.", true)
+      }
+      else {
+        this.utilityService.displayInfoMessage(this.basket.is_subscribed ? "Subscribed to basket." : "Unsubscribed from basket.")
+      }
+    })
   }
 }
