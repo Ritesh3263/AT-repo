@@ -34,7 +34,7 @@
                                 <label>
                                     <span>Browse</span>
                                     <input #fileInput type="file" name="upload" class="upload-input"
-                                        placeholder="Upload" />
+                                        placeholder="Upload" (change)="onFileSelected($event)"/>
                                 </label>
                             </div>
                         </div>

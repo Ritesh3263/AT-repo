@@ -11,7 +11,7 @@ export class UserService {
 
   constructor() { }
 
-  getHeaders(method: string = "GET", body:any = null): RequestInit {
+  getHeaders(method: string = "GET", body:any = null, formData: boolean = false): RequestInit {
     let headers: RequestInit = {
       method: method,
       credentials: "include",
@@ -21,7 +21,10 @@ export class UserService {
       body: null
     }
     if(body) {
-      headers.body = JSON.stringify(body);
+      headers.body = formData ? body : JSON.stringify(body);
+    }
+    if(formData) {
+      delete headers.headers;
     }
 
     return headers;
@@ -62,8 +65,8 @@ export class UserService {
     }
   }
 
-  async getUserDetails() {
-    if(this.user && this.user.firstName) {
+  async getUserDetails(invalidateCache=false) {
+    if(this.user && this.user.firstName && !invalidateCache) {
       return this.user;
     }
     try{
@@ -82,8 +85,23 @@ export class UserService {
     }
   }
 
+  async uploadProfilePhoto(file: File) {
+    try{
+      const formData = new FormData();
+      formData.append("file", file, file.name);
+
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/user/profile-photo`, this.getHeaders('POST', formData, true));
+      let data = await res.json();
+      return data;
+    }
+    catch(e: any) {
+      console.log("logout Error: " + e.message);
+      return {error: e.message}
+    }
+  }
+
   // ------------- Unauthenticated API Calls to /api/user/* ( Login must not be an authenticated request, etc. ) ------------- //
-  
+
   async getLoginUri(provider: string): Promise<any> {
     try{
       let res = await fetch(`${environment.apiBaseUrl}/api/user/federatedLoginRedirectUri?provider=${provider}`, this.getHeaders());
@@ -93,7 +111,7 @@ export class UserService {
     catch(e: any) {
       console.log("Get Login URI Error: " + e.message)
       return {error: e.message}
-    }     
+    }
   }
 
   async getLoginToken(code:any): Promise<any> {
@@ -109,7 +127,7 @@ export class UserService {
     catch(e: any) {
       console.log("Get Login Token Error: " + e.message)
       return {error: e.message}
-    }    
+    }
   }
 
   async login(email: string | null, password: string | null) {
@@ -165,7 +183,7 @@ export class UserService {
       console.log("Get User Details Error: " + e.message);
       return {error: e.message}
     }
-  }  
+  }
 
   async verifyPasswordResetToken(token:any): Promise<any> {
     try{
@@ -176,8 +194,8 @@ export class UserService {
     catch(e: any) {
       console.log("Get Login Token Error: " + e.message)
       return {error: e.message}
-    }    
-  } 
+    }
+  }
 
   async resetPassword(passwordResetToken: string, password: string | null) {
     try{
