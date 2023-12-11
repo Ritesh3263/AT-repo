@@ -28,11 +28,9 @@ export class BasketTradeService {
     try{
       let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/account_basket_positions/${accountBasketId}`, this.getHeaders());
       let data = await res.json();
-      console.log("resr",data)
       return data;
     }
     catch(e: any) {
-      console.log("Get User Details Error: " + e.message);
       return {error: e.message}
     }
   }
@@ -47,7 +45,20 @@ export class BasketTradeService {
       return data;
     }
     catch(e: any) {
-      console.log("Get symbol price: " + e.message);
+      return {error: e.message}
+    }
+  }
+
+
+  async setOrders(input: any,user_id:any,broker_id:any): Promise<any> {
+    try{
+    let header = this.getHeaders('POST', input)
+      delete header.credentials;
+      let res = await fetch(`http://34.228.194.95:8080/api/v1/brokerages/${broker_id}/users/${user_id}/orders`, header);
+      let data = await res.json();
+      return data;
+    }
+    catch(e: any) {
       return {error: e.message}
     }
   }

@@ -13,6 +13,9 @@
             </div>
         </span>
     </div>
+    <div *ngIf="showSpinner" class="spinner-wrapper">
+        <app-spinner></app-spinner>
+      </div>
     <div mat-dialog-content class="no-padding-bottom">
         <div class="trading-table height-auto with-padding table-scroll">
             <table mat-table [dataSource]="dataSource">
@@ -23,7 +26,7 @@
 
                 <ng-container matColumnDef="shares">
                     <th mat-header-cell *matHeaderCellDef> Shares </th>
-                    <td mat-cell *matCellDef="let element"> {{element.current_shares}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.new_shares}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="currentprice">
@@ -84,7 +87,7 @@
         <button mat-stroked-button color="primary" mat-dialog-close>
             Cancel
         </button>
-        <button mat-flat-button color="primary">
+        <button mat-flat-button color="primary" (click)="confirmOrder()" >
             Confirm
         </button>
     </div>
