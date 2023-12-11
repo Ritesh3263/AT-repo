@@ -35,6 +35,8 @@ export interface PeriodicElement {
   styleUrls: ['./trade.component.scss']
 })
 export class TradeComponent implements AfterViewInit {
+  isPositions:boolean=false;
+  showSpinner:boolean = false;
  displayedColumns: string[]  = ['select', 'symbol', 'purchasedate', 'costcurrent', 'price', 'sharescurrent', 'investedcurrent', 'marketcurrent', 'pl', 'plpercent'];
  form: FormGroup = new FormGroup(''); // FormGroup
  dropDownDetails = ["Equal Distribution","Investment Per stock","Scale Up","Scale Down"]
@@ -42,8 +44,8 @@ export class TradeComponent implements AfterViewInit {
   // displayedColumnsOne: string[] = ['select', 'symbol', 'purchasedate', 'costcurrent', 'price', 'sharescurrent', 'investedcurrent', 'marketcurrent', 'pl', 'plpercent'];
   cash_balance :any= 55530.00;
   account_balance :any = 100000.00;
-  invested:any=0.00
-  market_value:any = 0.00
+  invested:any=0.00;
+  market_value:any = 0.00;
   dataSource = new MatTableDataSource<PeriodicElement>([]);
   selection = new SelectionModel<PeriodicElement>(true, []);
   isDisplayColumn:boolean=true;
@@ -124,21 +126,24 @@ export class TradeComponent implements AfterViewInit {
     //   disableClose: true
     // });
   }
-  getAccountBasketPosition(){
+ async getAccountBasketPosition(){
+  this.showSpinner= true;
     this.basketTradeService.getAccountBasketPosition(1).then((data) => {
+      this.showSpinner =false;
       if(data) {
         this.displayedColumns = ['select', 'symbol', 'purchasedate', 'costcurrent', 'price', 'sharescurrent', 'investedcurrent', 'marketcurrent', 'pl', 'plpercent'];
         for(let i=0;i<data.length;i++){
           data[i].current_market_value =Number((data[i].price*data[i].current_shares).toFixed(2))
-          if(i==0){
-            this.symbolInput = data[i].ticker_id;
-          }else{
-            this.symbolInput = this.symbolInput+','+data[i].ticker_id;
-          }
+          // if(i==0){
+          //   this.symbolInput = data[i].ticker_id;
+          // }else{
+          //   this.symbolInput = this.symbolInput+','+data[i].ticker_id;
+          // }
+          this.isPositions=true
           this.dataSource.data= data
           this.isDisplayColumn =false;
         }
-        this.getSymbolPrice();
+        // this.getSymbolPrice();
         // this.basket = data.basket;
         // this.dataSource = new MatTableDataSource<PeriodicElement>(this.basket.tickers);
       }
@@ -315,6 +320,7 @@ closeAllPositions(){
 
 getSymbolPrice(){
   this.basketTradeService.getSymbolPrice(this.symbolInput).then((data) => {
+    console.log("hello,data",data)
   });
 }
 }
