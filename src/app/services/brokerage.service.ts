@@ -27,7 +27,7 @@ export class BrokerageService {
 
   async getAccessToken(user_id:any): Promise<any> {
     try{
-      let res = await fetch(`http://34.228.194.95:8080/api/v1/brokerages/token/${user_id}`, this.getHeaders());
+      let res = await fetch(`${environment.brokerageUrl}/brokerages/token/${user_id}`, this.getHeaders());
       let data = await res.json();
       return data;
     }
@@ -40,7 +40,7 @@ export class BrokerageService {
   async getBrokerageAccounts(brokerage:any,user_id:any): Promise<any> {
     try{
 
-      let res = await fetch(`http://34.228.194.95:8080/api/v1/brokerages/${brokerage}/users/${user_id}/accounts`, this.getHeaders());
+      let res = await fetch(`${environment.brokerageUrl}/brokerages/${brokerage}/users/${user_id}/accounts`, this.getHeaders());
       let data = await res.json();
 
 
@@ -75,7 +75,7 @@ export class BrokerageService {
 
   async getRedirectedUrl(): Promise<any> {
     try{
-      let res = await fetch(`http://34.228.194.95:8080/api/v1/brokerages/redirect`, this.getHeaders());
+      let res = await fetch(`${environment.brokerageUrl}/brokerages/redirect`, this.getHeaders());
       let data = await res.json();
       return data;
     }
@@ -89,7 +89,7 @@ export class BrokerageService {
   async setAccessToken(input:any): Promise<any> {
     try{
       let apiInput = {code:input.code,user_id:input.user_id};
-      let res = await fetch(`http://34.228.194.95:8080/api/v1/brokerages/set-access-token`, this.getHeaders('POST', apiInput));
+      let res = await fetch(`${environment.brokerageUrl}/brokerages/set-access-token`, this.getHeaders('POST', apiInput));
       let data = await res.json();
       return data;
     }
