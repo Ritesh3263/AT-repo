@@ -32,6 +32,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class BrokerageComponent {
   showSpinner: boolean = false;
   isDisableAccounts :boolean=false;
+  user_id:any="null";
 
   // displayedColumns: string[] = ['accountNumber', 'accountBalance', 'openPositions'];
   displayedColumns: string[] = ['accountId', 'accountType','cashBalance','buyingPower','equity','marketValue','overnightBuyingPower','status'];
@@ -39,23 +40,25 @@ export class BrokerageComponent {
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   selection = new SelectionModel<PeriodicElement>(true, []);
   selectedOption: string = 'option1';
-  userData :any=null;
-   brokerage_type = new FormControl('1', [Validators.required]);
+  activeBrokerages :any=null;
+
+   brokerage_type = new FormControl('TS', [Validators.required]);
    state:any;
    tokenForRetrieveAccounts :any=null;
   constructor(public dialog: MatDialog,private brokerageService:BrokerageService,private route: ActivatedRoute,private location:LocationStrategy) {
     // getting access token from tradestation 
     this.state = this.location.getState();
     if(this.state && this.state.code){
-      this.steAccessToken(this.state.code,"Sreekanth")
+      this.steAccessToken(this.state.code,'nikhil')
+      // this.isDisableAccounts = true;
+      this.getBrokerageAccount("TS",'nikhil');
     }
     // get tradestation token from session 
-    let isAccess_token = sessionStorage.getItem("token")
-    if(isAccess_token){
-      this.tokenForRetrieveAccounts =isAccess_token; 
-      this.isDisableAccounts = true;
-      this.getBrokerageAccount(1);
-    }
+    // let isAccess_token = sessionStorage.getItem("token")
+    // if(isAccess_token){
+      // this.tokenForRetrieveAccounts =isAccess_token; 
+     
+    // }
 
   }
 
@@ -67,15 +70,19 @@ export class BrokerageComponent {
   }
 
   getAccessToken(){
-    this.brokerageService.getAccessToken("wences").then((data) => {
-      this.userData= data;
+    this.brokerageService.getAccessToken(this.user_id).then((data) => {
+      if(data && !data[0].status && data[0].status !== 'error' && data[0].active_brokerage_key){
+        this.activeBrokerages= data;
+        this.getBrokerageAccount(this.activeBrokerages[0].active_brokerage_key,this.user_id)
+      }
     })
   }
 
-  getBrokerageAccount(event:any){
+  getBrokerageAccount(brokerage:any,user_id:any){
     this.showSpinner = true;
-    this.brokerageService.getBrokerageAccounts(event.value,this.tokenForRetrieveAccounts).then((data) => {
+    this.brokerageService.getBrokerageAccounts(brokerage,this.user_id).then((data) => {
       this.showSpinner=false;
+      this.isDisableAccounts =true
         this.dataSource = data
     })
   }
@@ -120,10 +127,10 @@ export class BrokerageComponent {
     this.brokerageService.setAccessToken(input).then((data) => {
       this.showSpinner=false;
       if(data && data.access_token){
-        this.tokenForRetrieveAccounts = data.access_token;
+        // this.tokenForRetrieveAccounts = data.access_token;
         this.isDisableAccounts = true;
-        this.getBrokerageAccount(1)
-        sessionStorage.setItem("token",data.access_token)
+        this.getBrokerageAccount("TS",this.user_id)
+        // sessionStorage.setItem("token",data.access_token)
       }
 
       // this.spinner.hide()

@@ -13,7 +13,7 @@
                 <div fxFlex="20" fxFlex.md="30" fxFlex.sm="50" fxFlex.xs>
                     <img src="/assets/images/tradestation_logo.svg" style="width: 200px;" />
                 </div>
-                <button *ngIf="!userData" [disabled]="isDisableAccounts" mat-flat-button color="primary" (click)="connectDialog()">
+                <button  [disabled]="isDisableAccounts" mat-flat-button color="primary" (click)="connectDialog()">
                     Connect
                 </button>
             </div>
@@ -21,7 +21,7 @@
                 <div fxFlex="20" fxFlex.md="30" fxFlex.sm="50" fxFlex.xs>
                     <img src="/assets/images/interactivebrokers_logo.svg" style="width: 220px;" />
                 </div>
-                <button *ngIf="!userData" mat-flat-button color="primary" (click)="connectDialog()">
+                <button  mat-flat-button color="primary" (click)="connectDialog()">
                     Connect
                 </button>
             </div>
@@ -41,9 +41,9 @@
 
                 <mat-form-field appearance="outline" fxFlex="25" fxFlex.sm="50" fxFlex.xs="100">
                     <mat-label>Select Brokerage</mat-label>
-                    <mat-select [(value)]="selectedOption" [formControl]="brokerage_type" (selectionChange)="getBrokerageAccount($event)">
-                        <mat-option value="1">Tradestation</mat-option>
-                        <mat-option value="2">Interactive Brokers</mat-option>
+                    <mat-select [(value)]="selectedOption" [formControl]="brokerage_type" (selectionChange)="getBrokerageAccount('TS','wences')">
+                        <mat-option value="TS">Tradestation</mat-option>
+                        <mat-option value="IB">Interactive Brokers</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
