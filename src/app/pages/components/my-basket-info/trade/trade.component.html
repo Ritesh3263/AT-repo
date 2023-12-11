@@ -108,7 +108,10 @@
             <img src="/assets/images/alert-info-icon.svg" />
             <p class="no-margin">$ 1000 will be equally invested into each of the selected 1 stocks.</p>
         </div>
-        <div class="trading-table height-auto table-scroll trade-c-table with-padding pt-15">
+        <div *ngIf="showSpinner" class="spinner-wrapper">
+            <app-spinner></app-spinner>
+          </div>
+        <div *ngIf="isPositions" class="trading-table height-auto table-scroll trade-c-table with-padding pt-15">
             <table mat-table [dataSource]="dataSource">
 
                 <ng-container matColumnDef="select">
@@ -293,10 +296,10 @@
                 </tr>
             </table>
         </div>
-        <mat-paginator [pageSizeOptions]="[10, 50, 100]" showFirstLastButtons
+        <mat-paginator *ngIf="isPositions"  [pageSizeOptions]="[10, 50, 100]" showFirstLastButtons
             aria-label="Select page of periodic elements">
         </mat-paginator>
-        <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px" class="pt-15 pb-15">
+        <div *ngIf="isPositions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px" class="pt-15 pb-15">
             <button mat-stroked-button color="primary" (click)="cancel()">Cancel</button>
             <button mat-flat-button color="primary" (click)="confirmTrade()">Submit</button>
         </div>

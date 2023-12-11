@@ -77,6 +77,17 @@ export class BasketTradeService {
     }
   }
 
- 
+  async setSymbolsForBrokeragePrice(input: any): Promise<any> {
+    try{
+    let header = this.getHeaders('POST', input)
+      delete header.credentials;
+      let res = await fetch(`${environment.brokerageUrl}/brokerages/trp`, header);
+      let data = await res.json();
+      return data;
+    }
+    catch(e: any) {
+      return {error: e.message}
+    }
+  }
 
 }

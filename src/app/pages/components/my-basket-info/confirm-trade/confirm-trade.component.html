@@ -84,7 +84,7 @@
         </div>
     </div>
     <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
-        <button mat-stroked-button color="primary" mat-dialog-close>
+        <button mat-stroked-button color="primary" (click)="cancel()">
             Cancel
         </button>
         <button mat-flat-button color="primary" (click)="confirmOrder()" >
