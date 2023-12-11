@@ -18,7 +18,7 @@
       </div>
     <div mat-dialog-content class="no-padding-bottom">
         <div class="trading-table height-auto with-padding table-scroll">
-            <table mat-table [dataSource]="dataSource">
+            <table mat-table [dataSource]="dataSource" >
                 <ng-container matColumnDef="tickersymbol">
                     <th mat-header-cell *matHeaderCellDef> Ticker Symbol </th>
                     <td mat-cell *matCellDef="let element"> {{element.ticker_id}} </td>
@@ -31,12 +31,12 @@
 
                 <ng-container matColumnDef="currentprice">
                     <th mat-header-cell *matHeaderCellDef> Current Price </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.price | currency:'USD':'symbol':'1.2-2' }} </td>
+                    <td mat-cell *matCellDef="let element"  > {{ element.price | currency:'USD':'symbol':'1.2-2' }} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="investaccount">
                     <th mat-header-cell *matHeaderCellDef> Invest Account </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.current_invested | currency:'USD':'symbol':'1.2-2' }} </td>
+                    <td mat-cell *matCellDef="let element"> {{ element.new_invested | currency:'USD':'symbol':'1.2-2' }} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="empty">
@@ -48,7 +48,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="amount">
-                    <td mat-footer-cell *matFooterCellDef> $34,090.440 </td>
+                    <td mat-footer-cell *matFooterCellDef>  {{ investedAmount | currency:'USD':'symbol':'1.2-2' }} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="empty2">
@@ -60,7 +60,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="amount2">
-                    <td mat-footer-cell *matFooterCellDef> $34,090.440 </td>
+                    <td mat-footer-cell *matFooterCellDef> {{ netInvestedAmount | currency:'USD':'symbol':'1.2-2' }} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="empty3">
@@ -72,7 +72,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="amount3">
-                    <td mat-footer-cell *matFooterCellDef> $34,090.440 </td>
+                    <td mat-footer-cell *matFooterCellDef> {{ avalibleCashBalance | currency:'USD':'symbol':'1.2-2' }} </td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
