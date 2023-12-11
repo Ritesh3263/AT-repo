@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -29,10 +29,10 @@ const ELEMENT_DATA: PeriodicElement[] = [
   templateUrl: './brokerage.component.html',
   styleUrls: ['./brokerage.component.scss']
 })
-export class BrokerageComponent {
+export class BrokerageComponent implements AfterViewInit{
   showSpinner: boolean = false;
   isDisableAccounts :boolean=false;
-  user_id:any="null";
+  user_id:any="nikhil";
 
   // displayedColumns: string[] = ['accountNumber', 'accountBalance', 'openPositions'];
   displayedColumns: string[] = ['accountId', 'accountType','cashBalance','buyingPower','equity','marketValue','overnightBuyingPower','status'];
@@ -112,9 +112,10 @@ export class BrokerageComponent {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.accountNumber + 1}`;
   }
 
-  connectDialog() {
+  connectDialog(brokerage_type:any) {
     this.dialog.open(ConnectDialogComponent, {
       panelClass: 'custom-modal',
+      data:brokerage_type,
       disableClose: true
     });
   }
