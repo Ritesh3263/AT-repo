@@ -57,6 +57,10 @@ import { FeedbackComponent } from './pages/components/feedback/feedback.componen
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ForgotPasswordComponent } from './layouts/forgot-password/forgot-password.component';
 import { SpinnerComponent } from './pages/components/spinner/spinner.component';
+import { WebsocketComponent } from './pages/components/websocket/websocket.component';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+const config: SocketIoConfig = { url: 'http://localhost:2000', options: {} };
+
 
 @NgModule({
   declarations: [
@@ -92,7 +96,8 @@ import { SpinnerComponent } from './pages/components/spinner/spinner.component';
     FollowingComponent,
     FeedbackComponent,
     ForgotPasswordComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    WebsocketComponent
   ],
   imports: [
     BrowserModule,
@@ -118,7 +123,8 @@ import { SpinnerComponent } from './pages/components/spinner/spinner.component';
     MatRadioModule,
     MatTabsModule,
     MatSlideToggleModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    SocketIoModule.forRoot(config)
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,12 @@
+
+
+<div *ngFor="let a of ourPut ">
+    <!-- <div></div> -->
+    <!-- {{a}} -->
+
+    {{a.message}}
+</div>
+<div>
+    <input [(ngModel)]="message" placeholder="Type a message" />
+    <button (click)="sendMessage()">Send</button>
+  </div>

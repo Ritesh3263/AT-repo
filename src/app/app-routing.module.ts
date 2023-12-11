@@ -18,6 +18,7 @@ import { MyBasketsComponent } from './pages/components/my-baskets/my-baskets.com
 import { OwnerProfileComponent } from './pages/components/owner-profile/owner-profile.component';
 
 import { AuthenticationGuard } from './authentication.guard';
+import { WebsocketComponent } from './pages/components/websocket/websocket.component';
 
 const routes: Routes = [
   {
@@ -95,6 +96,11 @@ const routes: Routes = [
   {
     path: 'following',
     component: FollowingComponent,
+    canActivate: [AuthenticationGuard]
+  },{
+    
+    path: 'websocket',
+    component: WebsocketComponent,
     canActivate: [AuthenticationGuard]
   }
 ];
