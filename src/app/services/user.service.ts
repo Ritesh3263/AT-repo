@@ -70,7 +70,7 @@ export class UserService {
       return this.user;
     }
     try{
-      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/user/user`, this.getHeaders());
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/user`, this.getHeaders());
       let data = await res.json();
       if(data && data.user) {
         this.loadUserEvent.emit("LOAD_USER");
