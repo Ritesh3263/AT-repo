@@ -149,7 +149,7 @@ export class UserService {
   async signup(token: string, user: any) {
     try{
       let body = {token: token, email: user.email, password: user.password, firstName: user.firstName, lastName: user.lastName, displayName: user.firstName + ' ' + user.lastName, phoneNumber: user.phoneNumber};
-      let res = await fetch(`${environment.apiBaseUrl}/api/user/user`, this.getHeaders('POST', body));
+      let res = await fetch(`${environment.apiBaseUrl}/api/user`, this.getHeaders('POST', body));
       let data = await res.json();
       return data;
     }
@@ -197,9 +197,9 @@ export class UserService {
     }
   }
 
-  async resetPassword(passwordResetToken: string, password: string | null) {
+  async resetPassword(token: string, password: string | null) {
     try{
-      let body = {passwordResetToken: passwordResetToken, password: password};
+      let body = {token: token, password: password};
       let res = await fetch(`${environment.apiBaseUrl}/api/user/password-reset`, this.getHeaders('POST', body));
       let data = await res.json();
       return data;

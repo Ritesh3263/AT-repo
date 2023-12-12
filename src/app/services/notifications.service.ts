@@ -28,7 +28,7 @@ export class NotificationsService {
 
   async getUserNewNotificationCount() {
     try{
-      let res = await fetch(`${this.baseUrl}/user-new-notification-count`, this.getHeaders());
+      let res = await fetch(`${this.baseUrl}/user/new-notification-count`, this.getHeaders());
       let data = await res.json();
       return data;
     }
@@ -39,7 +39,7 @@ export class NotificationsService {
 
   async getUserNotifications(pagination: any, onlyUnread: number = 0) {
     try{
-      let res = await fetch(`${this.baseUrl}/user-notifications?pageNumber=${pagination.pageNumber}&pageSize=${pagination.pageSize}&onlyUnread=${onlyUnread}`, this.getHeaders());
+      let res = await fetch(`${this.baseUrl}/user/notifications?pageNumber=${pagination.pageNumber}&pageSize=${pagination.pageSize}&onlyUnread=${onlyUnread}`, this.getHeaders());
       let data = await res.json();
       return data;
     }
@@ -50,7 +50,7 @@ export class NotificationsService {
 
   async setUserNotificationViewed(notification_event_id: number) {
     try{
-      let res = await fetch(`${this.baseUrl}/user-notification-viewed`, this.getHeaders('POST', {notification_event_id: notification_event_id}));
+      let res = await fetch(`${this.baseUrl}/user/notification-viewed`, this.getHeaders('POST', {notification_event_id: notification_event_id}));
       let data = await res.json();
       return data;
     }
@@ -61,7 +61,7 @@ export class NotificationsService {
 
   async getUserNewNotificationPreferences() {
     try{
-      let res = await fetch(`${this.baseUrl}/user-notification-preferences`, this.getHeaders());
+      let res = await fetch(`${this.baseUrl}/user/preferences`, this.getHeaders());
       let data = await res.json();
       return data;
     }
@@ -72,7 +72,7 @@ export class NotificationsService {
 
   async setUserNotificationPreferences(email: boolean, sms: boolean) {
     try{
-      let res = await fetch(`${this.baseUrl}/user-notification-preferences`, this.getHeaders('POST', {email: email, sms: sms}));
+      let res = await fetch(`${this.baseUrl}/user/preferences`, this.getHeaders('POST', {email: email, sms: sms}));
       let data = await res.json();
       return data;
     }
