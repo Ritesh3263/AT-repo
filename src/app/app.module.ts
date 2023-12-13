@@ -59,7 +59,8 @@ import { ForgotPasswordComponent } from './layouts/forgot-password/forgot-passwo
 import { SpinnerComponent } from './pages/components/spinner/spinner.component';
 import { WebsocketComponent } from './pages/components/websocket/websocket.component';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
-const config: SocketIoConfig = { url: 'http://localhost:2000', options: {} };
+import { OrdersComponent } from './pages/components/orders/orders.component';
+const config: SocketIoConfig = { url: 'ws:34.228.194.95:8765/ws', options: {} };
 
 
 @NgModule({
@@ -97,7 +98,8 @@ const config: SocketIoConfig = { url: 'http://localhost:2000', options: {} };
     FeedbackComponent,
     ForgotPasswordComponent,
     SpinnerComponent,
-    WebsocketComponent
+    WebsocketComponent,
+    OrdersComponent
   ],
   imports: [
     BrowserModule,
