@@ -15,7 +15,7 @@ ourPut :any=[];
   }
   sendMessage() {
     if (this.message.trim()) {
-      this.webSocketService.sendMessage(this.message);
+      // this.webSocketService.sendMessage(this.message);
       this.message = '';
     }
   }
@@ -23,14 +23,14 @@ ourPut :any=[];
   ngOnInit() {
     this.webSocketService.connect();
 
-    this.webSocketService.onMessage().subscribe((message: any) => {
-      console.log('Received message:', message);
-      this.ourPut.push(message) ;
-    });
+    // this.webSocketService.onMessage().subscribe((message: any) => {
+    //   console.log('Received message:', message);
+    //   this.ourPut.push(message) ;
+    // });
   }
 
   ngOnDestroy() {
-    this.webSocketService.disconnect();
+    // this.webSocketService.disconnect();
   }
 
 }
