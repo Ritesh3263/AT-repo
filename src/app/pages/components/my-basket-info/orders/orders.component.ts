@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { BasketTradeService } from 'src/app/services/basket-trade.service';
 import { EditOrderComponent } from '../edit-order/edit-order.component';
+import { UserService } from 'src/app/services/user.service';
 
 export interface PeriodicElement {
   tickersymbol: string;
@@ -37,6 +38,8 @@ const CONFIRMELEMENT_DATA: PeriodicElement[] = [
 export class OrdersComponent {
 
   displayedColumns: string[] = ['tickersymbol', 'shares', 'currentprice', 'investaccount','status'];
+  displayedColumnsForPositions: string[] = ['Symbol', 'Quantity', 'Last', 'TotalCost','MarketValue'];
+
   // displayedColumns2: string[] = ['empty', 'empty', 'title', 'amount'];
   // displayedColumns3: string[] = ['empty2', 'empty2', 'title2', 'amount2'];
   // displayedColumns4: string[] = ['empty3', 'empty3', 'title3', 'amount3'];
@@ -44,13 +47,37 @@ export class OrdersComponent {
   dataSourceConfirm = new MatTableDataSource<PeriodicElement>(CONFIRMELEMENT_DATA);
   dataSourcePosition = new MatTableDataSource<{}>([])
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  constructor(public dialog: MatDialog,private basketTradeService :BasketTradeService) {}
+  showSpinner:boolean=false;
+  user_id:any=null;
+  constructor(public dialog: MatDialog,private basketTradeService :BasketTradeService,private userService: UserService) {}
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
-    this.getAccountBasketPosition()
+    // this.getAccountBasketPosition();
+    this.loadUserDetails();
   }
 
+/***loadUserDetails function is used to get user information  */
+loadUserDetails() {
+  this.showSpinner = true;
+  this.userService.getUserDetails().then((user:any) => {
+    this.showSpinner = false;
+    this.user_id = user.firstName?user.firstName:null
+    this.getBrokerageAccountPosition();
+  })
+}
+
+
+
+  async getBrokerageAccountPosition(){
+    this.showSpinner= true;
+      this.basketTradeService.getBrokerageAccountPosition('ts',this.user_id,'SIM1213784M').then((data) => {
+        this.showSpinner =false;
+        if(data&&data.Positions) {
+          this.dataSourcePosition =data.Positions
+        }
+      })
+    }
   async getAccountBasketPosition(){
       this.basketTradeService.getAccountBasketPosition(1).then((data) => {
         if(data) {
@@ -60,7 +87,6 @@ export class OrdersComponent {
           }
           this.dataSourcePosition =data
           // this.displayedColumns = ['select', 'symbol', 'purchasedate', 'costcurrent', 'price', 'sharescurrent', 'investedcurrent', 'marketcurrent', 'pl', 'plpercent'];
-         console.log(data,"hjv s dj")
         }
       })
     }
