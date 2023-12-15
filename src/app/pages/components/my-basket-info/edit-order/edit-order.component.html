@@ -1,0 +1,72 @@
+<div class="modal-dialog">
+    <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="10px" fxLayoutGap.xs="0px" class="dialog-header">
+        <h2 class="mat-h2">Update Order</h2>
+
+    </div>
+    <!-- <div *ngIf="showSpinner" class="spinner-wrapper">
+        <app-spinner></app-spinner>
+      </div> -->
+    <div mat-dialog-content class="no-padding-bottom">
+        <div class="trading-table height-auto with-padding table-scroll">
+            <form class="example-form" [formGroup]="form">
+
+                <!-- <span fxFlex="20" fxFlex.md="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group mb-sm-10">
+                    <mat-form-field appearance="outline" class="no-error" >
+                        <mat-label>Investment Type *</mat-label>
+                        <mat-select class="form-control" formControlName="investmentType" >
+                            <div *ngFor="let a of dropDownDetails">
+                                <mat-option value="a" >{{a}}</mat-option>
+                              </div> 
+                        </mat-select>    
+                    </mat-form-field>
+                </span> -->
+                <div fxLayout="row" fxLayoutGap="10px" style="margin-bottom: 10px;">
+                <span fxFlex="50" fxFlex.md="50" fxFlex.sm="50" fxFlex.xs="100" class="form-group mb-sm-10">
+                    <mat-form-field appearance="outline" class="no-error">
+                        <mat-label>Symbol</mat-label>
+                        <input type="text" matInput  class="form-control" formControlName="ticker_id"  >
+                        <!-- <mat-error *ngIf="isControlValid('name')">{{getErrorMessage('name')}}</mat-error> -->
+    
+                    </mat-form-field>
+                </span>
+                <span fxFlex="50" fxFlex.md="50" fxFlex.sm="50" fxFlex.xs="100" class="form-group mb-sm-10">
+                    <mat-form-field appearance="outline" class="no-error">
+                        <mat-label>Shares</mat-label>
+                        <input type="number" matInput  class="form-control" formControlName="shares"   >
+                        <!-- <mat-error *ngIf="isControlValid('name')">{{getErrorMessage('name')}}</mat-error> -->
+    
+                    </mat-form-field>
+                </span>
+                </div>
+                <div fxLayout="row" fxLayoutGap="10px" style="margin-bottom: 10px;">
+
+                <span fxFlex="50" fxFlex.md="50" fxFlex.sm="50" fxFlex.xs="100" class="form-group mb-sm-10">
+                    <mat-form-field appearance="outline" class="no-error">
+                        <mat-label>Price</mat-label>
+                        <input type="number" matInput  class="form-control" formControlName="price"   >
+                        <!-- <mat-error *ngIf="isControlValid('name')">{{getErrorMessage('name')}}</mat-error> -->
+    
+                    </mat-form-field>
+                </span>
+                <span fxFlex="50" fxFlex.md="50" fxFlex.sm="50" fxFlex.xs="100" class="form-group mb-sm-10">
+                    <mat-form-field appearance="outline" class="no-error">
+                        <mat-label>Invested</mat-label>
+                        <input type="number" matInput  class="form-control" formControlName="invested" >
+                        <!-- <mat-error *ngIf="isControlValid('name')">{{getErrorMessage('name')}}</mat-error> -->
+    
+                    </mat-form-field>
+                </span>
+                </div>
+            </form>
+    
+        </div>
+    </div>
+    <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
+        <button mat-stroked-button color="primary" mat-dialog-close>
+            Cancel
+        </button>
+        <button mat-flat-button color="primary" mat-dialog-close >
+            Submit
+        </button>
+    </div>
+</div>

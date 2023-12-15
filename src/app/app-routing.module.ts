@@ -19,7 +19,7 @@ import { OwnerProfileComponent } from './pages/components/owner-profile/owner-pr
 
 import { AuthenticationGuard } from './authentication.guard';
 import { WebsocketComponent } from './pages/components/websocket/websocket.component';
-import { OrdersComponent } from './pages/components/orders/orders.component';
+import { OrdersComponent } from './pages/components/my-basket-info/orders/orders.component';
 
 const routes: Routes = [
   {
@@ -76,6 +76,10 @@ const routes: Routes = [
       {
         path: 'subscription',
         component: SubscriptionComponent,
+      },
+      {
+        path: 'orders',
+        component: OrdersComponent,
       }
     ]
   },
@@ -102,11 +106,6 @@ const routes: Routes = [
     
     path: 'websocket',
     component: WebsocketComponent,
-    canActivate: [AuthenticationGuard]
-  },{
-    
-    path: 'orders',
-    component: OrdersComponent,
     canActivate: [AuthenticationGuard]
   }
 ];

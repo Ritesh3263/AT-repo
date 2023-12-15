@@ -3,6 +3,8 @@ import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { BasketTradeService } from 'src/app/services/basket-trade.service';
+import { EditOrderComponent } from '../edit-order/edit-order.component';
 
 export interface PeriodicElement {
   tickersymbol: string;
@@ -40,12 +42,42 @@ export class OrdersComponent {
   // displayedColumns4: string[] = ['empty3', 'empty3', 'title3', 'amount3'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   dataSourceConfirm = new MatTableDataSource<PeriodicElement>(CONFIRMELEMENT_DATA);
-
+  dataSourcePosition = new MatTableDataSource<{}>([])
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog,private basketTradeService :BasketTradeService) {}
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+    this.getAccountBasketPosition()
   }
+
+  async getAccountBasketPosition(){
+      this.basketTradeService.getAccountBasketPosition(1).then((data) => {
+        if(data) {
+
+          for(let i=0;i<data.length;i++){
+            data[i].current_market_value =Number((data[i].price*data[i].current_shares).toFixed(2))
+          }
+          this.dataSourcePosition =data
+          // this.displayedColumns = ['select', 'symbol', 'purchasedate', 'costcurrent', 'price', 'sharescurrent', 'investedcurrent', 'marketcurrent', 'pl', 'plpercent'];
+         console.log(data,"hjv s dj")
+        }
+      })
+    }
+
+
+    editOrder(ele:any) {
+      let inputModelPopup={
+        ticker_id:ele.tickersymbol,
+        shares:ele.shares,
+        price : ele.currentprice,
+        invested :ele.investaccount
+       }
+      this.dialog.open(EditOrderComponent, {
+        panelClass: 'custom-modal',
+        disableClose: true,
+        data:inputModelPopup
+      });
+    }
 
 }
