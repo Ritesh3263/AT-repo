@@ -30,8 +30,8 @@
             </div>
         </div>
         <div fxFlex="initial" fxFlex.xs="100" fxLayout.xs="row" fxLayoutAlign.xs="end center" class="form-group pt-xs-15">
-            <button mat-flat-button color="primary" (click)="follow()">
-                Follow
+            <button mat-flat-button color="primary" (click)="follow()" [disabled]="currentUser.encryptedId == trader.id">
+                {{trader.is_followed ? 'Unfollow' : 'Follow'}}
             </button>
         </div>
     </div>
@@ -73,10 +73,10 @@
                                     <h3 class="mat-h3">{{basket.invested_market | currency}}</h3>
                                 </div>
                             </div>
-                            <div fxFlex="initial" fxLayout="column" fxLayoutGap="10px">
+                            <div fxFlex="initial" fxLayout="column" fxLayoutGap="10px" *ngIf="currentUser.encryptedId != trader.id">
                                 <span fxFlex="initial" class="public-chip {{basket.is_subscribed ? 'unsubscribe' : 'subscribe'}}" (click)="updateSubscription(basket)" >{{basket.is_subscribed ? 'Unsubscribe' : 'Subscribe'}}</span>
                                 <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
-                                    <a class="like-icon {{basket.is_favorite ? 'active' : ''}}">
+                                    <a class="like-icon {{basket.is_favorite ? 'active' : ''}}" >
                                         <mat-icon (click)="setFavoriteBasket(basket)">favorite</mat-icon>
                                     </a>
                                     <!--
@@ -137,7 +137,7 @@
                                 <span>Publish to Marketplace</span>
                             </button>
                             -->
-                            <button mat-menu-item  (click)="updateSubscription(basket)">
+                            <button mat-menu-item  (click)="updateSubscription(basket)" [disabled]="currentUser.encryptedId == trader.id">
                                 <mat-icon>unsubscribe</mat-icon>
                                 <span>{{basket.is_subscribed ? 'Unsubscribe' : 'Subscribe'}}</span>
                             </button>
