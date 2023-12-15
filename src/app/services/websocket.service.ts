@@ -20,6 +20,7 @@ export class WebsocketService {
     return new Promise((res) => {
       this.socket.addEventListener('message', (event) => {
         const message = event.data;
+        console.log("helloooo",message)
         this.messageSubject.next(message);
         res(message)
       });

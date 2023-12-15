@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription, timer } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { WebsocketService } from 'src/app/services/websocket.service';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 export interface PeriodicElement {
   tickersymbol: string;
@@ -17,9 +18,46 @@ const ELEMENT_DATA: PeriodicElement[] = [
   { tickersymbol: 'Amazon', shares: 1734, currentprice: 19660, investaccount: 34090.440 },
 ];
 
+const enterTransition = transition(':enter', [
+  style({
+    opacity: 0
+  }),
+  animate('1s ease-in', style({
+    opacity: 1
+  }))
+]);
+
+const leaveTrans = transition(':leave', [
+  style({
+    backgroundColor: 'red',
+
+  }),
+  animate('1s ease-out', style({
+    backgroundColor: 'red',
+  }))
+])
+
+const fadeIn = trigger('fadeIn', [
+  enterTransition
+]);
+
+const fadeOut = trigger('fadeOut', [
+  leaveTrans
+]);
 @Component({
   selector: 'app-confirm-trade',
   templateUrl: './confirm-trade.component.html',
+  animations: [
+    trigger('fadeInOut', [
+      // state('in', style({ opacity: 1 })),
+      transition(':enter', [
+        style({ backgroundColor: 'lightgreen', }),
+        animate(10000)
+      ]),
+      // transition(':leave',
+      //   animate(3000, style({ backgroundColor: 'red', })))
+    ]),
+  ],
   styleUrls: ['./confirm-trade.component.scss']
 })
 export class ConfirmTradeComponent implements OnInit, OnDestroy {
@@ -31,11 +69,13 @@ export class ConfirmTradeComponent implements OnInit, OnDestroy {
   originalData: any = []
   private subscription: any;
   inputForSymbolPrice: any = [];
+  tableBackgroundColor:any='';
 
 
   constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<ConfirmTradeComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private basketTradeService: BasketTradeService, private matSnackBar: MatSnackBar, private webSocketService: WebsocketService) {
-    if (this.data && this.data.symbols) {
+
+      if (this.data && this.data.symbols) {
       this.originalData = JSON.parse(JSON.stringify([...this.data.symbols]));
 
       this.data.symbols.forEach((element: any) => {
@@ -138,6 +178,7 @@ export class ConfirmTradeComponent implements OnInit, OnDestroy {
     }
     /** Remove symbols from price list */
     this.setSymbolsForBrokeragePrice(this.inputForSymbolPrice, false)
+    this.ngOnDestroy();
   }
   async ngOnInit() {
     /**connecting webSocket and activating listener*/
@@ -169,13 +210,25 @@ export class ConfirmTradeComponent implements OnInit, OnDestroy {
     let a = null
     for (let i = 0; i < this.originalData.length; i++) {
       if (this.originalData[i].ticker_id == price.ticker_id && this.originalData[i].price != price.price) {
-        return "lightgreen"
+    return "lightgreen"
       }
     }
-
+    // setTimeout(() => {
+    //   for (let i = 0; i < this.originalData.length; i++) {
+    //     if (this.originalData[i].ticker_id == price.ticker_id && this.originalData[i].price != price.price) {
+    //       return ""
+    //     }
+    //   }
+    // }, 1000);
     return a;
   }
 
+  // timeout(){
+  //   setTimeout(() => {
+  //     this.tableBackgroundColor='';
+  //     console.log("timeout successfully")
+  //   }, 5000);
+  // }
 
 
 
@@ -188,8 +241,10 @@ export class ConfirmTradeComponent implements OnInit, OnDestroy {
     this.basketTradeService.setSymbolsForBrokeragePrice({ symbols: symbols, track: track }).then((data) => { })
   }
   cancel() {
+
     /** Remove symbols from price list */
     this.setSymbolsForBrokeragePrice(this.inputForSymbolPrice, false);
+    this.ngOnDestroy();
     this.dialogRef.close();
   }
 
