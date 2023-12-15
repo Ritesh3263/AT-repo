@@ -6,6 +6,7 @@ import { Subscription, timer } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { WebsocketService } from 'src/app/services/websocket.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { UserService } from 'src/app/services/user.service';
 
 export interface PeriodicElement {
   tickersymbol: string;
@@ -70,11 +71,12 @@ export class ConfirmTradeComponent implements OnInit, OnDestroy {
   private subscription: any;
   inputForSymbolPrice: any = [];
   tableBackgroundColor:any='';
-
+  user_id:any=null;
 
   constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<ConfirmTradeComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private basketTradeService: BasketTradeService, private matSnackBar: MatSnackBar, private webSocketService: WebsocketService) {
+    @Inject(MAT_DIALOG_DATA) public data: any, private basketTradeService: BasketTradeService, private matSnackBar: MatSnackBar, private webSocketService: WebsocketService,private userService: UserService) {
 
+      this.loadUserDetails();
       if (this.data && this.data.symbols) {
       this.originalData = JSON.parse(JSON.stringify([...this.data.symbols]));
 
@@ -96,6 +98,12 @@ export class ConfirmTradeComponent implements OnInit, OnDestroy {
   dataSource = this.data.symbols;
 
 
+/***loadUserDetails function is used to get user information  */
+loadUserDetails() {
+  this.userService.getUserDetails().then((user:any) => {
+    this.user_id = user.firstName?user.firstName:null
+  })
+}
   confirmOrder() {
     if (this.data && this.data.symbols) {
       let input: { Type: string, Orders: object[] } = { "Type": "NORMAL", Orders: [] };
@@ -122,7 +130,7 @@ export class ConfirmTradeComponent implements OnInit, OnDestroy {
        */
 
       this.showSpinner = true;
-      this.basketTradeService.setOrders(input, 'nikhil', 'ts').then((data) => {
+      this.basketTradeService.setOrders(input, this.user_id, 'ts').then((data) => {
         this.showSpinner = false;
         if (data && data.Orders && data.Orders[0].Error === 'FAILED') {
           this.dialogRef.close();
@@ -188,7 +196,7 @@ export class ConfirmTradeComponent implements OnInit, OnDestroy {
     this.messageSubscription = this.webSocketService.getMessages().subscribe((message: any) => {
       let priceData = JSON.parse(message)[0];
       this.data.symbols.forEach((ele: any) => {
-        if (ele.ticker_id == priceData.Symbol) {
+        if (ele.ticker_id == priceData.Symbol && priceData.Close) {
           ele.price = priceData.Close
         }
       })

@@ -8,6 +8,7 @@ import { BrokerageService } from '../../../services/brokerage.service'
 import {FormControl, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { LocationStrategy } from '@angular/common';
+import { UserService } from 'src/app/services/user.service';
 
 export interface PeriodicElement {
   accountNumber: number;
@@ -32,7 +33,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class BrokerageComponent implements AfterViewInit{
   showSpinner: boolean = false;
   isDisableAccounts :boolean=false;
-  user_id:any="nikhil";
+  user_id:any=null;
 
   // displayedColumns: string[] = ['accountNumber', 'accountBalance', 'openPositions'];
   displayedColumns: string[] = ['accountId', 'accountType','cashBalance','buyingPower','equity','marketValue','overnightBuyingPower','status'];
@@ -41,24 +42,17 @@ export class BrokerageComponent implements AfterViewInit{
   selection = new SelectionModel<PeriodicElement>(true, []);
   selectedOption: string = 'option1';
   activeBrokerages :any=null;
-
-   brokerage_type = new FormControl('TS', [Validators.required]);
+  brokerage_type = new FormControl('TS', [Validators.required]);
    state:any;
+   user:any;
    tokenForRetrieveAccounts :any=null;
-  constructor(public dialog: MatDialog,private brokerageService:BrokerageService,private route: ActivatedRoute,private location:LocationStrategy) {
-    // getting access token from tradestation 
+  constructor(public dialog: MatDialog,private brokerageService:BrokerageService,private route: ActivatedRoute,private location:LocationStrategy,private userService: UserService) {
+    /* getting access code from tradeStation */
     this.state = this.location.getState();
     if(this.state && this.state.code){
-      this.steAccessToken(this.state.code,'nikhil')
-      // this.isDisableAccounts = true;
-      this.getBrokerageAccount("TS",'nikhil');
+      this.steAccessToken(this.state.code,this.state.user.firstName)
+      this.getBrokerageAccount("TS",this.state.user.firstName);
     }
-    // get tradestation token from session 
-    // let isAccess_token = sessionStorage.getItem("token")
-    // if(isAccess_token){
-      // this.tokenForRetrieveAccounts =isAccess_token; 
-     
-    // }
 
   }
 
@@ -66,11 +60,28 @@ export class BrokerageComponent implements AfterViewInit{
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
-    this.getAccessToken();
+    /* if there is no active code related brokerages then only call the user*/
+    if(this.state && !this.state.code){
+    this.loadUserDetails();
+    }
   }
 
+/***loadUserDetails function is used to get user information  */
+  loadUserDetails() {
+    this.showSpinner = true;
+    this.userService.getUserDetails().then((user:any) => {
+      this.showSpinner = false;
+      this.user_id = user.firstName?user.firstName:null
+      this.getAccessToken();
+    })
+  }
+
+
+  /***getAccessToken function is used to get  active brokerages*/
   getAccessToken(){
+    this.showSpinner = true;
     this.brokerageService.getAccessToken(this.user_id).then((data) => {
+      this.showSpinner = false;
       if(data && !data[0].status && data[0].status !== 'error' && data[0].active_brokerage_key){
         this.activeBrokerages= data;
         this.getBrokerageAccount(this.activeBrokerages[0].active_brokerage_key,this.user_id)
@@ -78,6 +89,7 @@ export class BrokerageComponent implements AfterViewInit{
     })
   }
 
+  /***getBrokerageAccount function is used to get  active Accounts related to brokerage*/
   getBrokerageAccount(brokerage:any,user_id:any){
     this.showSpinner = true;
     this.brokerageService.getBrokerageAccounts(brokerage,this.user_id).then((data) => {
@@ -119,6 +131,8 @@ export class BrokerageComponent implements AfterViewInit{
       disableClose: true
     });
   }
+
+  /***getBrokerageAccount function is used to send brokerage code for generating access token*/
   steAccessToken(inputCode:any,inputUser:any){
     this.showSpinner = true;
     let input = {
@@ -128,14 +142,9 @@ export class BrokerageComponent implements AfterViewInit{
     this.brokerageService.setAccessToken(input).then((data) => {
       this.showSpinner=false;
       if(data && data.access_token){
-        // this.tokenForRetrieveAccounts = data.access_token;
         this.isDisableAccounts = true;
         this.getBrokerageAccount("TS",this.user_id)
-        // sessionStorage.setItem("token",data.access_token)
       }
-
-      // this.spinner.hide()
-
     })
   }
 
