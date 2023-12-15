@@ -3,7 +3,7 @@
         <img src="/assets/images/home-icon.svg" />
     </a>
     <span>/</span>
-    <a routerLink="/my-basket" class="bold">Baskets</a>
+    <a routerLink="/baskets" class="bold">Baskets</a>
     <span>/</span>
     <a class="bold">Owner Profile</a>
 </div>
@@ -12,25 +12,25 @@
     <div fxLayout="row wrap" fxLayoutAlign="start center" class="owner-header form-row">
         <div fxFlex="initial" class="form-group">
             <div fxLayout="column" fxLayoutAlign="center center" class="owner-img">
-                <img src="assets/images/profile-pic.jpg" />
+                <img src="{{trader.profilePhoto}}" />
             </div>
         </div>
         <div fxFlex fxFlex.xs="100" fxLayout="row wrap" fxLayoutAlign="start center" class="form-group pt-xs-10">
             <div fxFlex>
-                <h3 class="mat-h3 font-600 mb-0">Andrie Jacsion</h3>
+                <h3 class="mat-h3 font-600 mb-0">{{trader.displayName}}</h3>
                 <p>Trader Expert</p>
             </div>
             <div fxLayout="column" class="follower-tab">
-                <h2 class="mat-h2 font-600 mb-0">126</h2>
+                <h2 class="mat-h2 font-600 mb-0">{{trader.followers}}</h2>
                 <p>Followers</p>
             </div>
             <div fxLayout="column" class="follower-tab">
-                <h2 class="mat-h2 font-600 mb-0">25</h2>
+                <h2 class="mat-h2 font-600 mb-0">{{trader.following}}</h2>
                 <p>Following</p>
             </div>
         </div>
         <div fxFlex="initial" fxFlex.xs="100" fxLayout.xs="row" fxLayoutAlign.xs="end center" class="form-group pt-xs-15">
-            <button mat-flat-button color="primary">
+            <button mat-flat-button color="primary" (click)="follow()">
                 Follow
             </button>
         </div>
@@ -40,69 +40,76 @@
             <ng-template mat-tab-label>
                 <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
                     <span>Baskets</span>
-                    <span class="count">4</span>
+                    <span class="count">{{baskets.length}}</span>
                 </span>
             </ng-template>
             <div fxLayout="row wrap" fxLayoutAlign="start stretch" class="form-row mt-20">
-                <div fxFlex="25" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
-                    <mat-card class="basket-card trade-down">
+                <div fxFlex="25" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" class="form-group" *ngFor="let basket of baskets">
+                    <mat-card class="basket-card {{getBasketPeformanceClass(basket)}}">
                         <div class="basket-header">
-                            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
-                                <h2 class="mat-h2">Basket One</h2>
+                            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" (click)="navigate(basket, 'basket')">
+                                <h2 class="mat-h2">{{basket.name}}</h2>
                             </div>
                             <p class="desc">
-                                In publishing and graphic design,
-                                Lorem ipsum is a placeholde...
+                                {{basket.description}}
                             </p>
                         </div>
                         <div class="basket-content" fxLayout="row" fxLayoutAlign="start center">
                             <div fxFlex fxLayout="row" fxLayoutAlign="start center">
                                 <mat-icon class="trade-icon"></mat-icon>
-                                <h2 class="mat-h2 mb-0">-21.4%</h2>
-                                <span class="price">$12.75</span>
+                                <h2 class="mat-h2 mb-0">{{basket.percent_change | number: '1.2-2'}}%</h2>
+                                <span class="price">{{basket.value_change | currency}}</span>
                             </div>
-                            <span fxFlex="initial" class="acc-no">A/C 588746362</span>
+                            <span fxFlex="initial" class="acc-no">A/C {{basket.account}}</span>
                         </div>
                         <div class="basket-footer" fxLayout="row" fxLayoutAlign="start center">
                             <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
                                 <div class="invested">
                                     <p>Invested</p>
-                                    <h3 class="mat-h3">$36.02k</h3>
+                                    <h3 class="mat-h3">{{basket.invested_value | currency}}</h3>
                                 </div>
                                 <div class="invested market">
                                     <p>Market</p>
-                                    <h3 class="mat-h3">$36.02k</h3>
+                                    <h3 class="mat-h3">{{basket.invested_market | currency}}</h3>
                                 </div>
                             </div>
                             <div fxFlex="initial" fxLayout="column" fxLayoutGap="10px">
-                                <a fxFlex="initial" class="public-chip subscribe">Subscribe</a>
+                                <span fxFlex="initial" class="public-chip {{basket.is_subscribed ? 'unsubscribe' : 'subscribe'}}" (click)="updateSubscription(basket)" >{{basket.is_subscribed ? 'Unsubscribe' : 'Subscribe'}}</span>
                                 <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
-                                    <a class="like-icon">
-                                        <mat-icon>favorite</mat-icon>
+                                    <a class="like-icon {{basket.is_favorite ? 'active' : ''}}">
+                                        <mat-icon (click)="setFavoriteBasket(basket)">favorite</mat-icon>
                                     </a>
+                                    <!--
                                     <a class="like-icon">
                                         <mat-icon>share</mat-icon>
                                     </a>
+                                    -->
                                 </div>
                             </div>
                         </div>
                         <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
-                            <div fxLayout="column" fxLayoutAlign="center center" class="profile-icon">
-                                <img src="assets/images/basket-profile-icon.png" />
+                            <div fxFlex="initial" fxLayout="column" fxLayoutAlign="center center" class="profile-icon">
+                                <img src="{{basket.owner_image}}" />
                             </div>
-                            <div fxLayout="row" fxLayoutAlign="start center">
-                                <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
+                            <div fxFlex fxLayout="row" fxLayoutAlign="start stretch" class="profile-info-border">
+                                <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
                                     <p>Stocks</p>
-                                    <h2 class="mat-h2">101</h2>
+                                    <h2 class="mat-h2">{{basket.symbols_count}}</h2>
                                 </div>
-                                <div class="profile-info accounts" fxLayout="column" fxLayoutAlign="center center">
-                                    <p>Accounts</p>
-                                    <h2 class="mat-h2">101</h2>
+                                <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
+                                    <p>Subscribers</p>
+                                    <h2 class="mat-h2">{{basket.basket_subscribers}}</h2>
                                 </div>
-                                <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
-                                    <p>Followers</p>
-                                    <h2 class="mat-h2">101</h2>
+                                <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
+                                    <p>Likes</p>
+                                    <h2 class="mat-h2">{{basket.basket_favorites}}</h2>
                                 </div>
+                                <!--
+                                <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
+                                    <p>Shares</p>
+                                    <h2 class="mat-h2">10</h2>
+                                </div>
+                                -->
                             </div>
                         </div>
                         <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn"
@@ -110,245 +117,36 @@
                             <mat-icon>more_vert</mat-icon>
                         </button>
                         <mat-menu #menu="matMenu" xPosition="before">
-                            <button mat-menu-item>
-                                <mat-icon>dialpad</mat-icon>
-                                <span>Redial</span>
+                            <!--
+                            <button mat-menu-item (click)="navigate(basket, 'basket')">
+                                <mat-icon>add</mat-icon>
+                                <span>Add / Edit Symbols</span>
                             </button>
-                            <button mat-menu-item>
-                                <mat-icon>notifications_off</mat-icon>
-                                <span>Disable alerts</span>
+                            <button mat-menu-item (click)="navigate(basket, 'accounts')">
+                                <mat-icon>link</mat-icon>
+                                <span>Link Account</span>
                             </button>
-                        </mat-menu>
-                    </mat-card>
-                </div>
-                <div fxFlex="25" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
-                    <mat-card class="basket-card trade-up">
-                        <div class="basket-header">
-                            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
-                                <h2 class="mat-h2">Basket One</h2>
-                            </div>
-                            <p class="desc">
-                                In publishing and graphic design,
-                                Lorem ipsum is a placeholde...
-                            </p>
-                        </div>
-                        <div class="basket-content" fxLayout="row" fxLayoutAlign="start center">
-                            <div fxFlex fxLayout="row" fxLayoutAlign="start center">
-                                <mat-icon class="trade-icon"></mat-icon>
-                                <h2 class="mat-h2 mb-0">-21.4%</h2>
-                                <span class="price">$12.75</span>
-                            </div>
-                            <span fxFlex="initial" class="acc-no">A/C 588746362</span>
-                        </div>
-                        <div class="basket-footer" fxLayout="row" fxLayoutAlign="start center">
-                            <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-                                <div class="invested">
-                                    <p>Invested</p>
-                                    <h3 class="mat-h3">$36.02k</h3>
-                                </div>
-                                <div class="invested market">
-                                    <p>Market</p>
-                                    <h3 class="mat-h3">$36.02k</h3>
-                                </div>
-                            </div>
-                            <div fxFlex="initial" fxLayout="column" fxLayoutGap="10px">
-                                <a fxFlex="initial" class="public-chip unsubscribe">Unsubscribe</a>
-                                <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
-                                    <a class="like-icon">
-                                        <mat-icon>favorite</mat-icon>
-                                    </a>
-                                    <a class="like-icon">
-                                        <mat-icon>share</mat-icon>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
-                            <div fxLayout="column" fxLayoutAlign="center center" class="profile-icon">
-                                <img src="assets/images/basket-profile-icon.png" />
-                            </div>
-                            <div fxLayout="row" fxLayoutAlign="start center">
-                                <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
-                                    <p>Stocks</p>
-                                    <h2 class="mat-h2">101</h2>
-                                </div>
-                                <div class="profile-info accounts" fxLayout="column" fxLayoutAlign="center center">
-                                    <p>Accounts</p>
-                                    <h2 class="mat-h2">101</h2>
-                                </div>
-                                <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
-                                    <p>Followers</p>
-                                    <h2 class="mat-h2">101</h2>
-                                </div>
-                            </div>
-                        </div>
-                        <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn"
-                            (click)="$event.stopPropagation()">
-                            <mat-icon>more_vert</mat-icon>
-                        </button>
-                        <mat-menu #menu="matMenu" xPosition="before">
-                            <button mat-menu-item>
-                                <mat-icon>dialpad</mat-icon>
-                                <span>Redial</span>
+                            <button mat-menu-item (click)="navigate(basket, 'trade')">
+                                <mat-icon>trending_up</mat-icon>
+                                <span>Trade</span>
                             </button>
-                            <button mat-menu-item>
-                                <mat-icon>notifications_off</mat-icon>
-                                <span>Disable alerts</span>
+                            -->
+                            <!--
+                            <button mat-menu-item routerLink="/my-basket-info/marketplace">
+                                <mat-icon>ios_share</mat-icon>
+                                <span>Publish to Marketplace</span>
                             </button>
-                        </mat-menu>
-                    </mat-card>
-                </div>
-                <div fxFlex="25" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
-                    <mat-card class="basket-card trade-stable">
-                        <div class="basket-header">
-                            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
-                                <h2 class="mat-h2">Basket One</h2>
-                            </div>
-                            <p class="desc">
-                                In publishing and graphic design,
-                                Lorem ipsum is a placeholde...
-                            </p>
-                        </div>
-                        <div class="basket-content" fxLayout="row" fxLayoutAlign="start center">
-                            <div fxFlex fxLayout="row" fxLayoutAlign="start center">
-                                <mat-icon class="trade-icon"></mat-icon>
-                                <h2 class="mat-h2 mb-0">-21.4%</h2>
-                                <span class="price">$12.75</span>
-                            </div>
-                            <span fxFlex="initial" class="acc-no">A/C 588746362</span>
-                        </div>
-                        <div class="basket-footer" fxLayout="row" fxLayoutAlign="start center">
-                            <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-                                <div class="invested">
-                                    <p>Invested</p>
-                                    <h3 class="mat-h3">$36.02k</h3>
-                                </div>
-                                <div class="invested market">
-                                    <p>Market</p>
-                                    <h3 class="mat-h3">$36.02k</h3>
-                                </div>
-                            </div>
-                            <div fxFlex="initial" fxLayout="column" fxLayoutGap="10px">
-                                <a fxFlex="initial" class="public-chip subscribe">Subscribe</a>
-                                <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
-                                    <a class="like-icon">
-                                        <mat-icon>favorite</mat-icon>
-                                    </a>
-                                    <a class="like-icon">
-                                        <mat-icon>share</mat-icon>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
-                            <div fxLayout="column" fxLayoutAlign="center center" class="profile-icon">
-                                <img src="assets/images/basket-profile-icon.png" />
-                            </div>
-                            <div fxLayout="row" fxLayoutAlign="start center">
-                                <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
-                                    <p>Stocks</p>
-                                    <h2 class="mat-h2">101</h2>
-                                </div>
-                                <div class="profile-info accounts" fxLayout="column" fxLayoutAlign="center center">
-                                    <p>Accounts</p>
-                                    <h2 class="mat-h2">101</h2>
-                                </div>
-                                <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
-                                    <p>Followers</p>
-                                    <h2 class="mat-h2">101</h2>
-                                </div>
-                            </div>
-                        </div>
-                        <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn"
-                            (click)="$event.stopPropagation()">
-                            <mat-icon>more_vert</mat-icon>
-                        </button>
-                        <mat-menu #menu="matMenu" xPosition="before">
-                            <button mat-menu-item>
-                                <mat-icon>dialpad</mat-icon>
-                                <span>Redial</span>
+                            -->
+                            <button mat-menu-item  (click)="updateSubscription(basket)">
+                                <mat-icon>unsubscribe</mat-icon>
+                                <span>{{basket.is_subscribed ? 'Unsubscribe' : 'Subscribe'}}</span>
                             </button>
+                            <!--
                             <button mat-menu-item>
-                                <mat-icon>notifications_off</mat-icon>
-                                <span>Disable alerts</span>
+                                <mat-icon>archive</mat-icon>
+                                <span>Archive</span>
                             </button>
-                        </mat-menu>
-                    </mat-card>
-                </div>
-                <div fxFlex="25" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" class="form-group">
-                    <mat-card class="basket-card trade-up">
-                        <div class="basket-header">
-                            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
-                                <h2 class="mat-h2">Basket One</h2>
-                            </div>
-                            <p class="desc">
-                                In publishing and graphic design,
-                                Lorem ipsum is a placeholde...
-                            </p>
-                        </div>
-                        <div class="basket-content" fxLayout="row" fxLayoutAlign="start center">
-                            <div fxFlex fxLayout="row" fxLayoutAlign="start center">
-                                <mat-icon class="trade-icon"></mat-icon>
-                                <h2 class="mat-h2 mb-0">-21.4%</h2>
-                                <span class="price">$12.75</span>
-                            </div>
-                            <span fxFlex="initial" class="acc-no">A/C 588746362</span>
-                        </div>
-                        <div class="basket-footer" fxLayout="row" fxLayoutAlign="start center">
-                            <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-                                <div class="invested">
-                                    <p>Invested</p>
-                                    <h3 class="mat-h3">$36.02k</h3>
-                                </div>
-                                <div class="invested market">
-                                    <p>Market</p>
-                                    <h3 class="mat-h3">$36.02k</h3>
-                                </div>
-                            </div>
-                            <div fxFlex="initial" fxLayout="column" fxLayoutGap="10px">
-                                <a fxFlex="initial" class="public-chip unsubscribe">Unsubscribe</a>
-                                <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
-                                    <a class="like-icon">
-                                        <mat-icon>favorite</mat-icon>
-                                    </a>
-                                    <a class="like-icon">
-                                        <mat-icon>share</mat-icon>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
-                            <div fxLayout="column" fxLayoutAlign="center center" class="profile-icon">
-                                <img src="assets/images/basket-profile-icon.png" />
-                            </div>
-                            <div fxLayout="row" fxLayoutAlign="start center">
-                                <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
-                                    <p>Stocks</p>
-                                    <h2 class="mat-h2">101</h2>
-                                </div>
-                                <div class="profile-info accounts" fxLayout="column" fxLayoutAlign="center center">
-                                    <p>Accounts</p>
-                                    <h2 class="mat-h2">101</h2>
-                                </div>
-                                <div class="profile-info" fxLayout="column" fxLayoutAlign="center center">
-                                    <p>Followers</p>
-                                    <h2 class="mat-h2">101</h2>
-                                </div>
-                            </div>
-                        </div>
-                        <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn"
-                            (click)="$event.stopPropagation()">
-                            <mat-icon>more_vert</mat-icon>
-                        </button>
-                        <mat-menu #menu="matMenu" xPosition="before">
-                            <button mat-menu-item>
-                                <mat-icon>dialpad</mat-icon>
-                                <span>Redial</span>
-                            </button>
-                            <button mat-menu-item>
-                                <mat-icon>notifications_off</mat-icon>
-                                <span>Disable alerts</span>
-                            </button>
+                            --->
                         </mat-menu>
                     </mat-card>
                 </div>

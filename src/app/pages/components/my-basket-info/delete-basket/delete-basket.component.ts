@@ -23,7 +23,7 @@ export class DeleteBasketComponent {
         else {
           this.utilityService.displayInfoMessage("Basket Deleted")
           this.dialogRef.close({success: true, id: data.id})
-          this.utilityService.navigate('/my-basket')
+          this.utilityService.navigate('/baskets')
         }
       })
     }
