@@ -1,5 +1,6 @@
 export interface Basket {
     id: number,
+    created_by_user: string,
     name: string,
     description: string,
     invested_value: number,

@@ -1,23 +1,13 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, Inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 
-export interface PeriodicElement {
-  accountNumber: number;
-  dateOfLinked: string;
-  noOfBasketsLinked: number;
-  brokerageName: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {accountNumber: 9954534354535489, dateOfLinked: '01-10-2023', noOfBasketsLinked: 6, brokerageName: 'John Doe'},
-  {accountNumber: 9954534354535489, dateOfLinked: '01-10-2023', noOfBasketsLinked: 6, brokerageName: 'John Doe'},
-  {accountNumber: 9954534354535489, dateOfLinked: '01-10-2023', noOfBasketsLinked: 6, brokerageName: 'John Doe'},
-  {accountNumber: 9954534354535489, dateOfLinked: '01-10-2023', noOfBasketsLinked: 6, brokerageName: 'John Doe'},
-  {accountNumber: 9954534354535489, dateOfLinked: '01-10-2023', noOfBasketsLinked: 6, brokerageName: 'John Doe'},
-];
+import { JourneyInfoComponent } from '../journey-info/journey-info.component';
+import { BasketsService } from 'src/app/services/baskets.service';
+import { EditAccountsComponent } from '../edit-accounts/edit-accounts.component';
+import { UtilitiesService } from 'src/app/services/utilities.service';
 
 @Component({
   selector: 'app-accounts',
@@ -25,11 +15,22 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./accounts.component.scss']
 })
 export class AccountsComponent {
-  displayedColumns: string[] = ['select', 'accountNumber', 'dateOfLinked', 'noOfBasketsLinked', 'brokerageName', 'actions'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  displayedColumns: string[] = [/*'select',*/ 'account_number', 'timestamp', 'linked_basket_count', 'broker_name', 'actions'];
+  dataSource = new MatTableDataSource<any>([]);
+  selection = new SelectionModel<any>(true, []);
 
-  constructor(public dialog: MatDialog) {}
+  basketId!: number;
+
+  constructor(@Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, public dialog: MatDialog, private basketService: BasketsService, private utilityService: UtilitiesService) {}
+
+  ngOnInit() {
+    this.basketId = this.parentComponent.getBasketId();
+    this.basketService.getBasketAccounts(this.basketId).then((data) => {
+      if(data && data.success && data.accounts) {
+        this.dataSource = new MatTableDataSource<any>(data.accounts);
+      }
+    })
+  }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -55,10 +56,36 @@ export class AccountsComponent {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
+  checkboxLabel(row?: any): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.accountNumber + 1}`;
+  }
+
+  addAccount() {
+    let dialogRef= this.dialog.open(EditAccountsComponent, {
+      panelClass: 'custom-modal',
+      disableClose: true,
+      data: {header: "Link account to the Basket", basketId: this.basketId, mode: "ADD"}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result && result.success) {
+        this.ngOnInit();
+      }
+    });
+  }
+
+  removeAccount(account: any) {
+    this.basketService.setBasketAccount(this.basketId, account.account_id, 'DELETE').then((data) => {
+      if(data && data.success && data.results) {
+        this.utilityService.displayInfoMessage("Account unlinked from basket.")
+        this.dataSource = new MatTableDataSource<any>([]);
+      }
+      else {
+        this.utilityService.displayInfoMessage("Error ocurred removing account from basket.", true);
+      }
+    })
   }
 }

@@ -136,6 +136,11 @@ html, body {
                     border: 1px solid #EB5757;
                     cursor: pointer;
                 }
+
+                &.inactive {
+                    color: #EB5757;
+                    border: 1px solid #EB5757;
+                }
             }
         }
 

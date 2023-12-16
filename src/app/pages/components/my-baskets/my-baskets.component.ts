@@ -69,8 +69,8 @@ export class MyBasketsComponent {
     });
   }
 
-  openOwnerProfile() {
-    this.utilityService.navigate('/owner-profile');
+  openOwnerProfile(basket: Basket) {
+    this.utilityService.navigate(`owner-profile/${basket.created_by_user}`);
   }
 
   trackGroup(index: number, group: any): string {

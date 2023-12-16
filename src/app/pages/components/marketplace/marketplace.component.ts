@@ -69,4 +69,8 @@ export class MarketplaceMainComponent {
   navigate(basket: Basket, path: string) {
     this.utilityService.navigate(`/my-basket-info/${basket.id}/${path}`)
   }
+
+  openOwnerProfile(basket: Basket) {
+    this.utilityService.navigate(`owner-profile/${basket.created_by_user}`);
+  }
 }

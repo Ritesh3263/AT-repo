@@ -156,4 +156,26 @@ export class BasketsService {
       return {error: e.message}
     }
   }
+
+  async getBasketAccounts(basketId: number): Promise<any> {
+    try{
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/basket/${basketId}/accounts`, this.getHeaders());
+      let data = await res.json();
+      return data;
+    }
+    catch(e: any) {
+      return {error: e.message}
+    }
+  }
+
+  async setBasketAccount(basketId: number, accountId: number, method = 'PUT'): Promise<any> {
+    try{
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/basket/${basketId}/accounts/${accountId}`, this.getHeaders(method));
+      let data = await res.json();
+      return data;
+    }
+    catch(e: any) {
+      return {error: e.message}
+    }
+  }
 }

@@ -38,7 +38,7 @@ const routes: Routes = [
     canActivate: [AuthenticationGuard]
   },
   {
-    path: 'my-basket',
+    path: 'baskets',
     component: MyBasketsComponent,
     canActivate: [AuthenticationGuard]
   },
@@ -56,7 +56,7 @@ const routes: Routes = [
         component: BasketComponent,
       },
       {
-        path: 'accounts',
+        path: 'account',
         component: AccountsComponent,
       },
       {
@@ -78,7 +78,7 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'owner-profile',
+    path: 'owner-profile/:id',
     component: OwnerProfileComponent,
     canActivate: [AuthenticationGuard]
   },
@@ -104,4 +104,3 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-

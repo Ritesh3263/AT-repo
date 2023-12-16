@@ -6,85 +6,25 @@
     <a class="bold">Following</a>
 </div>
 <div class="basket-wrapper">
-    <div fxLayout="row wrap" fxLayoutAlign="start stretch" class="form-row pt-20">
-        <div fxFlex="25" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" class="form-group pb-20">
+    <div fxLayout="row wrap" fxLayoutAlign="start stretch" class="form-row pt-20" >
+        <div fxFlex="25" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" class="form-group pb-20" *ngFor="let trader of traders">
             <div class="following-box">
-                <a routerLink="/owner-profile" fxLayout="column" fxLayoutAlign="center center" class="profile-icon">
-                    <img src="/assets/images/profile-2.jpg" />
+                <a (click)="openTraderProfile(trader)" fxLayout="column" fxLayoutAlign="center center" class="profile-icon" [hidden]="trader.profilePhoto">
+                    <img src="{{trader.profilePhoto}}" />
                 </a>
-                <h3 class="mat-h3 font-600 text-center">Cody Edwards</h3>
-                <p class="doj text-center">Date of Joining: 20-01-2022</p>
+                <h3 class="mat-h3 font-600 text-center">{{trader.displayName}}</h3>
+                <p class="doj text-center">Date of Joining: {{trader.createdAt | date}}</p>
                 <div fxLayout="row" fxLayoutAlign="start center" class="pt-5 pb-5">
                     <div fxFlex fxLayout="column" fxLayoutAlign="center center" class="follower-tab">
-                        <h2 class="mat-h2 font-600 mb-0">5</h2>
+                        <h2 class="mat-h2 font-600 mb-0">{{trader.baskets}}</h2>
                         <p>Baskets</p>
                     </div>
                     <div fxFlex fxLayout="column" fxLayoutAlign="center center" class="follower-tab">
-                        <h2 class="mat-h2 font-600 mb-0">25</h2>
+                        <h2 class="mat-h2 font-600 mb-0">{{trader.followers}}</h2>
                         <p>Followers</p>
                     </div>
                 </div>
-                <button class="unfollow-btn">Unfollow</button>
-            </div>
-        </div>
-        <div fxFlex="25" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" class="form-group pb-20">
-            <div class="following-box">
-                <a routerLink="/owner-profile" fxLayout="column" fxLayoutAlign="center center" class="profile-icon">
-                    <img src="/assets/images/profile-3.jpg" />
-                </a>
-                <h3 class="mat-h3 font-600 text-center">Cody Edwards</h3>
-                <p class="doj text-center">Date of Joining: 20-01-2022</p>
-                <div fxLayout="row" fxLayoutAlign="start center" class="pt-5 pb-5">
-                    <div fxFlex fxLayout="column" fxLayoutAlign="center center" class="follower-tab">
-                        <h2 class="mat-h2 font-600 mb-0">5</h2>
-                        <p>Baskets</p>
-                    </div>
-                    <div fxFlex fxLayout="column" fxLayoutAlign="center center" class="follower-tab">
-                        <h2 class="mat-h2 font-600 mb-0">25</h2>
-                        <p>Followers</p>
-                    </div>
-                </div>
-                <button class="unfollow-btn">Unfollow</button>
-            </div>
-        </div>
-        <div fxFlex="25" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" class="form-group pb-20">
-            <div class="following-box">
-                <a routerLink="/owner-profile" fxLayout="column" fxLayoutAlign="center center" class="profile-icon">
-                    <img src="/assets/images/profile-4.jpg" />
-                </a>
-                <h3 class="mat-h3 font-600 text-center">Cody Edwards</h3>
-                <p class="doj text-center">Date of Joining: 20-01-2022</p>
-                <div fxLayout="row" fxLayoutAlign="start center" class="pt-5 pb-5">
-                    <div fxFlex fxLayout="column" fxLayoutAlign="center center" class="follower-tab">
-                        <h2 class="mat-h2 font-600 mb-0">5</h2>
-                        <p>Baskets</p>
-                    </div>
-                    <div fxFlex fxLayout="column" fxLayoutAlign="center center" class="follower-tab">
-                        <h2 class="mat-h2 font-600 mb-0">25</h2>
-                        <p>Followers</p>
-                    </div>
-                </div>
-                <button class="unfollow-btn">Unfollow</button>
-            </div>
-        </div>
-        <div fxFlex="25" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" class="form-group pb-20">
-            <div class="following-box">
-                <a routerLink="/owner-profile" fxLayout="column" fxLayoutAlign="center center" class="profile-icon">
-                    <img src="/assets/images/profile-5.jpg" />
-                </a>
-                <h3 class="mat-h3 font-600 text-center">Cody Edwards</h3>
-                <p class="doj text-center">Date of Joining: 20-01-2022</p>
-                <div fxLayout="row" fxLayoutAlign="start center" class="pt-5 pb-5">
-                    <div fxFlex fxLayout="column" fxLayoutAlign="center center" class="follower-tab">
-                        <h2 class="mat-h2 font-600 mb-0">5</h2>
-                        <p>Baskets</p>
-                    </div>
-                    <div fxFlex fxLayout="column" fxLayoutAlign="center center" class="follower-tab">
-                        <h2 class="mat-h2 font-600 mb-0">25</h2>
-                        <p>Followers</p>
-                    </div>
-                </div>
-                <button class="unfollow-btn">Unfollow</button>
+                <button class="unfollow-btn" (click)="unfollow(trader)">Unfollow</button>
             </div>
         </div>
     </div>
