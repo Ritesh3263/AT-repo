@@ -5,19 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ConnectDialogComponent } from './connect-dialog/connect-dialog.component';
 
-export interface PeriodicElement {
-  accountNumber: number;
-  accountBalance: number;
-  openPositions: number;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {accountNumber: 9954534354535489, accountBalance: 500, openPositions: 6},
-  {accountNumber: 9954534354535489, accountBalance: 500, openPositions: 6},
-  {accountNumber: 9954534354535489, accountBalance: 500, openPositions: 6},
-  {accountNumber: 9954534354535489, accountBalance: 500, openPositions: 6},
-  {accountNumber: 9954534354535489, accountBalance: 500, openPositions: 6},
-];
+import { BrokerService } from 'src/app/services/broker.service';
 
 @Component({
   selector: 'app-brokerage',
@@ -26,12 +14,35 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class BrokerageComponent {
 
-  displayedColumns: string[] = ['accountNumber', 'accountBalance', 'openPositions'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
-  selectedOption: string = 'option1';
+  displayedColumns: string[] = ['account_number', 'accountBalance', 'openPositions'];
+  dataSource = new MatTableDataSource<any>([]);
+  selection = new SelectionModel<any>(true, []);
+  selectedBrokerId!: number;
 
-  constructor(public dialog: MatDialog) {}
+  brokerMaster!: any;
+  accounts!: any;
+
+  constructor(public dialog: MatDialog, private brokerService: BrokerService) {}
+
+  ngOnInit() {
+    this.brokerService.getBrokerMaster().then((data) => {
+      if(data && data.success && data.brokers) {
+        this.brokerMaster = data.brokers;
+        this.selectedBrokerId = this.brokerMaster[0].id;
+        this.getBrokerAccounts();
+      }
+    })
+  }
+
+  getBrokerAccounts() {
+    this.brokerService.getBrokerAccounts(this.selectedBrokerId).then((data) => {
+      if(data && data.success && data.accounts) {
+        this.accounts = data.accounts;
+        this.dataSource = new MatTableDataSource<any>(this.accounts);
+        this.selection = new SelectionModel<any>(true, []);
+      }
+    })
+  }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -57,7 +68,7 @@ export class BrokerageComponent {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
+  checkboxLabel(row?: any): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }

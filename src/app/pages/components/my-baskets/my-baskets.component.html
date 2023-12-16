@@ -86,7 +86,12 @@
                                 <h2 class="mat-h2 mb-0">{{basket.percent_change | number: '1.2-2'}}%</h2>
                                 <span class="price">{{basket.value_change | currency}}</span>
                             </div>
-                            <span fxFlex="initial" class="acc-no">A/C {{basket.account}}</span>
+                            <span fxFlex="initial" class="acc-no account-image" *ngIf="basket.account" (click)="navigate(basket, 'account')">A/C {{basket.account}}</span>
+                            <span fxFlex="initial" class="acc-no" *ngIf="!basket.account" (click)="navigate(basket, 'account')">
+                                <mat-icon class="account-image">link</mat-icon>
+                                <span class="account-image">Link Account</span>
+                            </span>
+
                         </div>
                         <div class="basket-footer" fxLayout="row" fxLayoutAlign="start center">
                             <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
@@ -100,7 +105,9 @@
                                 </div>
                             </div>
                             <div fxFlex="initial" fxLayout="column" fxLayoutGap="10px">
-                                <span fxFlex="initial" class="public-chip" [hidden]="!basket.public">Public</span>
+                                <span fxFlex="initial" class="public-chip" [hidden]="!basket.public" *ngIf="basket.is_owner">Public</span>
+                                <span fxFlex="initial" class="public-chip" *ngIf="!basket.is_owner && basket.public">Public</span>
+                                <span fxFlex="initial" class="public-chip inactive" *ngIf="!basket.is_owner && !basket.public">Inactive</span>
                                 <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
                                     <!--
                                     <a class="like-icon">
@@ -149,7 +156,7 @@
                                 <mat-icon>add</mat-icon>
                                 <span>Add / Edit Symbols</span>
                             </button>
-                            <button mat-menu-item (click)="navigate(basket, 'accounts')">
+                            <button mat-menu-item (click)="navigate(basket, 'account')">
                                 <mat-icon>link</mat-icon>
                                 <span>Link Account</span>
                             </button>
@@ -261,7 +268,7 @@
                                 <mat-icon>add</mat-icon>
                                 <span>Add / Edit Symbols</span>
                             </button>
-                            <button mat-menu-item (click)="navigate(basket, 'accounts')">
+                            <button mat-menu-item (click)="navigate(basket, 'account')">
                                 <mat-icon>link</mat-icon>
                                 <span>Link Account</span>
                             </button>
