@@ -86,7 +86,8 @@ export class OwnerProfileComponent {
         this.utilityService.displayInfoMessage(data.error, true)
       }
       else {
-        this.utilityService.displayInfoMessage(basket.is_favorite ? "Basket added to favorites" : "Basket removed from favorites");
+        this.utilityService.displayInfoMessage(basket.is_favorite ? "Basket added to favorites" : "Basket removed from favorites")
+        basket.basket_favorites += basket.is_favorite ? 1 : -1;
       }
     })
   }

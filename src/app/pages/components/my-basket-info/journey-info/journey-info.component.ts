@@ -23,6 +23,21 @@ export class JourneyInfoComponent {
     })
   }
 
+  ngOnInit() {
+    this.getBasket();
+  }
+
+  public getBasket() {
+    this.basketService.getBasketDetails(this.basketId).then((data) => {
+      if(data.error || !data.basket) {
+        //this.utilityService.displayInfoMessage(data.error, true)
+      }
+      else {
+        this.basket = data.basket;
+      }
+    })
+  }
+
   public getBasketId() {
     return this.basketId;
   }
