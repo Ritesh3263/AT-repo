@@ -60,7 +60,7 @@
                                 <h2 class="mat-h2 mb-0">{{basket.percent_change | number: '1.2-2'}}%</h2>
                                 <span class="price">{{basket.value_change | currency}}</span>
                             </div>
-                            <span fxFlex="initial" class="acc-no">A/C {{basket.account}}</span>
+                            <span fxFlex="initial" class="acc-no" [hidden]="true">A/C {{basket.account}}</span>
                         </div>
                         <div class="basket-footer" fxLayout="row" fxLayoutAlign="start center">
                             <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">

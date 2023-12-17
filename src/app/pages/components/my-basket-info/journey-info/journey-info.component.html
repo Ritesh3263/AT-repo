@@ -15,21 +15,21 @@
                     </span>
                 </a>
             </li>
-            <li>
+            <li *ngIf="basket.is_owner || basket.is_subscribed">
                 <a fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" routerLink="/my-basket-info/{{basketId}}/account" routerLinkActive="active">
                     <span fxFlex>
                         Account
                     </span>
                 </a>
             </li>
-            <li>
+            <li *ngIf="basket.is_owner || basket.is_subscribed">
                 <a fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" routerLink="/my-basket-info/{{basketId}}/trade" routerLinkActive="active">
                     <span fxFlex>
                         Trade
                     </span>
                 </a>
             </li>
-            <li>
+            <li *ngIf="basket.is_owner">
                 <a fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" routerLink="/my-basket-info/{{basketId}}/marketplace" routerLinkActive="active">
                     <span fxFlex>
                         Marketplace

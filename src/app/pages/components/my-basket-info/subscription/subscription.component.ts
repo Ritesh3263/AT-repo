@@ -29,12 +29,12 @@ export class SubscriptionComponent {
 
   updateSubscription() {
     // Subscribe to basket
-    this.basket.is_subscribed  = !this.basket.is_subscribed;
     this.basketService.subscribeToBasket(this.basket.id, this.basket.is_subscribed ? 'PUT' : 'DELETE').then((data) => {
       if(data.error || !data.success) {
         this.utilityService.displayInfoMessage("Error subscribing to basket.", true)
       }
       else {
+        this.parentComponent.getBasket();
         this.utilityService.displayInfoMessage(this.basket.is_subscribed ? "Subscribed to basket." : "Unsubscribed from basket.")
       }
     })
