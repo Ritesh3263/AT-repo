@@ -17,7 +17,10 @@ import { TradeComponent } from './pages/components/my-basket-info/trade/trade.co
 import { MyBasketsComponent } from './pages/components/my-baskets/my-baskets.component';
 import { OwnerProfileComponent } from './pages/components/owner-profile/owner-profile.component';
 
+import { AnnouncementsComponent } from './pages/admin/components/announcements/announcements.component';
+
 import { AuthenticationGuard } from './authentication.guard';
+import { AdminAuthenticationGuard } from './admin-authentication.guard';
 
 const routes: Routes = [
   {
@@ -96,6 +99,16 @@ const routes: Routes = [
     path: 'following',
     component: FollowingComponent,
     canActivate: [AuthenticationGuard]
+  },
+  {
+    path: 'admin',
+    canActivate: [AdminAuthenticationGuard],
+    children: [
+      {
+        path: 'announcements',
+        component: AnnouncementsComponent,
+      }
+    ]
   }
 ];
 

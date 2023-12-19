@@ -57,3 +57,31 @@
         </div>
     </div>
 </header>
+<nav class="main-nav" fxLayout="row" fxLayoutAlign="start center" *ngIf="!user.roles || !user.roles.includes('admin')">
+    <ul fxLayout="row" fxLayoutAlign="start stretch">
+        <li>
+            <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]={exact:true} fxLayout="column" fxLayoutAlign="center center">Home</a>
+        </li>
+        <li>
+            <a routerLink="/baskets" routerLinkActive="active" fxLayout="column" fxLayoutAlign="center center">Baskets</a>
+        </li>
+        <li>
+            <a routerLink="/marketplace" routerLinkActive="active" fxLayout="column" fxLayoutAlign="center center">Marketplace</a>
+        </li>
+        <li>
+            <a routerLink="/brokerage" routerLinkActive="active" fxLayout="column" fxLayoutAlign="center center">Brokerage</a>
+        </li>
+        <li>
+            <a routerLink="/following" routerLinkActive="active" fxLayout="column" fxLayoutAlign="center center">Following</a>
+        </li>
+    </ul>
+</nav>
+
+<nav class="main-nav" fxLayout="row" fxLayoutAlign="start center" *ngIf="user.roles && user.roles.includes('admin')">
+    <ul fxLayout="row" fxLayoutAlign="start stretch">
+
+        <li>
+            <a routerLink="/admin/announcements" routerLinkActive="active" fxLayout="column" fxLayoutAlign="center center">Announcements</a>
+        </li>
+    </ul>
+</nav>

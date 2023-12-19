@@ -57,6 +57,8 @@ import { ForgotPasswordComponent } from './layouts/forgot-password/forgot-passwo
 import { EditSymbolsComponent } from './pages/components/my-basket-info/edit-symbols/edit-symbols.component';
 import { EditMarketplaceComponent } from './pages/components/my-basket-info/edit-marketplace/edit-marketplace.component';
 import { EditAccountsComponent } from './pages/components/my-basket-info/edit-accounts/edit-accounts.component';
+import { AnnouncementsComponent } from './pages/admin/components/announcements/announcements.component';
+
 
 @NgModule({
   declarations: [
@@ -93,7 +95,8 @@ import { EditAccountsComponent } from './pages/components/my-basket-info/edit-ac
     ForgotPasswordComponent,
     EditSymbolsComponent,
     EditMarketplaceComponent,
-    EditAccountsComponent
+    EditAccountsComponent,
+    AnnouncementsComponent
   ],
   imports: [
     BrowserModule,

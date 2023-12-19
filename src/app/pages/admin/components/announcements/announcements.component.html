@@ -1,0 +1,20 @@
+<form class="admin-form" [formGroup]="form">
+    <header fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px" >
+        <h2 fxFlex="initial" class="mat-h2 font-600 mb-0">Send a notification to all users</h2>
+    </header>
+    <br>
+    <br>
+    <mat-form-field>
+      <mat-label>Notification Subject</mat-label>
+      <input matInput placeholder="Subject goes here..." value="" formControlName="subject">
+      <mat-error *ngIf="utilityService.isControlValid(form, 'subject')">{{utilityService.getErrorMessage(form, 'subject')}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Notification Content</mat-label>
+      <textarea matInput placeholder="Content goes here..." formControlName="notificationData"></textarea>
+      <mat-error *ngIf="utilityService.isControlValid(form, 'notificationData')">{{utilityService.getErrorMessage(form, 'notificationData')}}</mat-error>
+    </mat-form-field>
+
+    <button mat-flat-button color="primary"  [disabled]="!utilityService.isFormValid(form)" (click)="sendAnnouncement()">Send Notification</button>
+</form>
