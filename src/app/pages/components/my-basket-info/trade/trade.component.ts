@@ -50,7 +50,7 @@ export class TradeComponent implements AfterViewInit {
   selection = new SelectionModel<PeriodicElement>(true, []);
   isDisplayColumn:boolean=true;
   constructor(private fb: FormBuilder,private renderer: Renderer2, public dialog: MatDialog,private basketTradeService :BasketTradeService) {
-    this.getAccountBasketPosition();
+    // this.getAccountBasketPosition();
     this.getBrokerageAccountPosition();
     this.form = this.fb.group ({
       investmentType: new FormControl('', [Validators.required]),
@@ -58,7 +58,7 @@ export class TradeComponent implements AfterViewInit {
       amount: new FormControl('', [Validators.required])
     })
   }
-  symbolInput:any;
+  symbolInput:any='AAPL';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -155,7 +155,30 @@ export class TradeComponent implements AfterViewInit {
     this.showSpinner= true;
       this.basketTradeService.getBrokerageAccountPosition('ts','Sreekanth','SIM1213784M').then((data) => {
         this.showSpinner =false;
-        console.log("hhhh",data)
+        // console.log("hhhh",data)
+        if(data){
+          this.displayedColumns = ['select', 'symbol', 'purchasedate', 'costcurrent', 'price', 'sharescurrent', 'investedcurrent', 'marketcurrent', 'pl', 'plpercent'];
+          data.Positions.forEach((ele:any)=>{
+            ele.new_cost=null;
+            ele.current_cost=Number(ele.TotalCost)/Number(ele.Quantity);
+            ele.purchase_date=ele.Timestamp
+            ele.ticker_id=ele.Symbol;
+            ele.price = Number(ele.Last);
+            ele.current_market_value = Number(ele.MarketValue);
+            ele.new_market_value = null;
+            ele.current_shares=Number(ele.Quantity);
+            ele.new_shares=null;
+            ele.current_invested = Number(ele.TotalCost);
+            ele.new_invested = null;
+            ele.p_l_amount=0.00;
+            ele.p_l_percent=0.00;
+
+          })
+          this.isPositions=true
+          this.dataSource.data= data.Positions;
+          this.isDisplayColumn =false;
+          console.log("hellll",this.symbolInput)
+        }
         // if(data) {
         //   this.displayedColumns = ['select', 'symbol', 'purchasedate', 'costcurrent', 'price', 'sharescurrent', 'investedcurrent', 'marketcurrent', 'pl', 'plpercent'];
         //   for(let i=0;i<data.length;i++){
