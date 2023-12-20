@@ -67,7 +67,7 @@ export class BasketTradeService {
     try{
     let header = this.getHeaders('POST', input)
       delete header.credentials;
-      let res = await fetch(`${environment.brokerageUrl}/brokerages/${broker_id}/users/${user_id}/orders`, header);
+      let res = await fetch(`${environment.brokerageUrl}/brokerages/${broker_id}/users/${user_id}/queue/orders`, header);
       let data = await res.json();
       return data;
     }

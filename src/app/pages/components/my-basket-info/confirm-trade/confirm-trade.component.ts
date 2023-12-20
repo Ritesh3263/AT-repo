@@ -132,14 +132,14 @@ loadUserDetails() {
       this.showSpinner = true;
       this.basketTradeService.setOrders(input, this.user_id, 'ts').then((data) => {
         this.showSpinner = false;
-        if (data && data.Orders && data.Orders[0].Error === 'FAILED') {
+        if (data && data.msg) {
           this.dialogRef.close();
-          this.matSnackBar.open(data.Orders[0].Message, 'Close', {
+          this.matSnackBar.open(data.msg, 'Close', {
             duration: 5000, // Duration in milliseconds
             panelClass: ['custom-snack-bar'],
           });
         } else {
-          this.matSnackBar.open(data.Orders[0].Message, 'Close', {
+          this.matSnackBar.open(data, 'Close', {
             duration: 5000, // Duration in milliseconds
             panelClass: ['custom-snack-bar'],
           });
@@ -190,7 +190,7 @@ loadUserDetails() {
   }
   async ngOnInit() {
     /**connecting webSocket and activating listener*/
-    await this.webSocketService.connect();
+    await this.webSocketService.connect('ws');
     await this.webSocketService.receiveMessages()
     /**continues receiving response from websocket*/
     this.messageSubscription = this.webSocketService.getMessages().subscribe((message: any) => {
