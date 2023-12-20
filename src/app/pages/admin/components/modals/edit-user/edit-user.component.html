@@ -13,6 +13,10 @@
 
             <app-input-text [formGroup]="form" [label]="'Email'" [field]="'email'"></app-input-text>
 
+            <app-input-text [formGroup]="form" [label]="'Password'" [field]="'password'" [hidden]="!showPassword()" [type]="'password'"></app-input-text>
+
+            <mat-checkbox formControlName="loginLocked" *ngIf="mode == 'EDIT'">Block Login</mat-checkbox>
+
             <p>Role</p>
             <mat-button-toggle-group name="roles" aria-label="Roles" formControlName="roles">
                 <mat-button-toggle value="trader">Trader</mat-button-toggle>
@@ -34,7 +38,7 @@
             Cancel
         </button>
         <button mat-flat-button color="primary" [disabled]="!utilityService.isFormValid(form)" (click)="createUser()">
-            Create
+            {{ mode == 'EDIT' ? 'Update' : 'Create'}}
         </button>
     </div>
 </div>

@@ -59,9 +59,9 @@ export class AdminService {
     }
   }
 
-  async getUsers(pageNumber: number, pageSize: number, search: string | null = null) {
+  async getUsers(pageNumber: number, pageSize: number, sortColumn: string | null = null, sortMode: string | null = null, search: string | null = null) {
     try{
-      let res = await fetch(`${environment.apiBaseUrl}/admin-api/users?pageNumber=${pageNumber}&pageSize=${pageSize}&search=${search}`, this.getHeaders());
+      let res = await fetch(`${environment.apiBaseUrl}/admin-api/users?pageNumber=${pageNumber}&pageSize=${pageSize}${sortColumn ? `&sortColumn=${sortColumn}` : ''}${sortMode ? `&sortMode=${sortMode}` : ''}${search ? `&search=${search}` : ''}`, this.getHeaders());
       let data = await res.json();
       return data;
     }
@@ -72,8 +72,19 @@ export class AdminService {
 
   async createUser(user: any) {
     try{
-      let body = {email: user.email, password: user.password, firstName: user.firstName, lastName: user.lastName, roles: user.roles, authenticationProvider: user.authenticationProvider};
-      let res = await fetch(`${environment.apiBaseUrl}/admin-api/user`, this.getHeaders('POST', body));
+      let res = await fetch(`${environment.apiBaseUrl}/admin-api/user`, this.getHeaders('POST', user));
+      let data = await res.json();
+      return data;
+    }
+    catch(e: any) {
+      console.log("signup Error: " + e.message);
+      return {error: e.message}
+    }
+  }
+
+  async updateUser(user: any) {
+    try{
+      let res = await fetch(`${environment.apiBaseUrl}/admin-api/user/${user.id}`, this.getHeaders('PATCH', user));
       let data = await res.json();
       return data;
     }

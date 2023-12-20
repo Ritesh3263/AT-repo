@@ -11,5 +11,8 @@ export class InputTextComponent {
   @Input() label!: string
   @Input() formGroup!: FormGroup
   @Input() field!: string
+  @Input() hidden: boolean = false
+  @Input() type: string = 'text';
+  hidePassword = true;
   constructor(public utilityService: UtilitiesService) {  }
 }

@@ -59,9 +59,11 @@ import { EditMarketplaceComponent } from './pages/components/my-basket-info/edit
 import { EditAccountsComponent } from './pages/components/my-basket-info/edit-accounts/edit-accounts.component';
 import { AnnouncementsComponent } from './pages/admin/components/announcements/announcements.component';
 import { UsersComponent } from './pages/admin/components/users/users.component';
-import { CreateUserComponent } from './pages/admin/components/modals/create-user/create-user.component';
+import { EditUserComponent } from './pages/admin/components/modals/edit-user/edit-user.component';
 import { InputTextComponent } from './layouts/forms/input-text/input-text.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatSortModule } from '@angular/material/sort';
+import { TableComponent } from './layouts/table/table.component';
 
 @NgModule({
   declarations: [
@@ -101,8 +103,9 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     EditAccountsComponent,
     AnnouncementsComponent,
     UsersComponent,
-    CreateUserComponent,
-    InputTextComponent
+    EditUserComponent,
+    InputTextComponent,
+    TableComponent
   ],
   imports: [
     BrowserModule,
@@ -129,7 +132,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     MatTabsModule,
     MatSlideToggleModule,
     MatSnackBarModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatSortModule
   ],
   providers: [],
   bootstrap: [AppComponent]
