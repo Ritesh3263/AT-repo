@@ -1,0 +1,7 @@
+<form class="example-form" [formGroup]="formGroup">
+    <mat-form-field appearance="outline">
+        <mat-label>{{label}}</mat-label>
+        <input matInput class="form-control" formControlName="{{field}}">
+        <mat-error *ngIf="utilityService.isControlValid(formGroup, field)">{{utilityService.getErrorMessage(formGroup, field, field == 'email')}}</mat-error>
+    </mat-form-field>
+</form>

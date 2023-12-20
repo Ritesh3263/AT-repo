@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {FormControl, Validators, FormBuilder, FormsModule, ReactiveFormsModule, FormGroup} from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Router } from '@angular/router';
@@ -22,10 +22,13 @@ export class UtilitiesService {
     this._router.navigateByUrl(route);
   }
 
-  getErrorMessage(form: FormGroup, value: string) {
+  getErrorMessage(form: FormGroup, value: string, email:boolean = false) {
     if (form.controls[value].hasError('required')) {
       return 'You must enter a value';
     }
+    else if(email)
+      return form.controls[value].hasError('email') ? 'Not a valid email' : '';
+
     return ''
   }
 

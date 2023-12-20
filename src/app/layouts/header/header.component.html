@@ -79,7 +79,9 @@
 
 <nav class="main-nav" fxLayout="row" fxLayoutAlign="start center" *ngIf="user.roles && user.roles.includes('admin')">
     <ul fxLayout="row" fxLayoutAlign="start stretch">
-
+        <li>
+            <a routerLink="/admin/users" routerLinkActive="active" [routerLinkActiveOptions]={exact:true} fxLayout="column" fxLayoutAlign="center center">Users</a>
+        </li>
         <li>
             <a routerLink="/admin/announcements" routerLinkActive="active" fxLayout="column" fxLayoutAlign="center center">Announcements</a>
         </li>

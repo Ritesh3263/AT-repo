@@ -18,7 +18,7 @@ import { MyBasketsComponent } from './pages/components/my-baskets/my-baskets.com
 import { OwnerProfileComponent } from './pages/components/owner-profile/owner-profile.component';
 
 import { AnnouncementsComponent } from './pages/admin/components/announcements/announcements.component';
-
+import { UsersComponent } from './pages/admin/components/users/users.component';
 import { AuthenticationGuard } from './authentication.guard';
 import { AdminAuthenticationGuard } from './admin-authentication.guard';
 
@@ -107,6 +107,10 @@ const routes: Routes = [
       {
         path: 'announcements',
         component: AnnouncementsComponent,
+      },
+      {
+        path: 'users',
+        component: UsersComponent,
       }
     ]
   }

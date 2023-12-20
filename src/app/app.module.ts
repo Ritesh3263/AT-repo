@@ -58,7 +58,10 @@ import { EditSymbolsComponent } from './pages/components/my-basket-info/edit-sym
 import { EditMarketplaceComponent } from './pages/components/my-basket-info/edit-marketplace/edit-marketplace.component';
 import { EditAccountsComponent } from './pages/components/my-basket-info/edit-accounts/edit-accounts.component';
 import { AnnouncementsComponent } from './pages/admin/components/announcements/announcements.component';
-
+import { UsersComponent } from './pages/admin/components/users/users.component';
+import { CreateUserComponent } from './pages/admin/components/modals/create-user/create-user.component';
+import { InputTextComponent } from './layouts/forms/input-text/input-text.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [
@@ -96,7 +99,10 @@ import { AnnouncementsComponent } from './pages/admin/components/announcements/a
     EditSymbolsComponent,
     EditMarketplaceComponent,
     EditAccountsComponent,
-    AnnouncementsComponent
+    AnnouncementsComponent,
+    UsersComponent,
+    CreateUserComponent,
+    InputTextComponent
   ],
   imports: [
     BrowserModule,
@@ -122,7 +128,8 @@ import { AnnouncementsComponent } from './pages/admin/components/announcements/a
     MatRadioModule,
     MatTabsModule,
     MatSlideToggleModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatButtonToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

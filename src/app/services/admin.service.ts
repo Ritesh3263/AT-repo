@@ -59,4 +59,28 @@ export class AdminService {
     }
   }
 
+  async getUsers(pageNumber: number, pageSize: number, search: string | null = null) {
+    try{
+      let res = await fetch(`${environment.apiBaseUrl}/admin-api/users?pageNumber=${pageNumber}&pageSize=${pageSize}&search=${search}`, this.getHeaders());
+      let data = await res.json();
+      return data;
+    }
+    catch(e: any) {
+      return {error: e.message}
+    }
+  }
+
+  async createUser(user: any) {
+    try{
+      let body = {email: user.email, password: user.password, firstName: user.firstName, lastName: user.lastName, roles: user.roles, authenticationProvider: user.authenticationProvider};
+      let res = await fetch(`${environment.apiBaseUrl}/admin-api/user`, this.getHeaders('POST', body));
+      let data = await res.json();
+      return data;
+    }
+    catch(e: any) {
+      console.log("signup Error: " + e.message);
+      return {error: e.message}
+    }
+  }
+
 }

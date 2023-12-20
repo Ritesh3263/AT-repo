@@ -1,0 +1,61 @@
+<div class="basket-wrapper">
+    <button mat-flat-button color="primary" class="panel-button" (click)="createUser()">Create User</button>
+
+    <div fxLayout fxLayoutAlign="end center" class="mt-10">
+
+        <mat-form-field appearance="outline" fxFlex="25" fxFlex.sm="40" fxFlex.xs="60">
+            <input matInput placeholder="Search Users" [(ngModel)]="search" (ngModelChange)="getUsers()">
+            <mat-icon matPrefix>search</mat-icon>
+        </mat-form-field>
+    </div>
+</div>
+<div class="mat-elevation-z8"><!-- trading-table height-auto table-scroll  -->
+    <table mat-table [dataSource]="dataSource">
+
+
+      <ng-container matColumnDef="profilePhoto">
+        <th mat-header-cell *matHeaderCellDef> </th>
+        <td mat-cell *matCellDef="let element"><img src="{{element.profilePhoto}}" class="profile-icon" [hidden]="!element.profilePhoto"/></td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="displayName">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.displayName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="authenticationProvider">
+        <th mat-header-cell *matHeaderCellDef> Auth Provider </th>
+        <td mat-cell *matCellDef="let element"> {{element.authenticationProvider}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="roles">
+        <th mat-header-cell *matHeaderCellDef> Roles </th>
+        <td mat-cell *matCellDef="let element"> {{element.roles}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef> Created </th>
+        <td mat-cell *matCellDef="let element"> {{element.createdAt | date}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator #paginator
+    (page)="handlePageEvent($event)"
+    [length]="pagination.totalRows"
+    [pageSize]="pagination.pageSize"
+    [showFirstLastButtons]="true"
+    [pageSizeOptions]="[10, 50, 100]"
+    [pageIndex]="pagination.pageNumber"
+    aria-label="Select page of users">
+</mat-paginator>
+  </div>
