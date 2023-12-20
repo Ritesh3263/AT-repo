@@ -13,7 +13,7 @@ import { CreateUserComponent } from '../modals/create-user/create-user.component
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent {
-  displayedColumns: string[] = ['profilePhoto', 'displayName', 'email', 'authenticationProvider', 'roles', 'createdAt'];
+  displayedColumns: string[] = ['profilePhoto', 'displayName', 'email', 'authenticationProvider', 'roles', 'baskets', 'subscribers', 'followers',  'createdAt'];
   dataSource = new MatTableDataSource<any>([]);
   search: string = '';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
