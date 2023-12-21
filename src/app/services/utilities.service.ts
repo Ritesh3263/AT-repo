@@ -44,7 +44,7 @@ export class UtilitiesService {
     let form: any = {}
 
     for(let i = 0; i < formFields.length; i++) {
-      form[formFields[i].key] = new FormControl({value: formData[formFields[i].key] ? formData[formFields[i].key] : (formFields[i].defalutValue ? formFields[i].defalutValue : ''), disabled: (formData[formFields[i].key] && !formFields[i].enableUpdate)}, formFields[i].required ? [Validators.required] : null)
+      form[formFields[i].key] = new FormControl({value: formData[formFields[i].key] ? formData[formFields[i].key].toString() : (formFields[i].defalutValue ? formFields[i].defalutValue : ''), disabled: (formData[formFields[i].key] && !formFields[i].enableUpdate)}, formFields[i].required ? [Validators.required] : null)
     }
 
     return this.fb.group(form)

@@ -94,4 +94,14 @@ export class AdminService {
     }
   }
 
+  async getFeedbackForms(pageNumber: number, pageSize: number, sortColumn: string | null = null, sortMode: string | null = null, search: string | null = null) {
+    try{
+      let res = await fetch(`${environment.apiBaseUrl}/admin-api/feedback-forms?pageNumber=${pageNumber}&pageSize=${pageSize}${sortColumn ? `&sortColumn=${sortColumn}` : ''}${sortMode ? `&sortMode=${sortMode}` : ''}${search ? `&search=${search}` : ''}`, this.getHeaders());
+      let data = await res.json();
+      return data;
+    }
+    catch(e: any) {
+      return {error: e.message}
+    }
+  }
 }

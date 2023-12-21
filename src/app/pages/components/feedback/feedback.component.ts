@@ -16,7 +16,7 @@ export class FeedbackComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public utilityService: UtilitiesService, private dialogRef: MatDialogRef<FeedbackComponent>, private userService: UserService) { }
 
   ngOnInit() {
-    //this.mode = this.data && this.data.mode ? this.data.mode: 'CREATE'
+    this.mode = this.data && this.data.mode ? this.data.mode: 'CREATE'
     let formFields = [{
         key: 'brokerageName',
         required: true
@@ -36,7 +36,7 @@ export class FeedbackComponent {
       }
     ]
 
-    this.form = this.utilityService.initalizeForm(formFields/*, this.data.formData*/)
+    this.form = this.utilityService.initalizeForm(formFields, this.data.formData)
   }
 
   async submitFeedback() {

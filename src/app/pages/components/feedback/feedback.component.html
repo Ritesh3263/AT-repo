@@ -1,6 +1,6 @@
 <div class="modal-dialog">
     <div fxLayout="row" fxLayoutAlign="start center" class="dialog-header">
-        <h2 fxFlex class="mat-h2">Share Your Feedback</h2>
+        <h2 fxFlex class="mat-h2">{{data.header}}</h2>
         <button mat-icon-button mat-dialog-close class="close-btn">
             <mat-icon>close</mat-icon>
         </button>
@@ -31,9 +31,9 @@
     </div>
     <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
         <button mat-stroked-button mat-dialog-close color="primary">
-            Cancel
+            {{mode == 'CREATE' ? 'Cancel' : 'Close'}}
         </button>
-        <button mat-flat-button color="primary" (click)="submitFeedback()">
+        <button mat-flat-button color="primary" (click)="submitFeedback()" *ngIf="mode == 'CREATE'">
             Submit
         </button>
     </div>

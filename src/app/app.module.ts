@@ -64,6 +64,7 @@ import { InputTextComponent } from './layouts/forms/input-text/input-text.compon
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSortModule } from '@angular/material/sort';
 import { TableComponent } from './layouts/table/table.component';
+import { FeedbackFormComponent } from './pages/admin/components/feedback-form/feedback-form.component';
 
 @NgModule({
   declarations: [
@@ -105,7 +106,8 @@ import { TableComponent } from './layouts/table/table.component';
     UsersComponent,
     EditUserComponent,
     InputTextComponent,
-    TableComponent
+    TableComponent,
+    FeedbackFormComponent
   ],
   imports: [
     BrowserModule,

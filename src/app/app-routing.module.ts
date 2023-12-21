@@ -21,6 +21,7 @@ import { AnnouncementsComponent } from './pages/admin/components/announcements/a
 import { UsersComponent } from './pages/admin/components/users/users.component';
 import { AuthenticationGuard } from './authentication.guard';
 import { AdminAuthenticationGuard } from './admin-authentication.guard';
+import { FeedbackFormComponent } from './pages/admin/components/feedback-form/feedback-form.component';
 
 const routes: Routes = [
   {
@@ -111,6 +112,10 @@ const routes: Routes = [
       {
         path: 'users',
         component: UsersComponent,
+      },
+      {
+        path: 'feedback-form',
+        component: FeedbackFormComponent,
       }
     ]
   }

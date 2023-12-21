@@ -11,11 +11,11 @@ import { EditUserComponent } from '../modals/edit-user/edit-user.component';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent {
-  search: string | null = null;
-
   pageNumber = 0;
   pageSize = 10;
-
+  search: string | null = null
+  sortMode: string | null = null
+  sortColumn: string | null = null
   columnDetails = [
     {
       label: null,
@@ -67,34 +67,40 @@ export class UsersComponent {
   constructor(public utilityService: UtilitiesService, private adminService: AdminService, public dialog: MatDialog) {}
 
   async getUsers(pageNumber: number, pageSize: number, sortColumn : string | null = null, sortMode : string | null = null, search : string | null = null) {
+    this.pageNumber = pageNumber;
+    this.pageSize = pageSize;
+    this.sortMode = sortMode;
+    this.sortColumn = sortColumn;
+    this.search = search;
     return await this.adminService.getUsers(pageNumber, pageSize, sortColumn, sortMode, search)
   }
 
-  createUser() {
+  async createUser() {
     let dialogRef= this.dialog.open(EditUserComponent, {
       panelClass: 'custom-modal',
       disableClose: true,
       data: {header: "Create User", user: {}, mode: "CREATE"}
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if(result && result.success) {
-        this.getUsers(this.pageNumber, this.pageSize);
-      }
-    });
+    return new Promise((resolve) => {
+      dialogRef.afterClosed().subscribe(async result => {
+        return resolve({reload: result && result.success});
+      });
+    })
   }
 
-  editUser(user: any) {
+  async editUser(user: any) {
     let dialogRef= this.dialog.open(EditUserComponent, {
       panelClass: 'custom-modal',
       disableClose: true,
       data: {header: "Edit User", user: JSON.parse(JSON.stringify(user)), mode: "EDIT"}
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if(result && result.success) {
-        this.getUsers(this.pageNumber, this.pageSize);
-      }
-    });
+    return new Promise((resolve) => {
+      dialogRef.afterClosed().subscribe(async result => {
+        return resolve({reload: result && result.success});
+      });
+    })
+
   }
 }

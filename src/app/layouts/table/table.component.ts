@@ -26,6 +26,7 @@ export class TableComponent {
   @Input() columnDetails: any;
   @Input() enableSearch: boolean = false;
   @Input() searchText: string = '';
+  @Input() apiDataKey!: string;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -53,9 +54,9 @@ export class TableComponent {
   async getData() {
     let results = await this.dataCallback(this.pagination.pageNumber, this.pagination.pageSize, this.sortColumn, this.sortMode, this.search);
 
-    if(results && results.success && results.users) {
-      this.dataSource = new MatTableDataSource<any>(results.users);
-      this.pagination.totalRows = results.users.length ? results.users[0].totalRows : 0;
+    if(results && results.success && results[this.apiDataKey]) {
+      this.dataSource = new MatTableDataSource<any>(results[this.apiDataKey]);
+      this.pagination.totalRows = results[this.apiDataKey].length ? results[this.apiDataKey][0].totalRows : 0;
     }
     else {
       this.utilityService.displayInfoMessage(JSON.stringify(results), true)
@@ -79,6 +80,14 @@ export class TableComponent {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
+    }
+  }
+
+  async rowCallback(row:any) {
+    if(this.rowClickCallback) {
+      let result = await this.rowClickCallback(row)
+      if(result && result.reload)
+        this.getData();
     }
   }
 }

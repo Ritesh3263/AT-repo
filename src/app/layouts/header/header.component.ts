@@ -29,7 +29,8 @@ export class HeaderComponent {
   feedbackDialog() {
     this.dialog.open(FeedbackComponent, {
       panelClass: 'custom-modal',
-      disableClose: true
+      disableClose: true,
+      data: {header: "Share Your Feedback", mode: "CREATE"}
     });
   }
 
