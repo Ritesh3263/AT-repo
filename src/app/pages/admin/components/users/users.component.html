@@ -1,0 +1,4 @@
+<div class="basket-wrapper">
+    <button mat-flat-button color="primary" class="panel-button" (click)="createUser()">Create User</button>
+</div>
+<app-table [columnDetails]="columnDetails" [dataCallback]="getUsers" [apiDataKey]="'users'" [rowClickCallback]="editUser" [enableSearch]="true" [searchText]="'Search Users'"></app-table>

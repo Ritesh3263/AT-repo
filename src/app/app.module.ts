@@ -57,6 +57,14 @@ import { ForgotPasswordComponent } from './layouts/forgot-password/forgot-passwo
 import { EditSymbolsComponent } from './pages/components/my-basket-info/edit-symbols/edit-symbols.component';
 import { EditMarketplaceComponent } from './pages/components/my-basket-info/edit-marketplace/edit-marketplace.component';
 import { EditAccountsComponent } from './pages/components/my-basket-info/edit-accounts/edit-accounts.component';
+import { AnnouncementsComponent } from './pages/admin/components/announcements/announcements.component';
+import { UsersComponent } from './pages/admin/components/users/users.component';
+import { EditUserComponent } from './pages/admin/components/modals/edit-user/edit-user.component';
+import { InputTextComponent } from './layouts/forms/input-text/input-text.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatSortModule } from '@angular/material/sort';
+import { TableComponent } from './layouts/table/table.component';
+import { FeedbackFormComponent } from './pages/admin/components/feedback-form/feedback-form.component';
 
 @NgModule({
   declarations: [
@@ -93,7 +101,13 @@ import { EditAccountsComponent } from './pages/components/my-basket-info/edit-ac
     ForgotPasswordComponent,
     EditSymbolsComponent,
     EditMarketplaceComponent,
-    EditAccountsComponent
+    EditAccountsComponent,
+    AnnouncementsComponent,
+    UsersComponent,
+    EditUserComponent,
+    InputTextComponent,
+    TableComponent,
+    FeedbackFormComponent
   ],
   imports: [
     BrowserModule,
@@ -119,7 +133,9 @@ import { EditAccountsComponent } from './pages/components/my-basket-info/edit-ac
     MatRadioModule,
     MatTabsModule,
     MatSlideToggleModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatButtonToggleModule,
+    MatSortModule
   ],
   providers: [],
   bootstrap: [AppComponent]

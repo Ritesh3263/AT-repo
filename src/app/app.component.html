@@ -1,10 +1,9 @@
 <mat-sidenav-container class="example-sidenav-container">
   <mat-sidenav-content fxLayout="column">
     <app-header *ngIf="!isLoginPage"></app-header>
-    <app-menu *ngIf="!isLoginPage"></app-menu>
+    <!--<app-menu *ngIf="!isLoginPage"></app-menu>-->
     <div fxFlex class="main-wrapper">
       <router-outlet></router-outlet>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
-

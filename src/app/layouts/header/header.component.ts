@@ -29,7 +29,8 @@ export class HeaderComponent {
   feedbackDialog() {
     this.dialog.open(FeedbackComponent, {
       panelClass: 'custom-modal',
-      disableClose: true
+      disableClose: true,
+      data: {header: "Share Your Feedback", mode: "CREATE"}
     });
   }
 
@@ -49,7 +50,7 @@ export class HeaderComponent {
     })
     this.notificationService.getUserNotifications({pageNumber: 0, pageSize: 5}, 1).then((data: any) => {
       if(data && data.notifications)
-        this.newNotificationCount = data.notifications[0].totalRows;
+        this.newNotificationCount =  data.notifications.length ? data.notifications[0].totalRows : 0;
         this.notifications = data.notifications;
     })
   }

@@ -29,7 +29,10 @@ export class LoginComponent {
       this.userService.getLoginToken(params['code']).then((data: any) =>{
         // If we have contact record returned, authentication has succeeded
         if(data && data.user) {
-          this.router.navigate(['/home']); // Navigate to Baskets Page (TODO - Dashboard Page)
+          if(data.user.roles && data.user.roles.includes('admin'))
+            this.router.navigate(['/admin/users']); // Navigate to Baskets Page (TODO - Dashboard Page)
+          else
+            this.router.navigate(['/home']); // Navigate to Baskets Page (TODO - Dashboard Page)
         }
         else {
           this.error.message = JSON.stringify(data,null,2);
@@ -58,7 +61,10 @@ export class LoginComponent {
     this.error.message = null;
     this.userService.login(this.email.getRawValue(), this.password.getRawValue()).then((authenticated: any) => {
       if(authenticated && authenticated.success) {
-        this.router.navigate(['/home']); // Navigate to Baskets Page (TODO - Dashboard Page)
+        if(authenticated && authenticated.user && authenticated.user.roles && authenticated.user.roles.includes('admin'))
+          this.router.navigate(['/admin/users']); // Navigate to Baskets Page (TODO - Dashboard Page)
+        else
+          this.router.navigate(['/home']); // Navigate to Baskets Page (TODO - Dashboard Page)
       }
       else {
         this.error.message = authenticated.message || "Invalid login details, please try again." ;
