@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, Renderer2, ViewChild } from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -7,6 +7,8 @@ import { ConfirmTradeComponent } from '../confirm-trade/confirm-trade.component'
 import { CalculateDialogComponent } from '../calculate-dialog/calculate-dialog.component';
 import {  BasketTradeService } from '../../../../services/basket-trade.service';
 import {FormControl, Validators, FormBuilder, FormsModule, ReactiveFormsModule, FormGroup} from '@angular/forms';
+import { WebsocketService } from 'src/app/services/websocket.service';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 export interface PeriodicElement {
   ticker_id: string;
@@ -32,9 +34,17 @@ export interface PeriodicElement {
 @Component({
   selector: 'app-trade',
   templateUrl: './trade.component.html',
+  animations: [
+    trigger('fadeInOut', [
+      transition(':enter', [
+        style({ backgroundColor: 'lightgreen', }),
+        animate(5000)
+      ]),
+    ]),
+  ],
   styleUrls: ['./trade.component.scss']
 })
-export class TradeComponent implements AfterViewInit {
+export class TradeComponent implements AfterViewInit,OnDestroy {
   isPositions:boolean=false;
   showSpinner:boolean = false;
  displayedColumns: string[]  = ['select', 'symbol', 'purchasedate', 'costcurrent', 'price', 'sharescurrent', 'investedcurrent', 'marketcurrent', 'pl', 'plpercent'];
@@ -49,7 +59,7 @@ export class TradeComponent implements AfterViewInit {
   dataSource = new MatTableDataSource<PeriodicElement>([]);
   selection = new SelectionModel<PeriodicElement>(true, []);
   isDisplayColumn:boolean=true;
-  constructor(private fb: FormBuilder,private renderer: Renderer2, public dialog: MatDialog,private basketTradeService :BasketTradeService) {
+  constructor(private fb: FormBuilder,private renderer: Renderer2, public dialog: MatDialog,private basketTradeService :BasketTradeService,private webSocketService: WebsocketService) {
     // this.getAccountBasketPosition();
     this.getBrokerageAccountPosition();
     this.form = this.fb.group ({
@@ -58,13 +68,23 @@ export class TradeComponent implements AfterViewInit {
       amount: new FormControl('', [Validators.required])
     })
   }
-  symbolInput:any='AAPL';
-
+  symbolInput:any=[];
+  originalData:any=[];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  ngAfterViewInit() {
+  async ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
-   
+    await this.webSocketService.connect("ws/intrinio");
+    await this.webSocketService.receiveMessages()
+
+   /**continues receiving response from websocket*/
+    this.webSocketService.getMessages().subscribe((message: any) => {
+      this.dataSource.data.forEach((ele:any)=>{
+        if(message && ele.ticker_id === JSON.parse(message).symbol){
+          ele.price =JSON.parse(message).latest_price;
+        }
+      })
+  });
     
     
   }
@@ -155,10 +175,10 @@ export class TradeComponent implements AfterViewInit {
     this.showSpinner= true;
       this.basketTradeService.getBrokerageAccountPosition('ts','Sreekanth','SIM1213784M').then((data) => {
         this.showSpinner =false;
-        // console.log("hhhh",data)
         if(data){
           this.displayedColumns = ['select', 'symbol', 'purchasedate', 'costcurrent', 'price', 'sharescurrent', 'investedcurrent', 'marketcurrent', 'pl', 'plpercent'];
           data.Positions.forEach((ele:any)=>{
+            this.symbolInput.push(ele.Symbol);
             ele.new_cost=null;
             ele.current_cost=Number(ele.TotalCost)/Number(ele.Quantity);
             ele.purchase_date=ele.Timestamp
@@ -176,26 +196,10 @@ export class TradeComponent implements AfterViewInit {
           })
           this.isPositions=true
           this.dataSource.data= data.Positions;
+          this.originalData = JSON.parse(JSON.stringify([...data.Positions]));
+          this.setSymbolsForBrokeragePrice(this.symbolInput,true)
           this.isDisplayColumn =false;
-          console.log("hellll",this.symbolInput)
         }
-        // if(data) {
-        //   this.displayedColumns = ['select', 'symbol', 'purchasedate', 'costcurrent', 'price', 'sharescurrent', 'investedcurrent', 'marketcurrent', 'pl', 'plpercent'];
-        //   for(let i=0;i<data.length;i++){
-        //     data[i].current_market_value =Number((data[i].price*data[i].current_shares).toFixed(2))
-        //     // if(i==0){
-        //     //   this.symbolInput = data[i].ticker_id;
-        //     // }else{
-        //     //   this.symbolInput = this.symbolInput+','+data[i].ticker_id;
-        //     // }
-        //     this.isPositions=true
-        //     this.dataSource.data= data
-        //     this.isDisplayColumn =false;
-        //   }
-        //   // this.getSymbolPrice();
-        //   // this.basket = data.basket;
-        //   // this.dataSource = new MatTableDataSource<PeriodicElement>(this.basket.tickers);
-        // }
       })
     }
   cancel(){
@@ -370,5 +374,32 @@ getSymbolPrice(){
   this.basketTradeService.getSymbolPrice(this.symbolInput).then((data) => {
     console.log("hello,data",data)
   });
+
 }
+
+ngOnDestroy() {
+  this.webSocketService.closeConnection();
 }
+
+getColor(price: any) {
+  let a = null
+  for (let i = 0; i < this.originalData.length; i++) {
+    if (this.originalData[i].ticker_id == price.ticker_id && this.originalData[i].price != price.price) {
+  return true;
+    }
+  }
+  return a;
+}
+
+  /**
+  * setSymbolsForBrokeragePrice function is used for set symbols for price or remove symbols from price list
+  * track is true set symbol for price 
+  * track is false remove symbol for price list
+  */
+  setSymbolsForBrokeragePrice(symbols: any, track: boolean) {
+    this.basketTradeService.setSymbolsForBrokeragePrice({ symbols: symbols, track: track }).then((data) => { })
+  }
+}
+
+
+

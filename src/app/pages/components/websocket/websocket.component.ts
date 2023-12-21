@@ -21,7 +21,7 @@ ourPut :any=[];
   }
 
   ngOnInit() {
-    this.webSocketService.connect();
+    this.webSocketService.connect("ws");
 
     // this.webSocketService.onMessage().subscribe((message: any) => {
     //   console.log('Received message:', message);

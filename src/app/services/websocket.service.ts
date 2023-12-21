@@ -10,6 +10,7 @@ export class WebsocketService {
 
   private socket: WebSocket
   private messageSubject = new Subject<string>();
+  
 
   constructor() {
     this.socket = new WebSocket('ws:34.228.194.95:8765/ws');
@@ -42,9 +43,9 @@ export class WebsocketService {
   }
 
   //connect service is used to connect webSocket
-  connect() {
+  connect(brokerage:any) {
     return new Promise((res) => {
-      this.socket = new WebSocket('ws:34.228.194.95:8765/ws');
+      this.socket = new WebSocket('ws:34.228.194.95:8765/'+brokerage);
       this.socket.addEventListener('open', (event) => {
         console.log('WebSocket connection opened:', event);
         res(event)

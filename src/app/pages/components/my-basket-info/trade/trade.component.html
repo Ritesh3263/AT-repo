@@ -24,7 +24,7 @@
                 </span>
                 <div fxLayout="column">
                     <p class="no-margin">Account Balance</p>
-                    <h3 class="mat-h3 no-margin font-600">{{account_balance + (market_value - invested) | currency:'USD':'symbol':'1.2-2' }}</h3>
+                    <h3 class="mat-h3 no-margin font-600">{{account_balance | currency:'USD':'symbol':'1.2-2' }}</h3>
                 </div>
             </div>
             <div fxFlex="20" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" class="form-group pt-5 pb-5">
@@ -189,9 +189,10 @@
 
                 <ng-container matColumnDef="price">
                     <th mat-header-cell  *matHeaderCellDef [ngStyle]="{'display': 'none'}" class="right-align-cell" > Price </th>
-                    <td mat-cell *matCellDef="let element" class="right-align-cell"> 
-                        {{ element.price | currency:'USD':'symbol':'1.2-2' }}
-                     </td>
+                    <td mat-cell *matCellDef="let element" class="right-align-cell" > 
+                        <span  *ngIf="getColor(element)"   [@fadeInOut] >{{ element.price | currency:'USD':'symbol':'1.2-2' }}</span>
+                        <span  *ngIf="!getColor(element)"  >{{ element.price | currency:'USD':'symbol':'1.2-2' }}</span>
+                         </td>
                      <td mat-footer-cell *matFooterCellDef>  </td>
                 </ng-container>
 
