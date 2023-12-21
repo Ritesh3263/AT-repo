@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Router } from '@angular/router';
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class UtilitiesService {
 
-  constructor(private _snackBar: MatSnackBar, private _router: Router) { }
+  constructor(private _snackBar: MatSnackBar, private _router: Router, private fb: FormBuilder) { }
 
   displayInfoMessage(message: string, error = false, duration = 5000) {
     this._snackBar.open(message, 'Dismiss', {
@@ -38,6 +38,16 @@ export class UtilitiesService {
 
   isFormValid(form: FormGroup) {
    return form.valid;
+  }
+
+  initalizeForm(formFields: any[], formData: any = {}) {
+    let form: any = {}
+
+    for(let i = 0; i < formFields.length; i++) {
+      form[formFields[i].key] = new FormControl({value: formData[formFields[i].key] ? formData[formFields[i].key] : (formFields[i].defalutValue ? formFields[i].defalutValue : ''), disabled: (formData[formFields[i].key] && !formFields[i].enableUpdate)}, formFields[i].required ? [Validators.required] : null)
+    }
+
+    return this.fb.group(form)
   }
 
 }

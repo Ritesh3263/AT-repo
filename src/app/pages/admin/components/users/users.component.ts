@@ -74,7 +74,7 @@ export class UsersComponent {
     let dialogRef= this.dialog.open(EditUserComponent, {
       panelClass: 'custom-modal',
       disableClose: true,
-      data: {header: "Create User", user: null, mode: "CREATE"}
+      data: {header: "Create User", user: {}, mode: "CREATE"}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -88,7 +88,7 @@ export class UsersComponent {
     let dialogRef= this.dialog.open(EditUserComponent, {
       panelClass: 'custom-modal',
       disableClose: true,
-      data: {header: "Edit User", user: user, mode: "EDIT"}
+      data: {header: "Edit User", user: JSON.parse(JSON.stringify(user)), mode: "EDIT"}
     });
 
     dialogRef.afterClosed().subscribe(result => {

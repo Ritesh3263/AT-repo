@@ -100,6 +100,19 @@ export class UserService {
     }
   }
 
+  async submitFeedbackForm(form: any) {
+    try{
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/user/feedback-form`, this.getHeaders('POST', form));
+      let data = await res.json();
+      return data;
+    }
+    catch(e: any) {
+      console.log("signup Error: " + e.message);
+      return {error: e.message}
+    }
+  }
+
+
   // ------------- Unauthenticated API Calls to /api/user/* ( Login must not be an authenticated request, etc. ) ------------- //
 
   async getLoginUri(provider: string): Promise<any> {

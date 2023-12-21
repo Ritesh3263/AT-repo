@@ -1,7 +1,8 @@
 <form class="example-form" [formGroup]="formGroup" [hidden]="hidden">
     <mat-form-field appearance="outline">
         <mat-label>{{label}}</mat-label>
-        <input matInput class="form-control" formControlName="{{field}}" [type]="(type == 'password' && hidePassword) ? 'password' : 'text'">
+        <input matInput class="form-control" formControlName="{{field}}" [type]="(type == 'password' && hidePassword) ? 'password' : 'text'" *ngIf="type != 'textarea'"/>
+        <textarea matInput class="form-control" formControlName="{{field}}" *ngIf="type=='textarea'"></textarea>
         <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword" *ngIf="type == 'password'">
             <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>

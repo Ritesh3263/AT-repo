@@ -1,9 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import {FormControl, Validators, FormBuilder, FormsModule, ReactiveFormsModule, FormGroup} from '@angular/forms';
+import { FormGroup} from '@angular/forms';
 import { UtilitiesService } from 'src/app/services/utilities.service';
-import { InputTextComponent } from 'src/app/layouts/forms/input-text/input-text.component';
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { AdminService } from 'src/app/services/admin.service';
 
 @Component({
@@ -16,32 +14,54 @@ export class EditUserComponent {
   roles: string[] = ["trader", "admin"]
   mode: string = 'EDIT'
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder, public utilityService: UtilitiesService, private dialogRef: MatDialogRef<EditUserComponent>, private adminService: AdminService) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public utilityService: UtilitiesService, private dialogRef: MatDialogRef<EditUserComponent>, private adminService: AdminService) { }
 
   ngOnInit() {
     this.mode = this.data.mode
-    if(this.data.user) {
-      console.log(this.data.user)
-      this.form = this.fb.group ({
-        firstName: new FormControl({value: this.data.user.firstName, disabled: true}, [Validators.required]),
-        lastName: new FormControl({value: this.data.user.lastName, disabled: true}, [Validators.required]),
-        email: new FormControl({value: this.data.user.email, disabled: true}, [Validators.required]),
-        roles: new FormControl(JSON.parse(this.data.user.roles)[0]),
-        password: new FormControl(),
-        authenticationProvider: new FormControl({value: this.data.user.authenticationProvider, disabled: true}),
-        loginLocked: new FormControl(this.data.user.loginLocked)
-      })
+
+    let formFields = [{
+        key: 'firstName',
+        enableUpdate: false,
+        required: true
+      },
+      {
+        key: 'lastName',
+        enableUpdate: false,
+        required: true
+      },
+      {
+        key: 'email',
+        enableUpdate: false,
+        required: true
+      },
+      {
+        key: 'roles',
+        enableUpdate: true,
+        required: true,
+        defalutValue: 'trader'
+      },
+      {
+        key: 'password',
+        enabled: true,
+        required: false
+      },
+      {
+        key: 'authenticationProvider',
+        required: true,
+        defalutValue: 'angularTrading'
+      },
+      {
+        key: 'loginLocked',
+        enableUpdate: true,
+        required: false
+      }
+    ]
+
+    if(this.data.user && this.data.user.roles) {
+      this.data.user.roles = JSON.parse(this.data.user.roles)[0]
     }
-    else {
-      this.form = this.fb.group ({
-        firstName: new FormControl('', [Validators.required]),
-        lastName: new FormControl('', [Validators.required]),
-        email: new FormControl('', [Validators.required]),
-        roles: new FormControl('trader'),
-        password: new FormControl(),
-        authenticationProvider: new FormControl('angularTrading')
-      })
-    }
+
+    this.form = this.utilityService.initalizeForm(formFields, this.data.user)
   }
 
   showPassword() {
@@ -53,62 +73,40 @@ export class EditUserComponent {
     return this.form;
   }
 
-  createUser() {
-    if(this.data.user && this.data.user.id)
-      return this.updateUser();
-
-    let form = this.form.controls;
-    let user = {
-      firstName: form['firstName'].getRawValue(),
-      lastName: form['lastName'].getRawValue(),
-      email: form['email'].getRawValue(),
-      roles: [ form['roles'].getRawValue() ],
-      authenticationProvider: form['authenticationProvider'].getRawValue()
+  resultsHandler(results: any, extraCondition: boolean = true) {
+    if(results && results.success && extraCondition) {
+      this.utilityService.displayInfoMessage("User Saved!")
+      this.dialogRef.close({success: true})
     }
-
-    this.adminService.createUser(user).then((results) => {
-      if(results && results.success && results.user) {
-        this.utilityService.displayInfoMessage("User created!")
-        this.dialogRef.close({success: true})
-      }
-      else {
-        if(results && results.message)
-          this.utilityService.displayInfoMessage(results.message, true)
-        else
-          this.utilityService.displayInfoMessage(JSON.stringify(results), true)
-      }
-    })
+    else {
+      if(results && results.message)
+        this.utilityService.displayInfoMessage(results.message, true)
+      else
+        this.utilityService.displayInfoMessage(JSON.stringify(results), true)
+    }
   }
 
-  updateUser() {
-    let form = this.form.controls;
-    let user: any = {
-      id: this.data.user.id,
-      phoneNumber: this.data.user.phoneNumber,
-      profilePhoto: this.data.user.profilePhoto,
-      firstName: form['firstName'].getRawValue(),
-      lastName: form['lastName'].getRawValue(),
-      email: form['email'].getRawValue(),
-      roles: [ form['roles'].getRawValue() ],
-      //authenticationProvider: form['authenticationProvider'].getRawValue(),
-      loginLocked: form['loginLocked'].getRawValue()
-    }
+  async createUser() {
+    let user = this.form.getRawValue()
+    user.roles = [user.roles]
 
-    if(form['authenticationProvider'].getRawValue() =='angularTrading' && form['password'].getRawValue()) {
-      user.password = form['password'].getRawValue()
-    }
+    if(this.data.user && this.data.user.id)
+      return this.updateUser(user);
 
-    this.adminService.updateUser(user).then((results) => {
-      if(results && results.success) {
-        this.utilityService.displayInfoMessage("User updated!")
-        this.dialogRef.close({success: true})
-      }
-      else {
-        if(results && results.message)
-          this.utilityService.displayInfoMessage(results.message, true)
-        else
-          this.utilityService.displayInfoMessage(JSON.stringify(results), true)
-      }
-    })
+    let results = await this.adminService.createUser(user);
+
+    this.resultsHandler(results, results.user);
+  }
+
+  async updateUser(user: any) {
+    if(user['authenticationProvider']=='angularTrading' && user['password']) {
+      user.password = user['password']
+    }
+    delete user['authenticationProvider']
+    user.id = this.data.user.id
+
+    let results = await this.adminService.updateUser(user);
+
+    this.resultsHandler(results);
   }
 }
