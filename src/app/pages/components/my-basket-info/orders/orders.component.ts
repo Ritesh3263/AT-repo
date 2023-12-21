@@ -8,27 +8,27 @@ import { EditOrderComponent } from '../edit-order/edit-order.component';
 import { UserService } from 'src/app/services/user.service';
 
 export interface PeriodicElement {
-  tickersymbol: string;
-  shares: number;
-  currentprice: number;
-  investaccount: number;
+  Symbol: string;
+  Quantity: number;
+  UpdatedAt: string;
+  OrderID: string;
 }
-
+// export interface PeriodicElement {
+//   Symbol: string;
+//   Quantity: number;
+//   UpdatedAt: string;
+// }
 const ELEMENT_DATA: PeriodicElement[] = [
-  { tickersymbol: 'TSLA', shares: 1734, currentprice: 19660, investaccount: 34090.440 },
-  { tickersymbol: 'DCTH', shares: 1500, currentprice: 100, investaccount: 150000 },
-  { tickersymbol: 'KC', shares: 500, currentprice: 200, investaccount: 100000 },
-
-
-];
+  { Symbol: 'TSLA', Quantity: 1734, UpdatedAt: '19660',OrderID:'AAA'},
+  { Symbol: 'DCTH', Quantity: 1500, UpdatedAt: '100',OrderID:"AAAA"},
+  { Symbol: 'KC', Quantity: 500, UpdatedAt: '200',OrderID:'OrderIDOrderID'}];
 
 const CONFIRMELEMENT_DATA: PeriodicElement[] = [
-  { tickersymbol: 'META', shares: 2000, currentprice: 200, investaccount: 400000 },
-  { tickersymbol: 'GOOG', shares: 3000, currentprice: 300, investaccount: 900000 },
-  { tickersymbol: 'IBM', shares: 1000, currentprice: 100, investaccount: 100000 },
-
-
+  { Symbol: 'META', Quantity: 2000, UpdatedAt: '200',OrderID:"AAA"},
+  { Symbol: 'GOOG', Quantity: 3000, UpdatedAt: '300',OrderID:"AAA"},
+  { Symbol: 'IBM', Quantity: 1000, UpdatedAt: '100' ,OrderID:"AAA"},
 ];
+
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.component.html',
@@ -37,12 +37,8 @@ const CONFIRMELEMENT_DATA: PeriodicElement[] = [
 
 export class OrdersComponent {
 
-  displayedColumns: string[] = ['tickersymbol', 'shares', 'currentprice', 'investaccount','status'];
+  displayedColumns: string[] = ['Symbol', 'Quantity', 'UpdatedAt','OrderID','status'];
   displayedColumnsForPositions: string[] = ['Symbol', 'Quantity', 'Last', 'TotalCost','MarketValue'];
-
-  // displayedColumns2: string[] = ['empty', 'empty', 'title', 'amount'];
-  // displayedColumns3: string[] = ['empty2', 'empty2', 'title2', 'amount2'];
-  // displayedColumns4: string[] = ['empty3', 'empty3', 'title3', 'amount3'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   dataSourceConfirm = new MatTableDataSource<PeriodicElement>(CONFIRMELEMENT_DATA);
   dataSourcePosition = new MatTableDataSource<{}>([])
@@ -64,6 +60,7 @@ loadUserDetails() {
     this.showSpinner = false;
     this.user_id = user.firstName?user.firstName:null
     this.getBrokerageAccountPosition();
+    this.getOrderStatus();
   })
 }
 
@@ -105,5 +102,33 @@ loadUserDetails() {
         data:inputModelPopup
       });
     }
+
+    pendingOrders:any=[];
+    confirmOrders:any=[];
+
+    getOrderStatus(){
+      this.showSpinner= true;
+      this.pendingOrders=[];
+      this.confirmOrders=[];
+      this.basketTradeService.getOrderStatus('ts',this.user_id,).then((data) => {
+        this.showSpinner =false;
+        if(data) {
+          data.forEach((ele:any)=>{
+              if(ele.OrderStatus == 'pending'&& ele.Symbol != "N/A"&& ele.Quantity!="N/A"){
+                ele.Quantity = Number(ele.Quantity);
+                ele.CreatedAt = ele.CreatedAt =="N/A"?null: ele.CreatedAt ;
+                this.pendingOrders.push(ele);
+              }else if(ele.OrderStatus == "confirmed"&& ele.Symbol != "N/A"&& ele.Quantity!="N/A"){
+                ele.Quantity = Number(ele.Quantity);
+                ele.UpdatedAt = ele.UpdatedAt =="N/A"?null: ele.UpdatedAt ;
+                this.confirmOrders.push(ele);
+              }
+          })
+          this.dataSourceConfirm =this.confirmOrders;
+          this.dataSource = this.pendingOrders;
+        }
+      })
+    }
+
 
 }
