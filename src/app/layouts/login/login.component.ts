@@ -26,6 +26,10 @@ export class LoginComponent {
     const params = this.activatedRoute.snapshot.queryParams;
     // Handle oAuth Redirect Callback URL Code
     if(params && params['code']) {
+      this.userService.getUserDetails().then((user:any) => {
+        if(user && user.displayName){
+          this.router.navigate(['/brokerage'],{ state: {code:params['code'],user:user} });
+        }else{
       this.userService.getLoginToken(params['code']).then((data: any) =>{
         // If we have contact record returned, authentication has succeeded
         if(data && data.user) {
@@ -39,6 +43,9 @@ export class LoginComponent {
           this.displayInfoMessage(this.error.message, true);
         }
       })
+    }
+    })
+  
     }
   }
 

@@ -1,53 +1,102 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ConnectDialogComponent } from './connect-dialog/connect-dialog.component';
+import { BrokerageService } from '../../../services/brokerage.service'
+import {FormControl, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { LocationStrategy } from '@angular/common';
+import { UserService } from 'src/app/services/user.service';
 
-import { BrokerService } from 'src/app/services/broker.service';
+export interface PeriodicElement {
+  accountNumber: number;
+  accountBalance: number;
+  openPositions: number;
+}
+
+const ELEMENT_DATA: PeriodicElement[] = [
+  // {accountNumber: 9954534354535489, accountBalance: 500, openPositions: 6},
+  // {accountNumber: 9954534354535489, accountBalance: 500, openPositions: 6},
+  // {accountNumber: 9954534354535489, accountBalance: 500, openPositions: 6},
+  // {accountNumber: 9954534354535489, accountBalance: 500, openPositions: 6},
+  // {accountNumber: 9954534354535489, accountBalance: 500, openPositions: 6},
+];
+
 
 @Component({
   selector: 'app-brokerage',
   templateUrl: './brokerage.component.html',
   styleUrls: ['./brokerage.component.scss']
 })
-export class BrokerageComponent {
+export class BrokerageComponent implements AfterViewInit{
+  showSpinner: boolean = false;
+  isDisableAccounts :boolean=false;
+  user_id:any=null;
 
-  displayedColumns: string[] = ['account_number', 'accountBalance', 'openPositions'];
-  dataSource = new MatTableDataSource<any>([]);
-  selection = new SelectionModel<any>(true, []);
-  selectedBrokerId!: number;
+  // displayedColumns: string[] = ['accountNumber', 'accountBalance', 'openPositions'];
+  displayedColumns: string[] = ['accountId', 'accountType','cashBalance','buyingPower','equity','marketValue','overnightBuyingPower','status'];
 
-  brokerMaster!: any;
-  accounts!: any;
+  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  selection = new SelectionModel<PeriodicElement>(true, []);
+  selectedOption: string = 'option1';
+  activeBrokerages :any=null;
+  brokerage_type = new FormControl('TS', [Validators.required]);
+   state:any;
+   user:any;
+   tokenForRetrieveAccounts :any=null;
+  constructor(public dialog: MatDialog,private brokerageService:BrokerageService,private route: ActivatedRoute,private location:LocationStrategy,private userService: UserService) {
+    /* getting access code from tradeStation */
+    this.state = this.location.getState();
+    if(this.state && this.state.code){
+      this.steAccessToken(this.state.code,this.state.user.firstName)
+      this.getBrokerageAccount("TS",this.state.user.firstName);
+    }
 
-  constructor(public dialog: MatDialog, private brokerService: BrokerService) {}
-
-  ngOnInit() {
-    this.brokerService.getBrokerMaster().then((data) => {
-      if(data && data.success && data.brokers) {
-        this.brokerMaster = data.brokers;
-        this.selectedBrokerId = this.brokerMaster[0].id;
-        this.getBrokerAccounts();
-      }
-    })
-  }
-
-  getBrokerAccounts() {
-    this.brokerService.getBrokerAccounts(this.selectedBrokerId).then((data) => {
-      if(data && data.success && data.accounts) {
-        this.accounts = data.accounts;
-        this.dataSource = new MatTableDataSource<any>(this.accounts);
-        this.selection = new SelectionModel<any>(true, []);
-      }
-    })
   }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+    /* if there is no active code related brokerages then only call the user*/
+    if(this.state && !this.state.code){
+    this.loadUserDetails();
+    }
+  }
+
+/***loadUserDetails function is used to get user information  */
+  loadUserDetails() {
+    this.showSpinner = true;
+    this.userService.getUserDetails().then((user:any) => {
+      this.showSpinner = false;
+      this.user_id = user.firstName?user.firstName:null
+      this.getAccessToken();
+    })
+  }
+
+
+  /***getAccessToken function is used to get  active brokerages*/
+  getAccessToken(){
+    this.showSpinner = true;
+    this.brokerageService.getAccessToken(this.user_id).then((data) => {
+      this.showSpinner = false;
+      if(data && !data[0].status && data[0].status !== 'error' && data[0].active_brokerage_key){
+        this.activeBrokerages= data;
+        this.getBrokerageAccount(this.activeBrokerages[0].active_brokerage_key,this.user_id)
+      }
+    })
+  }
+
+  /***getBrokerageAccount function is used to get  active Accounts related to brokerage*/
+  getBrokerageAccount(brokerage:any,user_id:any){
+    this.showSpinner = true;
+    this.brokerageService.getBrokerageAccounts(brokerage,this.user_id).then((data) => {
+      this.showSpinner=false;
+      this.isDisableAccounts =true
+        this.dataSource = data
+    })
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -75,10 +124,29 @@ export class BrokerageComponent {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.accountNumber + 1}`;
   }
 
-  connectDialog() {
+  connectDialog(brokerage_type:any) {
     this.dialog.open(ConnectDialogComponent, {
       panelClass: 'custom-modal',
+      data:brokerage_type,
       disableClose: true
     });
   }
+
+  /***getBrokerageAccount function is used to send brokerage code for generating access token*/
+  steAccessToken(inputCode:any,inputUser:any){
+    this.showSpinner = true;
+    let input = {
+      code:inputCode,
+      user_id:inputUser
+    }
+    this.brokerageService.setAccessToken(input).then((data) => {
+      this.showSpinner=false;
+      if(data && data.access_token){
+        this.isDisableAccounts = true;
+        this.getBrokerageAccount("TS",this.user_id)
+      }
+    })
+  }
+
+
 }

@@ -22,6 +22,8 @@ import { UsersComponent } from './pages/admin/components/users/users.component';
 import { AuthenticationGuard } from './authentication.guard';
 import { AdminAuthenticationGuard } from './admin-authentication.guard';
 import { FeedbackFormComponent } from './pages/admin/components/feedback-form/feedback-form.component';
+import { WebsocketComponent } from './pages/components/websocket/websocket.component';
+import { OrdersComponent } from './pages/components/my-basket-info/orders/orders.component';
 
 const routes: Routes = [
   {
@@ -78,6 +80,10 @@ const routes: Routes = [
       {
         path: 'subscription',
         component: SubscriptionComponent,
+      },
+      {
+        path: 'orders',
+        component: OrdersComponent,
       }
     ]
   },
@@ -118,6 +124,11 @@ const routes: Routes = [
         component: FeedbackFormComponent,
       }
     ]
+  },{
+    
+    path: 'websocket',
+    component: WebsocketComponent,
+    canActivate: [AuthenticationGuard]
   }
 ];
 

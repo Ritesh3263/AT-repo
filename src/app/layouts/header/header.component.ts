@@ -68,6 +68,7 @@ export class HeaderComponent {
   }
 
   logout() {
+    sessionStorage.clear();
     this.userService.logout().then((data: any) => {
       this.router.navigate(['/login']);
     })
