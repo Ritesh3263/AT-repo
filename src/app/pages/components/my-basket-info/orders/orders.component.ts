@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { BasketTradeService } from 'src/app/services/basket-trade.service';
 import { EditOrderComponent } from '../edit-order/edit-order.component';
 import { UserService } from 'src/app/services/user.service';
+import { UtilitiesService } from 'src/app/services/utilities.service';
 
 export interface PeriodicElement {
   Symbol: string;
@@ -45,7 +46,7 @@ export class OrdersComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   showSpinner:boolean=false;
   user_id:any=null;
-  constructor(public dialog: MatDialog,private basketTradeService :BasketTradeService,private userService: UserService) {}
+  constructor(public dialog: MatDialog,private basketTradeService :BasketTradeService,private userService: UserService,private utilityService: UtilitiesService) {}
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -70,8 +71,10 @@ loadUserDetails() {
     this.showSpinner= true;
       this.basketTradeService.getBrokerageAccountPosition('ts',this.user_id,'SIM1213784M').then((data) => {
         this.showSpinner =false;
-        if(data&&data.Positions) {
+        if(data&&data.success) {
           this.dataSourcePosition =data.Positions
+        }else{
+          this.utilityService.displayInfoMessage(data.error, true)
         }
       })
     }
@@ -112,8 +115,8 @@ loadUserDetails() {
       this.confirmOrders=[];
       this.basketTradeService.getOrderStatus('ts',this.user_id,).then((data) => {
         this.showSpinner =false;
-        if(data) {
-          data.forEach((ele:any)=>{
+        if(data && data.success) {
+          data.orders.forEach((ele:any)=>{
               if(ele.OrderStatus == 'pending'&& ele.Symbol != "N/A"&& ele.Quantity!="N/A"){
                 ele.Quantity = Number(ele.Quantity);
                 ele.CreatedAt = ele.CreatedAt =="N/A"?null: ele.CreatedAt ;
@@ -126,6 +129,8 @@ loadUserDetails() {
           })
           this.dataSourceConfirm =this.confirmOrders;
           this.dataSource = this.pendingOrders;
+        }else{
+          this.utilityService.displayInfoMessage(data.error, true)
         }
       })
     }

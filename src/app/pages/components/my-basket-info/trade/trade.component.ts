@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnDestroy, Renderer2, ViewChild } from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -9,6 +9,11 @@ import {  BasketTradeService } from '../../../../services/basket-trade.service';
 import {FormControl, Validators, FormBuilder, FormsModule, ReactiveFormsModule, FormGroup} from '@angular/forms';
 import { WebsocketService } from 'src/app/services/websocket.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { BasketsService } from 'src/app/services/baskets.service';
+import { JourneyInfoComponent } from '../journey-info/journey-info.component';
+import { UtilitiesService } from 'src/app/services/utilities.service';
+import { BrokerageService } from 'src/app/services/brokerage.service';
+import { UserService } from 'src/app/services/user.service';
 
 export interface PeriodicElement {
   ticker_id: string;
@@ -47,21 +52,26 @@ export interface PeriodicElement {
 export class TradeComponent implements AfterViewInit,OnDestroy {
   isPositions:boolean=false;
   showSpinner:boolean = false;
+  user_id:any=null;
  displayedColumns: string[]  = ['select', 'symbol', 'purchasedate', 'costcurrent', 'price', 'sharescurrent', 'investedcurrent', 'marketcurrent', 'pl', 'plpercent'];
  form: FormGroup = new FormGroup(''); // FormGroup
  dropDownDetails = ["Equal Distribution","Investment Per stock","Scale Up","Scale Down"]
   // displayedColumns: string[] = ['select', 'symbol', 'purchasedate', 'costcurrent', 'costnew', 'price', 'sharescurrent', 'sharesnew', 'investedcurrent', 'investednew', 'marketcurrent', 'marketnew', 'pl', 'plpercent'];
   // displayedColumnsOne: string[] = ['select', 'symbol', 'purchasedate', 'costcurrent', 'price', 'sharescurrent', 'investedcurrent', 'marketcurrent', 'pl', 'plpercent'];
-  cash_balance :any= 55530.00;
-  account_balance :any = 100000.00;
+  cash_balance :any= 0.00;
+  account_balance :any = 0.00;
   invested:any=0.00;
   market_value:any = 0.00;
+  accountId:any = null;
+  length = 0;
+  pageSize = 10;
+  pageIndex = 0;
   dataSource = new MatTableDataSource<PeriodicElement>([]);
   selection = new SelectionModel<PeriodicElement>(true, []);
   isDisplayColumn:boolean=true;
-  constructor(private fb: FormBuilder,private renderer: Renderer2, public dialog: MatDialog,private basketTradeService :BasketTradeService,private webSocketService: WebsocketService) {
+  constructor(private fb: FormBuilder,private renderer: Renderer2, public dialog: MatDialog,private basketTradeService :BasketTradeService,private webSocketService: WebsocketService,private basketService:BasketsService,@Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, private utilityService: UtilitiesService,private brokerageService:BrokerageService,private userService:UserService) {
     // this.getAccountBasketPosition();
-    this.getBrokerageAccountPosition();
+    // this.getBrokerageAccountPosition();
     this.form = this.fb.group ({
       investmentType: new FormControl('', [Validators.required]),
       percent: new FormControl('', [Validators.required]),
@@ -71,8 +81,11 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
   symbolInput:any=[];
   originalData:any=[];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  async ngAfterViewInit() {
+  basketId:number=0;
+  async ngAfterViewInit(id = null) {
+    this.basketId = id || this.parentComponent.getBasketId();
+    this.loadUserDetails();
+    this.getBasketSymbols();
     this.dataSource.paginator = this.paginator;
     await this.webSocketService.connect("ws/intrinio");
     await this.webSocketService.receiveMessages()
@@ -398,6 +411,70 @@ getColor(price: any) {
   */
   setSymbolsForBrokeragePrice(symbols: any, track: boolean) {
     this.basketTradeService.setSymbolsForBrokeragePrice({ symbols: symbols, track: track }).then((data) => { })
+  }
+
+
+  getBasketSymbols(resetPage = false) {
+    if(resetPage) {
+      this.pageIndex = 0;
+      this.length = 0;
+    }
+    this.basketService.getSymbols(this.basketId, this.pageIndex, this.pageSize).then((data) => {
+      if(data.error || !data.symbols) {
+        this.utilityService.displayInfoMessage(data.error, true)
+      }
+      else {
+          this.displayedColumns = ['select', 'symbol', 'purchasedate', 'costcurrent', 'price', 'sharescurrent', 'investedcurrent', 'marketcurrent', 'pl', 'plpercent'];
+          data.symbols.forEach((ele:any)=>{
+            this.symbolInput.push(ele.symbol);
+            ele.new_cost=null;
+            ele.current_cost=0;
+            ele.purchase_date=null
+            ele.ticker_id=ele.symbol;
+            ele.price = Number(ele.price);
+            ele.current_market_value = 0;
+            ele.new_market_value = null;
+            ele.current_shares=0;
+            ele.new_shares=null;
+            ele.current_invested = 0;
+            ele.new_invested = null;
+            ele.p_l_amount=0.00;
+            ele.p_l_percent=0.00;
+
+          })
+          this.isPositions=true
+          this.dataSource.data= data.symbols;
+          this.originalData = JSON.parse(JSON.stringify([...data.symbols]));
+          this.setSymbolsForBrokeragePrice(this.symbolInput,true)
+          this.isDisplayColumn =false;
+      }
+    })
+  }
+
+    /***getBrokerageAccount function is used to get  active Accounts related to brokerage*/
+    getBrokerageAccount(brokerage:any,user_id:any){
+      this.showSpinner = true;
+      this.brokerageService.getBrokerageAccounts(brokerage,user_id?user_id:this.user_id).then((data) => {
+        this.showSpinner=false;
+        if(data.error || !data.success) {
+          this.utilityService.displayInfoMessage(data.error, true)
+        }
+        else {
+          this.account_balance = data.Accounts[0].BuyingPower;
+          this.cash_balance = data.Accounts[0].CashBalance;
+          this.accountId = data.Accounts[0].AccountID;
+        }
+        
+      })
+    }
+  /***loadUserDetails function is used to get user information  */
+  loadUserDetails() {
+    this.showSpinner = true;
+    this.userService.getUserDetails().then((user:any) => {
+      this.showSpinner = false;
+      this.user_id = user.firstName?user.firstName:null
+      this.getBrokerageAccount('ts',null);
+    })
   }
 }
 

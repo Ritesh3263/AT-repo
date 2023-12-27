@@ -27,9 +27,7 @@ export class BasketTradeService {
 
   async getBrokerageAccountPosition(broker_id:any,user_id:any,account_id:any){
     try{
-      let header =this.getHeaders()
-      delete header.credentials;
-        let res = await fetch(`${environment.brokerageUrl}/brokerages/${broker_id}/users/${user_id}/positions/${account_id}`, header);
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/brokerage/${broker_id}/user/${user_id}/positions/${account_id}`, this.getHeaders());
         let data = await res.json();
         return data;
       }
@@ -65,9 +63,7 @@ export class BasketTradeService {
 
   async setOrders(input: any,user_id:any,broker_id:any): Promise<any> {
     try{
-    let header = this.getHeaders('POST', input)
-      delete header.credentials;
-      let res = await fetch(`${environment.brokerageUrl}/brokerages/${broker_id}/users/${user_id}/queue/orders`, header);
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/brokerage/${broker_id}/user/${user_id}/orders`,  this.getHeaders('POST', input));
       let data = await res.json();
       return data;
     }
@@ -92,9 +88,7 @@ export class BasketTradeService {
 
   async setSymbolsForBrokeragePrice(input: any): Promise<any> {
     try{
-    let header = this.getHeaders('POST', input)
-      delete header.credentials;
-      let res = await fetch(`${environment.brokerageUrl}/brokerages/trp`, header);
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/brokerage/set-symbols-for-price`, this.getHeaders('POST', input));
       let data = await res.json();
       return data;
     }
@@ -107,9 +101,7 @@ export class BasketTradeService {
 
   async getOrderStatus(broker_id:any,user_id:any){
     try{
-      let header =this.getHeaders()
-      delete header.credentials;
-        let res = await fetch(`${environment.brokerageUrl}/brokerages/${broker_id}/users/${user_id}/orders`, header);
+        let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/brokerage/${broker_id}/user/${user_id}/orders`, this.getHeaders());
         let data = await res.json();
         return data;
       }

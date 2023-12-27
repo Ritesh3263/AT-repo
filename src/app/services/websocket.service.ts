@@ -21,7 +21,6 @@ export class WebsocketService {
     return new Promise((res) => {
       this.socket.addEventListener('message', (event) => {
         const message = event.data;
-        console.log("helloooo",message)
         this.messageSubject.next(message);
         res(message)
       });
@@ -47,7 +46,6 @@ export class WebsocketService {
     return new Promise((res) => {
       this.socket = new WebSocket('ws:34.228.194.95:8765/'+brokerage);
       this.socket.addEventListener('open', (event) => {
-        console.log('WebSocket connection opened:', event);
         res(event)
       });
     })

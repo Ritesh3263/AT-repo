@@ -24,8 +24,10 @@ export class ConnectDialogComponent {
 
 
   redirectedUrls(){
-    this.brokerage.getRedirectedUrl().then((data:any)=>{      
-      this.brokerageURl = data.redirect_url;
+    this.brokerage.getRedirectedUrl().then((data:any)=>{ 
+      if(data.success) {
+        this.brokerageURl = data.redirect_url;
+      }
     })
   }
 

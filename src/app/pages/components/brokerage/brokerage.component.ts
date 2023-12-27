@@ -9,6 +9,7 @@ import {FormControl, Validators, FormsModule, ReactiveFormsModule} from '@angula
 import { ActivatedRoute } from '@angular/router';
 import { LocationStrategy } from '@angular/common';
 import { UserService } from 'src/app/services/user.service';
+import { UtilitiesService } from 'src/app/services/utilities.service';
 
 export interface PeriodicElement {
   accountNumber: number;
@@ -46,12 +47,11 @@ export class BrokerageComponent implements AfterViewInit{
    state:any;
    user:any;
    tokenForRetrieveAccounts :any=null;
-  constructor(public dialog: MatDialog,private brokerageService:BrokerageService,private route: ActivatedRoute,private location:LocationStrategy,private userService: UserService) {
+  constructor(public dialog: MatDialog,private brokerageService:BrokerageService,private route: ActivatedRoute,private location:LocationStrategy,private userService: UserService,private utilityService:UtilitiesService) {
     /* getting access code from tradeStation */
     this.state = this.location.getState();
     if(this.state && this.state.code){
       this.steAccessToken(this.state.code,this.state.user.firstName)
-      this.getBrokerageAccount("TS",this.state.user.firstName);
     }
 
   }
@@ -72,18 +72,21 @@ export class BrokerageComponent implements AfterViewInit{
     this.userService.getUserDetails().then((user:any) => {
       this.showSpinner = false;
       this.user_id = user.firstName?user.firstName:null
-      this.getAccessToken();
+      this.getBrokerages();
     })
   }
 
 
-  /***getAccessToken function is used to get  active brokerages*/
-  getAccessToken(){
+  /***getBrokerages function is used to get  active brokerages*/
+  getBrokerages(){
     this.showSpinner = true;
-    this.brokerageService.getAccessToken(this.user_id).then((data) => {
+    this.brokerageService.getBrokerages(this.user_id).then((data) => {
       this.showSpinner = false;
-      if(data && !data[0].status && data[0].status !== 'error' && data[0].active_brokerage_key){
-        this.activeBrokerages= data;
+      if(data.error || !data.success) {
+        this.utilityService.displayInfoMessage(data.error, true)
+      }
+      else {
+         this.activeBrokerages= data.brokerages;
         this.getBrokerageAccount(this.activeBrokerages[0].active_brokerage_key,this.user_id)
       }
     })
@@ -92,10 +95,16 @@ export class BrokerageComponent implements AfterViewInit{
   /***getBrokerageAccount function is used to get  active Accounts related to brokerage*/
   getBrokerageAccount(brokerage:any,user_id:any){
     this.showSpinner = true;
-    this.brokerageService.getBrokerageAccounts(brokerage,this.user_id).then((data) => {
+    this.brokerageService.getBrokerageAccounts(brokerage,user_id?user_id:this.user_id).then((data) => {
       this.showSpinner=false;
-      this.isDisableAccounts =true
-        this.dataSource = data
+      if(data.error || !data.success) {
+        this.utilityService.displayInfoMessage(data.error, true)
+      }
+      else {
+        this.isDisableAccounts =true
+        this.dataSource.data = data.Accounts;
+      }
+      
     })
   }
 
@@ -141,9 +150,10 @@ export class BrokerageComponent implements AfterViewInit{
     }
     this.brokerageService.setAccessToken(input).then((data) => {
       this.showSpinner=false;
-      if(data && data.access_token){
+      if(data && data.success){
         this.isDisableAccounts = true;
-        this.getBrokerageAccount("TS",this.user_id)
+        console.log(data,"data")
+        this.getBrokerageAccount(data.active_brokerage_key,data.current_user)
       }
     })
   }

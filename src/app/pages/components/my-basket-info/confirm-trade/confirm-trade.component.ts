@@ -107,19 +107,16 @@ loadUserDetails() {
   confirmOrder() {
     if (this.data && this.data.symbols) {
       let input: { Type: string, Orders: object[] } = { "Type": "NORMAL", Orders: [] };
-      let object = {
-        AccountID: "SIM1213784M",
-        Symbol: "null",
-        Quantity: "null",
-        OrderType: "Market",
-        TradeAction: "BUY",
-        TimeInForce: {
-          Duration: "DAY"
-        },
-        Route: "Intelligent"
-      }
+   
 
       for (let i = 0; i < this.data.symbols.length; i++) {
+        let object = {
+          AccountID: "SIM1213784M",
+          Symbol: "null",
+          Quantity: "null",
+          OrderType: "Market",
+          TradeAction: "BUY",
+        } 
         object.Symbol = this.data.symbols[i].ticker_id;
         object.Quantity = JSON.stringify(this.data.symbols[i].new_shares);
         input.Orders.push(object)
@@ -132,6 +129,7 @@ loadUserDetails() {
       this.showSpinner = true;
       this.basketTradeService.setOrders(input, this.user_id, 'ts').then((data) => {
         this.showSpinner = false;
+        console.log("hellooo",data)
         if (data && data.msg) {
           this.dialogRef.close();
           this.matSnackBar.open(data.msg, 'Close', {
