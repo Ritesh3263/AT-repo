@@ -67,10 +67,8 @@ import { TableComponent } from './layouts/table/table.component';
 import { FeedbackFormComponent } from './pages/admin/components/feedback-form/feedback-form.component';
 import { SpinnerComponent } from './pages/components/spinner/spinner.component';
 import { WebsocketComponent } from './pages/components/websocket/websocket.component';
-// import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { OrdersComponent } from './pages/components/my-basket-info/orders/orders.component';
 import { EditOrderComponent } from './pages/components/my-basket-info/edit-order/edit-order.component';
-// const config: SocketIoConfig = { url: 'ws:34.228.194.95:8765/ws', options: {} };
 
 
 @NgModule({
