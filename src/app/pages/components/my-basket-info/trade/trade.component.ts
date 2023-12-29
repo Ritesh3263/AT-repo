@@ -455,7 +455,7 @@ getColor(price: any) {
     getBrokerageAccount(brokerage:any,user_id:any){
       this.showSpinner = true;
       this.brokerageService.getBrokerageAccounts(brokerage,user_id?user_id:this.user_id).then((data) => {
-        this.showSpinner=false;
+      this.showSpinner=false;
         if(data.error || !data.success) {
           this.utilityService.displayInfoMessage(data.error, true)
         }
