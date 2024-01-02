@@ -37,27 +37,31 @@
     <div fxLayout="row wrap" class="form-row">
         <div fxFlex="50" fxFlex.sm="100" fxFlex.xs="100" class="form-group pb-20">
             <mat-card style="width: 100%; height: 300px; border: 2px solid #0b63e5;padding: 5px;">
-                <div id="piechart" style="width: 100%; height: 100%;"></div>
+                <div *ngIf="!isSymbols" >No data</div>
+                <div *ngIf="isSymbols" id="piechart" style="width: 100%; height: 100%;"></div>
             </mat-card>
         </div>
         <div fxFlex="50" fxFlex.sm="100" fxFlex.xs="100" class="form-group pb-20">
             <mat-card style="width: 100%;  height: 300px;border: 2px solid #0b63e5; padding: 5px;">
-                <div id="line_top_x" style="width: 100%; height: 100%;"></div>
+                <div *ngIf="!isSymbols">No data</div>
+                <div *ngIf="isSymbols" id="line_top_x" style="width: 100%; height: 100%;"></div>
             </mat-card>
         </div>
         <div fxFlex="100" fxFlex.sm="100" fxFlex.xs="100" class="form-group pb-20">
             <mat-card style="width: 100%;  height: 300px;border: 2px solid #0b63e5; padding: 5px;">
-                <div id="barchart_material" style="width: 900px; height: 500px;"></div>
+                <div *ngIf="!isSymbols">No data</div>
+                <div *ngIf="isSymbols" id="barchart_material" style="width: 900px; height: 500px;"></div>
             </mat-card>
         </div>
         <div fxFlex="100" fxFlex.sm="100" fxFlex.xs="100" class="form-group pb-20">
             <mat-card style="width: 100%;  height: 300px;border: 2px solid #0b63e5; padding: 5px;">
-                <div id="chart_div" style="width: 100%; height: 100%;"></div>
+                <div *ngIf="!isSymbols">No data</div>
+                <div *ngIf="isSymbols" id="chart_div" style="width: 100%; height: 100%;"></div>
             </mat-card>
         </div>
 
 
-        <div fxFlex="50" fxFlex.sm="100" fxFlex.xs="100" class="form-group pb-20">
+        <!-- <div fxFlex="50" fxFlex.sm="100" fxFlex.xs="100" class="form-group pb-20">
             <h3 class="mat-h3 text-center font-600">Fundamental Data Widget</h3>
             <div style="width: 100%;" #TradingFundamentalDataWidget></div>
         </div>
@@ -72,6 +76,6 @@
         <div fxFlex="50" fxFlex.sm="100" fxFlex.xs="100" class="form-group pb-20">
             <h3 class="mat-h3 text-center font-600">Technical Analysis Widget</h3>
             <div #TradingTechnicalAnalysisWidget></div>
-        </div>
+        </div> -->
     </div>
 </div>

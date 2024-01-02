@@ -35,6 +35,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   isLoading: boolean = false;
   tickersOptions: any = [];
+  isSymbols:boolean=true;
 
 
   ngOnInit(id = null): void {
@@ -60,10 +61,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
 
     // this.marketDataWidget();
-    this.companyProfileWidget();
-    this.fundamentalDataWidget();
-    this.technicalAnalysisWidget();
-    this.minChartWidget();
+    // this.companyProfileWidget();
+    // this.fundamentalDataWidget();
+    // this.technicalAnalysisWidget();
+    // this.minChartWidget();
 
   }
 
@@ -245,16 +246,18 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     }
     this.basketService.getSymbols(this.basketId, this.pageIndex, this.pageSize).then((data) => {
       if (data.error || !data.symbols) {
+        this.isSymbols=false;
         this.utilityService.displayInfoMessage(data.error, true)
       }
-      else {
-
+      else if(data.symbols && data.symbols.length>0) {
+        this.isSymbols=true;
         google.charts.setOnLoadCallback(this.drawChart(data.symbols));
         google.charts.setOnLoadCallback(this.drawLineChart(data.symbols));
         google.charts.setOnLoadCallback(this.drawWaterFallChart(data.symbols));
         google.charts.setOnLoadCallback(this.drawBarchartChart(data.symbols));
 
-
+      }else{
+        this.isSymbols=false;
       }
     })
   }
