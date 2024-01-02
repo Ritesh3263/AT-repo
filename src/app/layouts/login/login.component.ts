@@ -24,19 +24,20 @@ export class LoginComponent {
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private userService: UserService, private _snackBar: MatSnackBar) {
     const params = this.activatedRoute.snapshot.queryParams;
-    // Handle oAuth Redirect Callback URL Code
-    if(params && params['code']) {
+    // Brokerage Redirect URL Code
+    if(params && params['code']) { 
       this.userService.getUserDetails().then((user:any) => {
         if(user && user.displayName){
           this.router.navigate(['/brokerage'],{ state: {code:params['code'],user:user} });
         }else{
+        // Handle oAuth Redirect Callback URL Code
       this.userService.getLoginToken(params['code']).then((data: any) =>{
         // If we have contact record returned, authentication has succeeded
         if(data && data.user) {
           if(data.user.roles && data.user.roles.includes('admin'))
             this.router.navigate(['/admin/users']); // Navigate to Baskets Page (TODO - Dashboard Page)
           else
-            this.router.navigate(['/home']); // Navigate to Baskets Page (TODO - Dashboard Page)
+            this.router.navigate(['/home'],{ state: {user:data.user} }); // Navigate to Baskets Page (TODO - Dashboard Page)
         }
         else {
           this.error.message = JSON.stringify(data,null,2);
@@ -71,7 +72,7 @@ export class LoginComponent {
         if(authenticated && authenticated.user && authenticated.user.roles && authenticated.user.roles.includes('admin'))
           this.router.navigate(['/admin/users']); // Navigate to Baskets Page (TODO - Dashboard Page)
         else
-          this.router.navigate(['/home']); // Navigate to Baskets Page (TODO - Dashboard Page)
+          this.router.navigate(['/home'],{ state: {user:authenticated.user} }); // Navigate to Baskets Page (TODO - Dashboard Page)
       }
       else {
         this.error.message = authenticated.message || "Invalid login details, please try again." ;
