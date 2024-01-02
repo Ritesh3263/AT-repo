@@ -46,6 +46,7 @@ export class OrdersComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   showSpinner:boolean=false;
   user_id:any=null;
+  isPosition:boolean=true;
   constructor(public dialog: MatDialog,private basketTradeService :BasketTradeService,private userService: UserService,private utilityService: UtilitiesService) {}
 
   ngAfterViewInit() {
@@ -71,10 +72,10 @@ loadUserDetails() {
     this.showSpinner= true;
       this.basketTradeService.getBrokerageAccountPosition('ts',this.user_id,'SIM1213784M').then((data) => {
         this.showSpinner =false;
-        if(data&&data.success) {
-          this.dataSourcePosition =data.Positions
-        }else{
-          this.utilityService.displayInfoMessage(data.error, true)
+        this.isPosition=false;
+        if(data&&data.success && data.Positions) {
+          this.isPosition=true;
+          this.dataSourcePosition = new MatTableDataSource<any>(data.Positions)
         }
       })
     }
@@ -129,9 +130,10 @@ loadUserDetails() {
           })
           this.dataSourceConfirm =this.confirmOrders;
           this.dataSource = this.pendingOrders;
-        }else{
-          this.utilityService.displayInfoMessage(data.error, true)
         }
+        // }else{
+        //   this.utilityService.displayInfoMessage(data.error, true)
+        // }
       })
     }
 

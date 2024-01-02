@@ -122,11 +122,11 @@
                         </span>
                     </ng-template>
                     <div mat-dialog-content class="no-padding-bottom">
-                        <!-- <div class="center-text" *ngIf="!dataSourcePosition">
-                            <p>No Active Positions. </p>
-                          </div> -->
-                        <div class="trading-table height-auto with-padding table-scroll">
-                            <table mat-table [dataSource]="dataSourcePosition">
+                        <div class="center-text" *ngIf="!isPosition">
+                            <p>No active positions. </p>
+                          </div>
+                        <div class="trading-table height-auto with-padding table-scroll" *ngIf="isPosition">
+                            <table  mat-table [dataSource]="dataSourcePosition">
                                 <ng-container matColumnDef="Symbol">
                                     <th mat-header-cell *matHeaderCellDef> Ticker Symbol </th>
                                     <td mat-cell *matCellDef="let element"> <span  style="color: #0b63e5;;">{{element.Symbol}}</span> </td>
