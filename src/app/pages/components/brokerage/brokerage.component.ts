@@ -82,11 +82,8 @@ export class BrokerageComponent implements AfterViewInit{
     this.showSpinner = true;
     this.brokerageService.getBrokerages(this.user_id).then((data) => {
       this.showSpinner = false;
-      if(data.error || !data.success) {
-        this.utilityService.displayInfoMessage(data.error, true)
-      }
-      else {
-         this.activeBrokerages= data.brokerages;
+      if(data && data.success) {
+        this.activeBrokerages= data.brokerages;
         this.getBrokerageAccount(this.activeBrokerages[0].active_brokerage_key,this.user_id)
       }
     })
