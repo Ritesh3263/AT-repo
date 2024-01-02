@@ -27,7 +27,7 @@ export class BasketsService {
 
   async getAllBaskets(nameOnly:number = 0, includeSubscriptions:number = 0): Promise<any> {
     try{
-      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/baskets${nameOnly ? '?nameOnly=true' : ''}`, this.getHeaders());
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/baskets${nameOnly ? '?nameOnly=true' : ''}${includeSubscriptions ? '&includeSubscriptions=true' : ''}`, this.getHeaders());
       let data = await res.json();
       return data;
     }
@@ -113,9 +113,9 @@ export class BasketsService {
     }
   }
 
-  async getSymbols(basketId: Number, pageNumber: Number, pageSize: Number): Promise<any> {
+  async getSymbols(basketId: Number, pageNumber: Number, pageSize: Number, sortColumn: string | null, sortMode: string|null): Promise<any> {
     try{
-      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/basket/${basketId}/symbols?pageNumber=${pageNumber}&pageSize=${pageSize}`, this.getHeaders());
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/basket/${basketId}/symbols?pageNumber=${pageNumber}&pageSize=${pageSize}&sortColumn=${sortColumn}&sortMode=${sortMode}`, this.getHeaders());
       let data = await res.json();
       return data;
     }

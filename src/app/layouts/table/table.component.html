@@ -5,17 +5,50 @@
         <mat-icon matPrefix>search</mat-icon>
     </mat-form-field>
 </div>
-<div class="mat-elevation-z8"><!-- trading-table height-auto table-scroll  -->
-    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+<div class="trading-table height-auto table-scroll pt-15"><!-- trading-table height-auto table-scroll  -->
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" matSortActive="{{sortColumn}}" [matSortDirection]="sortMode" matSortDisableClear>
         <ng-container matColumnDef="{{column.key}}" *ngFor="let column of columnDetails">
             <div *ngIf="column.type == 'image'">
                 <th mat-header-cell *matHeaderCellDef> {{column.label}} </th>
                 <td mat-cell *matCellDef="let element"><img src="{{element.profilePhoto}}" class="profile-icon" [hidden]="!element.profilePhoto"/></td>
             </div>
+            <!-- Checkbox Column -->
+            <div *ngIf="column.type == 'select'">
+                <th mat-header-cell *matHeaderCellDef>
+                    <mat-checkbox (change)="$event ? toggleAllRows() : null" color="primary"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+                    </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <mat-checkbox (click)="$event.stopPropagation()" color="primary"
+                        (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"
+                        [aria-label]="checkboxLabel(row)">
+                    </mat-checkbox>
+                </td>
+            </div>
 
-            <div *ngIf="column.type != 'image'">
+            <!-- Menu Column -->
+            <div *ngIf="column.type == 'menu'">
+                <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-icon-button [matMenuTriggerFor]="menu" color="primary"
+                        (click)="$event.stopPropagation()">
+                        <mat-icon>more_horiz</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item [matMenuTriggerFor]="subMenu">{{column.mainMenuOption}}</button>
+                    </mat-menu>
+
+                    <mat-menu #subMenu="matMenu">
+                        <button mat-menu-item *ngFor="let item of column.subMenuOptions" (click)="column.menuCallback(element, dataCallbackOptionalParameter)">{{item.name}}</button>
+                    </mat-menu>
+                </td>
+            </div>
+
+            <div *ngIf="column.type != 'image' && column.type != 'select'">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Name"> {{column.label}} </th>
-                <td mat-cell *matCellDef="let element"> {{element[column.key]}} </td>
+                <td mat-cell *matCellDef="let element"> {{column.type == 'date' ?  (element[column.key] | date) : (column.type == 'currency' ? (element[column.key] | currency:'USD':'symbol':'1.2-2')  : element[column.key])}} </td>
             </div>
 
         </ng-container>
