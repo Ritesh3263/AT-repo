@@ -463,7 +463,7 @@ getColor(price: any) {
         if(data.error || !data.success) {
           this.utilityService.displayInfoMessage(data.error, true)
         }
-        else {
+        else if(data.Accounts) {
           this.account_balance = data.Accounts[0].BuyingPower;
           this.cash_balance = data.Accounts[0].CashBalance;
           this.accountId = data.Accounts[0].AccountID;
