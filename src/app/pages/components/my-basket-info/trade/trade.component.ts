@@ -69,6 +69,8 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
   dataSource = new MatTableDataSource<PeriodicElement>([]);
   selection = new SelectionModel<PeriodicElement>(true, []);
   isDisplayColumn:boolean=true;
+  symbols: any =[]
+
   constructor(private fb: FormBuilder,private renderer: Renderer2, public dialog: MatDialog,private basketTradeService :BasketTradeService,private webSocketService: WebsocketService,private basketService:BasketsService,@Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, private utilityService: UtilitiesService,private brokerageService:BrokerageService,private userService:UserService) {
     // this.getAccountBasketPosition();
     // this.getBrokerageAccountPosition();
@@ -144,10 +146,15 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
      cash_balance : this.cash_balance,
      symbols :this.selection.selected
     }
-    this.dialog.open(ConfirmTradeComponent, {
+    const dialogRef = this.dialog.open(ConfirmTradeComponent, {
       panelClass: 'custom-modal',
       disableClose: true,
       data:inputModelPopup
+    });
+    dialogRef.afterClosed().subscribe((result:any) => {
+      if(result){
+        this.getBasketSymbols();
+      }
     });
   }
 
@@ -217,15 +224,10 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
     }
   cancel(){
     this.form.reset(); // Reset to initial form values
-    // this.form.get("investmentType")?.setErrors(null)
-    // this.form.get("percentage")?.setErrors(null)
-    // this.form.get("amount")?.setErrors(null)
     this.isDisplayColumn = false;
     this.displayedColumns = ['select', 'symbol', 'purchasedate', 'costcurrent', 'price', 'sharescurrent', 'investedcurrent', 'marketcurrent', 'pl', 'plpercent'];
-
-
-
-
+    this.dataSource = new MatTableDataSource<any>(this.symbols);
+    this.selection = new SelectionModel<any>(this.symbols, []);          
   }
 
   getErrorMessage(value: string) {
@@ -443,9 +445,11 @@ getColor(price: any) {
 
           })
           this.isPositions=true
-          this.dataSource.data= data.symbols;
+          this.symbols = data.symbols
+          this.dataSource = new MatTableDataSource<any>(data.symbols);
+          this.selection = new SelectionModel<any>(data.symbols, []);          
           this.originalData = JSON.parse(JSON.stringify([...data.symbols]));
-          this.setSymbolsForBrokeragePrice(this.symbolInput,true)
+          this.symbolInput.length>0?this.setSymbolsForBrokeragePrice(this.symbolInput,true):null
           this.isDisplayColumn =false;
       }
     })

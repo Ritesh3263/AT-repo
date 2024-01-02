@@ -7,6 +7,7 @@ import { takeUntil } from 'rxjs/operators';
 import { WebsocketService } from 'src/app/services/websocket.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { UserService } from 'src/app/services/user.service';
+import { UtilitiesService } from 'src/app/services/utilities.service';
 
 export interface PeriodicElement {
   tickersymbol: string;
@@ -74,7 +75,7 @@ export class ConfirmTradeComponent implements OnInit, OnDestroy {
   user_id:any=null;
 
   constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<ConfirmTradeComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private basketTradeService: BasketTradeService, private matSnackBar: MatSnackBar, private webSocketService: WebsocketService,private userService: UserService) {
+    @Inject(MAT_DIALOG_DATA) public data: any, private basketTradeService: BasketTradeService, private matSnackBar: MatSnackBar, private webSocketService: WebsocketService,private userService: UserService,private utilityService: UtilitiesService) {
 
       this.loadUserDetails();
       if (this.data && this.data.symbols) {
@@ -107,8 +108,6 @@ loadUserDetails() {
   confirmOrder() {
     if (this.data && this.data.symbols) {
       let input: { Type: string, Orders: object[] } = { "Type": "NORMAL", Orders: [] };
-   
-
       for (let i = 0; i < this.data.symbols.length; i++) {
         let object = {
           AccountID: "SIM1213784M",
@@ -129,58 +128,15 @@ loadUserDetails() {
       this.showSpinner = true;
       this.basketTradeService.setOrders(input, this.user_id, 'ts').then((data) => {
         this.showSpinner = false;
-        console.log("hellooo",data)
         if (data && data.msg) {
-          this.dialogRef.close();
-          this.matSnackBar.open(data.msg, 'Close', {
-            duration: 5000, // Duration in milliseconds
-            panelClass: ['custom-snack-bar'],
-          });
+          this.dialogRef.close(true);
+          this.utilityService.displayInfoMessage(data.msg);
         } else {
-          this.matSnackBar.open(data, 'Close', {
-            duration: 5000, // Duration in milliseconds
-            panelClass: ['custom-snack-bar'],
-          });
+          this.utilityService.displayInfoMessage(data.error, true)
         }
 
       })
 
-
-
-
-
-
-
-
-      // if (this.data.symbols.length == 1) {
-      // object.Symbol = this.data.symbols[0].ticker_id;
-      // object.Quantity = JSON.stringify(this.data.symbols[0].new_shares);
-
-      // } else {
-      //   for (let i = 0; i < this.data.symbols.length; i++) {
-      //     object.Symbol = this.data.symbols[i].ticker_id;
-      //     object.Quantity = JSON.stringify(this.data.symbols[i].new_shares);
-      //     input.Orders.push(object)
-      //   }
-      //   this.showSpinner = true;
-      //   this.basketTradeService.setBulkOrders(input, 'nikhil', 'ts').then((data) => {
-      //     this.showSpinner = false;
-      //     if (data && data.Orders && data.Orders[0].Error === 'FAILED') {
-      //       this.dialogRef.close();
-      //       this.matSnackBar.open(data.Orders[0].Message, 'Close', {
-      //         duration: 5000, // Duration in milliseconds
-      //         panelClass: ['custom-snack-bar'],
-      //       });
-      //       // this.toastrService.error('Marker closed, Order Failed', 'Error');
-      //     } else {
-      //       this.matSnackBar.open(data.Orders[0].Message, 'Close', {
-      //         duration: 5000, // Duration in milliseconds
-      //         panelClass: ['custom-snack-bar'],
-      //       });
-      //     }
-
-      //   })
-      // }
     }
     /** Remove symbols from price list */
     this.setSymbolsForBrokeragePrice(this.inputForSymbolPrice, false)
@@ -247,11 +203,10 @@ loadUserDetails() {
     this.basketTradeService.setSymbolsForBrokeragePrice({ symbols: symbols, track: track }).then((data) => { })
   }
   cancel() {
-
     /** Remove symbols from price list */
     this.setSymbolsForBrokeragePrice(this.inputForSymbolPrice, false);
     this.ngOnDestroy();
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 
   ngOnDestroy() {

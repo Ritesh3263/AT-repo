@@ -65,7 +65,6 @@ export class BasketComponent implements AfterViewInit {
       this.length = 0;
     }
     this.basketService.getSymbols(this.basketId, this.pageIndex, this.pageSize).then((data) => {
-      console.log("helloooo",data)
       if(data.error || !data.symbols) {
         this.utilityService.displayInfoMessage(data.error, true)
       }
