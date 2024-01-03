@@ -247,8 +247,8 @@ export class BasketComponent {
     })
   }
 
-  addSymbolToBasket(basketId: any, symbol: any) {
-    this.basketService.editSymbols(basketId, [{id: symbol.id}], 'PATCH').then((data) => {
+  addSymbolToBasket(basket: any, symbol: any) {
+    this.basketService.editSymbols(basket.id, [{id: symbol.id}], 'PATCH').then((data) => {
       if(data.error || !data.success) {
         this.utilityService.displayInfoMessage(data.error, true)
       }
