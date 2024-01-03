@@ -22,6 +22,7 @@ import { UsersComponent } from './pages/admin/components/users/users.component';
 import { AuthenticationGuard } from './authentication.guard';
 import { AdminAuthenticationGuard } from './admin-authentication.guard';
 import { FeedbackFormComponent } from './pages/admin/components/feedback-form/feedback-form.component';
+import { SignUpComponent } from './layouts/sign-up/sign-up.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'sign-up',
+    component: SignUpComponent
   },
   {
     path: 'forgot-password',

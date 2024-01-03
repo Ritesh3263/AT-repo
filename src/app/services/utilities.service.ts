@@ -23,17 +23,24 @@ export class UtilitiesService {
   }
 
   getErrorMessage(form: FormGroup, value: string, email:boolean = false) {
-    if (form.controls[value].hasError('required')) {
-      return 'You must enter a value';
+    let errors = form.controls[value].errors;
+    if(errors) {
+      if (errors['required']) {
+        return 'You must enter a value'
+      }
+      if(errors['pattern']) {
+        return `Password must be at least 8 characters and contain one number, one upper case character, one lower case character, and one special character`
+      }
+      else if(errors['email']) {
+        return 'Not a valid email'
+      }
     }
-    else if(email)
-      return form.controls[value].hasError('email') ? 'Not a valid email' : '';
 
     return ''
   }
 
   isControlValid(form: FormGroup, field: string) {
-    return form.controls[field].touched && form.controls[field].errors?.['required']
+    return !(form.controls[field].touched && (form.controls[field].errors?.['required'] || form.controls[field].errors?.['email'] || form.controls[field].errors?.['pattern']))
   }
 
   isFormValid(form: FormGroup) {
@@ -44,7 +51,16 @@ export class UtilitiesService {
     let form: any = {}
 
     for(let i = 0; i < formFields.length; i++) {
-      form[formFields[i].key] = new FormControl({value: formData[formFields[i].key] ? formData[formFields[i].key].toString() : (formFields[i].defalutValue ? formFields[i].defalutValue : ''), disabled: (formData[formFields[i].key] && !formFields[i].enableUpdate)}, formFields[i].required ? [Validators.required] : null)
+      let validators: any = [];
+      if(formFields[i].required)
+        validators.push(Validators.required)
+
+      if(formFields[i].type == 'email')
+        validators.push(Validators.email)
+      else if(formFields[i].type == 'password')
+        validators.push(Validators.pattern(/^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d).{8,}$/))
+
+      form[formFields[i].key] = new FormControl({value: formData[formFields[i].key] ? formData[formFields[i].key].toString() : (formFields[i].defalutValue ? formFields[i].defalutValue : ''), disabled: (formData[formFields[i].key] && !formFields[i].enableUpdate)}, validators)
     }
 
     return this.fb.group(form)
