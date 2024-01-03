@@ -14,27 +14,90 @@ import { Basket } from 'src/app/interfaces/basket';
 import { BasketsService } from 'src/app/services/baskets.service';
 import { UtilitiesService } from 'src/app/services/utilities.service';
 
+import { AdminService } from 'src/app/services/admin.service';
+import { TableComponent } from 'src/app/layouts/table/table.component';
+
 @Component({
   selector: 'app-basket',
   templateUrl: './basket.component.html',
   styleUrls: ['./basket.component.scss']
 })
-export class BasketComponent implements AfterViewInit {
+export class BasketComponent {
   length = 0;
   pageSize = 10;
   pageIndex = 0;
   search = '';
-  displayedColumns: string[] = ['select', 'symbol', 'name', 'price', 'change', 'changepercent', 'star'];
+  displayedColumns: string[] = ['select', 'symbol', 'name', 'price', 'change', 'changepercent', 'timestamp', 'deleted_at', 'star'];
   basket: any = []
   dataSource = new MatTableDataSource<Basket>(this.basket);
   selection = new SelectionModel<Basket>(this.basket, []);
   basketId: number = 0;
   symbols: any =[]
   basketList: any = []
+  columnDetails: any = [];
+  defaultSort: any = {sortColumn: 'timestamp', sortMode: 'desc'};
+  @ViewChild(TableComponent) table!:TableComponent;
 
-  constructor(@Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, private renderer: Renderer2, public dialog: MatDialog, private basketService: BasketsService, private activatedRoute: ActivatedRoute, private utilityService: UtilitiesService) {}
+  constructor(@Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, private renderer: Renderer2, public dialog: MatDialog, private basketService: BasketsService, private activatedRoute: ActivatedRoute,
+  private utilityService: UtilitiesService, private adminService: AdminService) {
+    this._setColumnDetails();
+  }
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  _setColumnDetails() {
+    this.columnDetails = [
+      {
+        label: null,
+        key: 'select',
+        type: 'select'
+      },
+      {
+        label: 'Ticker Symbol',
+        key: 'symbol',
+        type: 'text'
+      },
+      {
+        label: 'Ticker Name',
+        key: 'name',
+        type: 'text'
+      },
+      {
+        label: 'Price',
+        key: 'price',
+        type: 'currency'
+      },
+      {
+        label: 'Change',
+        key: 'change',
+        type: 'currency'
+      },
+      {
+        label: 'Change %',
+        key: 'changepercent',
+        type: 'currency'
+      },
+      {
+        label: 'Added At',
+        key: 'timestamp',
+        type: 'date'
+      },
+      {
+        label: 'Deleted At',
+        key: 'deleted_at',
+        type: 'date'
+      } ,
+      {
+        label: null,
+        key: 'menu',
+        type: 'menu',
+        mainMenuOption: 'Add to Basket',
+        subMenuOptions: this.basketList,
+        menuCallback: this.addSymbolToBasket,
+        basketService: this.basketService,  // Scope issues, need to include this service at the menu level
+        utilityService: this.utilityService // Scope issues, need to include this service at the menu level
+      }
+    ]
+  }
 
   ngOnInit(id = null) {
     this.basketId = id || this.parentComponent.getBasketId();
@@ -47,63 +110,20 @@ export class BasketComponent implements AfterViewInit {
       }
     })
 
-    this.getBasketSymbols(true);
-
     this.basketService.getAllBaskets(1, 0).then((data: any) => {
       if(data.error || !data.baskets) {
         this.utilityService.displayInfoMessage("Error Loading Basket List: " + data.error, true);
       }
       else {
         this.basketList = data.baskets;
+
+        this._setColumnDetails();
       }
     });
   }
 
-  getBasketSymbols(resetPage = false) {
-    if(resetPage) {
-      this.pageIndex = 0;
-      this.length = 0;
-    }
-    this.basketService.getSymbols(this.basketId, this.pageIndex, this.pageSize).then((data) => {
-      if(data.error || !data.symbols) {
-        this.utilityService.displayInfoMessage(data.error, true)
-      }
-      else {
-        this.symbols = data.symbols;
-        this.dataSource = new MatTableDataSource<any>(this.symbols);
-        this.selection = new SelectionModel<any>(this.symbols, []);
-        this.length = this.symbols && this.symbols.length ? this.symbols[0].totalRows : 0;
-      }
-    })
-  }
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-  }
-
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data ? this.dataSource.data.length : 0;
-    return numSelected === numRows;
-  }
-
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  toggleAllRows() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
-    }
-
-    this.selection.select(...this.dataSource.data);
-  }
-
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: any): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.symbol + 1}`;
+  async getBasketSymol(pageNumber: number, pageSize: number, sortColumn : string | null = null, sortMode : string | null = null, search : string | null = null, param : any = null) {
+    return await this.basketService.getSymbols(param, pageNumber, pageSize, sortColumn, sortMode)
   }
 
   getChangeStyle(change: number): string {
@@ -135,7 +155,7 @@ export class BasketComponent implements AfterViewInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result && result.success) {
-        this.ngOnInit();
+        this.table.getData(true);
       }
     });
   }
@@ -144,11 +164,11 @@ export class BasketComponent implements AfterViewInit {
     let dialogRef = this.dialog.open(EditSymbolsComponent, {
       panelClass: 'custom-modal',
       disableClose: true,
-      data: {header: "Delete Symbols from the Basket", description: "The selected symbol(s) below will be deleted from the basket.", mode: "DELETE", tickers: JSON.parse(JSON.stringify(this.selection.selected)), basket: JSON.parse(JSON.stringify(this.basket))}
+      data: {header: "Delete Symbols from the Basket", description: "The selected symbol(s) below will be deleted from the basket.", mode: "DELETE", tickers: JSON.parse(JSON.stringify(this.table.getSelectedItems())), basket: JSON.parse(JSON.stringify(this.basket))}
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result && result.success) {
-        this.ngOnInit();
+        this.table.getData(true);
       }
     });
   }
@@ -236,11 +256,5 @@ export class BasketComponent implements AfterViewInit {
         this.utilityService.displayInfoMessage(`Symbols Added`)
       }
     })
-  }
-
-  handlePageEvent(e: PageEvent) {
-    this.pageSize = e.pageSize;
-    this.pageIndex = e.pageIndex;
-    this.getBasketSymbols();
   }
 }

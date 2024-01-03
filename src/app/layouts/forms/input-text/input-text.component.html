@@ -6,6 +6,6 @@
         <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword" *ngIf="type == 'password'">
             <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
-        <mat-error *ngIf="utilityService.isControlValid(formGroup, field)">{{utilityService.getErrorMessage(formGroup, field, field == 'email')}}</mat-error>
+        <mat-error *ngIf="!utilityService.isControlValid(formGroup, field)">{{utilityService.getErrorMessage(formGroup, field, type == 'email')}}</mat-error>
     </mat-form-field>
 </form>
