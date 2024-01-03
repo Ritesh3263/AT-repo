@@ -44,7 +44,7 @@ export class ForgotPasswordComponent {
       }
       else {
         // TODO: Better Login Error Messaging
-        this.utilityService.displayInfoMessage("This link has expired.  Please request another password reset.", true);
+        this.utilityService.displayInfoMessage("This link has expired.  Please confirm your link and try again.", true);
       }
     }
   }
@@ -54,11 +54,10 @@ export class ForgotPasswordComponent {
   }
 
   async sendPasswordResetEmail() {
-    console.log()
     // Send forgot password link to input email address
     let result = await this.userService.sendPasswordResetEmail(this.emailForm.getRawValue().email)
     if(result && result.data && result.data.MessageId) {
-      this.utilityService.displayInfoMessage("Email sent.  Please check your inbox and follow the link to reset your password.");
+      this.utilityService.displayInfoMessage("Email sent.  Please check your inbox and follow the link to reset your password.", false, 20000);
     }
     else {
       this.utilityService.displayInfoMessage(JSON.stringify(result.error), true);

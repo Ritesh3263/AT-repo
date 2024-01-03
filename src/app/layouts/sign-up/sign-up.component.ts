@@ -54,7 +54,7 @@ export class SignUpComponent {
     // Send verification email to input email address
     let result = await this.userService.sendEmailVerificationEmail(this.emailForm.getRawValue().email)
     if(result && result.data && result.data.MessageId) {
-      this.utilityService.displayInfoMessage("Email sent.  Please check your inbox and follow the link to complete your registration.");
+      this.utilityService.displayInfoMessage("Email sent.  Please check your inbox and follow the link to complete your registration.", false, 20000);
     }
     else {
       this.utilityService.displayInfoMessage(JSON.stringify(result.error), true);
@@ -66,7 +66,7 @@ export class SignUpComponent {
     let result = await this.userService.signup(this.signupToken, this.signupForm.getRawValue())
     if(result && result.success && !result.error) {
       this.utilityService.displayInfoMessage('Registration Completed!');
-      this.router.navigate(['/home']);
+      this.router.navigate(['/baskets']);
     }
     else {
       this.utilityService.displayInfoMessage(JSON.stringify(result.error), true);
