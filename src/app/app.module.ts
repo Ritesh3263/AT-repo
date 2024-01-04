@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -66,6 +65,11 @@ import { MatSortModule } from '@angular/material/sort';
 import { TableComponent } from './layouts/table/table.component';
 import { FeedbackFormComponent } from './pages/admin/components/feedback-form/feedback-form.component';
 import { SignUpComponent } from './layouts/sign-up/sign-up.component';
+import { SpinnerComponent } from './pages/components/spinner/spinner.component';
+import { WebsocketComponent } from './pages/components/websocket/websocket.component';
+import { OrdersComponent } from './pages/components/my-basket-info/orders/orders.component';
+import { EditOrderComponent } from './pages/components/my-basket-info/edit-order/edit-order.component';
+
 
 @NgModule({
   declarations: [
@@ -109,7 +113,11 @@ import { SignUpComponent } from './layouts/sign-up/sign-up.component';
     InputTextComponent,
     TableComponent,
     FeedbackFormComponent,
-    SignUpComponent
+    SignUpComponent,
+    SpinnerComponent,
+    WebsocketComponent,
+    OrdersComponent,
+    EditOrderComponent
   ],
   imports: [
     BrowserModule,
@@ -137,7 +145,7 @@ import { SignUpComponent } from './layouts/sign-up/sign-up.component';
     MatSlideToggleModule,
     MatSnackBarModule,
     MatButtonToggleModule,
-    MatSortModule
+    MatSortModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

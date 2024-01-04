@@ -1,7 +1,8 @@
-::ng-deep .brokerage-tabs {
-    .mat-mdc-tab-body-wrapper, .mat-mdc-tab-body.mat-mdc-tab-body-active, .mat-mdc-tab-body-content {
-        overflow: hidden;
-    }
+.right-align-cell {
+    text-align: right !important;
+}
+.center-align-cell {
+    text-align: center !important;
 }
 
 .spinner-wrapper {
