@@ -109,4 +109,15 @@ export class BasketTradeService {
         return {error: e.message}
       }
   }
+
+  async getOrderByBasketId(broker_id:any,user_id:any,basket_id:any){
+    try{
+        let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/brokerage/${broker_id}/user/${user_id}/orders/basket/${basket_id}`, this.getHeaders());
+        let data = await res.json();
+        return data;
+      }
+      catch(e: any) {
+        return {error: e.message}
+      }
+  }
 }

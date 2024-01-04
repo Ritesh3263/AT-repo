@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -7,6 +7,7 @@ import { BasketTradeService } from 'src/app/services/basket-trade.service';
 import { EditOrderComponent } from '../edit-order/edit-order.component';
 import { UserService } from 'src/app/services/user.service';
 import { UtilitiesService } from 'src/app/services/utilities.service';
+import { JourneyInfoComponent } from '../journey-info/journey-info.component';
 
 export interface PeriodicElement {
   Symbol: string;
@@ -47,12 +48,16 @@ export class OrdersComponent {
   showSpinner:boolean=false;
   user_id:any=null;
   isPosition:boolean=true;
-  constructor(public dialog: MatDialog,private basketTradeService :BasketTradeService,private userService: UserService,private utilityService: UtilitiesService) {}
+  basketId:number=0;
 
-  ngAfterViewInit() {
+  constructor(public dialog: MatDialog,private basketTradeService :BasketTradeService,private userService: UserService,private utilityService: UtilitiesService,@Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent) {}
+
+  ngAfterViewInit(id=null) {
     this.dataSource.paginator = this.paginator;
     // this.getAccountBasketPosition();
     this.loadUserDetails();
+    this.basketId = id || this.parentComponent.getBasketId();
+
   }
 
 /***loadUserDetails function is used to get user information  */
@@ -62,7 +67,8 @@ loadUserDetails() {
     this.showSpinner = false;
     this.user_id = user.firstName?user.firstName:null
     this.getBrokerageAccountPosition();
-    this.getOrderStatus();
+    // this.getOrderStatus();
+    this.getOrder();
   })
 }
 
@@ -137,5 +143,30 @@ loadUserDetails() {
       })
     }
 
-
+    getOrder(){
+      this.showSpinner= true;
+      this.pendingOrders=[];
+      this.confirmOrders=[];
+      this.basketTradeService.getOrderByBasketId('ts',this.user_id,this.basketId).then((data) => {
+        this.showSpinner =false;
+        if(data && data.success) {
+          data.orders.forEach((ele:any)=>{
+              if(ele.OrderStatus == 'pending'&& ele.Symbol != "N/A"&& ele.Quantity!="N/A"){
+                ele.Quantity = Number(ele.Quantity);
+                ele.CreatedAt = ele.CreatedAt =="N/A"?null: ele.CreatedAt ;
+                this.pendingOrders.push(ele);
+              }else if(ele.OrderStatus == "confirmed"&& ele.Symbol != "N/A"&& ele.Quantity!="N/A"){
+                ele.Quantity = Number(ele.Quantity);
+                ele.UpdatedAt = ele.UpdatedAt =="N/A"?null: ele.UpdatedAt ;
+                this.confirmOrders.push(ele);
+              }
+          })
+          this.dataSourceConfirm =this.confirmOrders;
+          this.dataSource = this.pendingOrders;
+        }
+        // }else{
+        //   this.utilityService.displayInfoMessage(data.error, true)
+        // }
+      })
+    }
 }
