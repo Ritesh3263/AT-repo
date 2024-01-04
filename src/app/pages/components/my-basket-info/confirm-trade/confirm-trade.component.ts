@@ -107,7 +107,7 @@ loadUserDetails() {
 }
   confirmOrder() {
     if (this.data && this.data.symbols) {
-      let input: { Type: string, Orders: object[] } = { "Type": "NORMAL", Orders: [] };
+      let input: { Type: string, Orders: object[],BucketId:string } = { "Type": "NORMAL", Orders: [], "BucketId":this.data.basket_id,};
       for (let i = 0; i < this.data.symbols.length; i++) {
         let object = {
           AccountID: "SIM1213784M",
@@ -115,10 +115,12 @@ loadUserDetails() {
           Quantity: "null",
           OrderType: "Market",
           TradeAction: "BUY",
+          BucketId:null
         } 
         object.Symbol = this.data.symbols[i].ticker_id;
         object.Quantity = JSON.stringify(this.data.symbols[i].new_shares);
-        input.Orders.push(object)
+        object.BucketId =  this.data.basket_id;
+        input.Orders.push(object);
       }
       /**
        * if symbols length is 1 the single order submit 
@@ -126,13 +128,14 @@ loadUserDetails() {
        */
 
       this.showSpinner = true;
+    
       this.basketTradeService.setOrders(input, this.user_id, 'ts').then((data) => {
         this.showSpinner = false;
         if (data && data.msg) {
           this.dialogRef.close(true);
           this.utilityService.displayInfoMessage(data.msg);
         } else {
-          this.utilityService.displayInfoMessage(data.error, true)
+          this.utilityService.displayInfoMessage("Order Failed", true)
         }
 
       })

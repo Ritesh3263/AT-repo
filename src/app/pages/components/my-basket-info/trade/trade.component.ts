@@ -144,6 +144,7 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
     let inputModelPopup={
      account_balance:this.cash_balance+this.market_value,
      cash_balance : this.cash_balance,
+     basket_id : this.basketId,
      symbols :this.selection.selected
     }
     const dialogRef = this.dialog.open(ConfirmTradeComponent, {
