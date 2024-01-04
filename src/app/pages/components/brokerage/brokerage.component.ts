@@ -43,7 +43,7 @@ export class BrokerageComponent implements AfterViewInit{
   selection = new SelectionModel<PeriodicElement>(true, []);
   selectedOption: string = 'option1';
   activeBrokerages :any=null;
-  brokerage_type = new FormControl('TS', [Validators.required]);
+  brokerage_type = new FormControl('ts', [Validators.required]);
    state:any;
    user:any;
    tokenForRetrieveAccounts :any=null;
@@ -149,7 +149,6 @@ export class BrokerageComponent implements AfterViewInit{
       this.showSpinner=false;
       if(data && data.success){
         this.isDisableAccounts = true;
-        console.log(data,"data")
         this.getBrokerageAccount(data.active_brokerage_key,data.current_user)
       }
     })
