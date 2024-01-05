@@ -145,18 +145,20 @@ loadUserDetails() {
     this.setSymbolsForBrokeragePrice(this.inputForSymbolPrice, false)
     this.ngOnDestroy();
   }
-  async ngOnInit() {
+   ngOnInit() {
     /**connecting webSocket and activating listener*/
-    await this.webSocketService.connect('ws');
-    await this.webSocketService.receiveMessages()
+    this.webSocketService.connect('ws').then((data)=>{});
+    this.webSocketService.receiveMessages().then((data)=>{})
     /**continues receiving response from websocket*/
     this.messageSubscription = this.webSocketService.getMessages().subscribe((message: any) => {
       let priceData = JSON.parse(message)[0];
-      this.data.symbols.forEach((ele: any) => {
-        if (ele.ticker_id == priceData.Symbol && priceData.Close) {
-          ele.price = priceData.Close
-        }
-      })
+      if(priceData && !priceData.Error ){
+        this.data.symbols.forEach((ele: any) => {
+          if (ele.ticker_id == priceData.Symbol && priceData.Close) {
+            ele.price = priceData.Close
+          }
+        })
+      }
     });
 
 
@@ -208,7 +210,6 @@ loadUserDetails() {
   cancel() {
     /** Remove symbols from price list */
     this.setSymbolsForBrokeragePrice(this.inputForSymbolPrice, false);
-    this.ngOnDestroy();
     this.dialogRef.close(false);
   }
 

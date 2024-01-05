@@ -51,7 +51,7 @@ export interface PeriodicElement {
 })
 export class TradeComponent implements AfterViewInit,OnDestroy {
   isPositions:boolean=false;
-  showSpinner:boolean = false;
+  showSpinner:boolean = true;
   user_id:any=null;
  displayedColumns: string[]  = ['select', 'symbol', 'purchasedate', 'costcurrent', 'price', 'sharescurrent', 'investedcurrent', 'marketcurrent', 'pl', 'plpercent'];
  form: FormGroup = new FormGroup(''); // FormGroup
@@ -84,21 +84,22 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
   originalData:any=[];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   basketId:number=0;
-  async ngAfterViewInit(id = null) {
+   ngAfterViewInit(id = null) {
     this.basketId = id || this.parentComponent.getBasketId();
     this.loadUserDetails();
     this.getBasketSymbols();
     this.dataSource.paginator = this.paginator;
-    await this.webSocketService.connect("ws/intrinio");
-    await this.webSocketService.receiveMessages()
-
+    this.webSocketService.connect('ws/intrinio').then((data)=>{})
+    this.webSocketService.receiveMessages().then((data)=>{})
    /**continues receiving response from websocket*/
     this.webSocketService.getMessages().subscribe((message: any) => {
+      if(!JSON.parse(message).error){
       this.dataSource.data.forEach((ele:any)=>{
         if(message && ele.ticker_id === JSON.parse(message).symbol){
           ele.price =JSON.parse(message).latest_price;
         }
       })
+    }
   });
     
     
@@ -140,7 +141,7 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
   }
 
   confirmTrade() {
-
+    this.webSocketService.closeConnection();
     let inputModelPopup={
      account_balance:this.cash_balance+this.market_value,
      cash_balance : this.cash_balance,
@@ -155,6 +156,7 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
     dialogRef.afterClosed().subscribe((result:any) => {
       if(result){
         this.getBasketSymbols();
+        this.webSocketService.connect('ws/intrinio').then((data)=>{})
       }
     });
   }
@@ -168,61 +170,61 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
     //   disableClose: true
     // });
   }
- async getAccountBasketPosition(){
-  this.showSpinner= true;
-    this.basketTradeService.getAccountBasketPosition(1).then((data) => {
-      this.showSpinner =false;
-      if(data) {
-        this.displayedColumns = ['select', 'symbol', 'purchasedate', 'costcurrent', 'price', 'sharescurrent', 'investedcurrent', 'marketcurrent', 'pl', 'plpercent'];
-        for(let i=0;i<data.length;i++){
-          data[i].current_market_value =Number((data[i].price*data[i].current_shares).toFixed(2))
-          // if(i==0){
-          //   this.symbolInput = data[i].ticker_id;
-          // }else{
-          //   this.symbolInput = this.symbolInput+','+data[i].ticker_id;
-          // }
-          this.isPositions=true
-          this.dataSource.data= data
-          this.isDisplayColumn =false;
-        }
-        // this.getSymbolPrice();
-        // this.basket = data.basket;
-        // this.dataSource = new MatTableDataSource<PeriodicElement>(this.basket.tickers);
-      }
-    })
-  }
+//  async getAccountBasketPosition(){
+//   this.showSpinner= true;
+//     this.basketTradeService.getAccountBasketPosition(1).then((data) => {
+//       this.showSpinner =false;
+//       if(data) {
+//         this.displayedColumns = ['select', 'symbol', 'purchasedate', 'costcurrent', 'price', 'sharescurrent', 'investedcurrent', 'marketcurrent', 'pl', 'plpercent'];
+//         for(let i=0;i<data.length;i++){
+//           data[i].current_market_value =Number((data[i].price*data[i].current_shares).toFixed(2))
+//           // if(i==0){
+//           //   this.symbolInput = data[i].ticker_id;
+//           // }else{
+//           //   this.symbolInput = this.symbolInput+','+data[i].ticker_id;
+//           // }
+//           this.isPositions=true
+//           this.dataSource.data= data
+//           this.isDisplayColumn =false;
+//         }
+//         // this.getSymbolPrice();
+//         // this.basket = data.basket;
+//         // this.dataSource = new MatTableDataSource<PeriodicElement>(this.basket.tickers);
+//       }
+//     })
+//   }
 
-  async getBrokerageAccountPosition(){
-    this.showSpinner= true;
-      this.basketTradeService.getBrokerageAccountPosition('ts','Sreekanth','SIM1213784M').then((data) => {
-        this.showSpinner =false;
-        if(data){
-          this.displayedColumns = ['select', 'symbol', 'purchasedate', 'costcurrent', 'price', 'sharescurrent', 'investedcurrent', 'marketcurrent', 'pl', 'plpercent'];
-          data.Positions.forEach((ele:any)=>{
-            this.symbolInput.push(ele.Symbol);
-            ele.new_cost=null;
-            ele.current_cost=Number(ele.TotalCost)/Number(ele.Quantity);
-            ele.purchase_date=ele.Timestamp
-            ele.ticker_id=ele.Symbol;
-            ele.price = Number(ele.Last);
-            ele.current_market_value = Number(ele.MarketValue);
-            ele.new_market_value = null;
-            ele.current_shares=Number(ele.Quantity);
-            ele.new_shares=null;
-            ele.current_invested = Number(ele.TotalCost);
-            ele.new_invested = null;
-            ele.p_l_amount=0.00;
-            ele.p_l_percent=0.00;
+  // async getBrokerageAccountPosition(){
+  //   this.showSpinner= true;
+  //     this.basketTradeService.getBrokerageAccountPosition('ts','Sreekanth','SIM1213784M').then((data) => {
+  //       this.showSpinner =false;
+  //       if(data){
+  //         this.displayedColumns = ['select', 'symbol', 'purchasedate', 'costcurrent', 'price', 'sharescurrent', 'investedcurrent', 'marketcurrent', 'pl', 'plpercent'];
+  //         data.Positions.forEach((ele:any)=>{
+  //           this.symbolInput.push(ele.Symbol);
+  //           ele.new_cost=null;
+  //           ele.current_cost=Number(ele.TotalCost)/Number(ele.Quantity);
+  //           ele.purchase_date=ele.Timestamp
+  //           ele.ticker_id=ele.Symbol;
+  //           ele.price = Number(ele.Last);
+  //           ele.current_market_value = Number(ele.MarketValue);
+  //           ele.new_market_value = null;
+  //           ele.current_shares=Number(ele.Quantity);
+  //           ele.new_shares=null;
+  //           ele.current_invested = Number(ele.TotalCost);
+  //           ele.new_invested = null;
+  //           ele.p_l_amount=0.00;
+  //           ele.p_l_percent=0.00;
 
-          })
-          this.isPositions=true
-          this.dataSource.data= data.Positions;
-          this.originalData = JSON.parse(JSON.stringify([...data.Positions]));
-          this.setSymbolsForBrokeragePrice(this.symbolInput,true)
-          this.isDisplayColumn =false;
-        }
-      })
-    }
+  //         })
+  //         this.isPositions=true
+  //         this.dataSource.data= data.Positions;
+  //         this.originalData = JSON.parse(JSON.stringify([...data.Positions]));
+  //         this.setSymbolsForBrokeragePrice(this.symbolInput,true)
+  //         this.isDisplayColumn =false;
+  //       }
+  //     })
+  //   }
   cancel(){
     this.form.reset(); // Reset to initial form values
     this.isDisplayColumn = false;
@@ -461,10 +463,10 @@ getColor(price: any) {
       this.showSpinner = true;
       this.brokerageService.getBrokerageAccounts(brokerage,user_id?user_id:this.user_id).then((data) => {
       this.showSpinner=false;
-        if(data.error || !data.success) {
-          this.utilityService.displayInfoMessage(data.error, true)
+        if(data && data.error || !data.success) {
+          this.utilityService.displayInfoMessage('Unable to get accounts', true)
         }
-        else if(data.Accounts) {
+        else if(data && data.Accounts) {
           this.account_balance = data.Accounts[0].BuyingPower;
           this.cash_balance = data.Accounts[0].CashBalance;
           this.accountId = data.Accounts[0].AccountID;

@@ -45,7 +45,7 @@ export class OrdersComponent {
   dataSourceConfirm = new MatTableDataSource<PeriodicElement>(CONFIRMELEMENT_DATA);
   dataSourcePosition = new MatTableDataSource<{}>([])
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  showSpinner:boolean=false;
+  showSpinner:boolean=true;
   user_id:any=null;
   isPosition:boolean=true;
   basketId:number=0;
@@ -75,9 +75,7 @@ loadUserDetails() {
 
 
   async getBrokerageAccountPosition(){
-    this.showSpinner= true;
       this.basketTradeService.getBrokerageAccountPosition('ts',this.user_id,'SIM1213784M').then((data) => {
-        this.showSpinner =false;
         this.isPosition=false;
         if(data&&data.success && data.Positions) {
           this.isPosition=true;
@@ -116,32 +114,32 @@ loadUserDetails() {
     pendingOrders:any=[];
     confirmOrders:any=[];
 
-    getOrderStatus(){
-      this.showSpinner= true;
-      this.pendingOrders=[];
-      this.confirmOrders=[];
-      this.basketTradeService.getOrderStatus('ts',this.user_id,).then((data) => {
-        this.showSpinner =false;
-        if(data && data.success) {
-          data.orders.forEach((ele:any)=>{
-              if(ele.OrderStatus == 'pending'&& ele.Symbol != "N/A"&& ele.Quantity!="N/A"){
-                ele.Quantity = Number(ele.Quantity);
-                ele.CreatedAt = ele.CreatedAt =="N/A"?null: ele.CreatedAt ;
-                this.pendingOrders.push(ele);
-              }else if(ele.OrderStatus == "confirmed"&& ele.Symbol != "N/A"&& ele.Quantity!="N/A"){
-                ele.Quantity = Number(ele.Quantity);
-                ele.UpdatedAt = ele.UpdatedAt =="N/A"?null: ele.UpdatedAt ;
-                this.confirmOrders.push(ele);
-              }
-          })
-          this.dataSourceConfirm =this.confirmOrders;
-          this.dataSource = this.pendingOrders;
-        }
-        // }else{
-        //   this.utilityService.displayInfoMessage(data.error, true)
-        // }
-      })
-    }
+    // getOrderStatus(){
+    //   this.showSpinner= true;
+    //   this.pendingOrders=[];
+    //   this.confirmOrders=[];
+    //   this.basketTradeService.getOrderStatus('ts',this.user_id,).then((data) => {
+    //     this.showSpinner =false;
+    //     if(data && data.success) {
+    //       data.orders.forEach((ele:any)=>{
+    //           if(ele.OrderStatus == 'pending'&& ele.Symbol != "N/A"&& ele.Quantity!="N/A"){
+    //             ele.Quantity = Number(ele.Quantity);
+    //             ele.CreatedAt = ele.CreatedAt =="N/A"?null: ele.CreatedAt ;
+    //             this.pendingOrders.push(ele);
+    //           }else if(ele.OrderStatus == "confirmed"&& ele.Symbol != "N/A"&& ele.Quantity!="N/A"){
+    //             ele.Quantity = Number(ele.Quantity);
+    //             ele.UpdatedAt = ele.UpdatedAt =="N/A"?null: ele.UpdatedAt ;
+    //             this.confirmOrders.push(ele);
+    //           }
+    //       })
+    //       this.dataSourceConfirm =this.confirmOrders;
+    //       this.dataSource = this.pendingOrders;
+    //     }
+    //     // }else{
+    //     //   this.utilityService.displayInfoMessage(data.error, true)
+    //     // }
+    //   })
+    // }
 
     getOrder(){
       this.showSpinner= true;

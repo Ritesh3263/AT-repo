@@ -32,7 +32,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./brokerage.component.scss']
 })
 export class BrokerageComponent implements AfterViewInit{
-  showSpinner: boolean = false;
+  showSpinner: boolean = true;
   isDisableAccounts :boolean=false;
   user_id:any=null;
 
@@ -68,9 +68,7 @@ export class BrokerageComponent implements AfterViewInit{
 
 /***loadUserDetails function is used to get user information  */
   loadUserDetails() {
-    this.showSpinner = true;
     this.userService.getUserDetails().then((user:any) => {
-      this.showSpinner = false;
       this.user_id = user.firstName?user.firstName:null
       this.getBrokerages();
     })
@@ -91,7 +89,7 @@ export class BrokerageComponent implements AfterViewInit{
 
   /***getBrokerageAccount function is used to get  active Accounts related to brokerage*/
   getBrokerageAccount(brokerage:any,user_id:any){
-    this.showSpinner = true;
+    this.showSpinner=true;
     this.brokerageService.getBrokerageAccounts(brokerage,user_id?user_id:this.user_id).then((data) => {
       this.showSpinner=false;
       if(data.error || !data.success) {
