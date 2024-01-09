@@ -25,9 +25,9 @@ export class BrokerageService {
     return headers;
   }
 
-  async getBrokerages(user_id:any): Promise<any> {
+  async getBrokerages(): Promise<any> {
     try{
-      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/brokerage/${user_id}/brokerages`, this.getHeaders())
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/brokerage/brokerages`, this.getHeaders())
       let data = await res.json();
       return data;
     }
@@ -37,10 +37,10 @@ export class BrokerageService {
     }
   }
 
-  async getBrokerageAccounts(brokerage:any,user_id:any): Promise<any> {
+  async getBrokerageAccounts(brokerage:any): Promise<any> {
     try{
 
-      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/brokerage/${brokerage}/user/${user_id}/accounts`, this.getHeaders());
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/brokerage/${brokerage}/accounts`, this.getHeaders());
       let data = await res.json();
       return data;
     }
@@ -78,9 +78,9 @@ export class BrokerageService {
       return {error: e.message}
     }
   }
-  async getSync(broker_id:any,user_id:any){
+  async getSync(broker_id:any){
     try{
-        let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/brokerage/${broker_id}/user/${user_id}/sync`, this.getHeaders());
+        let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/brokerage/${broker_id}/sync`, this.getHeaders());
         let data = await res.json();
         return data;
       }

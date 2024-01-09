@@ -85,7 +85,7 @@ export class ConfirmTradeComponent implements OnInit, OnDestroy {
         this.investedAmount = this.investedAmount + element.new_invested;
         this.netInvestedAmount = this.netInvestedAmount + element.new_invested
         this.avalibleCashBalance = this.data.cash_balance - this.investedAmount
-        this.inputForSymbolPrice.push(element.ticker_id)
+        this.inputForSymbolPrice.push(element.symbol)
       });
     }
     /** set symbols for price */
@@ -117,7 +117,7 @@ loadUserDetails() {
           TradeAction: "BUY",
           BucketId:null
         } 
-        object.Symbol = this.data.symbols[i].ticker_id;
+        object.Symbol = this.data.symbols[i].symbol;
         object.Quantity = JSON.stringify(this.data.symbols[i].new_shares);
         object.BucketId =  this.data.basket_id;
         input.Orders.push(object);
@@ -154,7 +154,7 @@ loadUserDetails() {
       let priceData = JSON.parse(message)[0];
       if(priceData && !priceData.Error ){
         this.data.symbols.forEach((ele: any) => {
-          if (ele.ticker_id == priceData.Symbol && priceData.Close) {
+          if (ele.symbol == priceData.Symbol && priceData.Close) {
             ele.price = priceData.Close
           }
         })
@@ -176,7 +176,7 @@ loadUserDetails() {
   getColor(price: any) {
     let a = null
     for (let i = 0; i < this.originalData.length; i++) {
-      if (this.originalData[i].ticker_id == price.ticker_id && this.originalData[i].price != price.price) {
+      if (this.originalData[i].symbol == price.symbol && this.originalData[i].price != price.price) {
     return "lightgreen"
       }
     }

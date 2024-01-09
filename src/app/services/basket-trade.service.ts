@@ -25,9 +25,9 @@ export class BasketTradeService {
     return headers;
   }
 
-  async getBrokerageAccountPosition(broker_id:any,user_id:any,account_id:any){
+  async getBrokerageAccountPosition(broker_id:any,account_id:any){
     try{
-      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/brokerage/${broker_id}/user/${user_id}/positions/${account_id}`, this.getHeaders());
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/brokerage/${broker_id}/positions/${account_id}`, this.getHeaders());
         let data = await res.json();
         return data;
       }
@@ -63,7 +63,7 @@ export class BasketTradeService {
 
   async setOrders(input: any,user_id:any,broker_id:any): Promise<any> {
     try{
-      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/brokerage/${broker_id}/user/${user_id}/orders`,  this.getHeaders('POST', input));
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/brokerage/${broker_id}/orders`,  this.getHeaders('POST', input));
       let data = await res.json();
       return data;
     }
@@ -101,7 +101,7 @@ export class BasketTradeService {
 
   async getOrderStatus(broker_id:any,user_id:any){
     try{
-        let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/brokerage/${broker_id}/user/${user_id}/orders`, this.getHeaders());
+        let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/brokerage/${broker_id}/orders`, this.getHeaders());
         let data = await res.json();
         return data;
       }
@@ -110,9 +110,9 @@ export class BasketTradeService {
       }
   }
 
-  async getOrderByBasketId(broker_id:any,user_id:any,basket_id:any){
+  async getOrderByBasketId(broker_id:any,basket_id:any){
     try{
-        let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/brokerage/${broker_id}/user/${user_id}/orders/basket/${basket_id}`, this.getHeaders());
+        let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/brokerage/${broker_id}/orders/basket/${basket_id}`, this.getHeaders());
         let data = await res.json();
         return data;
       }

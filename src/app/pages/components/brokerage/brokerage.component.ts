@@ -78,19 +78,19 @@ export class BrokerageComponent implements AfterViewInit{
   /***getBrokerages function is used to get  active brokerages*/
   getBrokerages(){
     this.showSpinner = true;
-    this.brokerageService.getBrokerages(this.user_id).then((data) => {
+    this.brokerageService.getBrokerages().then((data) => {
       this.showSpinner = false;
       if(data && data.success) {
         this.activeBrokerages= data.brokerages;
-        this.getBrokerageAccount(this.activeBrokerages[0].active_brokerage_key,this.user_id)
+        this.getBrokerageAccount(this.activeBrokerages[0].active_brokerage_key)
       }
     })
   }
 
   /***getBrokerageAccount function is used to get  active Accounts related to brokerage*/
-  getBrokerageAccount(brokerage:any,user_id:any){
+  getBrokerageAccount(brokerage:any){
     this.showSpinner=true;
-    this.brokerageService.getBrokerageAccounts(brokerage,user_id?user_id:this.user_id).then((data) => {
+    this.brokerageService.getBrokerageAccounts(brokerage).then((data) => {
       this.showSpinner=false;
       if(data.error || !data.success) {
         this.utilityService.displayInfoMessage(data.error, true)
@@ -147,7 +147,7 @@ export class BrokerageComponent implements AfterViewInit{
       this.showSpinner=false;
       if(data && data.success){
         this.isDisableAccounts = true;
-        this.getBrokerageAccount(data.active_brokerage_key,data.current_user)
+        this.getBrokerageAccount(data.active_brokerage_key)
       }
     })
   }

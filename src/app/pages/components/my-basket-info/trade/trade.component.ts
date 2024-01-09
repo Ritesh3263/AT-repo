@@ -79,7 +79,8 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
   basketId:number=0;
    ngAfterViewInit(id = null) {
     this.basketId = id || this.parentComponent.getBasketId();
-    this.loadUserDetails();
+    // this.loadUserDetails();
+    this.getBrokerageAccount('ts');
     this.getBasketSymbols();
     this.dataSource.paginator = this.paginator;
     this.webSocketService.connect('ws/intrinio').then((data)=>{})
@@ -443,9 +444,9 @@ getColor(price: any) {
   }
 
     /***getBrokerageAccount function is used to get  active Accounts related to brokerage*/
-    getBrokerageAccount(brokerage:any,user_id:any){
+    getBrokerageAccount(brokerage:any){
       this.showSpinner = true;
-      this.brokerageService.getBrokerageAccounts(brokerage,user_id?user_id:this.user_id).then((data) => {
+      this.brokerageService.getBrokerageAccounts(brokerage).then((data) => {
       this.showSpinner=false;
         if(data && data.error || !data.success) {
           this.utilityService.displayInfoMessage('Unable to get accounts', true)
@@ -466,7 +467,6 @@ getColor(price: any) {
     this.userService.getUserDetails().then((user:any) => {
       this.showSpinner = false;
       this.user_id = user.firstName?user.firstName:null
-      this.getBrokerageAccount('ts',null);
     })
   }
 }

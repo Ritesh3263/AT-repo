@@ -49,8 +49,8 @@
                 <mat-form-field appearance="outline" fxFlex="25" fxFlex.sm="50" fxFlex.xs="100">
                     <mat-label>Select Brokerage</mat-label>
                     <mat-select [(value)]="selectedOption" [formControl]="brokerage_type">
-                        <mat-option value="ts" (click)="getBrokerageAccount('ts',null)">Tradestation</mat-option>
-                        <mat-option value="ib" (click)="getBrokerageAccount('ib',null)">Interactive Brokers</mat-option>
+                        <mat-option value="ts" (click)="getBrokerageAccount('ts')">Tradestation</mat-option>
+                        <mat-option value="ib" (click)="getBrokerageAccount('ib')">Interactive Brokers</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>

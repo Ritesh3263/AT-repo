@@ -8,18 +8,18 @@ import { Observable, Subject } from 'rxjs';
 })
 export class WebsocketService {
 
-  private socket: WebSocket
+  private socket: any
   private messageSubject = new Subject<string>();
   
 
   constructor() {
-    this.socket = new WebSocket('ws:34.228.194.95:8765/ws');
+    // this.socket = new WebSocket('ws:34.228.194.95:8765/ws');
   }
 
   //receiveMessages function is used for receiving messages continues 
   receiveMessages() {
     return new Promise((res) => {
-      this.socket.addEventListener('message', (event) => {
+      this.socket.addEventListener('message', (event:any) => {
         const message = event.data;
         this.messageSubject.next(message);
         res(message)
@@ -45,7 +45,7 @@ export class WebsocketService {
   connect(brokerage:any) {
     return new Promise((res) => {
       this.socket = new WebSocket('ws:34.228.194.95:8765/'+brokerage);
-      this.socket.addEventListener('open', (event) => {
+      this.socket.addEventListener('open', (event:any) => {
         res(event)
       });
     })

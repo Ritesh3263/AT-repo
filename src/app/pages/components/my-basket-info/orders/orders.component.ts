@@ -55,7 +55,8 @@ export class OrdersComponent {
   ngAfterViewInit(id=null) {
     this.dataSource.paginator = this.paginator;
     // this.getAccountBasketPosition();
-    this.loadUserDetails();
+    this.getBrokerageAccountPosition();
+    this.getOrder();
     this.basketId = id || this.parentComponent.getBasketId();
 
   }
@@ -66,16 +67,14 @@ loadUserDetails() {
   this.userService.getUserDetails().then((user:any) => {
     this.showSpinner = false;
     this.user_id = user.firstName?user.firstName:null
-    this.getBrokerageAccountPosition();
     // this.getOrderStatus();
-    this.getOrder();
   })
 }
 
 
 
   async getBrokerageAccountPosition(){
-      this.basketTradeService.getBrokerageAccountPosition('ts',this.user_id,'SIM1213784M').then((data) => {
+      this.basketTradeService.getBrokerageAccountPosition('ts','SIM1213784M').then((data) => {
         this.isPosition=false;
         if(data&&data.success && data.Positions) {
           this.isPosition=true;
@@ -145,7 +144,7 @@ loadUserDetails() {
       this.showSpinner= true;
       this.pendingOrders=[];
       this.confirmOrders=[];
-      this.basketTradeService.getOrderByBasketId('ts',this.user_id,this.basketId).then((data) => {
+      this.basketTradeService.getOrderByBasketId('ts',this.basketId).then((data) => {
         this.showSpinner =false;
         if(data && data.success) {
           data.orders.forEach((ele:any)=>{

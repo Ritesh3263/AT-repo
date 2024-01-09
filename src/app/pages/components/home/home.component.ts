@@ -15,10 +15,10 @@ constructor(private basketTradeService:BasketTradeService,private location:Locat
  this.state = this.location.getState();
  if(this.state && this.state.user){
   /***getBrokerages service is used to get brokerage types related to user*/
-  this.brokerageService.getBrokerages(this.state.user.firstName).then((data: any) => {
+  this.brokerageService.getBrokerages().then((data: any) => {
     if(data.success && data.brokerages){
         /***getSync service is used for sync position,accounts and orders*/
-    this.brokerageService.getSync(data.brokerages[0].active_brokerage_key,this.state.user.firstName).then((data: any) => {}); //  (TODO--Multiple brokerage handling) 
+    this.brokerageService.getSync(data.brokerages[0].active_brokerage_key).then((data: any) => {}); //  (TODO--Multiple brokerage handling) 
     }
   })
 }
