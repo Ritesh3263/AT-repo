@@ -53,11 +53,10 @@ export class OrdersComponent {
   constructor(public dialog: MatDialog,private basketTradeService :BasketTradeService,private userService: UserService,private utilityService: UtilitiesService,@Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent) {}
 
   ngAfterViewInit(id=null) {
-    this.dataSource.paginator = this.paginator;
-    // this.getAccountBasketPosition();
+    this.dataSource.paginator = this.paginator; 
+    this.basketId = id || this.parentComponent.getBasketId();
     this.getBrokerageAccountPosition();
     this.getOrder();
-    this.basketId = id || this.parentComponent.getBasketId();
 
   }
 
@@ -74,7 +73,7 @@ loadUserDetails() {
 
 
   async getBrokerageAccountPosition(){
-      this.basketTradeService.getBrokerageAccountPosition('ts','SIM1213784M').then((data) => {
+      this.basketTradeService.getBrokerageAccountPosition('ts','SIM2568116M').then((data) => {
         this.isPosition=false;
         if(data&&data.success && data.Positions) {
           this.isPosition=true;

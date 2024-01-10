@@ -61,7 +61,7 @@ export class BasketTradeService {
   }
 
 
-  async setOrders(input: any,user_id:any,broker_id:any): Promise<any> {
+  async setOrders(input: any,broker_id:any): Promise<any> {
     try{
       let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/brokerage/${broker_id}/orders`,  this.getHeaders('POST', input));
       let data = await res.json();

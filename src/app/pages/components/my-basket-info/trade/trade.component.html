@@ -171,7 +171,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="shares">
-                    <th mat-header-cell *matHeaderCellDef  [ngStyle]="isDisplayColumn?{'display': 'center','text-align':'right'}:{'display': 'none'}" > Old </th>
+                    <th mat-header-cell *matHeaderCellDef  [ngStyle]="isDisplayColumn?{'display': 'center','text-align':'right'}:{'display': 'none'}" > Current </th>
                     <td mat-cell *matCellDef="let element" class="right-align-cell" >
                         {{ element.shares  }}
                     </td>
@@ -191,7 +191,7 @@
                 </ng-container> 
 
                 <ng-container matColumnDef="invested">
-                    <th mat-header-cell *matHeaderCellDef [ngStyle]="isDisplayColumn?{'display': 'center','text-align':'right'}:{'display': 'none'}" > Old </th>
+                    <th mat-header-cell *matHeaderCellDef [ngStyle]="isDisplayColumn?{'display': 'center','text-align':'right'}:{'display': 'none'}" > Current </th>
                     <td mat-cell *matCellDef="let element" class="right-align-cell"> 
                         {{ element.invested | currency:'USD':'symbol':'1.2-2' }}
                     </td>

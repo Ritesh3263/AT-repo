@@ -76,7 +76,7 @@ export class ConfirmTradeComponent implements OnInit, OnDestroy {
 
   constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<ConfirmTradeComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private basketTradeService: BasketTradeService, private matSnackBar: MatSnackBar, private webSocketService: WebsocketService,private userService: UserService,private utilityService: UtilitiesService) {
-
+      console.log(this.data)
       this.loadUserDetails();
       if (this.data && this.data.symbols) {
       this.originalData = JSON.parse(JSON.stringify([...this.data.symbols]));
@@ -107,29 +107,31 @@ loadUserDetails() {
 }
   confirmOrder() {
     if (this.data && this.data.symbols) {
-      let input: { Type: string, Orders: object[],BucketId:string } = { "Type": "NORMAL", Orders: [], "BucketId":this.data.basket_id,};
+      let input: { Type: string, Orders: object[],BasketId:string,TransactionId:string } = { "Type": "NORMAL", Orders: [],BasketId:this.data.basket_id,TransactionId:'null'};
       for (let i = 0; i < this.data.symbols.length; i++) {
         let object = {
-          AccountID: "SIM1213784M",
-          Symbol: "null",
-          Quantity: "null",
+          AccountID: this.data.account_id,
+          Symbol: 'null',
+          RequestQty: 'null',
           OrderType: "Market",
-          TradeAction: "BUY",
-          BucketId:null
+          TransactionType:'null',
+          BasketId:'null',
+          PriceAtRequest:'null'
         } 
         object.Symbol = this.data.symbols[i].symbol;
-        object.Quantity = JSON.stringify(this.data.symbols[i].new_shares);
-        object.BucketId =  this.data.basket_id;
+        object.RequestQty = this.data.symbols[i].transaction_type == 'SELL'?JSON.stringify(-1*this.data.symbols[i].new_shares):JSON.stringify(this.data.symbols[i].new_shares);
+        object.TransactionType = this.data.symbols[i].transaction_type
+        object.BasketId =  this.data.basket_id;
+        object.PriceAtRequest = JSON.stringify(this.data.symbols[i].price);
         input.Orders.push(object);
       }
       /**
        * if symbols length is 1 the single order submit 
        * else bulkOrder submits
        */
-
-      this.showSpinner = true;
+      // this.showSpinner = true;
     
-      this.basketTradeService.setOrders(input, this.user_id, 'ts').then((data) => {
+      this.basketTradeService.setOrders(input, 'ts').then((data) => {
         this.showSpinner = false;
         if (data && data.msg) {
           this.dialogRef.close(true);

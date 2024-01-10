@@ -20,6 +20,7 @@ export interface PeriodicElement {
   shares: number;
   new_shares:number;
   price: number,
+  transaction_type:string,
   invested: number,
   new_invested:number
 }
@@ -55,7 +56,7 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
   account_balance :any = 0.00;
   invested:any=0.00;
   market_value:any = 0.00;
-  accountId:any = null;
+  account_id:any = null;
   length = 0;
   pageSize = 10;
   pageIndex = 0;
@@ -112,7 +113,6 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
       this.selection.clear();
       return;
     }
-
     this.selection.select(...this.dataSource.data);
   }
 
@@ -137,9 +137,10 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
   confirmTrade() {
     this.webSocketService.closeConnection();
     let inputModelPopup={
-     account_balance:this.cash_balance+this.market_value,
-     cash_balance : this.cash_balance,
+     account_balance:this.account_balance,
+     cash_balance :this.cash_balance,
      basket_id : this.basketId,
+     account_id : this.account_id,
      symbols :this.selection.selected
     }
     const dialogRef = this.dialog.open(ConfirmTradeComponent, {
@@ -149,6 +150,7 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
     });
     dialogRef.afterClosed().subscribe((result:any) => {
       if(result){
+        this.form.reset(); // Reset to initial form values
         this.getBasketSymbols();
         this.webSocketService.connect('ws/intrinio').then((data)=>{})
       }
@@ -158,7 +160,12 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
   calculateDialog() {
     this.isDisplayColumn = true;
       this.displayedColumns = ['select', 'symbol', 'price', 'shares','new_shares', 'invested','new_invested'];
-
+      var selectedData = this.selection.selected;
+      this.selection.selected.forEach((element:any) => {
+      if(element.new_shares == 0){
+        this.unselectRow(element)
+      }
+      });
     // this.dialog.open(CalculateDialogComponent, {
     //   panelClass: 'custom-modal',
     //   disableClose: true
@@ -276,33 +283,29 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
                   this.form.controls['amount'].setValue(Number(Amount));
                   let total = this.form.controls['investmentType'].value == 'Equal Distribution' ? this.form.controls['amount'].value / selectedPosition.length : this.form.controls['amount'].value;
                   selectedPosition[i].new_shares = ~~(total / selectedPosition[i].price);
-
+                  selectedPosition[i].transaction_type = 'BUY';
                   if (selectedPosition[i].new_shares != 0) {
                       selectedPosition[i].new_invested = Number((selectedPosition[i].new_shares * selectedPosition[i].price).toFixed(3));
-                      // selectedPosition[i].new_market_value = Number((selectedPosition[i].new_shares * selectedPosition[i].price).toFixed(3))
-                      // selectedPosition[i].new_cost = Number((((selectedPosition[i].current_invested + Number(selectedPosition[i].new_invested)) / (selectedPosition[i].new_shares + selectedPosition[i].current_shares)) - selectedPosition[i].current_cost).toFixed(3));
+                  }else {
+                    selectedPosition[i].new_invested =0;
+                    this.unselectRow(selectedPosition[i])
                   }
               }
               else {
-              //     for(let i=0;i<selectedPosition.length;i++){
-              //     selectedPosition[i].shares = selectedPosition[i].current_shares == 0 ? 0 : ~~((selectedPosition[i].current_shares * percent) / 100);
-              //     selectedPosition[i].new_invested = Number((selectedPosition[i].new_shares * selectedPosition[i].price).toFixed(3));
-              //     selectedPosition[i].new_market_value = Number((selectedPosition[i].new_shares * selectedPosition[i].price).toFixed(3));
-              //     totalAmount = totalAmount + Number(selectedPosition[i].new_shares * selectedPosition[i].price);
-              //     if (selectedPosition.length - 1 == i) {
-              //         this.form.controls['amount'].setValue(totalAmount.toFixed(3))
-              //     }
-              //     if (this.form.controls['investmentType'].value == 'Scale Down' && selectedPosition[i].current_shares != 0 && selectedPosition[i].new_shares != 0) {
-              //           selectedPosition[i].new_cost = Number(((selectedPosition[i].current_shares - selectedPosition[i].new_shares) <= 0 ? (selectedPosition[i].price - selectedPosition[i].current_cost) : ((selectedPosition[i].current_invested - selectedPosition[i].new_invested) / (selectedPosition[i].current_shares - selectedPosition[i].new_shares)) - selectedPosition[i].current_cost).toFixed(3));
-              //         selectedPosition[i].new_shares = -1 *  selectedPosition[i].new_shares;
-              //         selectedPosition[i].new_invested = -1 *  selectedPosition[i].new_invested;
-              //         selectedPosition[i].new_market_value = -1 * selectedPosition[i].new_market_value;
-              //     } else if (this.form.controls['investmentType'].value == 'Scale Up' && selectedPosition[i].new_shares != 0) {
-              //        selectedPosition[i].new_cost =Number((((selectedPosition[i].current_invested + selectedPosition[i].new_invested) / (selectedPosition[i].current_shares + selectedPosition[i].new_shares)) - selectedPosition[i].current_cost).toFixed(3));
-              //     }
+                  selectedPosition[i].new_shares = selectedPosition[i].shares == 0 ? 0 : ~~((selectedPosition[i].shares * percent) / 100);
+                  selectedPosition[i].new_invested =selectedPosition[i].new_shares ==0 ?0: Number((selectedPosition[i].new_shares * selectedPosition[i].price).toFixed(2));
+                  totalAmount = totalAmount + (selectedPosition[i].new_shares ==0 ?0:Number(selectedPosition[i].new_shares * selectedPosition[i].price));
+                  if (selectedPosition.length - 1 == i) {
+                      this.form.controls['amount'].setValue(totalAmount.toFixed(3))
+                  }
+                  selectedPosition[i].transaction_type = 'BUY';
 
-
-              // }
+                  if (this.form.controls['investmentType'].value == 'Scale Down' && selectedPosition[i].new_shares != 0) {
+                      selectedPosition[i].transaction_type = 'SELL';
+                      selectedPosition[i].new_shares = -1 *  selectedPosition[i].new_shares;
+                      selectedPosition[i].new_invested = -1 *  selectedPosition[i].new_invested;
+                  }
+              
           }
         }
       } else {
@@ -334,31 +337,29 @@ onChangeAmount(amount:any){
               }
               let total = this.form.controls['investmentType'].value == 'Equal Distribution' ? this.form.controls['amount'].value / selectedTickers.length : this.form.controls['amount'].value;
               selectedTickers[i].new_shares = ~~(total / selectedTickers[i].price);
+              selectedTickers[i].transaction_type = 'BUY';
               if (selectedTickers[i].new_shares != 0) {
                   selectedTickers[i].new_invested = Number((selectedTickers[i].new_shares * selectedTickers[i].price).toFixed(3));
                   // selectedTickers[i].new_market_value = Number((selectedTickers[i].new_shares * selectedTickers[i].price).toFixed(3));
                   // selectedTickers[i].new_cost = Number((((selectedTickers[i].current_invested + Number(selectedTickers[i].new_invested)) / (selectedTickers[i].new_shares + selectedTickers[i].current_shares)) - selectedTickers[i].current_cost).toFixed(3));
+                }else {
+                  this.unselectRow(selectedTickers[i])
                 }
             
           }
           else {
-              // let percent = Number(((amount * 100) / mValue).toFixed(2));
-              // selectedTickers[i].new_shares = selectedTickers[i].current_shares == 0 ? 0 : ~~((selectedTickers[i].current_shares * percent) / 100);
-              // selectedTickers[i].new_invested = Number((selectedTickers[i].new_shares * selectedTickers[i].price).toFixed(3));
-              // selectedTickers[i].new_market_value = Number((selectedTickers[i].new_shares * selectedTickers[i].price).toFixed(3));
-              // if (selectedTickers.length - 1 == i) {
-              //     this.form.controls['percent'].setValue(percent)
-              // }
-              // if (this.form.controls['investmentType'].value == 'Scale Down' && selectedTickers[i].current_shares != 0 && selectedTickers[i].new_shares != 0) {
-              //     selectedTickers[i].new_cost = Number(((selectedTickers[i].current_shares - selectedTickers[i].new_shares) <= 0 ? (selectedTickers[i].price - selectedTickers[i].current_cost) : ((selectedTickers[i].current_invested - selectedTickers[i].new_invested) / (selectedTickers[i].current_shares - selectedTickers[i].new_shares)) - selectedTickers[i].current_cost).toFixed(3));
-              //     selectedTickers[i].new_shares = -1 *  selectedTickers[i].new_shares;
-              //     selectedTickers[i].new_invested = -1 *  selectedTickers[i].new_invested;
-              //     selectedTickers[i].new_market_value = -1 * selectedTickers[i].new_market_value;
-              // } else if (this.form.controls['investmentType'].value == 'Scale up' && selectedTickers[i].new_shares != 0) {
-              //     selectedTickers[i].new_cost = Number((((selectedTickers[i].current_invested + selectedTickers[i].new_invested) / (selectedTickers[i].current_shares + selectedTickers[i].new_shares)) - selectedTickers[i].current_cost).toFixed(3));
-              //     // selectedTickers[i].transaction_type = 'Buy';
-                  
-              // } 
+              let percent = Number(((amount * 100) / mValue).toFixed(2));
+              selectedTickers[i].new_shares = selectedTickers[i].shares == 0 ? 0 : ~~((selectedTickers[i].shares * percent) / 100);
+              selectedTickers[i].new_invested = Number((selectedTickers[i].new_shares * selectedTickers[i].price).toFixed(3));
+              selectedTickers[i].transaction_type = 'BUY';
+              if (selectedTickers.length - 1 == i) {
+                  this.form.controls['percent'].setValue(percent)
+              }
+              if (this.form.controls['investmentType'].value == 'Scale Down' && selectedTickers[i].shares != 0 && selectedTickers[i].new_shares != 0) {
+                selectedTickers[i].transaction_type = 'SELL';  
+                selectedTickers[i].new_shares = -1 *  selectedTickers[i].new_shares;
+                  selectedTickers[i].new_invested = -1 *  selectedTickers[i].new_invested;
+              } 
           }
       }
 
@@ -369,17 +370,21 @@ onChangeAmount(amount:any){
 }
 
 closeAllPositions(){
-//   this.calculateDialog();
-//  var selectedPosition = this.selection.selected;
-//  for(let i =0;i<selectedPosition.length;i++){
-//   selectedPosition[i].new_shares = -1 * selectedPosition[i].current_shares
-//   selectedPosition[i].new_invested =-1 * Number((selectedPosition[i].current_shares * selectedPosition[i].price).toFixed(3))
-//   selectedPosition[i].new_market_value = -1 *Number((selectedPosition[i].current_shares * selectedPosition[i].price).toFixed(3))
-//   selectedPosition[i].new_cost = Number((selectedPosition[i].price - selectedPosition[i].current_cost).toFixed(3));
-
-//  }
-
-
+  this.calculateDialog();
+ var selectedPosition = this.selection.selected;
+ if(selectedPosition.length>0){
+  for(let i =0;i<selectedPosition.length;i++){
+    if(selectedPosition[i].shares != 0){
+    selectedPosition[i].transaction_type = 'SELL';  
+    selectedPosition[i].new_shares = -1 * selectedPosition[i].shares
+    selectedPosition[i].new_invested =-1 * Number((selectedPosition[i].shares * selectedPosition[i].price).toFixed(3))
+    }else {
+      if(this.isRowSelected(selectedPosition[i])){
+        this.unselectRow(selectedPosition[i])
+      }
+    }
+   }
+ }
 }
 
 getSymbolPrice(){
@@ -413,25 +418,46 @@ getColor(price: any) {
   }
 
 
-  getBasketSymbols(resetPage = false) {
+  async getBasketSymbols(resetPage = false) {
     if(resetPage) {
       this.pageIndex = 0;
       this.length = 0;
     }
+    var positions = await this.getActivePositionsByBasketId();
     this.basketService.getSymbols(this.basketId, this.pageIndex, this.pageSize,null,null).then((data) => {
       if(data.error || !data.symbols) {
         this.utilityService.displayInfoMessage(data.error, true)
       }
       else {
           this.displayedColumns = ['select', 'symbol', 'price', 'shares', 'invested'];
-          data.symbols.forEach((ele:any)=>{
-            this.symbolInput.push(ele.symbol);
-            ele.price = Number(ele.price);
-            ele.shares=0;
-            ele.new_shares=null;
-            ele.invested = 0;
-            ele.new_invested = null;
-          })
+          if(positions.success && !positions.message){
+            data.symbols.forEach((ele:any)=>{
+              this.symbolInput.push(ele.symbol);
+              ele.price = Number(ele.price);
+              ele.new_shares=null;
+              ele.shares=0;
+              ele.transactionType = null
+              ele.invested = ele.shares*ele.price;
+              ele.new_invested = null;
+              positions.orders.forEach((elePosition:any)=>{
+                if(elePosition.symbol === ele.symbol){
+                  ele.shares=elePosition.position;
+                }
+              })
+           
+            })
+          }else{
+            data.symbols.forEach((ele:any)=>{
+              this.symbolInput.push(ele.symbol);
+              ele.price = Number(ele.price);
+              ele.shares=0;
+              ele.new_shares=null;
+              ele.transactionType = null
+              ele.invested =  ele.shares*ele.price;;
+              ele.new_invested = null;
+            })
+          }
+
           this.isPositions=true
           this.symbols = data.symbols
           this.dataSource = new MatTableDataSource<any>(data.symbols);
@@ -452,10 +478,10 @@ getColor(price: any) {
           this.utilityService.displayInfoMessage('Unable to get accounts', true)
         }
         else if(data && data.Accounts) {
-          this.account_balance = data.Accounts[0].BuyingPower;
-          this.cash_balance = data.Accounts[0].CashBalance;
-          this.accountId = data.Accounts[0].AccountID;
-          this.market_value = data.Accounts[0].MarketValue;
+          this.account_balance = data.Accounts[3].BuyingPower;
+          this.cash_balance = data.Accounts[3].CashBalance;
+          this.account_id = data.Accounts[3].AccountID;
+          this.market_value = data.Accounts[3].MarketValue;
 
         }
         
@@ -469,6 +495,26 @@ getColor(price: any) {
       this.user_id = user.firstName?user.firstName:null
     })
   }
+
+
+
+
+  async getActivePositionsByBasketId(){
+    try {
+     var oupPut = await this.basketTradeService.getActivePositionsByBasketId(this.basketId)
+      return oupPut.orders.message?{success:false}:oupPut;
+    }catch(err){
+      return {success:false}
+    }
+  }
+
+  isRowSelected(row: any): boolean {
+    return this.selection.isSelected(row);
+  }
+  unselectRow(row: any): void {
+    this.selection.deselect(row);
+  }
+  
 }
 
 
