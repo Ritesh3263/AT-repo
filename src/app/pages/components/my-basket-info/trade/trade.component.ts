@@ -22,6 +22,7 @@ export interface PeriodicElement {
   price: number,
   transaction_type:string,
   invested: number,
+  reBalance:number
   new_invested:number
 }
 
@@ -58,12 +59,13 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
   market_value:any = 0.00;
   account_id:any = null;
   length = 0;
-  pageSize = 10;
+  pageSize = 0;
   pageIndex = 0;
   dataSource = new MatTableDataSource<PeriodicElement>([]);
   selection = new SelectionModel<PeriodicElement>(true, []);
   isDisplayColumn:boolean=true;
   symbols: any =[]
+  isReBalance :boolean =false;
 
   constructor(private fb: FormBuilder,private renderer: Renderer2, public dialog: MatDialog,private basketTradeService :BasketTradeService,private webSocketService: WebsocketService,private basketService:BasketsService,@Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, private utilityService: UtilitiesService,private brokerageService:BrokerageService,private userService:UserService) {
     // this.getAccountBasketPosition();
@@ -82,7 +84,8 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
     this.basketId = id || this.parentComponent.getBasketId();
     // this.loadUserDetails();
     this.getBrokerageAccount('ts');
-    this.getBasketSymbols();
+    // this.getBasketSymbols();
+    this.getSymbolsAlongWithPosition();
     this.dataSource.paginator = this.paginator;
     this.webSocketService.connect('ws/intrinio').then((data)=>{})
     this.webSocketService.receiveMessages().then((data)=>{})
@@ -136,19 +139,22 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
 
   confirmTrade() {
     this.webSocketService.closeConnection();
+     let inputArray = this.selection.selected.filter(element => element.new_shares !== null);
     let inputModelPopup={
      account_balance:this.account_balance,
      cash_balance :this.cash_balance,
      basket_id : this.basketId,
      account_id : this.account_id,
-     symbols :this.selection.selected
+     symbols :inputArray
     }
+
     const dialogRef = this.dialog.open(ConfirmTradeComponent, {
       panelClass: 'custom-modal',
       disableClose: true,
       data:inputModelPopup
     });
     dialogRef.afterClosed().subscribe((result:any) => {
+      this.isReBalance = false;
       if(result){
         this.form.reset(); // Reset to initial form values
         this.getBasketSymbols();
@@ -227,8 +233,13 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
   //     })
   //   }
   cancel(){
+    this.symbols.forEach((ele:any)=>{
+      ele.new_shares = null
+      ele.new_invested = null
+    })
     this.form.reset(); // Reset to initial form values
     this.isDisplayColumn = false;
+    this.isReBalance = false;
     this.displayedColumns = ['select', 'symbol', 'price', 'shares', 'invested'];
     this.dataSource = new MatTableDataSource<any>(this.symbols);
     this.selection = new SelectionModel<any>(this.symbols, []);          
@@ -278,6 +289,7 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
           var selectedPosition = this.selection.selected;
           let totalAmount = 0;
           for (let i = 0; i < selectedPosition.length; i++) {
+            if(!this.isReBalance || (this.isReBalance && selectedPosition[i].reBalance !=2) ){
               if ((this.form.controls['investmentType'].value == 'Equal Distribution') || (this.form.controls['investmentType'].value == 'Investment Per stock')) {
                   let Amount = ((percent * this.cash_balance) / 100).toFixed(3);
                   this.form.controls['amount'].setValue(Number(Amount));
@@ -308,6 +320,7 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
               
           }
         }
+        }
       } else {
           this.form.controls['amount'].setValue(0);
 
@@ -330,6 +343,7 @@ onChangeAmount(amount:any){
       }, 0);
 
       for (let i = 0; i < selectedTickers.length; i++) {
+        if(!this.isReBalance || (this.isReBalance && selectedTickers[i].reBalance !=2) ){
           if ((this.form.controls['investmentType'].value == 'Equal Distribution') || (this.form.controls['investmentType'].value == 'Investment Per stock')) {
               if (selectedTickers.length - 1 == i) {
                   let percent = ((amount / this.cash_balance) * 100).toFixed(2);
@@ -362,7 +376,7 @@ onChangeAmount(amount:any){
               } 
           }
       }
-
+    }
   } else {
       this.form.controls['percent'].setValue(0);
 
@@ -437,14 +451,13 @@ getColor(price: any) {
               ele.new_shares=null;
               ele.shares=0;
               ele.transactionType = null
-              ele.invested = ele.shares*ele.price;
               ele.new_invested = null;
               positions.orders.forEach((elePosition:any)=>{
                 if(elePosition.symbol === ele.symbol){
                   ele.shares=elePosition.position;
                 }
               })
-           
+              ele.invested = ele.shares*ele.price;
             })
           }else{
             data.symbols.forEach((ele:any)=>{
@@ -513,6 +526,48 @@ getColor(price: any) {
   }
   unselectRow(row: any): void {
     this.selection.deselect(row);
+  }
+  /***getBrokerageAccount function is used to get  active Accounts related to brokerage*/
+  getSymbolsAlongWithPosition(){
+    this.showSpinner = true;
+    this.basketTradeService.getSymbolsAlongWithPosition(this.basketId).then((data) => {
+    this.showSpinner=false;
+    // console.log("sbibskjksb",data)
+      if(data && data.error || !data.success) {
+        this.utilityService.displayInfoMessage('Unable to get accounts', true)
+      }
+      else if(data && data.success) {
+       console.log("data",data)
+        this.isPositions=true;
+        this.symbols = data.symbols;
+        this.dataSource = new MatTableDataSource<any>(data.symbols);
+        this.selection = new SelectionModel<any>(data.symbols, []);          
+        this.originalData = JSON.parse(JSON.stringify([...data.symbols]));
+        this.symbolInput.length>0?this.setSymbolsForBrokeragePrice(this.symbolInput,true):null
+        this.isDisplayColumn =false;
+      }
+      
+    })
+  }
+
+  reBalance(){
+    this.isReBalance = true;
+    this.calculateDialog();
+    this.form.controls['investmentType'].setValue("Investment Per stock");
+    var selectedPosition = this.selection.selected;
+    if(selectedPosition.length>0){
+     for(let i =0;i<selectedPosition.length;i++){
+       if(selectedPosition[i].shares != 0 && selectedPosition[i].reBalance == 2 ){
+       selectedPosition[i].transaction_type = 'SELL';  
+       selectedPosition[i].new_shares = -1 * selectedPosition[i].shares
+       selectedPosition[i].new_invested =-1 * Number((selectedPosition[i].shares * selectedPosition[i].price).toFixed(3))
+       }else if(selectedPosition[i].reBalance == 1){
+        if(this.isRowSelected(selectedPosition[i])){
+          this.unselectRow(selectedPosition[i])
+        }
+       }
+      }
+    }
   }
   
 }

@@ -73,12 +73,12 @@ export class ConfirmTradeComponent implements OnInit, OnDestroy {
   inputForSymbolPrice: any = [];
   tableBackgroundColor:any='';
   user_id:any=null;
+  isSubmit :boolean=false;
 
   constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<ConfirmTradeComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private basketTradeService: BasketTradeService, private matSnackBar: MatSnackBar, private webSocketService: WebsocketService,private userService: UserService,private utilityService: UtilitiesService) {
-      console.log(this.data)
       this.loadUserDetails();
-      if (this.data && this.data.symbols) {
+      if (this.data && this.data.symbols &&  this.data.symbols.length >0) {
       this.originalData = JSON.parse(JSON.stringify([...this.data.symbols]));
 
       this.data.symbols.forEach((element: any) => {
@@ -87,6 +87,8 @@ export class ConfirmTradeComponent implements OnInit, OnDestroy {
         this.avalibleCashBalance = this.data.cash_balance - this.investedAmount
         this.inputForSymbolPrice.push(element.symbol)
       });
+    }else {
+      this.isSubmit =true;
     }
     /** set symbols for price */
     this.setSymbolsForBrokeragePrice(this.inputForSymbolPrice, true)
@@ -106,7 +108,7 @@ loadUserDetails() {
   })
 }
   confirmOrder() {
-    if (this.data && this.data.symbols) {
+      this.isSubmit = true;
       let input: { Type: string, Orders: object[],BasketId:string,TransactionId:string } = { "Type": "NORMAL", Orders: [],BasketId:this.data.basket_id,TransactionId:'null'};
       for (let i = 0; i < this.data.symbols.length; i++) {
         let object = {
@@ -129,7 +131,7 @@ loadUserDetails() {
        * if symbols length is 1 the single order submit 
        * else bulkOrder submits
        */
-      // this.showSpinner = true;
+      this.showSpinner = true;
     
       this.basketTradeService.setOrders(input, 'ts').then((data) => {
         this.showSpinner = false;
@@ -142,7 +144,6 @@ loadUserDetails() {
 
       })
 
-    }
     /** Remove symbols from price list */
     this.setSymbolsForBrokeragePrice(this.inputForSymbolPrice, false)
     this.ngOnDestroy();

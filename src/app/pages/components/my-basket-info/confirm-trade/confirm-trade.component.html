@@ -90,7 +90,7 @@
         <button mat-stroked-button color="primary" (click)="cancel()">
             Cancel
         </button>
-        <button mat-flat-button color="primary" (click)="confirmOrder()" >
+        <button mat-flat-button color="primary" [disabled]="isSubmit" (click)="confirmOrder()" >
             Confirm
         </button>
     </div>

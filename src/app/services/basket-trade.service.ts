@@ -110,9 +110,9 @@ export class BasketTradeService {
       }
   }
 
-  async getOrderByBasketId(broker_id:any,basket_id:any){
+  async getOrderByBasketId(broker_id:any,basket_id:any,status:any){
     try{
-        let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/brokerage/${broker_id}/orders/basket/${basket_id}`, this.getHeaders());
+        let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/brokerage/${broker_id}/orders/basket/${basket_id}/${status}`, this.getHeaders());
         let data = await res.json();
         return data;
       }
@@ -131,4 +131,17 @@ export class BasketTradeService {
         return {error: e.message}
       }
   }
+
+
+  async getSymbolsAlongWithPosition(basket_id:any){
+    try{
+        let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/basketSymbols/${basket_id}`, this.getHeaders());
+        let data = await res.json();
+        return data;
+      }
+      catch(e: any) {
+        return {error: e.message}
+      }
+  }
+
 }

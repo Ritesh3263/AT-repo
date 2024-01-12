@@ -65,7 +65,7 @@
             <span fxFlex="20" fxFlex.md="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group mb-sm-10">
                 <mat-form-field appearance="outline" class="no-error" >
                     <mat-label>Investment Type *</mat-label>
-                    <mat-select class="form-control" formControlName="investmentType" >
+                    <mat-select class="form-control" formControlName="investmentType" [disabled]="isReBalance">
                         <div *ngFor="let a of dropDownDetails">
                             <mat-option [value]="a" (click)="onSelectInvestmentType(a)">{{a}}</mat-option>
                           </div>  
@@ -100,7 +100,7 @@
             </span>
             <span fxFlex fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px" class="form-group pt-md-15 pt-sm-15">
                 <button mat-stroked-button color="primary" (click)="closeAllPositions()">Close Positions</button>
-                <button mat-stroked-button color="primary">Rebalance</button>
+                <button mat-stroked-button color="primary" (click)="reBalance()">Rebalance</button>
             </span>
         </form>
 
@@ -145,8 +145,13 @@
                 <ng-container matColumnDef="symbol">
                     <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"> Symbol </th>
                     <td mat-cell *matCellDef="let element"> 
-                        <a (click)="$event.stopPropagation()">{{element.symbol}}</a>
-                     </td>
+                        <div style="display: flex;">
+                            <a (click)="$event.stopPropagation()">{{element.symbol}} 
+                            </a> &nbsp;&nbsp;&nbsp;
+                            <div *ngIf="element.reBalance == 0" style="color: green;">&#9733;</div>
+                             <div *ngIf="element.reBalance == 2" style="color: red;">&#9733;</div>
+                        </div>
+                                             </td>
                      <td mat-footer-cell *matFooterCellDef>  </td>
                 </ng-container>
 
