@@ -28,3 +28,110 @@
     font-weight: 600;
 
   }
+
+
+
+  .trading-table {
+    .mat-mdc-cell {
+        &.positive-value {
+            color: #049501;
+        }
+
+        &.negative-value {
+            color: #D80032;
+        }
+    }
+}
+
+.right-align-cell {
+    text-align: right !important;
+}
+
+@media screen and (min-width: 1280px) {
+    .primary-sub-section {
+        .form-group {
+            border-right: 1px solid rgba(0,0,0,.12);
+
+            &:last-child {
+                border-right: none;
+            }
+        }
+    }
+}
+
+
+// .order_module{
+
+    .broker_dropdown_insameline{
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 9;
+        min-width: 300px;
+    }
+
+    .select_broker{
+        max-width: 20rem;
+        float: right;
+    }
+
+    .tableToolbar{
+        display: flex;
+        // justify-content: end;
+        align-items: flex-start;
+        padding: 2rem 0 0 0;
+    }
+
+    .collapsible-table{
+        // tr.mat-mdc-row.mdc-data-table__row.cdk-row.example-element-row.ng-tns-c3041937638-3.ng-star-inserted:nth-child(2n-1) {
+        //     td{
+        //         border-bottom: 1px solid rgba(0, 0, 0, 0.02);
+        //     }
+        // }
+        border-bottom: 0;
+
+        .expanded-table{
+            border-bottom: 0;
+        }
+
+        .mat-column-ACTION{
+            max-width: 100px;
+            min-width: 100px;
+            width: 100px;
+            padding: 0;
+        }
+        .epandTableParent{
+            // padding: 1rem 0;
+            .expanded-table{
+                margin: 0 1rem 1rem 84px;
+                
+            }   
+        }
+
+        .inner_row_h0{
+            height: 0;
+        }
+        
+        .mdc-data-table__row:last-child .mat-mdc-cell{
+            border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        }
+
+    }
+
+    // .position-table{
+    //     .mat-column-PRICE{
+    //         text-align: right;
+    //     }
+    // }
+    // .icon_sync{
+    //     animation: rotation 2s infinite linear;
+    // }
+    // @keyframes rotation{
+    //     from {
+    //      transform: rotate(359deg);
+    //     }
+    //    to {
+    //     transform: rotate(0deg);
+    //    }
+    // }
+// }
