@@ -82,10 +82,8 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
   basketId:number=0;
    ngAfterViewInit(id = null) {
     this.basketId = id || this.parentComponent.getBasketId();
-    // this.loadUserDetails();
-    this.getBrokerageAccount('ts');
-    // this.getBasketSymbols();
     this.getSymbolsAlongWithPosition();
+    this.getBrokerageAccount('ts');
     this.dataSource.paginator = this.paginator;
     this.webSocketService.connect('ws/intrinio').then((data)=>{})
     this.webSocketService.receiveMessages().then((data)=>{})
@@ -484,9 +482,7 @@ getColor(price: any) {
 
     /***getBrokerageAccount function is used to get  active Accounts related to brokerage*/
     getBrokerageAccount(brokerage:any){
-      this.showSpinner = true;
       this.brokerageService.getBrokerageAccounts(brokerage).then((data) => {
-      this.showSpinner=false;
         if(data && data.error || !data.success) {
           this.utilityService.displayInfoMessage('Unable to get accounts', true)
         }
@@ -532,18 +528,13 @@ getColor(price: any) {
     this.showSpinner = true;
     this.basketTradeService.getSymbolsAlongWithPosition(this.basketId).then((data) => {
     this.showSpinner=false;
-    // console.log("sbibskjksb",data)
-      if(data && data.error || !data.success) {
-        this.utilityService.displayInfoMessage('Unable to get accounts', true)
-      }
-      else if(data && data.success) {
-       console.log("data",data)
+   if(data && data.success) {
         this.isPositions=true;
         this.symbols = data.symbols;
         this.dataSource = new MatTableDataSource<any>(data.symbols);
         this.selection = new SelectionModel<any>(data.symbols, []);          
         this.originalData = JSON.parse(JSON.stringify([...data.symbols]));
-        this.symbolInput.length>0?this.setSymbolsForBrokeragePrice(this.symbolInput,true):null
+        // this.symbolInput.length>0?this.setSymbolsForBrokeragePrice(this.symbolInput,true):null
         this.isDisplayColumn =false;
       }
       
