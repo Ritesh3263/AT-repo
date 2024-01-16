@@ -4,6 +4,9 @@ import {MatTableDataSource} from '@angular/material/table';
 import { BasketsService } from 'src/app/services/baskets.service';
 import { UtilitiesService } from 'src/app/services/utilities.service';
 
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { tap, startWith, debounceTime, distinctUntilChanged, switchMap, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-edit-symbols',
@@ -13,10 +16,30 @@ import { UtilitiesService } from 'src/app/services/utilities.service';
 export class EditSymbolsComponent {
   displayedColumns: string[] = ['symbol', 'name', 'actions'];
   dataSource !: any;
-  tickerSymbols !: string;
+
+  lookupControl!: any;
+  filteredOptions!: Observable<any[]>;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private basketService: BasketsService, private utilityService: UtilitiesService, private dialogRef: MatDialogRef<EditSymbolsComponent>) {
     this.dataSource = new MatTableDataSource<any>(data.tickers)
+  }
+
+  ngOnInit() {
+    this.lookupControl = new FormControl<any>('')
+    this.resetAutocomplete()
+  }
+
+  resetAutocomplete() {
+    this.lookupControl.setValue('')
+    this.filteredOptions = this.lookupControl.valueChanges
+    .pipe(
+      startWith(''),
+      debounceTime(400),
+      distinctUntilChanged(),
+      switchMap(val => {
+        return this._filter(this.lookupControl.getRawValue())
+      })
+    );
   }
 
   deleteTicker(index: number) {
@@ -28,10 +51,10 @@ export class EditSymbolsComponent {
     }
   }
 
-  clipboardEventHandler(event: any) {
+  clipboardEventHandler(event: any, trigger: any) {
     if(event.type == 'paste') {
       // Event fires before data binding has completed, give a few ms before triggering the lookup
-      setTimeout(() => { this.symbolLookup() }, 5);
+      setTimeout(() => { this.symbolLookup(); trigger.closePanel() }, 5);
     }
   }
 
@@ -39,6 +62,7 @@ export class EditSymbolsComponent {
     if(event.code == 'Comma' || event.code == 'Enter') {
       this.symbolLookup()
     }
+    //this._filter(this.lookupControl.getRawValue())
   }
 
   concatTickers(tickers: any) {
@@ -58,19 +82,20 @@ export class EditSymbolsComponent {
   }
 
   symbolLookup() {
-    if(!this.tickerSymbols || this.tickerSymbols == '')
+    if(!this.lookupControl.getRawValue() || this.lookupControl.getRawValue() == '')
       return;
-    this.basketService.getAllSymbols(0, 1000, '', this.tickerSymbols).then((data) => {
+    this.basketService.getAllSymbols(0, 1000, '', this.lookupControl.getRawValue()).then((data) => {
       if(data.error || !data.symbols) {
         this.utilityService.displayInfoMessage(data.error, true)
       }
       else {
+        this.resetAutocomplete()
         if(data && data.symbols)
           this.concatTickers(data.symbols)
         this.dataSource = new MatTableDataSource<any>(this.data.tickers)
 
         // Now we must validate all input symbols were able to be retrieved
-        let inputSymbols = this.tickerSymbols.split(',')
+        let inputSymbols = this.lookupControl.getRawValue().split(',')
         if(data.symbols.length !== inputSymbols.length) {
           let invalidSymbols = [];
           for(let i = 0; i < inputSymbols.length; i++) {
@@ -96,5 +121,23 @@ export class EditSymbolsComponent {
         this.dialogRef.close({success: true})
       }
     })
+  }
+
+  private async _filter(value: any) {
+    if(!value || (value && ((typeof value == 'string' && value.includes(',')) || (typeof value == 'object' && value.symbol.includes(','))))) {
+      return []
+    }
+    const filterValue = typeof value == 'string' ? value.toLowerCase() : value.symbol.toLowerCase();
+    let results = await this.basketService.getAllSymbols(0, 10, filterValue);
+    return results.symbols;
+  }
+
+  displayFn(ticker: any): string {
+    return ticker && ticker.symbol ? ticker.symbol : ''
+  }
+
+  addSymbol(symbol: any) {
+    this.concatTickers([symbol])
+    this.dataSource = new MatTableDataSource<any>(this.data.tickers)
   }
 }
