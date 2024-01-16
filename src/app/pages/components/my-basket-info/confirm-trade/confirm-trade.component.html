@@ -4,36 +4,42 @@
         <span fxFlex fxFlex.xs="100" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="15px" class="pt-xs-15">
             <div fxLayout="column">
                 <p class="no-margin">Account Balance</p>
-                <h3 class="mat-h3 no-margin font-600">$98,891.710</h3>
+                <h3 class="mat-h3 no-margin font-600">{{data.account_balance | currency:'USD':'symbol':'1.2-2' }}</h3>
             </div>
             <mat-divider vertical="true" style="height: 40px;"></mat-divider>
             <div fxLayout="column">
                 <p class="no-margin">Current Cash Balance</p>
-                <h3 class="mat-h3 no-margin font-600">$98,891.710</h3>
+                <h3 class="mat-h3 no-margin font-600">{{data.cash_balance | currency:'USD':'symbol':'1.2-2' }}</h3>
             </div>
         </span>
     </div>
+    <div *ngIf="showSpinner" class="spinner-wrapper">
+        <app-spinner></app-spinner>
+      </div>
     <div mat-dialog-content class="no-padding-bottom">
         <div class="trading-table height-auto with-padding table-scroll">
-            <table mat-table [dataSource]="dataSource">
+            <table mat-table [dataSource]="dataSource" >
                 <ng-container matColumnDef="tickersymbol">
                     <th mat-header-cell *matHeaderCellDef> Ticker Symbol </th>
-                    <td mat-cell *matCellDef="let element"> {{element.tickersymbol}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="shares">
                     <th mat-header-cell *matHeaderCellDef> Shares </th>
-                    <td mat-cell *matCellDef="let element"> {{element.shares}} </td>
+                    <td mat-cell *matCellDef="let element" class="right-align-cell"> {{element.new_shares}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="currentprice">
-                    <th mat-header-cell *matHeaderCellDef> Current Price </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.currentprice | currency:'USD':'symbol':'1.2-2' }} </td>
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Current Price </th>
+                    <td mat-cell  *matCellDef="let element" class="right-align-cell"  >
+                    <span  *ngIf="getColor(element)"   [@fadeInOut] >{{ element.price | currency:'USD':'symbol':'1.2-2' }}</span>
+                    <span  *ngIf="!getColor(element)"  >{{ element.price | currency:'USD':'symbol':'1.2-2' }}</span>
+                    </td>
                 </ng-container>
 
                 <ng-container matColumnDef="investaccount">
                     <th mat-header-cell *matHeaderCellDef> Invest Account </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.investaccount | currency:'USD':'symbol':'1.2-2' }} </td>
+                    <td mat-cell *matCellDef="let element" class="right-align-cell"> {{ element.new_invested | currency:'USD':'symbol':'1.2-2' }} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="empty">
@@ -45,7 +51,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="amount">
-                    <td mat-footer-cell *matFooterCellDef> $34,090.440 </td>
+                    <td mat-footer-cell *matFooterCellDef class="right-align-cell">  {{ investedAmount | currency:'USD':'symbol':'1.2-2' }} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="empty2">
@@ -57,7 +63,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="amount2">
-                    <td mat-footer-cell *matFooterCellDef> $34,090.440 </td>
+                    <td mat-footer-cell *matFooterCellDef class="right-align-cell"> {{ netInvestedAmount | currency:'USD':'symbol':'1.2-2' }} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="empty3">
@@ -69,7 +75,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="amount3">
-                    <td mat-footer-cell *matFooterCellDef> $34,090.440 </td>
+                    <td mat-footer-cell *matFooterCellDef class="right-align-cell"> {{ avalibleCashBalance | currency:'USD':'symbol':'1.2-2' }} </td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -81,10 +87,10 @@
         </div>
     </div>
     <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
-        <button mat-stroked-button color="primary" mat-dialog-close>
+        <button mat-stroked-button color="primary" (click)="cancel()">
             Cancel
         </button>
-        <button mat-flat-button color="primary">
+        <button mat-flat-button color="primary" [disabled]="isSubmit" (click)="confirmOrder()" >
             Confirm
         </button>
     </div>

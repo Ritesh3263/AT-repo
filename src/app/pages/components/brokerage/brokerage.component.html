@@ -6,6 +6,9 @@
     <a class="bold">Brokerage</a>
 </div>
 <div class="basket-wrapper">
+    <div *ngIf="showSpinner" class="spinner-wrapper">
+        <app-spinner></app-spinner>
+      </div>
     <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" animationDuration="0ms" class="trade-tabs brokerage-tabs">
         <mat-tab>
             <ng-template mat-tab-label>
@@ -17,7 +20,7 @@
                 <div fxFlex="20" fxFlex.md="30" fxFlex.sm="50" fxFlex.xs>
                     <img src="/assets/images/tradestation_logo.svg" style="width: 200px;" />
                 </div>
-                <button mat-flat-button color="primary" (click)="connectDialog()">
+                <button  [disabled]="isDisableAccounts" mat-flat-button color="primary" (click)="connectDialog('TS')">
                     Connect
                 </button>
             </div>
@@ -25,7 +28,7 @@
                 <div fxFlex="20" fxFlex.md="30" fxFlex.sm="50" fxFlex.xs>
                     <img src="/assets/images/interactivebrokers_logo.svg" style="width: 220px;" />
                 </div>
-                <button mat-flat-button color="primary" (click)="connectDialog()">
+                <button  mat-flat-button color="primary" (click)="connectDialog('IB')">
                     Connect
                 </button>
             </div>
@@ -36,39 +39,71 @@
                     <span>Accounts</span>
                 </span>
             </ng-template>
+            <div class="center-text" *ngIf="!isDisableAccounts">
+                <p>Please connect to at least one brokerage. </p>
+              </div>
+            <form class="example-form" *ngIf="isDisableAccounts">
+
             <div fxLayout="row" class="mt-20">
+
                 <mat-form-field appearance="outline" fxFlex="25" fxFlex.sm="50" fxFlex.xs="100">
                     <mat-label>Select Brokerage</mat-label>
-                    <mat-select [(value)]="selectedBrokerId" >
-                        <mat-option *ngFor="let broker of brokerMaster" [value]="broker.id" (click)="getBrokerAccounts()">{{broker.name}}</mat-option>
+                    <mat-select [(value)]="selectedOption" [formControl]="brokerage_type">
+                        <mat-option value="ts" (click)="getBrokerageAccount('ts')">Tradestation</mat-option>
+                        <mat-option value="ib" (click)="getBrokerageAccount('ib')">Interactive Brokers</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div class="trading-table height-auto table-scroll with-padding">
+            </form>
+            <!-- <ngx-spinner type = "ball-square-clockwise-spin" [fullScreen] = "true"></ngx-spinner>
+            <mat-spinner *ngIf="showSpinner" diameter="50" color="accent" mode="indeterminate"></mat-spinner> -->
+
+            <div class="trading-table height-auto table-scroll with-padding" *ngIf="isDisableAccounts" >
+               
                 <table mat-table [dataSource]="dataSource">
 
-                    <ng-container matColumnDef="account_number">
-                        <th mat-header-cell *matHeaderCellDef> Account Number </th>
+                    <ng-container matColumnDef="accountId">
+                        <th mat-header-cell *matHeaderCellDef> Account Id </th>
                         <td mat-cell *matCellDef="let element">
-                            {{element.account_number}}
+                            {{element.AccountID}}
                         </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="accountBalance">
-                        <th mat-header-cell *matHeaderCellDef class="text-center"> Account Balance </th>
-                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.accountBalance}} </td>
+                    <ng-container matColumnDef="accountType">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Account Type </th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.AccountType}} </td>
                     </ng-container>
-
-                    <ng-container matColumnDef="openPositions">
-                        <th mat-header-cell *matHeaderCellDef class="text-center"> Open Positions </th>
-                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.openPositions}} </td>
+                    <ng-container matColumnDef="cashBalance">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Cash Balance </th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.CashBalance}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="buyingPower">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Buying Power </th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.BuyingPower}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="equity">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Equity </th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.Equity}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="marketValue">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Market Value </th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.MarketValue}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="overnightBuyingPower">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Overnight Buying Power </th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.OvernightBuyingPower}} </td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Open Status </th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.Status}} </td>
                     </ng-container>
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 </table>
             </div>
-            <mat-paginator [pageSizeOptions]="[10, 50, 100]" showFirstLastButtons
+            <mat-paginator *ngIf="isDisableAccounts" [pageSizeOptions]="[10, 50, 100]" showFirstLastButtons 
                 aria-label="Select page of periodic elements">
             </mat-paginator>
         </mat-tab>
