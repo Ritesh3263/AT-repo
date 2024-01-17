@@ -150,19 +150,19 @@ loadUserDetails() {
   }
    ngOnInit() {
     /**connecting webSocket and activating listener*/
-    this.webSocketService.connect('ws').then((data)=>{});
-    this.webSocketService.receiveMessages().then((data)=>{})
+    // this.webSocketService.connect('ws').then((data)=>{});
+    // this.webSocketService.receiveMessages().then((data)=>{})
     /**continues receiving response from websocket*/
-    this.messageSubscription = this.webSocketService.getMessages().subscribe((message: any) => {
-      let priceData = JSON.parse(message)[0];
-      if(priceData && !priceData.Error ){
-        this.data.symbols.forEach((ele: any) => {
-          if (ele.symbol == priceData.Symbol && priceData.Close) {
-            ele.price = priceData.Close
-          }
-        })
-      }
-    });
+    // this.messageSubscription = this.webSocketService.getMessages().subscribe((message: any) => {
+    //   let priceData = JSON.parse(message)[0];
+    //   if(priceData && !priceData.Error ){
+    //     this.data.symbols.forEach((ele: any) => {
+    //       if (ele.symbol == priceData.Symbol && priceData.Close) {
+    //         ele.price = priceData.Close
+    //       }
+    //     })
+    //   }
+    // });
 
 
 
@@ -217,6 +217,6 @@ loadUserDetails() {
   }
 
   ngOnDestroy() {
-    this.webSocketService.closeConnection();
+    // this.webSocketService.closeConnection();
   }
 }

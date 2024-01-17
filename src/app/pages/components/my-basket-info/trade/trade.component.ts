@@ -46,7 +46,7 @@ export interface PeriodicElement {
 })
 export class TradeComponent implements AfterViewInit,OnDestroy {
   isPositions:boolean=false;
-  showSpinner:boolean = true;
+  showSpinner:boolean = false;
   user_id:any=null;
  displayedColumns: string[]  = ['select', 'symbol', 'price', 'shares', 'invested'];
  form: FormGroup = new FormGroup(''); // FormGroup
@@ -85,18 +85,18 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
     this.getSymbolsAlongWithPosition();
     this.getBrokerageAccount('ts');
     this.dataSource.paginator = this.paginator;
-    this.webSocketService.connect('ws/intrinio').then((data)=>{})
-    this.webSocketService.receiveMessages().then((data)=>{})
+    //this.webSocketService.connect('ws/intrinio').then((data)=>{})
+    //this.webSocketService.receiveMessages().then((data)=>{})
    /**continues receiving response from websocket*/
-    this.webSocketService.getMessages().subscribe((message: any) => {
-      if(!JSON.parse(message).error){
-      this.dataSource.data.forEach((ele:any)=>{
-        if(message && ele.symbol === JSON.parse(message).symbol){
-          ele.price =JSON.parse(message).latest_price;
-        }
-      })
-    }
-  });
+  //   this.webSocketService.getMessages().subscribe((message: any) => {
+  //     if(!JSON.parse(message).error){
+  //     this.dataSource.data.forEach((ele:any)=>{
+  //       if(message && ele.symbol === JSON.parse(message).symbol){
+  //         ele.price =JSON.parse(message).latest_price;
+  //       }
+  //     })
+  //   }
+  // });
     
     
   }
@@ -136,7 +136,7 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
   }
 
   confirmTrade() {
-    this.webSocketService.closeConnection();
+    // this.webSocketService.closeConnection();
      let inputArray = this.selection.selected.filter(element => element.new_shares !== null);
     let inputModelPopup={
      account_balance:this.account_balance,
@@ -156,7 +156,7 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
       if(result){
         this.form.reset(); // Reset to initial form values
         this.getBasketSymbols();
-        this.webSocketService.connect('ws/intrinio').then((data)=>{})
+        // this.webSocketService.connect('ws/intrinio').then((data)=>{})
       }
     });
   }
@@ -407,7 +407,7 @@ getSymbolPrice(){
 }
 
 ngOnDestroy() {
-  this.webSocketService.closeConnection();
+  // this.webSocketService.closeConnection();
 }
 
 getColor(price: any) {
@@ -498,9 +498,9 @@ getColor(price: any) {
     }
   /***loadUserDetails function is used to get user information  */
   loadUserDetails() {
-    this.showSpinner = true;
+    // this.showSpinner = true;
     this.userService.getUserDetails().then((user:any) => {
-      this.showSpinner = false;
+      // this.showSpinner = false;
       this.user_id = user.firstName?user.firstName:null
     })
   }
@@ -525,9 +525,9 @@ getColor(price: any) {
   }
   /***getBrokerageAccount function is used to get  active Accounts related to brokerage*/
   getSymbolsAlongWithPosition(){
-    this.showSpinner = true;
+    // this.showSpinner = true;
     this.basketTradeService.getSymbolsAlongWithPosition(this.basketId).then((data) => {
-    this.showSpinner=false;
+    // this.showSpinner=false;
    if(data && data.success) {
         this.isPositions=true;
         this.symbols = data.symbols;
