@@ -9,7 +9,14 @@
         <p>{{data.description}}</p>
         <div *ngIf="data.mode == 'ADD'">
             <mat-form-field appearance="outline" class="no-error">
-                <input matInput placeholder="Enter symbol to add.  Eg: AAPL, GOOG, TSLA, DCTH, etc.," (keyup)="keyboardEventHandler($event)" (paste)="clipboardEventHandler($event)" [(ngModel)]="tickerSymbols">
+                <mat-label>Ticker Symbols</mat-label>
+                <input type="text" aria-label="Symbol" [formControl]="lookupControl" [matAutocomplete]="auto" matInput placeholder="Enter symbols to add.  Eg: AAPL, GOOG, TSLA, DCTH, etc."
+                    (keyup)="keyboardEventHandler($event)" (paste)="clipboardEventHandler($event, trigger);"  #trigger="matAutocompleteTrigger">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" >
+                    <mat-option *ngFor="let option of filteredOptions | async; " (click)="addSymbol(option)">
+                        {{option.symbol}} - {{option.name}}
+                    </mat-option>
+                </mat-autocomplete>
             </mat-form-field>
             <br>
             <br>

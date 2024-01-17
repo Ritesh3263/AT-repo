@@ -14,7 +14,7 @@
         <button mat-flat-button color="primary" (click)="openTermsConditionsDialog()">Publish to Marketplace</button>
     </span>
     -->
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px" class="mt-20" *ngIf="basket.active && basket.is_owner">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px" class="mt-20" *ngIf="basket.active && basket.is_owner && basket.active_symbols_count">
         <span >Visible in Marketplace</span>
         <span>
             <form class="example-form" [formGroup]="form">
@@ -27,6 +27,9 @@
     </div>
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px" class="mt-20" *ngIf="!basket.is_owner">
         <span >This basket was created in the Marketplace and cannot be edited.  You may clone this basket if you wish to make further changes.</span>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px" class="mt-20" *ngIf="basket.is_owner && basket.active && !basket.active_symbols_count">
+        <span >Please add stocks to your basket before publishing to the marketplace.</span>
     </div>
 
 </div>

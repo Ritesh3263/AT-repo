@@ -11,6 +11,7 @@ export interface Basket {
     following: boolean,
     linked_accounts_count: number,
     symbols_count: number,
+    active_symbols_count: number,
     followers_count: number,
     created_date: Date,
     updated_date: Date,
