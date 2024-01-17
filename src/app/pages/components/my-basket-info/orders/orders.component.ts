@@ -261,7 +261,7 @@ export class OrdersComponent implements OnInit {
   // dataSourceConfirm = new MatTableDataSource<PeriodicElement>(CONFIRMELEMENT_DATA);
   // dataSourcePosition = new MatTableDataSource<{}>([])
   // @ViewChild(MatPaginator) paginator!: MatPaginator;
-  showSpinner:boolean=true;
+  showSpinner:boolean=false;
   user_id:any=null;
   isPosition:boolean=true;
   basketId:number=0;
@@ -362,9 +362,9 @@ export class OrdersComponent implements OnInit {
     // }
 
     getConfirmedOrder(){
-      this.showSpinner= true;
+      // this.showSpinner= true;
       this.basketTradeService.getOrderByBasketId('ts',this.basketId,"confirmed").then((data) => {
-        this.showSpinner =false;
+        // this.showSpinner =false;
         if(data && data.success) {
           data.orders.forEach((ele:any)=>{
             ele.symbols.forEach((elesub:any)=>{
@@ -376,9 +376,9 @@ export class OrdersComponent implements OnInit {
       })
     }
     getPendingOrder(){
-      this.showSpinner= true;
+      // this.showSpinner= true;
       this.basketTradeService.getOrderByBasketId('ts',this.basketId,"pending").then((data) => {
-        this.showSpinner =false;
+        // this.showSpinner =false;
         if(data && data.success) {
           data.orders.forEach((ele:any)=>{
             ele.symbols.forEach((elesub:any)=>{
