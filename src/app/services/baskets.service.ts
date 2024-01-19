@@ -25,9 +25,9 @@ export class BasketsService {
     return headers;
   }
 
-  async getAllBaskets(nameOnly:number = 0, includeSubscriptions:number = 0): Promise<any> {
+  async getAllBaskets(nameOnly:number = 0, includeSubscriptions:number = 0, excludeList:any = null): Promise<any> {
     try{
-      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/baskets${nameOnly ? '?nameOnly=true' : ''}${includeSubscriptions ? '&includeSubscriptions=true' : ''}`, this.getHeaders());
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/baskets${nameOnly ? '?nameOnly=true' : ''}${includeSubscriptions ? '&includeSubscriptions=true' : ''}${excludeList ? `&excludeList=${JSON.stringify(excludeList)}`:''}`, this.getHeaders());
       let data = await res.json();
       return data;
     }

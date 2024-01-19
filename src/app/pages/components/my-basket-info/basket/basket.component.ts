@@ -37,8 +37,8 @@ export class BasketComponent {
   defaultSort: any = {sortColumn: 'timestamp', sortMode: 'desc'};
   @ViewChild(TableComponent) table!:TableComponent;
 
-  constructor(@Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, private renderer: Renderer2, public dialog: MatDialog, private basketService: BasketsService, private activatedRoute: ActivatedRoute,
-  private utilityService: UtilitiesService, private adminService: AdminService) {
+  constructor(@Inject(JourneyInfoComponent) public parentComponent: JourneyInfoComponent, private renderer: Renderer2, public dialog: MatDialog, private basketService: BasketsService, private activatedRoute: ActivatedRoute,
+              private utilityService: UtilitiesService, private adminService: AdminService) {
     this._setColumnDetails()
   }
 
@@ -91,6 +91,7 @@ export class BasketComponent {
         mainMenuOption: 'Add to Basket',
         subMenuOptions: this.getBasketList,
         menuCallback: this.addSymbolToBasket,
+        parentComponenet: this.parentComponent,
         basketService: this.basketService,  // Scope issues, need to include this service at the menu level
         utilityService: this.utilityService // Scope issues, need to include this service at the menu level
       }
@@ -108,8 +109,8 @@ export class BasketComponent {
     }
   }
 
-  async getBasketList() {
-    let baskets = await this.basketService.getAllBaskets(1, 0)
+  async getBasketList(parentComponent: any) {
+    let baskets = await this.basketService.getAllBaskets(1, 0, [parentComponent.getBasketId()])
     if(baskets.error || !baskets.baskets) {
       this.utilityService.displayInfoMessage("Error Loading Basket List: " + baskets.error, true);
     }
@@ -249,7 +250,7 @@ export class BasketComponent {
         this.utilityService.displayInfoMessage(data.error, true)
       }
       else {
-        this.utilityService.displayInfoMessage(`Symbols Added`)
+        this.utilityService.displayInfoMessage(`Symbols Added to basket ${basket.name}`)
       }
     })
   }
