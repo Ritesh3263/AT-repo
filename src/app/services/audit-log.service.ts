@@ -28,7 +28,7 @@ export class AuditLogService {
 
   async getUserActivity(pageNumber: Number, pageSize: Number, search:string) {
     try{
-      let res = await fetch(`${this.baseUrl}/user-activity?pageNumber=${pageNumber}&pageSize=${pageSize}&search=${encodeURI(search)}`, this.getHeaders());
+      let res = await fetch(`${this.baseUrl}/user-activity?pageNumber=${pageNumber}&pageSize=${pageSize}&search=${encodeURIComponent(search)}`, this.getHeaders());
       let data = await res.json();
       return data;
     }

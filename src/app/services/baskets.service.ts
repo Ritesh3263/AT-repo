@@ -25,9 +25,9 @@ export class BasketsService {
     return headers;
   }
 
-  async getAllBaskets(nameOnly:number = 0, includeSubscriptions:number = 0): Promise<any> {
+  async getAllBaskets(nameOnly:number = 0, includeSubscriptions:number = 0, excludeList:any = null): Promise<any> {
     try{
-      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/baskets${nameOnly ? '?nameOnly=true' : ''}${includeSubscriptions ? '&includeSubscriptions=true' : ''}`, this.getHeaders());
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/baskets${nameOnly ? '?nameOnly=true' : ''}${includeSubscriptions ? '&includeSubscriptions=true' : ''}${excludeList ? `&excludeList=${JSON.stringify(excludeList)}`:''}`, this.getHeaders());
       let data = await res.json();
       return data;
     }
@@ -49,7 +49,7 @@ export class BasketsService {
 
   async getAllBasketsForMarketplace(pageNumber: number, pageSize: number, search: string): Promise<any> {
     try{
-      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/baskets/marketplace?pageNumber=${pageNumber}&pageSize=${pageSize}&search=${encodeURI(search)}`, this.getHeaders());
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/baskets/marketplace?pageNumber=${pageNumber}&pageSize=${pageSize}&search=${encodeURIComponent(search)}`, this.getHeaders());
       let data = await res.json();
       return data;
     }
@@ -60,7 +60,7 @@ export class BasketsService {
 
   async getAllSymbols(pageNumber: Number, pageSize: Number, search:string, tickerSymbols: string | null = null): Promise<any> {
     try{
-      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/symbols?pageNumber=${pageNumber}&pageSize=${pageSize}&search=${encodeURI(search)}&${tickerSymbols ? `tickerSymbols=${tickerSymbols}` : ''}`, this.getHeaders());
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/symbols?pageNumber=${pageNumber}&pageSize=${pageSize}&search=${encodeURIComponent(search)}&${tickerSymbols ? `tickerSymbols=${tickerSymbols}` : ''}`, this.getHeaders());
       let data = await res.json();
       return data;
     }

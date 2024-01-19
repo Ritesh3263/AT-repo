@@ -63,11 +63,11 @@ export class OwnerProfileComponent {
 
   follow() {
     this.trader.is_followed = !this.trader.is_followed;
-    this.trader.followers += this.trader.is_followed ? 1 : -1;
     this.traderService.follow(this.trader.id, this.trader.is_followed ? 'PUT' : 'DELETE').then((results:any) => {
       if(results && results.success) {
         this.utilityService.displayInfoMessage(this.trader.is_followed ? "Trader followed!  You will receive notifications when this trader publishes any changes." :
           "Trader unfollowed!  You will no longer receive notifications when this trader publishes any changes.")
+        this.trader.followers += this.trader.is_followed ? 1 : -1;
       }
       else {
         this.utilityService.displayInfoMessage(JSON.stringify(results), true);
@@ -101,6 +101,7 @@ export class OwnerProfileComponent {
       }
       else {
         this.utilityService.displayInfoMessage(basket.is_subscribed ? "Subscribed to basket." : "Unsubscribed from basket.")
+        basket.basket_subscribers += basket.is_subscribed ? 1 : -1;
       }
     })
   }

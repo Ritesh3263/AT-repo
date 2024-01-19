@@ -30,6 +30,7 @@ export class TableComponent {
   @Input() dataCallbackOptionalParameter: any = null;
   @Input() sortColumn: string | null = null;
   @Input() sortMode: SortDirection = 'asc';
+  @Input() parentComponent: any = null;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -51,7 +52,7 @@ export class TableComponent {
     for(let i = 0; i < this.columnDetails.length; i++) {
       this.displayedColumns.push(this.columnDetails[i].key)
       if(this.columnDetails[i].type == 'menu') {
-        this.columnDetails[i].subMenuOptions = await this.columnDetails[i].subMenuOptions()
+        this.columnDetails[i].subMenuOptions = await this.columnDetails[i].subMenuOptions(this.parentComponent)
       }
     }
 
