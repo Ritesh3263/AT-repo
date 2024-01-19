@@ -33,16 +33,14 @@ export class BasketComponent {
   selection = new SelectionModel<Basket>(this.basket, []);
   basketId: number = 0;
   symbols: any =[]
-  basketList: any = []
   columnDetails: any = [];
   defaultSort: any = {sortColumn: 'timestamp', sortMode: 'desc'};
   @ViewChild(TableComponent) table!:TableComponent;
 
   constructor(@Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, private renderer: Renderer2, public dialog: MatDialog, private basketService: BasketsService, private activatedRoute: ActivatedRoute,
   private utilityService: UtilitiesService, private adminService: AdminService) {
-    this._setColumnDetails();
+    this._setColumnDetails()
   }
-
 
   _setColumnDetails() {
     this.columnDetails = [
@@ -91,7 +89,7 @@ export class BasketComponent {
         key: 'menu',
         type: 'menu',
         mainMenuOption: 'Add to Basket',
-        subMenuOptions: this.basketList,
+        subMenuOptions: this.getBasketList,
         menuCallback: this.addSymbolToBasket,
         basketService: this.basketService,  // Scope issues, need to include this service at the menu level
         utilityService: this.utilityService // Scope issues, need to include this service at the menu level
@@ -99,27 +97,25 @@ export class BasketComponent {
     ]
   }
 
-  ngOnInit(id = null) {
+  async ngOnInit(id = null) {
     this.basketId = id || this.parentComponent.getBasketId();
-    this.basketService.getBasketDetails(this.basketId).then((data) => {
-      if(data.error || !data.basket) {
-        this.utilityService.displayInfoMessage(data.error, true)
-      }
-      else {
-        this.basket = data.basket;
-      }
-    })
+    let data = await this.basketService.getBasketDetails(this.basketId);
+    if(data.error || !data.basket) {
+      this.utilityService.displayInfoMessage(data.error, true)
+    }
+    else {
+      this.basket = data.basket;
+    }
+  }
 
-    this.basketService.getAllBaskets(1, 0).then((data: any) => {
-      if(data.error || !data.baskets) {
-        this.utilityService.displayInfoMessage("Error Loading Basket List: " + data.error, true);
-      }
-      else {
-        this.basketList = data.baskets;
-
-        this._setColumnDetails();
-      }
-    });
+  async getBasketList() {
+    let baskets = await this.basketService.getAllBaskets(1, 0)
+    if(baskets.error || !baskets.baskets) {
+      this.utilityService.displayInfoMessage("Error Loading Basket List: " + baskets.error, true);
+    }
+    else {
+      return baskets.baskets;
+    }
   }
 
   async getBasketSymol(pageNumber: number, pageSize: number, sortColumn : string | null = null, sortMode : string | null = null, search : string | null = null, param : any = null) {

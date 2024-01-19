@@ -50,6 +50,9 @@ export class TableComponent {
   async ngOnInit() {
     for(let i = 0; i < this.columnDetails.length; i++) {
       this.displayedColumns.push(this.columnDetails[i].key)
+      if(this.columnDetails[i].type == 'menu') {
+        this.columnDetails[i].subMenuOptions = await this.columnDetails[i].subMenuOptions()
+      }
     }
 
     await this.getData();
