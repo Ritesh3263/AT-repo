@@ -140,9 +140,10 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
      let inputArray = this.selection.selected.filter(element => element.new_shares !== null);
     let inputModelPopup={
      account_balance:this.account_balance,
-     cash_balance :this.cash_balance,
+     cash_balance :Number(this.cash_balance),
      basket_id : this.basketId,
      account_id : this.account_id,
+     transaction_id:null,
      symbols :inputArray
     }
 
@@ -496,14 +497,14 @@ getColor(price: any) {
         
       })
     }
-  /***loadUserDetails function is used to get user information  */
-  loadUserDetails() {
-    // this.showSpinner = true;
-    this.userService.getUserDetails().then((user:any) => {
-      // this.showSpinner = false;
-      this.user_id = user.firstName?user.firstName:null
-    })
-  }
+  // /***loadUserDetails function is used to get user information  */
+  // loadUserDetails() {
+  //   // this.showSpinner = true;
+  //   this.userService.getUserDetails().then((user:any) => {
+  //     // this.showSpinner = false;
+  //     this.user_id = user.firstName?user.firstName:null
+  //   })
+  // }
 
 
 
@@ -528,7 +529,7 @@ getColor(price: any) {
     // this.showSpinner = true;
     this.basketTradeService.getSymbolsAlongWithPosition(this.basketId).then((data) => {
     // this.showSpinner=false;
-   if(data && data.success) {
+   if(data && data.success && data.symbols ) {
         this.isPositions=true;
         this.symbols = data.symbols;
         this.dataSource = new MatTableDataSource<any>(data.symbols);

@@ -69,14 +69,7 @@
                         <div *ngFor="let a of dropDownDetails">
                             <mat-option [value]="a" (click)="onSelectInvestmentType(a)">{{a}}</mat-option>
                           </div>  
-
-                        <!-- <mat-option value="option1">Equal Distribution</mat-option>
-                        <mat-option value="option1">Investment Per Stock</mat-option>
-                        <mat-option value="option2">Scale Up</mat-option>
-                        <mat-option value="option3">Scale Down</mat-option> -->
                     </mat-select>
-                    <!-- <mat-error *ngIf="isControlValid('name')">{{getErrorMessage('name')}}</mat-error> -->
-
                 </mat-form-field>
             </span>
             <span fxFlex="20" fxFlex.md="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group mb-sm-10">
@@ -145,11 +138,20 @@
                 <ng-container matColumnDef="symbol">
                     <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"> Symbol </th>
                     <td mat-cell *matCellDef="let element"> 
-                        <div style="display: flex;">
+                        <!-- <div style="display: flex;">
                             <a (click)="$event.stopPropagation()">{{element.symbol}} 
                             </a> &nbsp;&nbsp;&nbsp;
                             <div *ngIf="element.reBalance == 0" style="color: green;">&#9733;</div>
                              <div *ngIf="element.reBalance == 2" style="color: red;">&#9733;</div>
+                        </div> -->
+                        <div class="indicator_parent">
+                            <a (click)="$event.stopPropagation()">{{element.symbol}} 
+                            </a>
+                            <div class="indicators">
+                                <img *ngIf="element.reBalance == 0" style="color: green;" src="assets/images/new-added-badge.svg">
+                                <img *ngIf="element.reBalance == 2" style="color: red;" src="assets/images/removed-badge.svg">
+                               
+                            </div>
                         </div>
                                              </td>
                      <td mat-footer-cell *matFooterCellDef>  </td>
@@ -229,6 +231,17 @@
         <mat-paginator *ngIf="isPositions"  [pageSizeOptions]="[10, 50, 100]" showFirstLastButtons
             aria-label="Select page of periodic elements">
         </mat-paginator>
+        <div class="indicator_parent_define" *ngIf="isPositions" >
+            <div class="indicators">
+                <img src="assets/images/new-added-badge.svg">Symbol was Newly added in the Basket
+                <!-- <div class="indicator_new"></div> Newly added -->
+            </div>
+            <div class="indicators">
+                <img src="assets/images/removed-badge.svg">Symbol Was Removed by the Basket Owner
+                <!-- <div class="indicator_last_traded"></div> Last Traded -->
+            </div>
+           
+        </div>
         <div *ngIf="isPositions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px" class="pt-15 pb-15">
             <button mat-stroked-button color="primary" (click)="cancel()">Cancel</button>
             <button mat-flat-button color="primary" (click)="confirmTrade()">Submit</button>
