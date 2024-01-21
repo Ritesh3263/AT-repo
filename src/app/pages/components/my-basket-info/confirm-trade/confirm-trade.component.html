@@ -1,6 +1,7 @@
 <div class="modal-dialog">
     <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="10px" fxLayoutGap.xs="0px" class="dialog-header">
-        <h2 class="mat-h2">Continue with Trading</h2>
+        <h2 class="mat-h2" *ngIf="!this.data.transaction_id">Continue with Trading</h2>
+        <h2 class="mat-h2" *ngIf="this.data.transaction_id">Edit Orders</h2>
         <span fxFlex fxFlex.xs="100" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="15px" class="pt-xs-15">
             <div fxLayout="column">
                 <p class="no-margin">Account Balance</p>
@@ -24,9 +25,19 @@
                     <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="shares">
+                <ng-container matColumnDef="shares" *ngIf="!this.data.transaction_id">
                     <th mat-header-cell *matHeaderCellDef> Shares </th>
-                    <td mat-cell *matCellDef="let element" class="right-align-cell"> {{element.new_shares}} </td>
+                    <td mat-cell *matCellDef="let element" class="right-align-cell" > 
+                        {{element.new_shares}} </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="shares" *ngIf="this.data.transaction_id">
+                    <th mat-header-cell *matHeaderCellDef> Shares </th>
+                    <td mat-cell *matCellDef="let element" class="right-align-cell" style="padding-left: 0px;padding-right: 0px;"> 
+                        <mat-form-field appearance="outline" class="no-error" style="width: 100%;">
+                            <input type="number" matInput [(ngModel)]="element.new_shares" (ngModelChange)="changeShares(element)"  >                                    
+                        </mat-form-field>
+                        </td>
                 </ng-container>
 
                 <ng-container matColumnDef="currentprice">
@@ -41,6 +52,14 @@
                     <th mat-header-cell *matHeaderCellDef> Invest Account </th>
                     <td mat-cell *matCellDef="let element" class="right-align-cell"> {{ element.new_invested | currency:'USD':'symbol':'1.2-2' }} </td>
                 </ng-container>
+                <ng-container matColumnDef="action" *ngIf="this.data.transaction_id">
+                    <th mat-header-cell *matHeaderCellDef>  Action </th>
+
+                    <td  mat-cell *matCellDef="let element" class="right-align-cell"> <button *ngIf="this.data.symbols.length != 1" mat-icon-button (click)="onDeleteClick(element.symbol)">
+                        <mat-icon>delete</mat-icon>{{dataSource.length}}
+                      </button>
+                       </td>
+                </ng-container>
 
                 <ng-container matColumnDef="empty">
                     <td mat-footer-cell *matFooterCellDef>  </td>
@@ -52,6 +71,9 @@
 
                 <ng-container matColumnDef="amount">
                     <td mat-footer-cell *matFooterCellDef class="right-align-cell">  {{ investedAmount | currency:'USD':'symbol':'1.2-2' }} </td>
+                </ng-container>
+                <ng-container *ngIf="this.data.transaction_id" matColumnDef="action1">
+                    <td mat-footer-cell *matFooterCellDef>  </td>
                 </ng-container>
 
                 <ng-container matColumnDef="empty2">
@@ -65,6 +87,9 @@
                 <ng-container matColumnDef="amount2">
                     <td mat-footer-cell *matFooterCellDef class="right-align-cell"> {{ netInvestedAmount | currency:'USD':'symbol':'1.2-2' }} </td>
                 </ng-container>
+                <ng-container *ngIf="this.data.transaction_id" matColumnDef="action2">
+                    <td mat-footer-cell *matFooterCellDef>  </td>
+                </ng-container>
 
                 <ng-container matColumnDef="empty3">
                     <td mat-footer-cell *matFooterCellDef>  </td>
@@ -75,7 +100,10 @@
                 </ng-container>
 
                 <ng-container matColumnDef="amount3">
-                    <td mat-footer-cell *matFooterCellDef class="right-align-cell"> {{ avalibleCashBalance | currency:'USD':'symbol':'1.2-2' }} </td>
+                    <td mat-footer-cell *matFooterCellDef class="right-align-cell"> {{ availableCashBalance | currency:'USD':'symbol':'1.2-2' }} </td>
+                </ng-container>
+                <ng-container *ngIf="this.data.transaction_id" matColumnDef="action3">
+                    <td mat-footer-cell *matFooterCellDef>  </td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
