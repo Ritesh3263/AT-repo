@@ -1,0 +1,21 @@
+<div class="modal-dialog">
+  <div fxLayout="row" fxLayoutAlign="start center" class="dialog-header">
+    <h2 fxFlex class="mat-h2">{{data.header}}</h2>
+    <button mat-icon-button mat-dialog-close class="close-btn">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content class="no-padding-bottom">
+    <div *ngFor="let item of data.details">
+      <b>{{item.key}}:</b>
+      <br>
+      <p *ngIf="item.type != 'LIST'">{{item.value}}</p>
+      <pre *ngIf="item.type == 'LIST'">{{item.value}}</pre>
+    </div>
+  </div>
+  <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
+    <button mat-stroked-button mat-dialog-close color="primary">
+      Close
+    </button>
+  </div>
+</div>

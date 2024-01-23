@@ -69,6 +69,7 @@ import { SpinnerComponent } from './pages/components/spinner/spinner.component';
 import { WebsocketComponent } from './pages/components/websocket/websocket.component';
 import { OrdersComponent } from './pages/components/my-basket-info/orders/orders.component';
 import { EditOrderComponent } from './pages/components/my-basket-info/edit-order/edit-order.component';
+import { InfoModalComponent } from './layouts/info-modal/info-modal.component';
 
 
 @NgModule({
@@ -117,7 +118,8 @@ import { EditOrderComponent } from './pages/components/my-basket-info/edit-order
     SpinnerComponent,
     WebsocketComponent,
     OrdersComponent,
-    EditOrderComponent
+    EditOrderComponent,
+    InfoModalComponent
   ],
   imports: [
     BrowserModule,

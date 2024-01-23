@@ -59,6 +59,17 @@ export class AdminService {
     }
   }
 
+  async getNotifications(pageNumber: number, pageSize: number, sortColumn: string | null = null, sortMode: string | null = null, search: string | null = null) {
+    try{
+      let res = await fetch(`${environment.apiBaseUrl}/admin-api/notifications?pageNumber=${pageNumber}&pageSize=${pageSize}${sortColumn ? `&sortColumn=${sortColumn}` : ''}${sortMode ? `&sortMode=${sortMode}` : ''}${search ? `&search=${search}` : ''}`, this.getHeaders());
+      let data = await res.json();
+      return data;
+    }
+    catch(e: any) {
+      return {error: e.message}
+    }
+  }
+
   async getUsers(pageNumber: number, pageSize: number, sortColumn: string | null = null, sortMode: string | null = null, search: string | null = null) {
     try{
       let res = await fetch(`${environment.apiBaseUrl}/admin-api/users?pageNumber=${pageNumber}&pageSize=${pageSize}${sortColumn ? `&sortColumn=${sortColumn}` : ''}${sortMode ? `&sortMode=${sortMode}` : ''}${search ? `&search=${search}` : ''}`, this.getHeaders());

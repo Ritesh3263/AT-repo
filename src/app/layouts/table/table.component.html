@@ -1,7 +1,7 @@
 <div fxLayout fxLayoutAlign="end center" class="mt-10">
 
     <mat-form-field appearance="outline" fxFlex="25" fxFlex.sm="40" fxFlex.xs="60" *ngIf="enableSearch">
-        <input matInput placeholder="{{searchText}}" [(ngModel)]="search" (ngModelChange)="getData()">
+        <input matInput placeholder="{{searchText}}" [(ngModel)]="search" (ngModelChange)="getData(true)">
         <mat-icon matPrefix>search</mat-icon>
     </mat-form-field>
 </div>
@@ -47,9 +47,9 @@
                 </td>
             </div>
 
-            <!-- Select Checkbox Column -->
+            <!-- Text or Date or Currency Column -->
             <div *ngIf="column.type != 'image' && column.type != 'select'">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Name"> {{column.label}} </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by {{column.label}}"> {{column.label}} </th>
                 <td mat-cell *matCellDef="let element"> {{column.type == 'date' ?  (element[column.key] | date) : (column.type == 'currency' ? (element[column.key] | currency:'USD':'symbol':'1.2-2')  : element[column.key])}} </td>
             </div>
 
