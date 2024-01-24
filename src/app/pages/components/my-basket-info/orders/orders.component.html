@@ -4,6 +4,8 @@
             <img src="/assets/images/home-icon.svg" />
         </a>
         <span>/</span>
+        <a routerLink="/baskets" class="bold">Baskets</a>
+        <span>/</span>
         <a class="bold">Orders</a>
     </div>
     <div class="pl-20 pr-20">
@@ -16,7 +18,7 @@
                 <mat-tab>
                     <ng-template mat-tab-label>
                         <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
-                            <span>PendingOrders</span>
+                            <span>Pending Orders</span>
                         </span>
                     </ng-template>
                     <div mat-dialog-content class="no-padding-bottom">
@@ -55,8 +57,8 @@
                                 </ng-container>
 
                                 <ng-container matColumnDef="transaction_type">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
-                                        sortActionDescription="Sort by transaction_type">
+                                    <th mat-header-cell *matHeaderCellDef 
+                                        >
                                         Transaction Type
                                     </th>
                                     <td mat-cell *matCellDef="let element"
@@ -70,7 +72,7 @@
                                         Order Date
                                     </th>
                                     <td mat-cell *matCellDef="let element">
-                                        {{ element.transaction_date }}
+                                        {{ element.transaction_created_date }}
                                     </td>
                                 </ng-container>
 
@@ -81,6 +83,15 @@
                                     </th>
                                     <td mat-cell *matCellDef="let element"
                                         [ngClass]="getChangeStyle(element.order_status)">{{ element.order_status }}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="edit">
+                                    <th mat-header-cell *matHeaderCellDef >
+                                        
+                                    </th>
+                                    <td mat-cell *matCellDef="let element"
+                                        ><button mat-icon-button (click)="confirmOrder(element)">
+                                            <mat-icon aria-label="Edit">edit</mat-icon>
+                                          </button></td>
                                 </ng-container>
 
                                 <ng-container matColumnDef="expandedDetail">
@@ -101,7 +112,7 @@
 
                                                 <ng-container matColumnDef="filled_qty">
                                                     <th mat-header-cell *matHeaderCellDef>Quantity</th>
-                                                    <td mat-cell *matCellDef="let element">
+                                                    <td mat-cell *matCellDef="let element" >
                                                         {{ element.request_qty }}
                                                     </td>
                                                 </ng-container>
@@ -120,9 +131,9 @@
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="transaction_type">
-                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
-                                                        sortActionDescription="Sort by transaction_type">
-                                                        Transaction Type
+                                                    <th mat-header-cell *matHeaderCellDef
+                                                        >
+                                                        Order Type
                                                     </th>
                                                     <td mat-cell *matCellDef="let element"
                                                         [ngClass]="getChangeStyle(element.transaction_type)">{{ element.transaction_type
@@ -154,7 +165,7 @@
                 <mat-tab>
                     <ng-template mat-tab-label>
                         <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
-                            <span>PlacedOrder</span>
+                            <span>Confirmed Orders</span>
                         </span>
                     </ng-template>
                     <div mat-dialog-content class="no-padding-bottom">
@@ -162,8 +173,8 @@
                             <p>No placed orders. </p>
                           </div> -->
                         <div class="main-content-card tableParent trading-table">
-                            <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows
-                                class="collapsible-table">
+                            <table mat-table [dataSource]="dataSource"  multiTemplateDataRows
+                                class="collapsible-table" matSort>
                                 <ng-container matColumnDef="ACTION">
                                     <th mat-header-cell *matHeaderCellDef></th>
                                     <td mat-cell *matCellDef="let element" class="text-center ">
@@ -193,8 +204,8 @@
                                 </ng-container>
 
                                 <ng-container matColumnDef="transaction_type">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
-                                        sortActionDescription="Sort by transaction_type">
+                                    <th mat-header-cell *matHeaderCellDef 
+                                        >
                                         Transaction Type
                                     </th>
                                     <td mat-cell *matCellDef="let element"
@@ -204,11 +215,11 @@
 
                                 <ng-container matColumnDef="transaction_date">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header
-                                        sortActionDescription="Sort by Date">
+                                        sortActionDescription="Sort by transaction_execution_date">
                                         Order Date
                                     </th>
                                     <td mat-cell *matCellDef="let element">
-                                        {{ element.transaction_date }}
+                                        {{ element.transaction_execution_date }}
                                     </td>
                                 </ng-container>
 
@@ -220,7 +231,14 @@
                                     <td mat-cell *matCellDef="let element"
                                         [ngClass]="getChangeStyle(element.order_status)">{{ element.order_status }}</td>
                                 </ng-container>
-
+                                <ng-container matColumnDef="edit">
+                                    <th mat-header-cell *matHeaderCellDef >
+                                    </th>
+                                    <td mat-cell *matCellDef="let element"
+                                        ><button mat-icon-button (click)="confirmOrder(element)" >
+                                            <mat-icon aria-label="Edit">edit</mat-icon>
+                                          </button></td>
+                                </ng-container>
                                 <ng-container matColumnDef="expandedDetail">
                                     <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
 
@@ -257,9 +275,9 @@
                                                     </td>
                                                 </ng-container>
                                                 <ng-container matColumnDef="transaction_type">
-                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
-                                                        sortActionDescription="Sort by transaction_type">
-                                                        Transaction Type
+                                                    <th mat-header-cell *matHeaderCellDef 
+                                                        >
+                                                        Order Type
                                                     </th>
                                                     <td mat-cell *matCellDef="let element"
                                                         [ngClass]="getChangeStyle(element.transaction_type)">{{ element.transaction_type
@@ -273,8 +291,8 @@
                                     </td>
                                 </ng-container>
 
-                                <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-                                <tr mat-row *matRowDef="let element; columns: columnsToDisplay"
+                                <tr mat-header-row *matHeaderRowDef="columnsToDisplayConfirm"></tr>
+                                <tr mat-row *matRowDef="let element; columns: columnsToDisplayConfirm"
                                     class="example-element-row"
                                     [class.example-expanded-row]="expandedElement === element" (click)="
                                   expandedElement = expandedElement === element ? null : element
@@ -288,16 +306,14 @@
                         </div>
                     </div>
                 </mat-tab>
-                <mat-tab>
+                <!-- <mat-tab>
                     <ng-template mat-tab-label>
                         <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
                             <span>Positions</span>
                         </span>
                     </ng-template>
                     <div mat-dialog-content class="no-padding-bottom">
-                        <!-- <div class="center-text" *ngIf="!isPosition">
-                            <p>No active positions. </p>
-                          </div> -->
+
                         <div class="trading-table height-auto with-padding table-scroll">
                             <table mat-table [dataSource]="dataSourcePosition">
                                 <ng-container matColumnDef="symbol">
@@ -336,7 +352,7 @@
                             </table>
                         </div>
                     </div>
-                </mat-tab>
+                </mat-tab> -->
             </mat-tab-group>
 
 
