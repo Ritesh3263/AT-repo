@@ -244,13 +244,13 @@ export class OrdersComponent implements OnInit {
   // columnsToDisplayPositions = ['account_id', 'POSITION_ID', 'QUANTITY', 'PRICE']
   expandedElement!: InsideOrders | null;
   getChangeStyle(STATUS: string): string {
-    if (STATUS === 'confirmed') {
+    if (STATUS.toLowerCase() === 'confirmed') {
       return 'positive-value'; // CSS class for positive values
-    } else if (STATUS === 'pending') {
+    } else if (STATUS.toLowerCase() === 'pending') {
       return 'negative-value'; // CSS class for negative values
-    } else if (STATUS === 'SELL') {
+    } else if (STATUS.toLowerCase() === 'sell') {
       return 'negative-value'; // CSS class for negative values
-    } else if (STATUS === 'BUY') {
+    } else if (STATUS.toLowerCase() === 'buy') {
       return 'positive-value'; // CSS class for negative values
     } else {
       return ''; // No special style for zero values
@@ -363,7 +363,7 @@ export class OrdersComponent implements OnInit {
 
   getConfirmedOrder() {
     // this.showSpinner= true;
-    this.basketTradeService.getOrderByBasketId('ts', this.basketId, "confirmed").then((data) => {
+    this.basketTradeService.getOrderByBasketId('ts', this.basketId, "Confirmed").then((data) => {
       // this.showSpinner =false;
       if (data && data.success) {
         data.orders.forEach((ele: any) => {
@@ -380,7 +380,7 @@ export class OrdersComponent implements OnInit {
   }
   getPendingOrder() {
     // this.showSpinner= true;
-    this.basketTradeService.getOrderByBasketId('ts', this.basketId, "pending").then((data) => {
+    this.basketTradeService.getOrderByBasketId('ts', this.basketId, "Pending").then((data) => {
       // this.showSpinner =false;
       if (data && data.success) {
         data.orders.forEach((ele: any) => {
@@ -407,29 +407,46 @@ export class OrdersComponent implements OnInit {
   account_balance: any;
   cash_balance: any;
   account_id: any;
+  isEdit:boolean=false;
   confirmOrder(ele: any) {
-    // this.webSocketService.closeConnection();
-    let inputArray = null
-    let inputModelPopup = {
-      account_balance: this.account_balance,
-      cash_balance: Number(this.cash_balance),
-      basket_id: this.basketId,
-      account_id: this.account_id,
-      transaction_id: ele.transaction_id,
-      symbols: JSON.parse(JSON.stringify(ele.symbols)),
-    }
+    this.isEdit = true
 
-    const dialogRef = this.dialog.open(ConfirmTradeComponent, {
-      panelClass: 'custom-modal',
-      disableClose: true,
-      width: "70%",
-      data: inputModelPopup
-    });
-    dialogRef.afterClosed().subscribe((result: any) => {
-      if (result) {
+    /**
+     * getTransActionStatus service is used to edit the order 
+     *  if it is pending then only editable 
+     */
+    this.basketTradeService.getTransActionStatus('ts', ele.transaction_id).then((data) => {
+      if (data && data.success && data.data.length > 0 && data.data[0].OrderStatus === 'Pending') {
+        // this.webSocketService.closeConnection();
+        let inputArray = null
+        let inputModelPopup = {
+          account_balance: this.account_balance,
+          cash_balance: Number(this.cash_balance),
+          basket_id: this.basketId,
+          account_id: this.account_id,
+          transaction_id: ele.transaction_id,
+          symbols: JSON.parse(JSON.stringify(ele.symbols)),
+        }
+
+        const dialogRef = this.dialog.open(ConfirmTradeComponent, {
+          panelClass: 'custom-modal',
+          disableClose: true,
+          width: "70%",
+          data: inputModelPopup
+        });
+        dialogRef.afterClosed().subscribe((result: any) => {
+          this.isEdit = false;
+          if (result) {
+            this.getPendingOrder();
+          }
+        });
+      } else {
+        this.utilityService.displayInfoMessage('Unable to edit this order because the order is confirmed ', true);
         this.getPendingOrder();
+        this.isEdit = false;
       }
-    });
+    })
+
   }
 
 

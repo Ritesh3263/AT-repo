@@ -144,4 +144,17 @@ export class BasketTradeService {
       }
   }
 
+
+
+  async getTransActionStatus(broker_id:any,transaction_id:any){
+    try{
+        let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/brokerage/${broker_id}/transaction/${transaction_id}`, this.getHeaders());
+        let data = await res.json();
+        return data;
+      }
+      catch(e: any) {
+        return {error: e.message}
+      }
+  }
+
 }
