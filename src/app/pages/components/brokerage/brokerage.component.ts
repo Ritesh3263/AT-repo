@@ -10,6 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 import { LocationStrategy } from '@angular/common';
 import { UserService } from 'src/app/services/user.service';
 import { UtilitiesService } from 'src/app/services/utilities.service';
+import {BrokerService} from "../../../services/broker.service";
 
 export interface PeriodicElement {
   accountNumber: number;
@@ -47,7 +48,9 @@ export class BrokerageComponent implements AfterViewInit{
    state:any;
    user:any;
    tokenForRetrieveAccounts :any=null;
-  constructor(public dialog: MatDialog,private brokerageService:BrokerageService,private route: ActivatedRoute,private location:LocationStrategy,private userService: UserService,private utilityService:UtilitiesService) {
+   brokerMaster: any = null
+  constructor(public dialog: MatDialog,private brokerageService:BrokerageService,private route: ActivatedRoute,private location:LocationStrategy,private userService: UserService,
+              private utilityService: UtilitiesService, private brokerService: BrokerService) {
     /* getting access code from tradeStation */
     this.state = this.location.getState();
     if(this.state && this.state.code){
@@ -57,6 +60,12 @@ export class BrokerageComponent implements AfterViewInit{
   }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  async ngOnInit() {
+    let brokers = await this.brokerService.getBrokerMaster();
+    if(brokers && brokers.brokers)
+      this.brokerMaster = brokers.brokers
+  }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;

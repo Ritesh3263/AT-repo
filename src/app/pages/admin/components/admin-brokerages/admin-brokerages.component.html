@@ -1,0 +1,5 @@
+<div class="basket-wrapper">
+  <button mat-flat-button color="primary" class="panel-button" (click)="editBroker(null)">Create Brokerage</button>
+</div>
+<app-table [columnDetails]="columnDetails" [dataCallback]="getBrokers" [apiDataKey]="'brokers'" [rowClickCallback]="editBroker" [enableSearch]="true" [searchText]="'Search Brokerages'"></app-table>
+

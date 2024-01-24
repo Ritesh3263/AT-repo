@@ -40,7 +40,7 @@ export class UtilitiesService {
   }
 
   isControlValid(form: FormGroup, field: string) {
-    return !(form.controls[field].touched && (form.controls[field].errors?.['required'] || form.controls[field].errors?.['email'] || form.controls[field].errors?.['pattern']))
+    return !(form.controls[field] && form.controls[field].touched && (form.controls[field].errors?.['required'] || form.controls[field].errors?.['email'] || form.controls[field].errors?.['pattern']))
   }
 
   isFormValid(form: FormGroup) {

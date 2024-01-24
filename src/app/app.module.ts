@@ -70,6 +70,8 @@ import { WebsocketComponent } from './pages/components/websocket/websocket.compo
 import { OrdersComponent } from './pages/components/my-basket-info/orders/orders.component';
 import { EditOrderComponent } from './pages/components/my-basket-info/edit-order/edit-order.component';
 import { InfoModalComponent } from './layouts/info-modal/info-modal.component';
+import { EditBrokerComponent } from './pages/admin/components/modals/edit-broker/edit-broker.component';
+import { AdminBrokeragesComponent } from './pages/admin/components/admin-brokerages/admin-brokerages.component';
 
 
 @NgModule({
@@ -119,7 +121,9 @@ import { InfoModalComponent } from './layouts/info-modal/info-modal.component';
     WebsocketComponent,
     OrdersComponent,
     EditOrderComponent,
-    InfoModalComponent
+    InfoModalComponent,
+    EditBrokerComponent,
+    AdminBrokeragesComponent
   ],
   imports: [
     BrowserModule,

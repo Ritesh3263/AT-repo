@@ -16,21 +16,13 @@
                     <span>Brokerage</span>
                 </span>
             </ng-template>
-            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px" class="mt-20 pt-10">
-                <div fxFlex="20" fxFlex.md="30" fxFlex.sm="50" fxFlex.xs>
-                    <img src="/assets/images/tradestation_logo.svg" style="width: 200px;" />
-                </div>
-                <button  [disabled]="isDisableAccounts" mat-flat-button color="primary" (click)="connectDialog('TS')">
-                    Connect
-                </button>
-            </div>
-            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px" class="mt-20 pt-10">
-                <div fxFlex="20" fxFlex.md="30" fxFlex.sm="50" fxFlex.xs>
-                    <img src="/assets/images/interactivebrokers_logo.svg" style="width: 220px;" />
-                </div>
-                <button  mat-flat-button color="primary" (click)="connectDialog('IB')">
-                    Connect
-                </button>
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px" class="mt-20 pt-10" *ngFor="let broker of brokerMaster">
+              <div fxFlex="20" fxFlex.md="30" fxFlex.sm="50" fxFlex.xs>
+                <img src="{{broker.logo_url}}" style="width: 220px;" />
+              </div>
+              <button  mat-flat-button color="primary" (click)="connectDialog(broker.broker_code)">
+                Connect
+              </button>
             </div>
         </mat-tab>
         <mat-tab>

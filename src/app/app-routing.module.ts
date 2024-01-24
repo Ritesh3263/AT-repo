@@ -25,6 +25,7 @@ import { FeedbackFormComponent } from './pages/admin/components/feedback-form/fe
 import { SignUpComponent } from './layouts/sign-up/sign-up.component';
 import { WebsocketComponent } from './pages/components/websocket/websocket.component';
 import { OrdersComponent } from './pages/components/my-basket-info/orders/orders.component';
+import {AdminBrokeragesComponent} from "./pages/admin/components/admin-brokerages/admin-brokerages.component";
 
 const routes: Routes = [
   {
@@ -127,10 +128,14 @@ const routes: Routes = [
       {
         path: 'feedback-form',
         component: FeedbackFormComponent,
+      },
+      {
+        path: 'brokerages',
+        component: AdminBrokeragesComponent,
       }
     ]
   },{
-    
+
     path: 'websocket',
     component: WebsocketComponent,
     canActivate: [AuthenticationGuard]
