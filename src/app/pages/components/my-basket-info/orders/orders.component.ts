@@ -241,6 +241,8 @@ export class OrdersComponent implements OnInit {
   columnsToDisplayConfirm = ['ACTION', 'account_id', 'transaction_id', 'transaction_type', 'transaction_date', 'order_status'];
   columnsToDisplay = ['ACTION', 'account_id', 'transaction_id', 'transaction_type', 'transaction_date', 'order_status', 'edit'];
   columnsToDisplayInside = ['symbol', 'filled_qty', 'order_id', "price_at_request", 'transaction_type'];
+  columnsToDisplayConfirmInside = ['symbol', 'filled_qty', 'order_id', "price_at_request", 'transaction_type',"remarks"];
+  option:any=[];
   // columnsToDisplayPositions = ['account_id', 'POSITION_ID', 'QUANTITY', 'PRICE']
   expandedElement!: InsideOrders | null;
   getChangeStyle(STATUS: string): string {
@@ -252,12 +254,17 @@ export class OrdersComponent implements OnInit {
       return 'negative-value'; // CSS class for negative values
     } else if (STATUS.toLowerCase() === 'buy') {
       return 'positive-value'; // CSS class for negative values
+    }else if (STATUS.toLowerCase() === 'failed') {
+      return 'negative-value'; // CSS class for negative values
     } else {
       return ''; // No special style for zero values
     }
   }
-  @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>;
-  @ViewChild(MatSort, { static: true }) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator !:MatPaginator
+  // @ViewChildren(MatPaginator) paginatorConfirm !:MatPaginator
+
+  @ViewChild(MatSort, { static: true })
+  sort!: MatSort;
   showSpinner: boolean = false;
   user_id: any = null;
   isPosition: boolean = true;
@@ -266,11 +273,12 @@ export class OrdersComponent implements OnInit {
   constructor(public dialog: MatDialog, private basketTradeService: BasketTradeService, private userService: UserService, private utilityService: UtilitiesService, @Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, private brokerageService: BrokerageService) { }
 
   ngAfterViewInit(id = null) {
-
+      this.dataSource.sort = this.sort;
+    
   }
   ngOnInit(id = null) {
     // Initialize dataSource and load data
-    this.dataSource.paginator = this.paginator.first;
+    // this.dataSource.paginator = this.paginator.first;
 
     this.basketId = id || this.parentComponent.getBasketId();
     this.getBrokerageAccount('ts');
@@ -363,18 +371,24 @@ export class OrdersComponent implements OnInit {
 
   getConfirmedOrder() {
     // this.showSpinner= true;
-    this.basketTradeService.getOrderByBasketId('ts', this.basketId, "Confirmed").then((data) => {
+    this.basketTradeService.getOrderByBasketId('ts', this.basketId).then((data) => {
       // this.showSpinner =false;
+      var executedOrders:any=[];
+      this.option=[]
       if (data && data.success) {
         data.orders.forEach((ele: any) => {
-          // ele.transaction_created_date = new Date(ele.transaction_created_date)
-          // ele.transaction_execution_date = new Date(ele.transaction_execution_date)
-
-          ele.symbols.forEach((elesub: any) => {
-            elesub.price_at_request = Number(elesub.filled_price);
-          })
+          if(ele.order_status.toLowerCase()!='pending'){
+            ele.symbols.forEach((eleSub: any) => {
+              eleSub.price_at_request = eleSub.price_at_request?Number(eleSub.price_at_request):null;
+              eleSub.filled_price = eleSub.filled_price?Number(eleSub.filled_price):null;
+            })
+            executedOrders.push(ele)
+          }
         })
-        this.dataSource = new MatTableDataSource<any>(data.orders.reverse());
+        this.dataSource = new MatTableDataSource<any>(executedOrders.reverse());
+        this.dataSource.paginator = this.paginator;
+        this.pagination(executedOrders.length)
+
       }
     })
   }
@@ -465,4 +479,18 @@ export class OrdersComponent implements OnInit {
   setInputForEdit(data: any) {
 
   }
+
+  pagination(data: number) {
+    this.option = [10]
+   if (10 < data && data <= 25) {
+     this.option = [10, data]
+   } else if (data <= 50) {
+     this.option = [10, 25, data]
+   } else if (data <= 100) {
+     this.option = [10, 25, 50, data]
+   } else if (100 < data) {
+     this.option = [10, 25, 50, 100, data]
+   }
+ }
+
 }

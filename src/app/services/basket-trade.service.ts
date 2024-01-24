@@ -110,9 +110,9 @@ export class BasketTradeService {
       }
   }
 
-  async getOrderByBasketId(broker_id:any,basket_id:any,status:any){
+  async getOrderByBasketId(broker_id:any,basket_id:any,status:any=null){
     try{
-        let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/brokerage/${broker_id}/orders/basket/${basket_id}/${status}`, this.getHeaders());
+        let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/brokerage/${broker_id}/orders/basket/${basket_id}?status=${status}`, this.getHeaders());
         let data = await res.json();
         return data;
       }
