@@ -55,7 +55,7 @@ const routes: Routes = [
     canActivate: [AuthenticationGuard]
   },
   {
-    path: 'my-basket-info/:id',
+    path: 'baskets/:id',
     component: JourneyInfoComponent,
     canActivate: [AuthenticationGuard],
     children: [
