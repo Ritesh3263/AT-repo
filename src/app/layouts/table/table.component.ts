@@ -20,6 +20,7 @@ export class TableComponent {
   dataSource = new MatTableDataSource<any>([])
   selection = new SelectionModel<any>(true, []);
   search!: string
+  showSpinner: boolean = false;
 
   @Input() dataCallback: any;
   @Input() rowClickCallback: any;
@@ -51,6 +52,7 @@ export class TableComponent {
   }
 
   async ngOnInit() {
+    this.showSpinner = true;
     for(let i = 0; i < this.columnDetails.length; i++) {
       this.displayedColumns.push(this.columnDetails[i].key)
       if(this.columnDetails[i].type == 'menu') {
@@ -59,6 +61,7 @@ export class TableComponent {
     }
 
     await this.getData();
+    this.showSpinner = false;
   }
 
   async getData(resetPagination = false) {
