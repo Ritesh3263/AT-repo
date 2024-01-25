@@ -96,7 +96,8 @@
             </span>
         </div>
 
-        <app-table [columnDetails]="columnDetails" [dataCallback]="getBasketSymol" [dataCallbackOptionalParameter]="basketId" [apiDataKey]="'symbols'" [rowClickCallback]="widgetDialog" [sortColumn]="'timestamp'" [sortMode]="'desc'" [parentComponent]="parentComponent"></app-table>
+        <app-table [columnDetails]="columnDetails" [dataCallback]="getBasketSymol" [dataCallbackOptionalParameter]="basketId" [apiDataKey]="'symbols'" [rowClickCallback]="widgetDialog"
+                   [sortColumn]="'timestamp'" [sortMode]="'desc'" [parentComponent]="parentComponent" [getRowHighlight]="getRowHighlight" [mainComponent]="this"></app-table>
 
     </div>
 </div>

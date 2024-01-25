@@ -3,10 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { FeedbackComponent } from 'src/app/pages/components/feedback/feedback.component';
 import { ProfileComponent } from 'src/app/pages/components/profile/profile.component';
 
-import { Router } from '@angular/router';
-
 import { UserService } from 'src/app/services/user.service';
 import { NotificationsService } from 'src/app/services/notifications.service';
+import { UtilitiesService} from "../../services/utilities.service";
 
 @Component({
   selector: 'app-header',
@@ -34,7 +33,7 @@ export class HeaderComponent {
     });
   }
 
-  constructor(public dialog: MatDialog, private router: Router, private userService: UserService, private notificationService: NotificationsService) {
+  constructor(public dialog: MatDialog, private utilitiesService: UtilitiesService, private userService: UserService, private notificationService: NotificationsService) {
     this.loadUserEventSubscriber = this.userService.loadUserEvent.subscribe({
       next: (event: string) => {
           if(event == 'LOAD_USER') {
@@ -64,17 +63,19 @@ export class HeaderComponent {
   }
 
   navigate(route:string) {
-    this.router.navigate([route]);
+    this.utilitiesService.navigate(route);
   }
 
   logout() {
     sessionStorage.clear();
     this.userService.logout().then((data: any) => {
-      this.router.navigate(['/login']);
+      this.utilitiesService.navigate('/login');
     })
   }
 
-  getRoute() {
-    return this.router.url;
+  notificationNavigate(notification:any) {
+    if(notification.action == 'BASKET_EDIT' && notification.basket_id) {
+      this.utilitiesService.navigate(`baskets/${notification.basket_id}/basket?event=${btoa(JSON.stringify({timestamp: notification.timestamp}))}`)
+    }
   }
 }

@@ -31,6 +31,8 @@ export class TableComponent {
   @Input() sortColumn: string | null = null;
   @Input() sortMode: SortDirection = 'asc';
   @Input() parentComponent: any = null;
+  @Input() getRowHighlight: Function = (mainComponent: any, row:any) => { return ''}
+  @Input() mainComponent: any = null;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
