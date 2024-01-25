@@ -19,7 +19,6 @@
     <div fxFlex fxFlex.xs="100" fxLayout="row wrap" fxLayoutAlign="start center" class="form-group pt-xs-10">
       <div fxFlex>
         <h3 class="mat-h3 font-600 mb-0">{{trader.displayName}}</h3>
-        <p>{{trader.email}}</p>
         <p>Joined: {{trader.createdAt | date}} </p>
 
         <p [hidden]="true">{{trader.followers}} Followers</p>
@@ -132,7 +131,7 @@
               </button>
               -->
               <!--
-              <button mat-menu-item routerLink="/my-basket-info/marketplace">
+              <button mat-menu-item routerLink="/baskets/marketplace">
                   <mat-icon>ios_share</mat-icon>
                   <span>Publish to Marketplace</span>
               </button>

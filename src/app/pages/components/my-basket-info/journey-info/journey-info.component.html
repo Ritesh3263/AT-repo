@@ -2,49 +2,49 @@
     <div fxFlex="none" fxFlex.xs="100" class="basket-sidebar overflow-auto">
         <ul class="main-nav">
             <li>
-                <a fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" routerLink="/my-basket-info/{{basketId}}" routerLinkActive="active" [routerLinkActiveOptions]={exact:true}>
+                <a fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" routerLink="/baskets/{{basketId}}" routerLinkActive="active" [routerLinkActiveOptions]={exact:true}>
                     <span fxFlex>
                         Dashboard
                     </span>
                 </a>
             </li>
             <li>
-                <a fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" routerLink="/my-basket-info/{{basketId}}/basket" routerLinkActive="active">
+                <a fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" routerLink="/baskets/{{basketId}}/basket" routerLinkActive="active">
                     <span fxFlex>
                         Basket / Symbols
                     </span>
                 </a>
             </li>
             <li *ngIf="basket.is_owner || basket.is_subscribed">
-                <a fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" routerLink="/my-basket-info/{{basketId}}/account" routerLinkActive="active">
+                <a fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" routerLink="/baskets/{{basketId}}/account" routerLinkActive="active">
                     <span fxFlex>
                         Account
                     </span>
                 </a>
             </li>
             <li *ngIf="basket.is_owner || basket.is_subscribed">
-                <a fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" routerLink="/my-basket-info/{{basketId}}/trade" routerLinkActive="active">
+                <a fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" routerLink="/baskets/{{basketId}}/trade" routerLinkActive="active">
                     <span fxFlex>
                         Trade
                     </span>
                 </a>
             </li>
             <li *ngIf="basket.is_owner">
-                <a fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" routerLink="/my-basket-info/{{basketId}}/marketplace" routerLinkActive="active">
+                <a fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" routerLink="/baskets/{{basketId}}/marketplace" routerLinkActive="active">
                     <span fxFlex>
                         Marketplace
                     </span>
                 </a>
             </li>
             <li>
-                <a fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" routerLink="/my-basket-info/{{basketId}}/subscription" routerLinkActive="active">
+                <a fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" routerLink="/baskets/{{basketId}}/subscription" routerLinkActive="active">
                     <span fxFlex>
                         Subscription
                     </span>
                 </a>
             </li>
             <li>
-                <a fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" routerLink="/my-basket-info/{{basketId}}/orders" routerLinkActive="active">
+                <a fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" routerLink="/baskets/{{basketId}}/orders" routerLinkActive="active">
                     <span fxFlex>
                         Orders
                     </span>

@@ -64,7 +64,7 @@ export class MyBasketsComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result && result.success && result.id) {
-        this.utilityService.navigate(`/my-basket-info/${result.id}/basket`);
+        this.utilityService.navigate(`/baskets/${result.id}/basket`);
       }
     });
   }
@@ -172,7 +172,7 @@ export class MyBasketsComponent {
   }
 
   navigate(basket: Basket, path: string) {
-    this.utilityService.navigate(`/my-basket-info/${basket.id}/${path}`)
+    this.utilityService.navigate(`/baskets/${basket.id}/${path}`)
   }
 
   removeFromBasket(baskets: Basket[], basket: Basket, extraCondition:boolean = true) {
