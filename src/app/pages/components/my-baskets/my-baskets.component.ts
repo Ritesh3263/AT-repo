@@ -46,7 +46,7 @@ export class MyBasketsComponent {
   // Private / Public Visibility Filter Set
   visibilityFilter: any = {
     'All': (item:any) => { return true; },
-    'Public (Pulished to Marketplace)': (item:any) => { return item.public == true },
+    'Public (Pulished to Marketplace)': (item:any) => { return item.public && item.is_owner },
     'Private': (item:any) => { return item.public == false }
   }
   // Chain all the filters together
