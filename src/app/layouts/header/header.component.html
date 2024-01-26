@@ -28,9 +28,9 @@
                 </div>
                 <ul class="menu-body">
                     <li class="unread" *ngFor="let notification of notifications">
-                        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+                        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px" (click)="notificationNavigate(notification)">
                             <img src="{{notification.publisher_image}}" class="profile-img" />
-                            <p><span class="font-600">{{notification.publisher_name}}</span> {{notification.subject}}</p>
+                            <p><span class="font-600">{{notification.publisher_name}}</span> {{notification.subject}}.  {{notification.notification_data.substring(0, 75) + (notification.notification_data.length > 75 ? '...' : '')}}</p>
                         </div>
                     </li>
                 </ul>
@@ -88,5 +88,8 @@
         <li>
             <a routerLink="/admin/feedback-form" routerLinkActive="active" fxLayout="column" fxLayoutAlign="center center">Feedback</a>
         </li>
+      <li>
+        <a routerLink="/admin/brokerages" routerLinkActive="active" fxLayout="column" fxLayoutAlign="center center">Brokerages</a>
+      </li>
     </ul>
 </nav>

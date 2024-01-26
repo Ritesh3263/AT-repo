@@ -69,7 +69,11 @@ import { SpinnerComponent } from './pages/components/spinner/spinner.component';
 import { WebsocketComponent } from './pages/components/websocket/websocket.component';
 import { OrdersComponent } from './pages/components/my-basket-info/orders/orders.component';
 import { EditOrderComponent } from './pages/components/my-basket-info/edit-order/edit-order.component';
+import { InfoModalComponent } from './layouts/info-modal/info-modal.component';
+import { EditBrokerComponent } from './pages/admin/components/modals/edit-broker/edit-broker.component';
+import { AdminBrokeragesComponent } from './pages/admin/components/admin-brokerages/admin-brokerages.component';
 
+import { MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
@@ -117,7 +121,10 @@ import { EditOrderComponent } from './pages/components/my-basket-info/edit-order
     SpinnerComponent,
     WebsocketComponent,
     OrdersComponent,
-    EditOrderComponent
+    EditOrderComponent,
+    InfoModalComponent,
+    EditBrokerComponent,
+    AdminBrokeragesComponent
   ],
   imports: [
     BrowserModule,
@@ -146,6 +153,7 @@ import { EditOrderComponent } from './pages/components/my-basket-info/edit-order
     MatSnackBarModule,
     MatButtonToggleModule,
     MatSortModule,
+    MatTooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]

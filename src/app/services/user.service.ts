@@ -48,7 +48,6 @@ export class UserService {
       return data.isAuthenticated;
     }
     catch(e: any) {
-      console.log("isAuthenticated Error: " + e.message)
       return false;
     }
   }
@@ -60,7 +59,6 @@ export class UserService {
       return data;
     }
     catch(e: any) {
-      console.log("logout Error: " + e.message);
       return {error: e.message}
     }
   }
@@ -80,22 +78,22 @@ export class UserService {
       return data;
     }
     catch(e: any) {
-      console.log("Get User Details Error: " + e.message);
       return {error: e.message}
     }
   }
 
-  async uploadProfilePhoto(file: File) {
+  async updateProfile(user: any, file: File) {
     try{
       const formData = new FormData();
-      formData.append("file", file, file.name);
+      formData.append("user", JSON.stringify(user));
+      if(file) {
+        formData.append("file", file, file.name);
+      }
 
-      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/user/profile-photo`, this.getHeaders('POST', formData, true));
-      let data = await res.json();
-      return data;
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/user/profile`, this.getHeaders('POST', formData, true));
+      return await res.json();
     }
     catch(e: any) {
-      console.log("logout Error: " + e.message);
       return {error: e.message}
     }
   }
@@ -103,11 +101,9 @@ export class UserService {
   async submitFeedbackForm(form: any) {
     try{
       let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/user/feedback-form`, this.getHeaders('POST', form));
-      let data = await res.json();
-      return data;
+      return await res.json();
     }
     catch(e: any) {
-      console.log("signup Error: " + e.message);
       return {error: e.message}
     }
   }

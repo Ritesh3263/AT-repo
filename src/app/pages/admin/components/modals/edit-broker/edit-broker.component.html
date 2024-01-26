@@ -1,0 +1,39 @@
+<div class="modal-dialog">
+  <div fxLayout="row" fxLayoutAlign="start center" class="dialog-header">
+    <h2 fxFlex class="mat-h2">{{data.header}}</h2>
+    <button mat-icon-button mat-dialog-close class="close-btn">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content class="no-padding-bottom">
+    <form class="example-form" [formGroup]="form">
+      <app-input-text [formGroup]="form" [label]="'Name'" [field]="'name'"></app-input-text>
+
+      <app-input-text [formGroup]="form" [label]="'Broker Code'" [field]="'broker_code'"></app-input-text>
+
+      <mat-checkbox formControlName="active" *ngIf="mode == 'EDIT'">Enabled</mat-checkbox>
+      <br>
+      <div class="logo-upload">
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <label>
+            <span>Logo</span>
+            <input #fileInput type="file" name="upload" class="upload-input"
+                   placeholder="Upload" (change)="onFileSelected($event)"/>
+          </label>
+        </div>
+      </div>
+
+      <img *ngIf="data.broker && !selectedFileURL" src="{{data.broker.logo_url}}" style="width: 200px;" />
+      <img *ngIf="selectedFileURL" src="{{selectedFileURL}}" style="width: 200px;" />
+
+    </form>
+  </div>
+  <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
+    <button mat-stroked-button mat-dialog-close color="primary">
+      Cancel
+    </button>
+    <button mat-flat-button color="primary" [disabled]="!utilityService.isFormValid(form)" (click)="save()">
+      {{ mode == 'EDIT' ? 'Update' : 'Create'}}
+    </button>
+  </div>
+</div>

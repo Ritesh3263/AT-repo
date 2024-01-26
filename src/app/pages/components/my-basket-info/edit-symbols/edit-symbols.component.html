@@ -47,8 +47,16 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
         </div>
+        <br>
+        <p><mat-checkbox [(ngModel)]="replaceTickers" *ngIf="data.mode == 'ADD' && (data.tickers && data.tickers.length)"
+                         matTooltip="Replaces basket symbols with new list, keeping only symbols present in both lists."
+                         [matTooltipPosition]="'below'"
+                         matTooltipClass="at-custom-tooltip"
+        >Replace basket symbols</mat-checkbox></p>
     </div>
+
     <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
+
         <button mat-stroked-button mat-dialog-close color="primary">
             Cancel
         </button>

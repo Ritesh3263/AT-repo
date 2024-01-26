@@ -16,3 +16,10 @@
         --mdc-snackbar-supporting-text-color: #fff;
       }
   }
+
+.at-custom-tooltip .mdc-tooltip__surface {
+  max-width: unset;
+  --mdc-plain-tooltip-container-color: #0b63e5;
+  --mdc-plain-tooltip-supporting-text-size: 14px;
+}
+

@@ -124,11 +124,10 @@ export class BasketsService {
     }
   }
 
-  async editSymbols(basketId: Number, tickers: any, method: string): Promise<any> {
+  async editSymbols(basketId: Number, tickers: any, method: string, replaceTickers: boolean = false): Promise<any> {
     try{
-      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/basket/${basketId}/symbols`, this.getHeaders(method, {tickers: tickers}));
-      let data = await res.json();
-      return data;
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/basket/${basketId}/symbols`, this.getHeaders(method, {tickers: tickers, replaceTickers: replaceTickers}));
+      return await res.json();
     }
     catch(e: any) {
       return {error: e.message}
