@@ -47,7 +47,8 @@ export class MyBasketsComponent {
   visibilityFilter: any = {
     'All': (item:any) => { return true; },
     'Public (Pulished to Marketplace)': (item:any) => { return item.public && item.is_owner },
-    'Private': (item:any) => { return item.public == false }
+    'Private': (item:any) => { return item.public == false },
+    'Subscribed': (item:any) => { return item.public && !item.is_owner }
   }
   // Chain all the filters together
   filterChain:any = {
