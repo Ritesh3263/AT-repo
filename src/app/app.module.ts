@@ -73,6 +73,7 @@ import { InfoModalComponent } from './layouts/info-modal/info-modal.component';
 import { EditBrokerComponent } from './pages/admin/components/modals/edit-broker/edit-broker.component';
 import { AdminBrokeragesComponent } from './pages/admin/components/admin-brokerages/admin-brokerages.component';
 
+import { MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
@@ -152,6 +153,7 @@ import { AdminBrokeragesComponent } from './pages/admin/components/admin-brokera
     MatSnackBarModule,
     MatButtonToggleModule,
     MatSortModule,
+    MatTooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]

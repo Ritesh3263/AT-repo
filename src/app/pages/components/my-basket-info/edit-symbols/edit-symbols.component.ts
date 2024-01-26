@@ -19,6 +19,7 @@ export class EditSymbolsComponent {
 
   lookupControl!: any;
   filteredOptions!: Observable<any[]>;
+  replaceTickers: boolean = false;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private basketService: BasketsService, private utilityService: UtilitiesService, private dialogRef: MatDialogRef<EditSymbolsComponent>) {
     this.dataSource = new MatTableDataSource<any>(data.tickers)
@@ -112,7 +113,7 @@ export class EditSymbolsComponent {
   }
 
   updateBasket() {
-    this.basketService.editSymbols(this.data.basket.id, this.data.tickers, this.data.mode == 'ADD' ? 'PATCH' : 'DELETE').then((data) => {
+    this.basketService.editSymbols(this.data.basket.id, this.data.tickers, this.data.mode == 'ADD' ? 'PATCH' : 'DELETE', this.replaceTickers).then((data) => {
       if(data.error || !data.success) {
         this.utilityService.displayInfoMessage(data.error, true)
       }
