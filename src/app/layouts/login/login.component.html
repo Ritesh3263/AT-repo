@@ -1,5 +1,9 @@
 <div fxFill fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center center">
-    <div class="login-wrapper">
+    <div class="login-wrapper md:min-h-[450px]">
+        <div class="bg-pattern-1"></div>
+
+        <div class="login-content">
+
         <header fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px" >
             <h2 fxFlex="initial" class="mat-h2 font-600 mb-0">Sign in with</h2>
             <span fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="social-icons">
@@ -39,5 +43,11 @@
         </div>
         <button mat-flat-button color="primary" (click)="login()" class="login-btn" [disabled]="!isFormValid()">Login</button>
         <p class="signup-link" (click)="signup()">Don't have an account? <a>Sign up</a></p>
+    </div>
+    <div class="hero-wrapper">
+        <img class="vector-img" src="../../../assets/images/trading-vector.svg">
+        <p class="!font-semibold !m-0 bottom-logo">Angular Trading°</p>
+    </div>
+    <div class="bg-pattern-2"></div>
     </div>
 </div>

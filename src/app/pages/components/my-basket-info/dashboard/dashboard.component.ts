@@ -1,28 +1,45 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Renderer2, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Renderer2 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {MatTableModule} from '@angular/material/table';
 // import * as XLSX from 'xlsx';
 // import { HttpClient } from '@angular/common/http';
 import { debounceTime, finalize, switchMap, tap } from 'rxjs/operators';
-import { BasketsService } from 'src/app/services/baskets.service';
-import { UtilitiesService } from 'src/app/services/utilities.service';
-import { JourneyInfoComponent } from '../journey-info/journey-info.component';
 // import { AdminService } from '../../admin.service';
+// import callScriptJs from './script';
 declare const TradingView: any;
-declare const google: any;
+declare var google: any;
+
+
+export interface PeriodicElement {
+  symbol: string;
+  name: string;
+  invested: number;
+  change: string;
+}
+const ELEMENT_DATA: PeriodicElement[] = [
+  {symbol: 'TSLA', name: 'Tesla Inc', invested: 1800, change: '2%'},
+  {symbol: 'GOOG', name: 'Alphabet Inc', invested: 42000, change: '3.05%'},
+  {symbol: 'MSFT', name: 'Microsoft Corp.', invested: 6000, change: '10.2%'},
+  {symbol: 'AAPL', name: 'Apple Inc', invested: 5029, change: '6.25%'},
+  {symbol: 'NVDA', name: 'Nvidia Corp.', invested: 1150, change: '9.6%'},
+  
+];
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
-  public form: FormGroup;
-  length = 0;
-  pageSize = 10;
-  pageIndex = 0;
-  basketId: number = 0;
-  currentDate: Date = new Date();
 
-  constructor(@Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, private formBuilder: FormBuilder, private _renderer2: Renderer2, private utilityService: UtilitiesService, private basketService: BasketsService) {
+
+  displayedColumns: string[] = ['symbol', 'name', 'invested', 'change'];
+  dataSource = ELEMENT_DATA;
+
+
+  public form: FormGroup;
+
+  constructor(private formBuilder: FormBuilder, private _renderer2: Renderer2) {
     this.form = this.formBuilder.group({
       'SymbolChange': ['AAPL']
     })
@@ -34,17 +51,120 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   @ViewChild('tradingMinChartWidget', { static: true }) tradingMinChartWidget?: ElementRef;
 
   isLoading: boolean = false;
-  tickersOptions: any = [];
-  isSymbols:boolean=true;
+  tickersOptions:any = [];
 
 
-  ngOnInit(id = null): void {
-    this.basketId = id || this.parentComponent.getBasketId();
-    google.charts.load('current', { 'packages': ['corechart'] });
-    google.charts.load('current', { 'packages': ['line'] });
-    google.charts.load('current', { 'packages': ['bar'] });
+  
 
-    this.getBasketSymbols();
+  /////////////////// For Google Charts //////////////////////////
+
+  drawDonutChart(){
+    var data = google.visualization.arrayToDataTable([
+      ['Task', 'Hours per Day'],
+      ['Tech Industry',     11],
+      ['Gold',      2],
+      ['Gov-Bonds',  2],
+      ['ETF', 2],
+      ['MF',    7]
+    ]);
+
+    var options = {
+      
+      backgroundColor: {
+        'fill': 'transparent',
+        'opacity': 100,
+      },
+      // title: 'My Daily Activities',
+      pieHole: 0.4,
+      colors: ['#e0440e', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],
+      // is3D: true
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+    chart.draw(data, options);
+  }
+
+  drawLineChart(){
+    var data = new google.visualization.DataTable();
+    data.addColumn('number', 'Days');
+    data.addColumn('number', 'This Basket');
+
+    data.addRows([
+      [0, 0],   [1, 10],  [2, 23],  [3, 17],  [4, 18],  [5, 9],
+      [6, 11],  [7, 27],  [8, 33],  [9, 40],  [10, 32], [11, 35],
+      [12, 30], [13, 40], [14, 42], [15, 47], [16, 44], [17, 48],
+      [18, 52], [19, 54], [20, 42], [21, 55], [22, 56], [23, 57],
+      [24, 60], [25, 50], [26, 52], [27, 51], [28, 49], [29, 53],
+      [30, 55], [31, 60], [32, 61], [33, 59], [34, 62], [35, 65],
+      [36, 62], [37, 58], [38, 55], [39, 61], [40, 64], [41, 65],
+      [42, 63], [43, 66], [44, 67], [45, 69], [46, 69], [47, 70],
+      [48, 72], [49, 68], [50, 66], [51, 65], [52, 67], [53, 70],
+      [54, 71], [55, 72], [56, 73], [57, 75], [58, 70], [59, 68],
+      [60, 64], [61, 60], [62, 65], [63, 67], [64, 68], [65, 69],
+      [66, 70], [67, 72], [68, 75], [69, 80]
+    ]);
+
+      
+
+    var options = {
+      backgroundColor: {
+        'fill': 'transparent'
+      },
+      chartArea: {
+        backgroundColor: {
+          fill: 'transparent',
+          fillOpacity: 0.1
+        },
+      },
+      chart: {
+        
+      },
+      width: '100%',
+      height: 500,
+      
+    };
+
+    var chart = new google.charts.Line(document.getElementById('line_top_x'));
+
+    chart.draw(data, google.charts.Line.convertOptions(options));
+  }
+
+  //////////////////////////////////////////////////////////////
+
+
+  ngOnInit(): void {
+
+    /////////////////// For Google Charts //////////////////////////
+
+    google.charts.load('current', {packages: ['corechart']});
+    google.charts.setOnLoadCallback(this.drawDonutChart);
+    google.charts.load('current', {packages:['line']});
+    google.charts.setOnLoadCallback(this.drawLineChart);
+    // callScriptJs();
+    //////////////////////////////////////////////////////////////
+
+
+    // this.form.controls['SymbolChange'].value
+    //   .pipe(
+    //     debounceTime(100),
+    //     tap(() => (this.isLoading = true)),
+    //     switchMap((value) =>
+
+    //       this.adminService    /*** this call is to get auto-completes data**/
+    //         .getTickersBySearch(value)
+    //         .pipe(finalize(() => {
+
+    //           (this.isLoading = false);
+    //         }))
+    //     )
+    //   )
+    //   .subscribe((res:any) => {
+    //     if (res.status) {
+    //       this.tickersOptions = []
+    //       this.tickersOptions = res.data;
+    //     }
+
+    //   });
   }
   // onChangeTicker() {
   //       this.companyProfileWidget();
@@ -61,15 +181,15 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
 
     // this.marketDataWidget();
-    // this.companyProfileWidget();
-    // this.fundamentalDataWidget();
-    // this.technicalAnalysisWidget();
-    // this.minChartWidget();
+    this.companyProfileWidget();
+    this.fundamentalDataWidget();
+    this.technicalAnalysisWidget();
+    this.minChartWidget();
 
   }
-
+  
   fundamentalDataWidget() {
-    let elementToRemove = this.TradingFundamentalDataWidget?.nativeElement;
+    let elementToRemove =  this.TradingFundamentalDataWidget?.nativeElement;
     elementToRemove.innerHTML = ''
     let input = null;
     input = JSON.stringify(this.form.controls['SymbolChange'].value);
@@ -93,9 +213,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.TradingFundamentalDataWidget?.nativeElement.appendChild(script);
   }
 
-  script: any;
+  script :any;
   companyProfileWidget() {
-    let elementToRemove = this.TradingCompanyProfileWidget?.nativeElement;
+    let elementToRemove =  this.TradingCompanyProfileWidget?.nativeElement;
     elementToRemove.innerHTML = ''
 
     let input = null;
@@ -119,7 +239,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
 
   technicalAnalysisWidget() {
-    let elementToRemove = this.TradingTechnicalAnalysisWidget?.nativeElement;
+    let elementToRemove =  this.TradingTechnicalAnalysisWidget?.nativeElement;
     elementToRemove.innerHTML = ''
     let input = null;
     input = JSON.stringify(this.form.controls['SymbolChange'].value);
@@ -147,16 +267,16 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     }
   }
 
-  /***Market Data Widget***/
-  minChartWidget() {
-    let elementToRemove = this.tradingMinChartWidget?.nativeElement;
-    elementToRemove.innerHTML = ''
-    let input = null;
-    input = JSON.stringify(this.form.controls['SymbolChange'].value);
-    let script = this._renderer2.createElement('script');
-    script.type = `text/javascript`;
-    script.src = "https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js";
-    script.text = `
+    /***Market Data Widget***/
+    minChartWidget() {
+      let elementToRemove =  this.tradingMinChartWidget?.nativeElement;
+      elementToRemove.innerHTML = ''
+      let input = null;
+      input = JSON.stringify(this.form.controls['SymbolChange'].value);
+      let script = this._renderer2.createElement('script');
+      script.type = `text/javascript`;
+      script.src = "https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js";
+      script.text = `
     {
       "symbol": ${input},
       "height": 300,
@@ -167,172 +287,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       "autosize": false,
       "largeChartUrl": ""
     }`;
-
-    this.tradingMinChartWidget?.nativeElement.appendChild(script);
-
-  }
-  /**
-     * drawChart function is used to create Piechart
-     * @param symbols is like array symbols
-     */
-
-  array: any[] = []
-  drawChart(symbols: any) {
-    this.array.push(['Task', 'Hours per Day'])
-    symbols.forEach((ele: any) => {
-      this.array.push([ele.symbol, Math.floor(Math.random() * 10) + 1]);
-    })
-
-    var data = google.visualization.arrayToDataTable(this.array);
-
-    var options = {
-      title: 'My Daily Activities'
-    };
-
-    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
-    chart.draw(data, options);
-  }
-  /**
-     * drawLineChart function is used to create LineChart
-     * @param symbols is like array symbols
-     */
-
-  drawLineChart(symbols: any) {
-
-
-    var data = new google.visualization.DataTable();
-    data.addColumn('number', 'Day');
-    symbols.forEach((ele: any) => {
-      data.addColumn('number', ele.symbol);
-    })
-    var lineRowData: any[] = []
-    /**index forloop */
-    for (let i = 1; i <= 10; i++) {
-      var lineColumnData: number[] = []
-      lineColumnData.push(i)
-      symbols.forEach((ele: any) => {
-        lineColumnData.push(Math.floor(Math.random() * 100) + 1)
-      })
-      lineRowData.push(lineColumnData)
+  
+      this.tradingMinChartWidget?.nativeElement.appendChild(script);
+  
     }
-    data.addRows(lineRowData);
-
-    var options = {
-      chart: {
-        title: 'Symbols',
-        subtitle: 'in millions of dollars (USD)'
-      },
-      axes: {
-        x: {
-          0: { side: 'top' }
-        }
-      }
-    };
-
-    var chart = new google.charts.Line(document.getElementById('line_top_x'));
-
-    chart.draw(data, google.charts.Line.convertOptions(options));
-  }
-
-  /**
-   * getBasketSymbols get symbols by basket Id
-   * @param resetPage 
-   */
-  getBasketSymbols(resetPage = false) {
-    if (resetPage) {
-      this.pageIndex = 0;
-      this.length = 0;
-    }
-    this.basketService.getSymbols(this.basketId, this.pageIndex, this.pageSize,null,null).then((data) => {
-      if (data.error || !data.symbols) {
-        this.isSymbols=false;
-        this.utilityService.displayInfoMessage(data.error, true)
-      }
-      else if(data.symbols && data.symbols.length>0) {
-        this.isSymbols=true;
-        google.charts.setOnLoadCallback(this.drawChart(data.symbols));
-        google.charts.setOnLoadCallback(this.drawLineChart(data.symbols));
-        google.charts.setOnLoadCallback(this.drawWaterFallChart(data.symbols));
-        google.charts.setOnLoadCallback(this.drawBarchartChart(data.symbols));
-
-      }else{
-        this.isSymbols=false;
-      }
-    })
-  }
-
-  /**
-   * drawWaterFallChart function is used to create waterFallChart
-   * @param symbols is like array symbols
-   */
-
-  drawWaterFallChart(symbols: any) {
-    var array: any[] = [];
-    symbols.forEach((ele: any) => {
-      array.push([ele.symbol, Math.floor(Math.random() * 100) + 1, Math.floor(Math.random() * 100) + 1, Math.floor(Math.random() * 100) + 1, Math.floor(Math.random() * 100) + 1])
-    })
-    var data = google.visualization.arrayToDataTable(array, true);
-
-    var options = {
-      legend: 'none',
-      bar: { groupWidth: '100%' }, // Remove space between bars.
-      candlestick: {
-        fallingColor: { strokeWidth: 0, fill: '#a52714' }, // red
-        risingColor: { strokeWidth: 0, fill: '#0f9d58' }   // green
-      }
-    };
-    var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
-
-    chart.draw(data, options);
-  }
-  /**
-   * drawBarchartChart function is used to create barchart
-   * @param symbols is like array symbols
-   */
-
-  drawBarchartChart(symbols: any) {
-    var array: any[] = [['symbol', this.getDate(0), this.getDate(1), this.getDate(2)]]
-    symbols.forEach((ele: any) => {
-      array.push([ele.symbol, Math.floor(Math.random() * 1000) + 1, Math.floor(Math.random() * 1000) + 1, Math.floor(Math.random() * 1000) + 1])
-
-    })
-    var data = google.visualization.arrayToDataTable(array);
-
-    var options = {
-      chart: {
-        title: 'Symbol Prices',
-      },
-      bars: 'horizontal' // Required for Material Bar Charts.
-    };
-
-    var chart = new google.charts.Bar(document.getElementById('barchart_material'));
-
-    chart.draw(data, google.charts.Bar.convertOptions(options));
-  }
-
-  /**
-   * getDate function is returns dates
-   * @param day is like 0,1,2 
-   * @returns today, yesterday, dayafter yesterday
-   */
-
-  getDate(day: number): string {
-    const today = new Date();
-    const yesterday = new Date(today);
-    if (day != 0) {
-      yesterday.setDate(today.getDate() - day);
-    }
-    // Format the date as "yyyy-MM-dd"
-    const formattedDate = this.formatDate(yesterday);
-    return formattedDate;
-  }
-
-  formatDate(date: Date): string {
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-indexed
-    const day = date.getDate().toString().padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  }
-
+  
 }

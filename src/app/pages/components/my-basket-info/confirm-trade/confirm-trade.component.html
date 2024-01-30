@@ -1,8 +1,8 @@
-<div class="modal-dialog">
+<div class="modal-dialog confirm-trade-popup">
     <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="10px" fxLayoutGap.xs="0px" class="dialog-header">
         <h2 class="mat-h2" *ngIf="!this.data.transaction_id">Continue with Trading</h2>
         <h2 class="mat-h2" *ngIf="this.data.transaction_id">Edit Orders</h2>
-        <span fxFlex fxFlex.xs="100" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="15px" class="pt-xs-15">
+        <span fxFlex fxFlex.xs="100" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="15px" class=" text-dark pt-xs-15">
             <div fxLayout="column">
                 <p class="no-margin">Account Balance</p>
                 <h3 class="mat-h3 no-margin font-600">{{data.account_balance | currency:'USD':'symbol':'1.2-2' }}</h3>
@@ -115,10 +115,10 @@
         </div>
     </div>
     <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
-        <button mat-stroked-button color="primary" (click)="cancel()">
+        <button mat-stroked-button class="secondary-btn" (click)="cancel()">
             Cancel
         </button>
-        <button mat-flat-button color="primary" [disabled]="isSubmit" (click)="confirmOrder()" >
+        <button mat-flat-button class="primary-btn" [disabled]="isSubmit" (click)="confirmOrder()" >
             Confirm
         </button>
     </div>

@@ -7,6 +7,7 @@
     <span>/</span>
     <a class="bold">Subscription</a>
 </div>
+<div fxLayout="column" class="main_wrapper basket_market_module bg-body text-dark">
 <div fxLayout="column" class="pt-10 pl-20 pr-20">
     <h1 class="mat-h1 font-700">Subscription</h1>
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px" class="mt-20" *ngIf="!basket.is_owner">
@@ -21,4 +22,5 @@
             <mat-slide-toggle color="primary" (change)="updateSubscription()" [disabled]="true" [(ngModel)]="basket.is_subscribed"> {{basket.is_subscribed ? 'ON': 'OFF' }} </mat-slide-toggle>
         </span>
     </div>
+</div>
 </div>

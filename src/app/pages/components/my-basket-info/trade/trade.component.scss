@@ -1,3 +1,9 @@
+.trade_multiheader_table{
+    th.mat-mdc-header-cell.mdc-data-table__header-cell.cdk-header-cell{
+        border: 1px solid rgba(0, 0, 0, 0.20);;
+    }
+}
+
 .trading-table {
     .mat-mdc-cell {
         &.positive-value {
@@ -14,34 +20,21 @@
     text-align: right !important;
 }
 
-@media screen and (min-width: 1280px) {
-    .primary-sub-section {
-        .form-group {
-            border-right: 1px solid rgba(0,0,0,.12);
-
-            &:last-child {
-                border-right: none;
-            }
+.trade-prime-section{
+    .trade-icon-round{
+        border-radius: 50%;
+        height: 50px;
+        width: 50px;
+        position: relative;
+        mat-icon{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
         }
     }
 }
 
-.spinner-wrapper {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    top: 0;
-    left: 0;
-    background-color: rgba(77, 73, 73, 0.5);
-    z-index: 998;
-    app-spinner {
-        width: 6rem;
-        height: 6rem;
-    }
-}
 .indicator_parent{
     display: flex;
     justify-content: space-between;
@@ -49,9 +42,8 @@
         display: flex;
         gap: 0.3rem;
     }
-   
+    
 }
-
 
 .indicator_parent_define{
     display: flex;
@@ -65,5 +57,5 @@
         gap: 0.3rem;
         align-items: center;
     }
-   
+    
 }

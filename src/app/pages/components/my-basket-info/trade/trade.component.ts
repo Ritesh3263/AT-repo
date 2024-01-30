@@ -493,10 +493,10 @@ getColor(price: any) {
           this.utilityService.displayInfoMessage('Unable to get accounts', true)
         }
         else if(data && data.Accounts) {
-          this.account_balance = data.Accounts[3].BuyingPower;
-          this.cash_balance = data.Accounts[3].CashBalance;
-          this.account_id = data.Accounts[3].AccountID;
-          this.market_value = data.Accounts[3].MarketValue;
+          this.account_balance = data.Accounts[0].BuyingPower;
+          this.cash_balance = data.Accounts[0].CashBalance;
+          this.account_id = data.Accounts[0].AccountID;
+          this.market_value = data.Accounts[0].MarketValue;
 
         }
         

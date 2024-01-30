@@ -5,7 +5,7 @@
     <span>/</span>
     <a class="bold">Brokerage</a>
 </div>
-<div class="basket-wrapper">
+<div class="main_wrapper brokerage_module bg-body text-dark">
     <!-- <div *ngIf="showSpinner" class="spinner-wrapper">
         <app-spinner></app-spinner>
       </div> -->
@@ -20,7 +20,7 @@
               <div fxFlex="20" fxFlex.md="30" fxFlex.sm="50" fxFlex.xs>
                 <img src="{{broker.logo_url}}" style="width: 220px;" />
               </div>
-              <button  mat-flat-button color="primary" (click)="connectDialog(broker.broker_code)">
+              <button  mat-flat-button class="primary-btn"(click)="connectDialog(broker.broker_code)">
                 Connect
               </button>
             </div>

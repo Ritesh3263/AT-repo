@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Inject, Renderer2, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { FeedbackComponent } from 'src/app/pages/components/feedback/feedback.component';
 import { ProfileComponent } from 'src/app/pages/components/profile/profile.component';
@@ -33,7 +34,7 @@ export class HeaderComponent {
     });
   }
 
-  constructor(public dialog: MatDialog, private utilitiesService: UtilitiesService, private userService: UserService, private notificationService: NotificationsService) {
+  constructor(public dialog: MatDialog, private utilitiesService: UtilitiesService, private userService: UserService, private notificationService: NotificationsService,@Inject(DOCUMENT) private document:Document, private render:Renderer2) {
     this.loadUserEventSubscriber = this.userService.loadUserEvent.subscribe({
       next: (event: string) => {
           if(event == 'LOAD_USER') {
@@ -55,6 +56,7 @@ export class HeaderComponent {
   }
 
   ngOnInit() {
+    this.render.addClass(this.document.body,'Trading-theme-light')
     this.loadUserDetails();
   }
 
@@ -76,6 +78,21 @@ export class HeaderComponent {
   notificationNavigate(notification:any) {
     if(notification.action == 'BASKET_EDIT' && notification.basket_id) {
       this.utilitiesService.navigate(`baskets/${notification.basket_id}/basket?event=${btoa(JSON.stringify({timestamp: notification.timestamp}))}`)
+    }
+  }
+
+
+
+  changeTheme(themevalue:string){
+    this.render.removeClass(this.document.body,'Trading-theme-light')
+    this.render.removeClass(this.document.body,'Trading-theme-dark')
+
+    if(themevalue=='light'){
+      this.render.addClass(this.document.body,'Trading-theme-light')
+    }
+    if(themevalue=='dark'){
+
+      this.render.addClass(this.document.body,'Trading-theme-dark')
     }
   }
 }
