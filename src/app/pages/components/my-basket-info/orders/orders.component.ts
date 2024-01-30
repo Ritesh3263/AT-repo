@@ -292,9 +292,9 @@ export class OrdersComponent implements OnInit {
   getBrokerageAccount(brokerage: any) {
     this.brokerageService.getBrokerageAccounts(brokerage).then((data) => {
       if (data && data.Accounts && data.Accounts.length > 0) {
-        this.account_balance = data.Accounts[3].BuyingPower;
-        this.cash_balance = data.Accounts[3].CashBalance;
-        this.account_id = data.Accounts[3].AccountID;
+        this.account_balance = data.Accounts[0].BuyingPower;
+        this.cash_balance = data.Accounts[0].CashBalance;
+        this.account_id = data.Accounts[0].AccountID;
       }
 
     })
