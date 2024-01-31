@@ -1,67 +1,71 @@
 <div class="modal-dialog">
-    <div fxLayout="row" fxLayoutAlign="start center" class="dialog-header">
-        <h2 fxFlex class="mat-h2">{{data.header}}</h2>
-        <button mat-icon-button mat-dialog-close class="close-btn">
-            <mat-icon>close</mat-icon>
-        </button>
-    </div>
-    <div mat-dialog-content class="no-padding-bottom">
-        <p>{{data.description}}</p>
-        <div *ngIf="data.mode == 'ADD'">
-            <mat-form-field appearance="outline" class="no-error">
-                <mat-label>Ticker Symbols</mat-label>
-                <input type="text" aria-label="Symbol" [formControl]="lookupControl" [matAutocomplete]="auto" matInput placeholder="Enter symbols to add.  Eg: AAPL, GOOG, TSLA, DCTH, etc."
-                    (keyup)="keyboardEventHandler($event)" (paste)="clipboardEventHandler($event, trigger);"  #trigger="matAutocompleteTrigger">
-                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" >
-                    <mat-option *ngFor="let option of filteredOptions | async; " (click)="addSymbol(option)">
-                        {{option.symbol}} - {{option.name}}
-                    </mat-option>
-                </mat-autocomplete>
-            </mat-form-field>
-            <br>
-            <br>
-        </div>
-
-        <div class="trading-table height-auto with-padding no-cell-padding table-scroll">
-            <table mat-table [dataSource]="dataSource">
-                <ng-container matColumnDef="symbol">
-                    <th mat-header-cell *matHeaderCellDef> Ticker Symbol </th>
-                    <td mat-cell *matCellDef="let element" > {{element.symbol}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="name">
-                    <th mat-header-cell *matHeaderCellDef> Ticker Name </th>
-                    <td mat-cell *matCellDef="let element" > {{element.name}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="actions">
-                    <th mat-header-cell *matHeaderCellDef> Actions </th>
-                    <td mat-cell *matCellDef="let element" >
-                        <button mat-icon-button (click)="deleteTicker(element.id)">
-                            <img src="/assets/images/delete-icon.svg" style="width: 21px; height: 21px;" />
-                        </button>
-                    </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-        </div>
-        <br>
-        <p><mat-checkbox [(ngModel)]="replaceTickers" *ngIf="data.mode == 'ADD' && (data.tickers && data.tickers.length)"
-                         matTooltip="Replaces basket symbols with new list, keeping only symbols present in both lists."
-                         [matTooltipPosition]="'below'"
-                         matTooltipClass="at-custom-tooltip"
-        >Replace basket symbols</mat-checkbox></p>
+  <div fxLayout="row" fxLayoutAlign="start center" class="dialog-header">
+    <h2 fxFlex class="mat-h2">{{data.header}}</h2>
+    <button mat-icon-button mat-dialog-close class="close-btn">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content class="no-padding-bottom">
+    <p>{{data.description}}</p>
+    <div *ngIf="data.mode == 'ADD'">
+      <mat-form-field appearance="outline" class="no-error">
+        <mat-label>Ticker Symbols</mat-label>
+        <input type="text" aria-label="Symbol" [formControl]="lookupControl" [matAutocomplete]="auto" matInput placeholder="Enter symbols to add.  Eg: AAPL, GOOG, TSLA, DCTH, etc."
+               (keyup)="keyboardEventHandler($event)" (paste)="clipboardEventHandler($event, trigger);"  #trigger="matAutocompleteTrigger">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" >
+          <mat-option *ngFor="let option of filteredOptions | async; " (click)="addSymbol(option)">
+            {{option.symbol}} - {{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <br>
+      <br>
     </div>
 
-    <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
+    <div class="trading-table height-auto with-padding no-cell-padding table-scroll">
+      <table mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="symbol">
+          <th mat-header-cell *matHeaderCellDef> Ticker Symbol </th>
+          <td mat-cell *matCellDef="let element" > {{element.symbol}} </td>
+        </ng-container>
 
-        <button mat-stroked-button mat-dialog-close color="primary">
-            Cancel
-        </button>
-        <button mat-flat-button color="primary" [disabled]="!data.tickers.length" (click)="updateBasket()">
-            {{data.mode == 'ADD' ? 'Add' : 'Delete'}}
-        </button>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Ticker Name </th>
+          <td mat-cell *matCellDef="let element" > {{element.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let element" >
+            <button mat-icon-button (click)="deleteTicker(element.id)">
+              <img src="/assets/images/delete-icon.svg" style="width: 21px; height: 21px;" />
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
     </div>
+    <br>
+    <p><mat-checkbox [(ngModel)]="replaceTickers" *ngIf="data.mode == 'ADD' && (data.tickers && data.tickers.length)"
+                     matTooltip="Replaces basket symbols with new list, keeping only symbols present in both lists."
+                     [matTooltipPosition]="'below'"
+                     matTooltipClass="at-custom-tooltip"
+    >Replace basket symbols</mat-checkbox></p>
+  </div>
+
+  <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
+
+    <button mat-stroked-button mat-dialog-close color="primary">
+      Cancel
+    </button>
+    <button mat-flat-button color="primary" [disabled]="!data.tickers.length || isLoading" (click)="updateBasket()">
+      {{data.mode == 'ADD' ? 'Add' : 'Delete'}}
+    </button>
+  </div>
 </div>
+<div *ngIf="isLoading" class="spinner-wrapper">
+  <app-spinner></app-spinner>
+</div>
+

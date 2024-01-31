@@ -74,6 +74,7 @@ import { EditBrokerComponent } from './pages/admin/components/modals/edit-broker
 import { AdminBrokeragesComponent } from './pages/admin/components/admin-brokerages/admin-brokerages.component';
 
 import { MatTooltipModule} from "@angular/material/tooltip";
+import { AuditLogComponent } from './pages/components/my-basket-info/audit-log/audit-log.component';
 
 @NgModule({
   declarations: [
@@ -124,7 +125,8 @@ import { MatTooltipModule} from "@angular/material/tooltip";
     EditOrderComponent,
     InfoModalComponent,
     EditBrokerComponent,
-    AdminBrokeragesComponent
+    AdminBrokeragesComponent,
+    AuditLogComponent
   ],
   imports: [
     BrowserModule,

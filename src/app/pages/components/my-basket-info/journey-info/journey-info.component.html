@@ -50,6 +50,13 @@
                     </span>
                 </a>
             </li>
+          <li *ngIf="basket.is_owner">
+            <a fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" routerLink="/baskets/{{basketId}}/audit-log" routerLinkActive="active">
+                    <span fxFlex>
+                        History
+                    </span>
+            </a>
+          </li>
         </ul>
     </div>
     <div fxFlex fxFlex.xs="100" class="overflow-auto">

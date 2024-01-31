@@ -177,4 +177,14 @@ export class BasketsService {
       return {error: e.message}
     }
   }
+
+  async getAuditLog(basketId: Number, pageNumber: Number, pageSize: Number, sortColumn: string | null, sortMode: string|null): Promise<any> {
+    try{
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/basket/${basketId}/audit-log?pageNumber=${pageNumber}&pageSize=${pageSize}&sortColumn=${sortColumn}&sortMode=${sortMode}`, this.getHeaders());
+      return await res.json();
+    }
+    catch(e: any) {
+      return {error: e.message}
+    }
+  }
 }

@@ -20,6 +20,7 @@ export class EditSymbolsComponent {
   lookupControl!: any;
   filteredOptions!: Observable<any[]>;
   replaceTickers: boolean = false;
+  isLoading: boolean = false;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private basketService: BasketsService, private utilityService: UtilitiesService, private dialogRef: MatDialogRef<EditSymbolsComponent>) {
     this.dataSource = new MatTableDataSource<any>(data.tickers)
@@ -33,14 +34,14 @@ export class EditSymbolsComponent {
   resetAutocomplete() {
     this.lookupControl.setValue('')
     this.filteredOptions = this.lookupControl.valueChanges
-    .pipe(
-      startWith(''),
-      debounceTime(400),
-      distinctUntilChanged(),
-      switchMap(val => {
-        return this._filter(this.lookupControl.getRawValue())
-      })
-    );
+      .pipe(
+        startWith(''),
+        debounceTime(400),
+        distinctUntilChanged(),
+        switchMap(val => {
+          return this._filter(this.lookupControl.getRawValue())
+        })
+      );
   }
 
   deleteTicker(index: number) {
@@ -113,7 +114,9 @@ export class EditSymbolsComponent {
   }
 
   updateBasket() {
+    this.isLoading = true;
     this.basketService.editSymbols(this.data.basket.id, this.data.tickers, this.data.mode == 'ADD' ? 'PATCH' : 'DELETE', this.replaceTickers).then((data) => {
+      this.isLoading = false;
       if(data.error || !data.success) {
         this.utilityService.displayInfoMessage(data.error, true)
       }
