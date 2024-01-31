@@ -93,13 +93,13 @@ export class BrokerageComponent implements AfterViewInit{
         this.activeBrokerages= data.brokerages;
         if(this.activeBrokerages.length>0){
           this.getBrokerageAccount(this.activeBrokerages[0].active_brokerage_key);
-          for(let i =0; i<this.brokerMaster.length;i++){
-            for(let j= 0; j<this.activeBrokerages.length;j++){
-                if(this.brokerMaster[i].broker_code == this.activeBrokerages[j].active_brokerage_key){
-                  this.brokerMaster[i].isDisableConnect = true
-                }
-            }
-          }
+          // for(let i =0; i<this.brokerMaster.length;i++){
+          //   for(let j= 0; j<this.activeBrokerages.length;j++){
+          //       if(this.brokerMaster[i].broker_code == this.activeBrokerages[j].active_brokerage_key){
+          //         this.brokerMaster[i].isDisableConnect = true
+          //       }
+          //   }
+          // }
         }
 
       }
@@ -108,6 +108,7 @@ export class BrokerageComponent implements AfterViewInit{
 
   /***getBrokerageAccount function is used to get  active Accounts related to brokerage*/
   getBrokerageAccount(brokerage:any){
+    this.brokerageService.getSync(brokerage).then((data) => {})
     this.showSpinner=true;
     this.brokerageService.getBrokerageAccounts(brokerage).then((data) => {
       this.showSpinner=false;
@@ -170,6 +171,9 @@ export class BrokerageComponent implements AfterViewInit{
       }
     })
   }
+  disConnect(index:number){
+    this.brokerMaster[index].isDisableConnect = false;
 
+  }
 
 }
