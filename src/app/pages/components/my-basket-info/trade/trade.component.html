@@ -109,8 +109,8 @@
 
                 </mat-form-field>
             </span>
-            <span fxFlex="initial" fxFlex.md="25" fxFlex.sm="100" fxFlex.xs="100" class="form-group">
-                <button mat-flat-button class="primary-btn" [disabled]="!isFormValid()" (click)="calculateDialog()">Calculate</button>
+            <span fxFlex="initial" fxFlex.md="25" fxLayoutGap="10px" fxFlex.sm="100" fxFlex.xs="100" class="form-group" >
+                <button mat-flat-button class="custom-button-disabled" [disabled]="!isFormValid()" (click)="calculateDialog()">Calculate</button>
             </span>
             <span fxFlex fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px" class="form-group pt-md-15 pt-sm-15">
                 <button mat-stroked-button class="primary-btn" (click)="closeAllPositions()">Close Positions</button>

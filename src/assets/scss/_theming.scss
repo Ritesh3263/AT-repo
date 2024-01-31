@@ -104,7 +104,15 @@ $BLACK: #000000;
   .bg-inverse {
     background-color: mat.get-color-from-palette($primary, pw);
   }
-
+  .header-top{
+    .logo-wrapper{
+      .logo{
+        img{
+          content: url('../images/Logo-Light.png') 
+        }
+      }
+    }
+  }
   .border-bottom-sleek {
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   }
@@ -284,7 +292,16 @@ $BLACK: #000000;
   .mat-mdc-paginator {
     background-color: transparent;
   }
+  .custom-button-disabled {
+    /* Styles for the button */
+    background-color: mat.get-color-from-palette($primary, 500) !important; /* Primary color */
+    color: mat.get-color-from-palette($primary, pw) !important; /* Text color */
+  }
   
+  .custom-button-disabled:disabled {
+    /* Styles for the disabled state */
+    background-color: mat.get-color-from-palette($primary, dark-accent) !important; /* Grayed-out color */
+  }
 }
 
 // Dark-Theme
@@ -343,6 +360,15 @@ $BLACK: #000000;
   }
   .bg-inverse {
     background-color: mat.get-color-from-palette($primary, 500);
+  }
+  .header-top{
+    .logo-wrapper{
+      .logo{
+        img{
+          content: url('../images/Logo-Dark.png') 
+        }
+      }
+    }
   }
   .border-bottom-sleek {
     border-bottom: 1px solid rgba(255, 255, 255, 0.22);
@@ -636,6 +662,17 @@ $BLACK: #000000;
       } 
     }
   }  
+
+  .custom-button-disabled {
+    /* Styles for the button */
+    background-color: mat.get-color-from-palette($primary, dark-accent3) !important; /* Primary color */
+    color: mat.get-color-from-palette($primary, pw) !important; /* Text color */
+  }
+  
+  .custom-button-disabled:disabled {
+    /* Styles for the disabled state */
+    background-color: mat.get-color-from-palette($primary, light) !important; /* Grayed-out color */
+  }
 }
 // Theme Config End
 

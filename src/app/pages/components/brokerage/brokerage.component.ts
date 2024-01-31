@@ -91,7 +91,17 @@ export class BrokerageComponent implements AfterViewInit{
       this.showSpinner = false;
       if(data && data.success) {
         this.activeBrokerages= data.brokerages;
-        this.getBrokerageAccount(this.activeBrokerages[0].active_brokerage_key)
+        if(this.activeBrokerages.length>0){
+          this.getBrokerageAccount(this.activeBrokerages[0].active_brokerage_key);
+          for(let i =0; i<this.brokerMaster.length;i++){
+            for(let j= 0; j<this.activeBrokerages.length;j++){
+                if(this.brokerMaster[i].broker_code == this.activeBrokerages[j].active_brokerage_key){
+                  this.brokerMaster[i].isDisableConnect = true
+                }
+            }
+          }
+        }
+
       }
     })
   }

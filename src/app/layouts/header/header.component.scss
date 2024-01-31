@@ -26,6 +26,13 @@ header {
     font-size: 14px;
     font-weight: 600;
 }
+.logo-wrapper{
+    .logo{
+      img {
+        max-width: 160px;
+      }
+    }
+  }
 
 .profile-name {
     font-size: 14px;
