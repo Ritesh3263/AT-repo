@@ -80,6 +80,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { OrderComponent } from './pages/components/order/order.component';
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatNativeDateModule } from '@angular/material/core';
+import { AuditLogComponent } from './pages/components/my-basket-info/audit-log/audit-log.component';
 
 
 
@@ -133,7 +134,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     InfoModalComponent,
     EditBrokerComponent,
     AdminBrokeragesComponent,
-    OrderComponent
+    OrderComponent,
+    AuditLogComponent
   ],
   imports: [
     BrowserModule,

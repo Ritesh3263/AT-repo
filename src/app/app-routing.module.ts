@@ -27,6 +27,7 @@ import { WebsocketComponent } from './pages/components/websocket/websocket.compo
 import { OrdersComponent } from './pages/components/my-basket-info/orders/orders.component';
 import {AdminBrokeragesComponent} from "./pages/admin/components/admin-brokerages/admin-brokerages.component";
 import { OrderComponent } from './pages/components/order/order.component';
+import {AuditLogComponent} from "./pages/components/my-basket-info/audit-log/audit-log.component";
 
 const routes: Routes = [
   {
@@ -91,6 +92,10 @@ const routes: Routes = [
       {
         path: 'orders',
         component: OrdersComponent,
+      },
+      {
+        path: 'history',
+        component: AuditLogComponent,
       }
     ]
   },

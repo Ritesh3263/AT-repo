@@ -81,7 +81,7 @@ export class AnnouncementsComponent {
     let dialogRef= this.dialog.open(InfoModalComponent, {
       panelClass: 'custom-modal',
       disableClose: true,
-      data: {header: "Notification", details: [{key: 'Sent By', value: notification.displayName}, { key: 'Subject', value: notification.subject}, {key: 'Content', value: notification.notification_data}, {key: 'Recipients', value: recipients, type: 'LIST'}]}
+      data: {header: "Notification", details: [{key: 'Sent By', value: notification.displayName}, { key: 'Subject', value: notification.subject}, {key: 'Content', value: notification.notification_data}, {key: 'Recipients', value: recipients, type: 'list'}]}
     });
 
     return new Promise((resolve) => {

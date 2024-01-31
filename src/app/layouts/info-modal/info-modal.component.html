@@ -9,8 +9,13 @@
     <div *ngFor="let item of data.details">
       <b>{{item.key}}:</b>
       <br>
-      <p *ngIf="item.type != 'LIST'">{{item.value}}</p>
-      <pre *ngIf="item.type == 'LIST'">{{item.value}}</pre>
+      <p *ngIf="!item.type">{{item.value}}</p>
+      <pre *ngIf="item.type == 'list'">{{item.value}}</pre>
+      <div *ngIf="item.type == 'json'">
+        <p *ngFor="let key of Object.keys(item.value)">{{key | titlecase }}: {{item.value[key]}}</p>
+      </div>
+
+
     </div>
   </div>
   <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">

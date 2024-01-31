@@ -34,6 +34,7 @@ export class TableComponent {
   @Input() parentComponent: any = null;
   @Input() getRowHighlight: Function = (mainComponent: any, row:any) => { return ''}
   @Input() mainComponent: any = null;
+  @Input() jsonRowFormatter: Function = (row: any) => { return row }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
