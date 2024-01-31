@@ -5,7 +5,7 @@
   <span>/</span>
   <a class="bold">Baskets</a>
 </div>
-<div class="basket-wrapper">
+<div class="main_wrapper basket-wrapper bg-body text-dark">
   <!-- <div fxLayout="row" fxLayoutAlign="end center" class="follow-wrapper pb-xs-10">
       <div class="pl-15 pr-15"><span class="font-600">25</span> <span class="text">Following</span></div>
       <div class="pl-15 pr-15"><span class="font-600">85</span> <span class="text">Followers</span></div>
@@ -69,9 +69,10 @@
           </button>
         </div>
       </div>
-      <div fxLayout="row wrap" fxLayoutAlign="start stretch" class="form-row mt-20">
+      <div fxLayout="row wrap " fxLayoutAlign="start stretch" class="form-row mt-20">
+        
         <div fxFlex="25" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" class="form-group" *ngFor="let basket of filteredBasket">
-          <mat-card class="basket-card {{getBasketPeformanceClass(basket)}}" >
+          <mat-card class="basket-card  {{getBasketPeformanceClass(basket)}} " >
             <div class="basket-header">
               <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" (click)="navigate(basket, 'basket')">
                 <h2 class="mat-h2">{{basket.name}}</h2>
@@ -190,9 +191,9 @@
                     <span class="count">{{favoriteBaskets.length}}</span>
                 </span>
       </ng-template>
-      <div fxLayout="row wrap" fxLayoutAlign="start stretch" class="form-row mt-20">
+      <div fxLayout="row wrap " fxLayoutAlign="start stretch" class="form-row mt-20">
         <div fxFlex="25" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" class="form-group" *ngFor="let basket of favoriteBaskets">
-          <mat-card class="basket-card {{getBasketPeformanceClass(basket)}}">
+          <mat-card class="basket-card  {{getBasketPeformanceClass(basket)}} ">
             <div class="basket-header">
               <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" (click)="navigate(basket, 'basket')">
                 <h2 class="mat-h2">{{basket.name}}</h2>
