@@ -15,10 +15,10 @@
         </form>
     </div>
     <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
-        <button mat-stroked-button mat-dialog-close color="primary">
+        <button mat-stroked-button mat-dialog-close class="secondary-btn">
             Cancel
         </button>
-        <button mat-flat-button color="primary" (click)="deleteBasket()" [disabled]="basketName != data.name">
+        <button mat-flat-button class="primary-btn" (click)="deleteBasket()" [disabled]="basketName != data.name">
             Delete Basket
         </button>
     </div>

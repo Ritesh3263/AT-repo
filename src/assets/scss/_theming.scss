@@ -7,7 +7,7 @@
 
 @include mat.core();
 
-$WHITE: #FFFFFF;
+$WHITE: #ffffff;
 $BLACK: #000000;
 
 :root {
@@ -18,36 +18,663 @@ $BLACK: #000000;
   --FONT_16: 16px;
 
   --PRIMARY_COLOR: #0b63e5;
-  --SECONDARY_COLOR: #CEE0FA;
-  --BODY_BG: #F3F6FB;
+  --SECONDARY_COLOR: #cee0fa;
+  --PRIMARY_ACCENT: #edf0ff;
+  --SECOND_ACCENT: #f8f8f8;
+  --BODY_BG: #f3f6f8;
+  --WHITE: #fff;
+  --DARK: #323a46;
+  --DARK_ACCENT: #9b8d91;
+  --DARK_ACCENT2: #eee;
+  --DARK_ACCENT3: #d0d0d0;
+  --BORDER_COLOR: #ccc;
+  --GREEN: #0fa958;
+  --RED: #f1556c;
 }
 
 // Theme Config
 
-$primary: mat.define-palette(palette.$Trading-theme, 500);
-$accent: mat.define-palette(palette.$Trading-theme, 300);
-$theme-warn: (
-  main: #EC5954,
-  lighter: #ffb3b3,
-  darker: #EC5954,
-  contrast: (main: #FFFFFF,
-    lighter: #000000,
-    darker: #FFFFFF,
-  ),
-);
-$warn: mat.define-palette($theme-warn, main, lighter, darker);
-
-$theme: mat.define-light-theme((color: (primary: $primary,
-    accent: $accent,
-    warn: $warn,
-    contrast: (primary: #FFFFFF,
-      accent: #FFFFFF,
-      warn: #FFFFFF,
+// Light-Theme
+.Trading-theme-light {
+  $primary: mat.define-palette(palette.$Trading-theme, 500);
+  $accent: mat.define-palette(palette.$Trading-theme, 300);
+  $theme-warn: (
+    main: #ec5954,
+    lighter: #ffb3b3,
+    darker: #ec5954,
+    contrast: (
+      main: #ffffff,
+      lighter: #000000,
+      darker: #ffffff,
     ),
-  ),
-));
+  );
+  $warn: mat.define-palette($theme-warn, main, lighter, darker);
 
-@include mat.all-component-themes($theme);
+  $Trading-theme: mat.define-light-theme(
+    (
+      color: (
+        primary: $primary,
+        accent: $accent,
+        warn: $warn,
+        contrast: (
+          primary: #ffffff,
+          accent: #ffffff,
+          warn: #ffffff,
+        ),
+      ),
+    )
+  );
+
+  @include mat.all-component-themes($Trading-theme);
+  $foreground: mat.get-color-from-palette($primary, dark);
+
+  // *{
+  //   color: mat.get-color-from-palette($primary, dark);
+  // }
+  .bg-primary {
+    background-color: mat.get-color-from-palette($primary, 500);
+  }
+  .bg-accent {
+    background-color: mat.get-color-from-palette($primary, prime-accent);
+  }
+  .bg-prime-accent {
+    background-color: mat.get-color-from-palette($primary, prime-accent);
+  }
+  .bg-body {
+    background-color: mat.get-color-from-palette($primary, bg);
+  }
+  .bg-white {
+    background-color: mat.get-color-from-palette($primary, pw);
+  }
+  .text-primary {
+    color: mat.get-color-from-palette($primary, 500);
+  }
+  .text-dark {
+    color: mat.get-color-from-palette($primary, dark);
+  }
+  .text-white {
+    color: mat.get-color-from-palette($primary, pw);
+  }
+  .border-prime {
+    border: 1px solid mat.get-color-from-palette($primary, dark-accent2);
+  }
+  .border-bold {
+    border: 2px solid mat.get-color-from-palette($primary, dark-accent);
+  }
+  .bg-inverse {
+    background-color: mat.get-color-from-palette($primary, pw);
+  }
+  .header-top{
+    .logo-wrapper{
+      .logo{
+        img{
+          content: url('../images/Logo-Light.png') 
+        }
+      }
+    }
+  }
+  .border-bottom-sleek {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  }
+  .breadcrumb {
+    background-color: mat.get-color-from-palette($primary, dark-accent2);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  .color_light {
+    color: mat.get-color-from-palette($primary, dark-accent);
+  }
+  .progress_bar_parent {
+    .mdc-linear-progress__bar-inner {
+      border-color: mat.get-color-from-palette($primary, 500);
+    }
+    .mdc-linear-progress__buffer {
+      background-color: mat.get-color-from-palette($primary, bg);
+    }
+  }
+  .side-nav {
+    background-color: mat.get-color-from-palette($primary, pw);
+
+    .main-nav {
+      ul {
+        li {
+          a.active {
+            background-color: rgba(0, 0, 0, 0.17);
+          }
+        }
+      }
+    }
+  }
+  .main-content{
+    background-color: mat.get-color-from-palette($primary, bg);
+  }
+  mat-card {
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  }
+  .mat-mdc-table {
+    
+    .mat-mdc-row:hover {
+      transform: scale(1.02);
+      background-color: rgba(11,99,229,0.1) !important;
+      box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+    }
+    background-color: mat.get-color-from-palette($primary, pw);
+    .mat-mdc-header-row {
+      background-color: mat.get-color-from-palette($primary, 500);
+      color: mat.get-color-from-palette($primary, pw);
+    }
+    tr.mat-mdc-row.mdc-data-table__row.cdk-row:nth-child(even) {
+      background-color: mat.get-color-from-palette($primary, bg);
+    }
+    tr.mat-mdc-row.mdc-data-table__row.cdk-row.example-element-row:nth-child(4n-1){
+      background-color: mat.get-color-from-palette($primary, bg);
+    }
+    .iconDark{
+      color: mat.get-color-from-palette($primary, 500);
+    }
+  }
+  .trade-tabs {
+    .mat-mdc-tab-header {
+      border-bottom: 1px solid
+        mat.get-color-from-palette($primary, dark-accent2);
+      .mat-mdc-tab-labels {
+        .mdc-tab--active {
+          .mdc-tab-indicator__content--underline {
+            border-color: mat.get-color-from-palette($primary, 500);
+          }
+          background-color: mat.get-color-from-palette($primary, dark-accent2);
+        }
+      }
+    }
+  }
+  button.primary-btn {
+    background-color: mat.get-color-from-palette($primary, 500);
+    color: mat.get-color-from-palette($primary, pw);
+  }
+  button.secondary-btn {
+    background-color: transparent;
+    border-color: mat.get-color-from-palette($primary, 500);
+    color: mat.get-color-from-palette($primary, 500);
+    &::active{
+      background: none;
+    }
+  }
+  .basket-card{
+    color: mat.get-color-from-palette($primary, dark-accent);
+    .invested {
+      h3{
+        color: mat.get-color-from-palette($primary, dark);
+      }
+    }
+    .basket-header {
+
+      h2 {
+        color: mat.get-color-from-palette($primary, 500);
+        &:hover{
+          color: mat.get-color-from-palette($primary, dark-accent) ;
+        }
+      }
+      
+    }
+    .basket-content{
+      .acc-no{
+        color: mat.get-color-from-palette($primary, 500);
+      }
+    } 
+  }
+  .theme_btn_toggle{
+    background-color: mat.get-color-from-palette($primary, light2);
+    .mat-button-toggle-appearance-standard{
+      background-color: mat.get-color-from-palette($primary, light2);
+      color: mat.get-color-from-palette($primary, dark);
+      
+    }
+    .mat-button-toggle-appearance-standard.mat-button-toggle-checked{
+      background-color: mat.get-color-from-palette($primary, dark);
+      color: mat.get-color-from-palette($primary, pw);
+
+    }
+  }
+  .main-nav{
+    ul{
+      li{
+        a{
+          &.active{
+            background-color: rgba(0,0,0,0.17);
+          }
+        }
+      }
+    }
+  }
+  .card_btn{
+    box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+  }
+  .following_module{
+    .following-box{
+      background-color: mat.get-color-from-palette($primary, pw);
+      border: none;
+      .profile-icon {
+        img {
+          outline: 6px solid mat.get-color-from-palette($primary, bg);
+        }
+      }
+    }
+  }
+  .trade_module{
+    .trade-info{
+      background-color: mat.get-color-from-palette($primary, 300);
+    }
+    .mat-mdc-footer-cell, .mat-mdc-cell.with-blue-bg {
+      background: mat.get-color-from-palette($primary, 300)
+    } 
+    .mat-mdc-cell.with-grey-bg {
+      background: mat.get-color-from-palette($primary, dark-accent2)
+    } 
+    .trade-prime-section{
+      .form-group {
+        border-right: 1px solid rgba(0,0,0,.12);
+
+        &:last-child {
+            border-right: none;
+        }
+      }
+      .trade-icon-round{
+        border: 1px solid mat.get-color-from-palette($primary, A400);
+        background-color: mat.get-color-from-palette($primary, prime-accent);
+      }
+      .sub-text{
+        color: mat.get-color-from-palette($primary, dark);
+      }
+      .mat-h3{
+        color: mat.get-color-from-palette($primary, 500);
+      }
+    }
+  }
+  .mat-mdc-paginator {
+    background-color: transparent;
+  }
+  .custom-button-disabled {
+    /* Styles for the button */
+    background-color: mat.get-color-from-palette($primary, 500) !important; /* Primary color */
+    color: mat.get-color-from-palette($primary, pw) !important; /* Text color */
+  }
+  
+  .custom-button-disabled:disabled {
+    /* Styles for the disabled state */
+    background-color: mat.get-color-from-palette($primary, dark-accent) !important; /* Grayed-out color */
+  }
+}
+
+// Dark-Theme
+.Trading-theme-dark {
+  $primary: mat.define-palette(palette.$Trading-theme-dark, 700);
+  $accent: mat.define-palette(palette.$Trading-theme-dark, 700);
+  // $dark-warn: mat.define-palette($theme-warn, main, lighter, darker);
+
+  $Trading-theme-dark: mat.define-dark-theme(
+    (
+      color: (
+        primary: $primary,
+        accent: $accent,
+        // warn: $warn,
+        contrast:
+          (
+            primary: #ffffff,
+            accent: #ffffff,
+            warn: #ffffff,
+          ),
+      ),
+    )
+  );
+
+  @include mat.all-component-themes($Trading-theme-dark);
+
+  .bg-primary {
+    background-color: mat.get-color-from-palette($primary, 500);
+  }
+  .bg-accent {
+    background-color: mat.get-color-from-palette($primary, dark-accent);
+  }
+  .bg-prime-accent {
+    background-color: mat.get-color-from-palette($primary, prime-accent);
+  }
+  .bg-body {
+    background-color: mat.get-color-from-palette($primary, 500);
+  }
+  .bg-dark-transp {
+    background-color: transparent;
+  }
+  .text-primary {
+    color: mat.get-color-from-palette($primary, light);
+  }
+  .text-dark {
+    color: mat.get-color-from-palette($primary, pw);
+  }
+  .text-white {
+    color: mat.get-color-from-palette($primary, pw);
+  }
+  .border-prime {
+    border: 1px solid mat.get-color-from-palette($primary, transp);
+  }
+  .border-bold {
+    border: 2px solid mat.get-color-from-palette($primary, dark-accent3);
+  }
+  .bg-inverse {
+    background-color: mat.get-color-from-palette($primary, 500);
+  }
+  .header-top{
+    .logo-wrapper{
+      .logo{
+        img{
+          content: url('../images/Logo-Dark.png') 
+        }
+      }
+    }
+  }
+  .border-bottom-sleek {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+  }
+  .breadcrumb {
+    background-color: mat.get-color-from-palette($primary, dark-accent);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  .color_light {
+    color: mat.get-color-from-palette($primary, light);
+  }
+  .progress_bar_parent {
+    .mdc-linear-progress__bar-inner {
+      border-color: mat.get-color-from-palette($primary, 800);
+    }
+    .mdc-linear-progress__buffer {
+      background-color: mat.get-color-from-palette($primary, light);
+    }
+  }
+  .side-nav {
+    background-color: mat.get-color-from-palette($primary, dark-accent);
+    color: mat.get-color-from-palette($primary, pw);
+    .basket-sidebar {
+      border: none;
+      .main-nav {
+        ul {
+          li {
+            a.active {
+              background-color: rgba(255, 255, 255, 0.1);
+            }
+          }
+        }
+      }
+    }
+  }
+  .main-content{
+    background-color: mat.get-color-from-palette($primary, 500);
+  }
+  .example-sidenav-container {
+    background-color: mat.get-color-from-palette($primary, bg);
+  }
+  mat-card {
+    box-shadow: none;
+    background-color: mat.get-color-from-palette($primary, dark-accent);
+  }
+  .mat-mdc-table {
+    background-color: mat.get-color-from-palette($primary, 500);
+    .mat-mdc-header-row {
+      background-color: mat.get-color-from-palette($primary, dark-accent3);
+      color: mat.get-color-from-palette($primary, pw);
+    }
+    tr.mat-mdc-row.mdc-data-table__row.cdk-row:nth-child(even) {
+      background-color: mat.get-color-from-palette($primary, highlights);
+    }
+    tr.mat-mdc-row.mdc-data-table__row.cdk-row.example-element-row:nth-child(4n-1){
+      background-color: mat.get-color-from-palette($primary, highlights);
+    }
+    .iconDark{
+      color: mat.get-color-from-palette($primary, dark-accent3);
+    }
+  }
+  .mat-mdc-paginator {
+    background-color: transparent;
+  }
+  .donut_chart {
+    text {
+      fill: mat.get-color-from-palette($primary, light);
+    }
+  }
+  .trade-tabs {
+    .mat-mdc-tab-header {
+      border-bottom: 1px solid
+        mat.get-color-from-palette($primary, dark-accent3);
+      .mat-mdc-tab-labels {
+        .mdc-tab--active {
+          .mdc-tab-indicator__content--underline {
+            border-color: mat.get-color-from-palette($primary, pw);
+          }
+          background-color: mat.get-color-from-palette($primary, dark-accent);
+          .mdc-tab__text-label {
+            color: mat.get-color-from-palette($primary, pw);
+          }
+        }
+      }
+    }
+  }
+  button.primary-btn {
+    background-color: mat.get-color-from-palette($primary, dark-accent3);
+  }
+  button.secondary-btn {
+    background-color: transparent;
+    border-color: mat.get-color-from-palette($primary, light2);
+    color: mat.get-color-from-palette($primary, light2);
+  }
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-notched-outline__leading, .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-notched-outline__notch, .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-notched-outline__trailing, .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-floating-label, .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-floating-label--float-above{
+    border-color: mat.get-color-from-palette($primary, light2);
+    color: mat.get-color-from-palette($primary, pw);
+  }
+  .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) .mdc-list-item__primary-text{
+    color: mat.get-color-from-palette($primary, pw);
+  }
+  .mat-primary .mat-pseudo-checkbox-checked.mat-pseudo-checkbox-minimal::after, .Trading-theme-dark .mat-primary .mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-minimal::after{
+    color: mat.get-color-from-palette($primary, pw);
+  }
+  .mat-mdc-form-field.mat-focused .mat-mdc-select-arrow{
+    color: mat.get-color-from-palette($primary, pw);
+  }
+  .basket-card{
+    color: mat.get-color-from-palette($primary, light);
+    .invested {
+      h3{
+        color: mat.get-color-from-palette($primary, light2);
+      }
+    }
+    .basket-header {
+      h2 {
+        color: mat.get-color-from-palette($primary, light2);
+        &:hover{
+          color: mat.get-color-from-palette($primary, dark-accent2) ;
+        }
+      }
+    }
+    .basket-content{
+      .acc-no{
+        color: mat.get-color-from-palette($primary, light2);
+      }    
+    } 
+    
+  }
+  .card_btn{
+    box-shadow: rgb(24, 26, 36) 2px 1px 6px 0px inset, rgba(47, 45, 45, 0.5) -3px -3px 6px 1px inset;
+  }
+  .cdk-overlay-dark-backdrop{
+      background: rgba(0, 0, 0, 0.52);
+  }
+  .mat-mdc-dialog-container .mdc-dialog__surface{
+    background-color: mat.get-color-from-palette($primary, dark-accent3);
+  }
+  .modal-dialog{
+    background-color: mat.get-color-from-palette($primary, dark-accent3);
+    .dialog-header{
+      .mat-h2{
+        color: mat.get-color-from-palette($primary, pw);      
+      }
+      .close-btn{
+        color: mat.get-color-from-palette($primary, light2);
+      }
+    }
+    button.primary-btn {
+      background-color: mat.get-color-from-palette($primary, prime-accent);
+    }
+    
+  }
+  .theme_btn_toggle{
+    background-color: mat.get-color-from-palette($primary, light2);
+    .mat-button-toggle-appearance-standard{
+      background-color: transparent;
+      color: mat.get-color-from-palette($primary, dark);
+      
+    }
+    .mat-button-toggle-appearance-standard.mat-button-toggle-checked{
+      background-color: mat.get-color-from-palette($primary, dark);
+      color: mat.get-color-from-palette($primary, pw);
+
+    }
+  }
+  .main-nav{
+    ul{
+      li{
+        a{
+          &.active{
+            background-color: rgba(255,255,255,0.08);
+          }
+        }
+      }
+    }
+  }
+  .brokerage_module{
+    .inter_logo_swap{
+        content: url('/assets/images/interactive-b-logo-light.png');
+    }
+  }
+  .following_module{
+    .following-box{
+      background-color: mat.get-color-from-palette($primary, dark-accent3);
+      border: none;
+      .profile-icon {
+        img {
+          outline: 6px solid mat.get-color-from-palette($primary, 500);
+        }
+      }
+      .unfollow-btn {
+        background-color: mat.get-color-from-palette($primary, 500);
+      }
+    }
+  }
+  .mat-mdc-radio-button .mdc-radio .mdc-radio__native-control:enabled:checked+.mdc-radio__background .mdc-radio__outer-circle, .mat-mdc-radio-button .mdc-radio .mdc-radio__native-control:enabled+.mdc-radio__background .mdc-radio__inner-circle{
+    border-color: mat.get-color-from-palette($primary, light);
+  }
+  .mat-mdc-menu-panel.notification-menu{
+    color: mat.get-color-from-palette($primary, pw);
+    background-color: mat.get-color-from-palette($primary, dark-accent3);
+    .menu-header {
+      border-bottom: mat.get-color-from-palette($primary, prime-accent);
+      .count {
+        background-color: mat.get-color-from-palette($primary, green);
+      }
+    }
+    .menu-body {
+      li {
+        border-color: mat.get-color-from-palette($primary, prime-accent);
+        &:hover {
+          background: mat.get-color-from-palette($primary, prime-accent);
+        }
+        &.unread {
+          background: mat.get-color-from-palette($primary, light);
+        }
+      }
+    }
+  }
+  .logo-upload {
+    background-color: mat.get-color-from-palette($primary, prime-accent) !important;
+  }
+  .primary-sub-section{
+    background-color: mat.get-color-from-palette($primary, highlights);
+  }
+  .mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background, .mdc-checkbox .mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background{
+    background-color: mat.get-color-from-palette($primary, prime-accent) !important;
+    border-color: mat.get-color-from-palette($primary, prime-accent) !important;
+  }
+  .mat-mdc-header-cell{
+    .mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background, .mdc-checkbox .mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background{
+      border-color: mat.get-color-from-palette($primary, light) !important;
+      background-color: mat.get-color-from-palette($primary, light) !important;
+
+    }
+  }
+  .trade_module{
+    .trade-info{
+      background-color: mat.get-color-from-palette($primary, highlights);
+    }
+    .mat-mdc-footer-cell, .mat-mdc-cell.with-blue-bg {
+      background: mat.get-color-from-palette($primary, dark)
+    } 
+    .mat-mdc-cell.with-grey-bg {
+      background: mat.get-color-from-palette($primary, dark)
+    } 
+    .trade-prime-section{
+      .form-group {
+        border-right: 1px solid rgba(255,255,255,.12);
+
+        &:last-child {
+            border-right: none;
+        }
+      }
+      .trade-icon-round{
+        border: 1px solid mat.get-color-from-palette($primary, prime-accent);
+        background-color: transparent;
+      }
+      .sub-text{
+        color: mat.get-color-from-palette($primary, light);
+      }
+    }
+    
+  }
+  .trading-table {
+    .mat-mdc-table {
+      .mat-mdc-footer-cell {
+        border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+      }
+      .mat-mdc-row:hover {
+        transform: scale(1.02);
+        background-color: rgba(255,255,255,0.1) !important;
+        box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+      }
+  
+    }
+  }
+  
+  .basket-wrapper {
+    .basket-card{
+      .basket-content{
+        .price{
+          border-color: mat.get-color-from-palette($primary, prime-accent);
+        }
+      }
+      .profile-info-border{
+        .profile-info{
+          border-color: mat.get-color-from-palette($primary, prime-accent);
+        }
+      } 
+    }
+  }  
+
+  .custom-button-disabled {
+    /* Styles for the button */
+    background-color: mat.get-color-from-palette($primary, dark-accent3) !important; /* Primary color */
+    color: mat.get-color-from-palette($primary, pw) !important; /* Text color */
+  }
+  
+  .custom-button-disabled:disabled {
+    /* Styles for the disabled state */
+    background-color: mat.get-color-from-palette($primary, light) !important; /* Grayed-out color */
+  }
+}
+// Theme Config End
 
 .material-icons {
   font-size: 24px;
@@ -55,22 +682,46 @@ $theme: mat.define-light-theme((color: (primary: $primary,
 }
 
 $fontConfig: mat.define-typography-config(
-  $headline-1: mat.define-typography-level(112px, 112px, 500, "'Inter', sans-serif", 0em),
-  $headline-2: mat.define-typography-level(56px, 56px, 500, "'Inter', sans-serif", 0em),
-  $headline-3: mat.define-typography-level(45px, 48px, 500, "'Inter', sans-serif", 0em),
-  $headline-4: mat.define-typography-level(34px, 40px, 500, "'Inter', sans-serif", 0em),
-  $headline-5: mat.define-typography-level(24px, 32px, 500, "'Inter', sans-serif", 0em),
-  $headline-6: mat.define-typography-level(20px, 28px, 500, "'Inter', sans-serif", 0em),
-  $subtitle-1: mat.define-typography-level(16px, 24px, 400, "'Inter', sans-serif", 0em),
-  $subtitle-2: mat.define-typography-level(15px, 20px, 400, "'Inter', sans-serif", 0em),
-  $body-1: mat.define-typography-level(14px, 20px, 400, "'Inter', sans-serif", 0.0179em),
-  $body-2: mat.define-typography-level(14px, 20px, 400, "'Inter', sans-serif", 0.0179em),
-  $button: mat.define-typography-level(14px, 20px, 500, "'Inter', sans-serif", 0em),
-  $caption: mat.define-typography-level(12px, 16px, 400, "'Inter', sans-serif", 0em),
+  $headline-1:
+    mat.define-typography-level(112px, 112px, 500, "'Inter', sans-serif", 0em),
+  $headline-2:
+    mat.define-typography-level(56px, 56px, 500, "'Inter', sans-serif", 0em),
+  $headline-3:
+    mat.define-typography-level(45px, 48px, 500, "'Inter', sans-serif", 0em),
+  $headline-4:
+    mat.define-typography-level(34px, 40px, 500, "'Inter', sans-serif", 0em),
+  $headline-5:
+    mat.define-typography-level(24px, 32px, 500, "'Inter', sans-serif", 0em),
+  $headline-6:
+    mat.define-typography-level(20px, 28px, 500, "'Inter', sans-serif", 0em),
+  $subtitle-1:
+    mat.define-typography-level(16px, 24px, 400, "'Inter', sans-serif", 0em),
+  $subtitle-2:
+    mat.define-typography-level(15px, 20px, 400, "'Inter', sans-serif", 0em),
+  $body-1:
+    mat.define-typography-level(
+      14px,
+      20px,
+      400,
+      "'Inter', sans-serif",
+      0.0179em
+    ),
+  $body-2:
+    mat.define-typography-level(
+      14px,
+      20px,
+      400,
+      "'Inter', sans-serif",
+      0.0179em
+    ),
+  $button:
+    mat.define-typography-level(14px, 20px, 500, "'Inter', sans-serif", 0em),
+  $caption:
+    mat.define-typography-level(12px, 16px, 400, "'Inter', sans-serif", 0em),
 );
 
 :root {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   @include mat.all-component-typographies($fontConfig);
   --FONT_REGULAR: 400;
   --FONT_MEDIUM: 500;

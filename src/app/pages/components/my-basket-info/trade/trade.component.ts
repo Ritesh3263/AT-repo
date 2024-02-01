@@ -80,11 +80,9 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
   originalData:any=[];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   basketId:number=0;
+
+ 
    ngAfterViewInit(id = null) {
-    this.basketId = id || this.parentComponent.getBasketId();
-    this.getSymbolsAlongWithPosition();
-    this.getBrokerageAccount('ts');
-    this.dataSource.paginator = this.paginator;
     //this.webSocketService.connect('ws/intrinio').then((data)=>{})
     //this.webSocketService.receiveMessages().then((data)=>{})
    /**continues receiving response from websocket*/
@@ -99,6 +97,12 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
   // });
     
     
+  }
+  ngOnInit(id = null){
+    this.basketId = id || this.parentComponent.getBasketId();
+    this.getSymbolsAlongWithPosition();
+    this.getBrokerageAccount('ts');
+    this.dataSource.paginator = this.paginator;
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -297,10 +301,11 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
                   selectedPosition[i].transaction_type = 'BUY';
                   if (selectedPosition[i].new_shares != 0) {
                       selectedPosition[i].new_invested = Number((selectedPosition[i].new_shares * selectedPosition[i].price).toFixed(3));
-                  }else {
-                    selectedPosition[i].new_invested =0;
-                    this.unselectRow(selectedPosition[i])
                   }
+                  // else {
+                  //   selectedPosition[i].new_invested =0;
+                  //   this.unselectRow(selectedPosition[i])
+                  // }
               }
               else {
                   selectedPosition[i].new_shares = selectedPosition[i].shares == 0 ? 0 : ~~((selectedPosition[i].shares * percent) / 100);
@@ -488,10 +493,10 @@ getColor(price: any) {
           this.utilityService.displayInfoMessage('Unable to get accounts', true)
         }
         else if(data && data.Accounts) {
-          this.account_balance = data.Accounts[3].BuyingPower;
-          this.cash_balance = data.Accounts[3].CashBalance;
-          this.account_id = data.Accounts[3].AccountID;
-          this.market_value = data.Accounts[3].MarketValue;
+          this.account_balance = data.Accounts[0].BuyingPower;
+          this.cash_balance = data.Accounts[0].CashBalance;
+          this.account_id = data.Accounts[0].AccountID;
+          this.market_value = data.Accounts[0].MarketValue;
 
         }
         

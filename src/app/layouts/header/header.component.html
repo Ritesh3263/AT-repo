@@ -1,10 +1,12 @@
-<header fxLayout="row" fxLayoutAlign="start center">
+<header fxLayout="row" fxLayoutAlign="start center" class="bg-inverse border-bottom-sleek header-top">
     <div fxFlex="initial" fxLayout="row" fxLayoutAlign="start center" class="logo-wrapper">
         <div fxHide.gt-xs class="hamber">
             <img src="assets/images/hamburger.svg" />
         </div>
         <div class="logo">
-            <img src="assets/images/logo.png" />
+            <img alt="logo" />
+            <!-- <h1 class="!font-semibold !m-0">Angular Trading°</h1> -->
+            <p class="version-badge mb-0 !mt-[2px]">Beta 1.0</p>
         </div>
     </div>
     <div fxFlex fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="20px">
@@ -16,10 +18,22 @@
         </div>
         <div fxLayout="row" fxLayoutAlign="start center">
             <button mat-icon-button (click)="feedbackDialog()" class="feedback-btn">
-                <img src="/assets/images/feedback-icon.svg" />
+                <!-- <img src="/assets/images/feedback-icon.svg" /> -->
+                <mat-icon
+                class="material-symbols-rounded text-dark"
+                      aria-hidden="true"
+                      aria-label="material-symbols-rounded"
+                      fontIcon="chat"
+                    ></mat-icon>
             </button>
             <button mat-icon-button [matMenuTriggerFor]="menu" class="notification-btn">
-                <img src="/assets/images/notification-icon.svg" />
+                <!-- <img src="/assets/images/notification-icon.svg" /> -->
+                <mat-icon
+                class="material-symbols-rounded text-dark"
+                      aria-hidden="true"
+                      aria-label="material-symbols-rounded"
+                      fontIcon="notifications_outline"
+                    ></mat-icon>
             </button>
             <mat-menu #menu="matMenu" xPosition="before" [overlapTrigger]="false" class="notification-menu">
                 <div class="menu-header" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
@@ -40,10 +54,11 @@
             </div>
             <button mat-button [matMenuTriggerFor]="beforeMenu" class="profile-menu">
                 <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-                    <span fxHide.xs class="profile-name">{{user.displayName}}</span>
+                    <span fxHide.xs class="profile-name text-dark">{{user.displayName}}</span>
                     <mat-icon>expand_more</mat-icon>
                 </div>
             </button>
+            
             <mat-menu #beforeMenu="matMenu" xPosition="before">
                 <button mat-menu-item (click)="myProfile()">
                     <mat-icon>person</mat-icon>
@@ -57,7 +72,9 @@
         </div>
     </div>
 </header>
-<nav class="main-nav" fxLayout="row" fxLayoutAlign="start center" *ngIf="!user.roles || !user.roles.includes('admin')">
+<!-- <nav class="main-nav" fxLayout="row" fxLayoutAlign="start center" *ngIf="!user.roles || !user.roles.includes('admin')"> -->
+    <mat-toolbar  class="main-nav bg-primary" fxLayout="row" fxLayoutAlign="start center" *ngIf="!user.roles || !user.roles.includes('admin')">
+
     <ul fxLayout="row" fxLayoutAlign="start stretch">
         <li>
             <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]={exact:true} fxLayout="column" fxLayoutAlign="center center">Home</a>
@@ -74,10 +91,21 @@
         <li>
             <a routerLink="/following" routerLinkActive="active" fxLayout="column" fxLayoutAlign="center center">Following</a>
         </li>
+        <li>
+            <a routerLink="/order" routerLinkActive="active" fxLayout="column" fxLayoutAlign="center center">Orders</a>
+        </li>
     </ul>
-</nav>
+    <mat-button-toggle-group (change)="changeTheme($event.value)" class="theme_btn_toggle" name="fontStyle" aria-label="Font Style">
+        <mat-button-toggle checked value="light">Light</mat-button-toggle>
+        <mat-button-toggle value="dark">Dark</mat-button-toggle>
+    </mat-button-toggle-group>
+</mat-toolbar>
 
-<nav class="main-nav" fxLayout="row" fxLayoutAlign="start center" *ngIf="user.roles && user.roles.includes('admin')">
+<!-- <</nav> -->
+
+<!--  <nav class="main-nav" fxLayout="row" fxLayoutAlign="start center" *ngIf="user.roles && user.roles.includes('admin')"> -->
+    <mat-toolbar  class="main-nav bg-primary" fxLayout="row" fxLayoutAlign="start center"  *ngIf="user.roles && user.roles.includes('admin')">
+
     <ul fxLayout="row" fxLayoutAlign="start stretch">
         <li>
             <a routerLink="/admin/users" routerLinkActive="active" [routerLinkActiveOptions]={exact:true} fxLayout="column" fxLayoutAlign="center center">Users</a>
@@ -92,4 +120,8 @@
         <a routerLink="/admin/brokerages" routerLinkActive="active" fxLayout="column" fxLayoutAlign="center center">Brokerages</a>
       </li>
     </ul>
-</nav>
+
+</mat-toolbar>
+
+
+

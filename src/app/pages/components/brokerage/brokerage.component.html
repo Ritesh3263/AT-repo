@@ -5,7 +5,7 @@
     <span>/</span>
     <a class="bold">Brokerage</a>
 </div>
-<div class="basket-wrapper">
+<div class="main_wrapper brokerage_module bg-body text-dark">
     <!-- <div *ngIf="showSpinner" class="spinner-wrapper">
         <app-spinner></app-spinner>
       </div> -->
@@ -16,12 +16,15 @@
                     <span>Brokerage</span>
                 </span>
             </ng-template>
-            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px" class="mt-20 pt-10" *ngFor="let broker of brokerMaster">
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px" class="mt-20 pt-10" *ngFor="let broker of brokerMaster; let i= index">
               <div fxFlex="20" fxFlex.md="30" fxFlex.sm="50" fxFlex.xs>
                 <img src="{{broker.logo_url}}" style="width: 220px;" />
               </div>
-              <button  mat-flat-button color="primary" (click)="connectDialog(broker.broker_code)">
+              <button [disabled]="broker.isDisableConnect"  mat-flat-button  class="primary-btn custom-button-disabled" (click)="connectDialog(broker.broker_code)">
                 Connect
+              </button>
+              <button *ngIf="broker.isDisableConnect"  mat-flat-button  class="primary-btn custom-button-disabled" (click)="disConnect(i)">
+                DisConnect
               </button>
             </div>
         </mat-tab>
@@ -41,8 +44,10 @@
                 <mat-form-field appearance="outline" fxFlex="25" fxFlex.sm="50" fxFlex.xs="100">
                     <mat-label>Select Brokerage</mat-label>
                     <mat-select [(value)]="selectedOption" [formControl]="brokerage_type">
-                        <mat-option value="ts" (click)="getBrokerageAccount('ts')">Tradestation</mat-option>
-                        <mat-option value="ib" (click)="getBrokerageAccount('ib')">Interactive Brokers</mat-option>
+                        <span *ngFor="let brokerType of brokerMaster; let i= index" >
+                            <mat-option [value]="brokerType.broker_code" (click)="getBrokerageAccount(brokerType.broker_code)">{{brokerType.name}}</mat-option>
+                        </span>
+                       
                     </mat-select>
                 </mat-form-field>
             </div>

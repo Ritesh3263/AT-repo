@@ -1,11 +1,16 @@
-<div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="breadcrumb with-bg with-border pt-10 pb-10 pl-20 pr-20">
-    <a routerLink="/home" fxLayout="column" fxLayoutAlign="center center">
-        <img src="/assets/images/home-icon.svg" />
-    </a>
-    <span>/</span>
-    <a routerLink="/baskets" class="bold">Baskets</a>
-    <span>/</span>
-    <a class="bold">Dashboard</a>
+<div
+  fxLayout="row"
+  fxLayoutAlign="start center"
+  fxLayoutGap="10px"
+  class="breadcrumb pt-10 pb-10 pl-20 pr-20"
+>
+  <a routerLink="/home" fxLayout="column" fxLayoutAlign="center center">
+    <img src="/assets/images/home-icon.svg" />
+  </a>
+  <span>/</span>
+  <a routerLink="/my-basket" class="bold">Baskets</a>
+  <span>/</span>
+  <a class="bold">Dashboard</a>
 </div>
 <!-- <form [formGroup]="form" autocomplete="off" style="padding: 10px;"> -->
 <!-- <div fxFlex="20" fxFlex.sm="25" fxFlex.xs="100" class="form-group filter-input no-error">
@@ -33,49 +38,408 @@
       </mat-form-field> -->
 
 <!-- </form> -->
-<div fxLayout="column" class="pl-20 pr-20 pt-20 dashboard-widget">
-    <div fxLayout="row wrap" class="form-row">
-        <div fxFlex="50" fxFlex.sm="100" fxFlex.xs="100" class="form-group pb-20">
-            <mat-card style="width: 100%; height: 300px; border: 2px solid #0b63e5;padding: 5px;">
-                <div *ngIf="!isSymbols" >No data</div>
-                <div *ngIf="isSymbols" id="piechart" style="width: 100%; height: 100%;"></div>
-            </mat-card>
-        </div>
-        <div fxFlex="50" fxFlex.sm="100" fxFlex.xs="100" class="form-group pb-20">
-            <mat-card style="width: 100%;  height: 300px;border: 2px solid #0b63e5; padding: 5px;">
-                <div *ngIf="!isSymbols">No data</div>
-                <div *ngIf="isSymbols" id="line_top_x" style="width: 100%; height: 100%;"></div>
-            </mat-card>
-        </div>
-        <div fxFlex="100" fxFlex.sm="100" fxFlex.xs="100" class="form-group pb-20">
-            <mat-card style="width: 100%;  height: 300px;border: 2px solid #0b63e5; padding: 5px;">
-                <div *ngIf="!isSymbols">No data</div>
-                <div *ngIf="isSymbols" id="barchart_material" style="width: 900px; height: 500px;"></div>
-            </mat-card>
-        </div>
-        <div fxFlex="100" fxFlex.sm="100" fxFlex.xs="100" class="form-group pb-20">
-            <mat-card style="width: 100%;  height: 300px;border: 2px solid #0b63e5; padding: 5px;">
-                <div *ngIf="!isSymbols">No data</div>
-                <div *ngIf="isSymbols" id="chart_div" style="width: 100%; height: 100%;"></div>
-            </mat-card>
-        </div>
 
+<div class="main_wrapper basket_dashboard_module bg-body text-dark">
+  <div fxLayout="column wrap" fxLayoutAlign="start stretch">
+    <h1 class="mat-h1 font-700 ">Technology Industry Giants</h1>
 
-        <!-- <div fxFlex="50" fxFlex.sm="100" fxFlex.xs="100" class="form-group pb-20">
-            <h3 class="mat-h3 text-center font-600">Fundamental Data Widget</h3>
-            <div style="width: 100%;" #TradingFundamentalDataWidget></div>
+    <div class="basket_dashboard_main">
+      <div class="top_cards_parent">
+        <mat-card>
+          <mat-card-content>
+            <div fxLayout="row nowrap" fxLayoutAlign="space-between center">
+              <div class="card_basket_symbol bg-prime-accent border-bold bg-dark-transp">
+                <mat-icon
+                  class="icon_symbol color_light"
+                  aria-hidden="false"
+                  aria-label="Example sync icon"
+                  fontIcon="attach_money"
+                ></mat-icon>
+              </div>
+              <div class="card_basket_text">
+                <h2 class="mat-h2 font-600 maintext"><span>$</span>58,947</h2>
+                <p class="subtext">Total Invested</p>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <mat-card>
+          <mat-card-content>
+            <div fxLayout="row nowrap" fxLayoutAlign="space-between center">
+              <div class="card_basket_symbol bg-prime-accent border-bold bg-dark-transp">
+                <mat-icon
+                  class="icon_symbol color_light"
+                  aria-hidden="false"
+                  aria-label="Example sync icon"
+                  fontIcon="troubleshoot"
+                ></mat-icon>
+              </div>
+              <div class="card_basket_text">
+                <h2 class="mat-h2 font-600 maintext"><span>$</span>22.02</h2>
+                <p class="subtext">Market Value</p>
+              </div>
+            </div>
+          </mat-card-content> </mat-card
+        ><mat-card>
+          <mat-card-content>
+            <div fxLayout="row nowrap" fxLayoutAlign="space-between center">
+              <div class="card_basket_symbol bg-prime-accent border-bold bg-dark-transp">
+                <mat-icon
+                  class="icon_symbol color_light"
+                  aria-hidden="false"
+                  aria-label="Example sync icon"
+                  fontIcon="swap_horiz"
+                ></mat-icon>
+              </div>
+              <div class="card_basket_text">
+                <h2 class="mat-h2 font-600 maintext">28.30<span>%</span></h2>
+                <p class="subtext">Total Returns</p>
+              </div>
+            </div>
+          </mat-card-content> </mat-card
+        ><mat-card>
+          <mat-card-content>
+            <div fxLayout="row nowrap" fxLayoutAlign="space-between center">
+              <div class="card_basket_symbol bg-prime-accent border-bold bg-dark-transp">
+                <mat-icon
+                  class="icon_symbol color_light"
+                  aria-hidden="false"
+                  aria-label="Example sync icon"
+                  fontIcon="volunteer_activism"
+                ></mat-icon>
+              </div>
+              <div class="card_basket_text">
+                <h2 class="mat-h2 font-600 maintext">18,947</h2>
+                <p class="subtext">Total Subscribers</p>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="graph_parent">
+        <mat-card>
+          <mat-card-content>
+            <mat-card-title>Market Sector</mat-card-title>
+            <div
+              id="donutchart"
+              class="donut_chart"
+              style="width: 100%; height: 300px"
+            ></div>
+            <div class="content_bellow">
+              <mat-card-subtitle class="txt_bellow"
+                >Change in % - Today</mat-card-subtitle
+              >
+              <mat-card-subtitle class="txt_bellow_big text-dark"
+                >0.23<span>%</span></mat-card-subtitle
+              >
+              <mat-card-subtitle class="txt_bellow_light"
+                >Diverse range of sectors has been included in this basket to
+                maintain stability</mat-card-subtitle
+              >
+              <div class="donut_grid">
+                <div>
+                  <mat-card-subtitle class="txt_bellow font-9"
+                    >Gold</mat-card-subtitle
+                  >
+                  <mat-card-subtitle class="txt_bellow_medium font-1 text-dark"
+                    >158.36
+                    <mat-icon
+                      class="iconUp"
+                      aria-hidden="false"
+                      aria-label="Example sync icon"
+                      fontIcon="play_arrow"
+                    ></mat-icon>
+                  </mat-card-subtitle>
+                </div>
+                <div>
+                  <mat-card-subtitle class="txt_bellow font-9"
+                    >Nasdaq</mat-card-subtitle
+                  >
+                  <mat-card-subtitle class="txt_bellow_medium font-1 text-dark"
+                    >188.36
+                    <mat-icon
+                      class="iconDown"
+                      aria-hidden="false"
+                      aria-label="Example sync icon"
+                      fontIcon="play_arrow"
+                    ></mat-icon>
+                  </mat-card-subtitle>
+                </div>
+                <div>
+                  <mat-card-subtitle class="txt_bellow font-9"
+                    >SNP 500</mat-card-subtitle
+                  >
+                  <mat-card-subtitle class="txt_bellow_medium font-1 text-dark"
+                    >58.36
+                    <mat-icon
+                      class="iconUp"
+                      aria-hidden="false"
+                      aria-label="Example sync icon"
+                      fontIcon="play_arrow"
+                    ></mat-icon>
+                  </mat-card-subtitle>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <mat-card>
+          <mat-card-content>
+            <mat-card-title>Performance Chart</mat-card-title>
+            <div id="line_top_x" class="line_chart"></div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="performing_table_parent">
+        <mat-card>
+          <mat-card-content>
+            <mat-card-title>Top Performing Symbols</mat-card-title>
+            <table mat-table [dataSource]="dataSource" class="trading-table top_performing_table">
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="symbol">
+                  <th mat-header-cell *matHeaderCellDef> SYMBOL </th>
+                  <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+                </ng-container>
+              
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef> NAME </th>
+                  <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                </ng-container>
+              
+                <!-- Invested Column -->
+                <ng-container matColumnDef="invested">
+                  <th mat-header-cell *matHeaderCellDef> INVESTED </th>
+                  <td mat-cell *matCellDef="let element"> ${{element.invested}} </td>
+                </ng-container>
+              
+                <!-- Change Column -->
+                <ng-container matColumnDef="change">
+                  <th mat-header-cell *matHeaderCellDef> CHANGE % </th>
+                  <td mat-cell *matCellDef="let element"> {{element.change}} </td>
+                </ng-container>
+              
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+          </mat-card-content>
+        </mat-card>
+        <mat-card>
+          <mat-card-content>
+            <mat-card-title>Least Performing Symbols</mat-card-title>
+            <table mat-table [dataSource]="dataSource" class="trading-table top_performing_table least_performing_table">
+              <!-- Symbol Column -->
+              <ng-container matColumnDef="symbol">
+                <th mat-header-cell *matHeaderCellDef> SYMBOL </th>
+                <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+              </ng-container>
+            
+              <!-- Name Column -->
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> NAME </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+              </ng-container>
+            
+              <!-- Invested Column -->
+              <ng-container matColumnDef="invested">
+                <th mat-header-cell *matHeaderCellDef> INVESTED </th>
+                <td mat-cell *matCellDef="let element"> ${{element.invested}} </td>
+              </ng-container>
+            
+              <!-- Change Column -->
+              <ng-container matColumnDef="change">
+                <th mat-header-cell *matHeaderCellDef> CHANGE % </th>
+                <td mat-cell *matCellDef="let element"> {{element.change}} </td>
+              </ng-container>
+            
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="last_grid">
+      <div class="News_parent">
+        <h2>Symbols News</h2>
+        <div class="news_card_wrap">
+          <mat-card class="news_card">
+            <mat-card-content>
+              <div class="symbol"><img src="assets/images/tesla-icon.svg" alt="logo" /></div>
+              <p class="news">TSLA appears to be moving closer to officially unveiling its long rumored India manufacturing plant, with local reports Thursday expecting the announcement to come early in 2024. TSLA shares advanced early before falling, reducing their December rally.</p>
+              <div class="dFlex jusBet last_row_news">
+                <small>@ 21 Jan 2013</small>
+                <small><a>@Source</a></small>
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="news_card">
+            <mat-card-content>
+              <div class="symbol"><img src="assets/images/google-icon.svg" alt="logo" /></div>
+              <p class="news">Google agrees to settlement in $5B lawsuit accusing the company of tracking users in 'incognito' mode</p>
+              <div class="dFlex jusBet last_row_news">
+                <small>@ 21 Jan 2013</small>
+                <small><a>@Source</a></small>
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="news_card">
+            <mat-card-content>
+              <div class="symbol"><img src="assets/images/microsoft-icon.svg" alt="logo" /></div>
+              <p class="news">The New York Times NYT 2.41%increase; green up pointing triangle sued Microsoft MSFT 0.32%increase; green up pointing triangle and OpenAI for alleged copyright infringement, touching off a legal fight over generative-AI technologies with far-reaching implications for the future of the news publishing business.</p>
+              <div class="dFlex jusBet last_row_news">
+                <small>@ 21 Jan 2013</small>
+                <small><a>@Source</a></small>
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="news_card">
+            <mat-card-content>
+              <div class="symbol"><img src="/assets/images/nvidia-icon.svg" alt="logo" /></div>
+              <p class="news">Nvidia (NVDA) shares have soared about 240% this year. For those who are looking for alternative ways to take advantage of the stock's run, options may be a possibility.</p>
+              <div class="dFlex jusBet last_row_news">
+                <small>@ 21 Jan 2013</small>
+                <small><a>@Source</a></small>
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="news_card">
+            <mat-card-content>
+              <div class="symbol"><img src="/assets/images/apple-icon.svg" alt="logo" /></div>
+              <p class="news">U.S. appeals court temporarily lifts federal agency’s import ban on Apple watch models as it weighs company request to suspend the ban during patent litigation</p>
+              <div class="dFlex jusBet last_row_news">
+                <small>@ 21 Jan 2013</small>
+                <small><a>@Source</a></small>
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="news_card">
+            <mat-card-content>
+              <div class="symbol"><img src="/assets/images/microsoft-icon.svg" alt="logo" /></div>
+              <p class="news">Nvidia (NVDA) shares have soared about 240% this year. For those who are looking for alternative ways to take advantage of the stock's run, options may be a possibility.</p>
+              <div class="dFlex jusBet last_row_news">
+                <small>@ 21 Jan 2013</small>
+                <small><a>@Source</a></small>
+              </div>
+            </mat-card-content>
+          </mat-card>
         </div>
-        <div fxFlex="50" fxFlex.sm="100" fxFlex.xs="100" class="form-group pb-20">
-            <h3 class="mat-h3 text-center font-600">Company Profile Widget</h3>
-            <p id="four" #TradingCompanyProfileWidget></p>
-        </div>
-        <div fxFlex="50" fxFlex.sm="100" fxFlex.xs="100" class="form-group pb-20">
-            <h3 class="mat-h3 text-center font-600">Min Chart Widget</h3>
-            <div #tradingMinChartWidget></div>
-        </div>
-        <div fxFlex="50" fxFlex.sm="100" fxFlex.xs="100" class="form-group pb-20">
-            <h3 class="mat-h3 text-center font-600">Technical Analysis Widget</h3>
-            <div #TradingTechnicalAnalysisWidget></div>
-        </div> -->
+      </div>
+      <div class="updates_parent">
+        <mat-card>
+            <mat-card-content>
+                <mat-card-title>Updates by Basket Owner</mat-card-title>
+                <div class="scroll">
+                    <div class="timeline ">
+                        <div class="container right_cont">
+                            <div class="circle bg-accent"></div>
+                            <div class="textbox">
+                                <h3>Re-Ballancing update</h3>
+                                <small>@ 21 Jan 2023</small>
+                                <div style="color: var(--WHITE);">
+                                  <h4 class="no-margin">Added Symbols</h4>
+                                  <small> TSLA, GOOG, NVDA, TSLA, GOOG, NVDA</small>
+                                </div>
+                                <div style="color: var(--WHITE);">
+                                  <h4 class="no-margin">Removed Symbols</h4>
+                                  <small>AAPL, MSFT, GOLD</small>
+                                </div>
+                                <span class="right_cont_arrow"></span>
+                            </div>
+                        </div>
+                        <div class="container left_cont">
+                            <div class="circle bg-accent"></div>
+                            <div class="textbox">
+                                <h3>Re-Ballancing update</h3>
+                                <small>@ 21 Jan 2023</small>
+                                <div style="color: var(--WHITE);">
+                                  <h4 class="no-margin">Added Symbols</h4>
+                                  <small> TSLA, GOOG, NVDA</small>
+                                </div>
+                                <div style="color: var(--WHITE);">
+                                  <h4 class="no-margin">Removed Symbols</h4>
+                                  <small>AAPL, MSFT, GOLD</small>
+                                </div>                                
+                                <span class="left_cont_arrow"></span>
+                            </div>
+                        </div>
+                        <div class="container right_cont">
+                            <div class="circle bg-accent"></div>
+                            <div class="textbox">
+                                <h3>Re-Ballancing update</h3>
+                                <small>@ 21 Jan 2023</small>
+                                <div style="color: var(--WHITE);">
+                                  <h4 class="no-margin">Added Symbols</h4>
+                                  <small> TSLA, GOOG, NVDA</small>
+                                </div>
+                                <div style="color: var(--WHITE);">
+                                  <h4 class="no-margin">Removed Symbols</h4>
+                                  <small>AAPL, MSFT, GOLD</small>
+                                </div>                                
+                                <span class="right_cont_arrow"></span>
+                            </div>
+                        </div>
+                        <div class="container left_cont">
+                            <div class="circle bg-accent"></div>
+
+                            <div class="textbox">
+                                <h3>Re-Ballancing update</h3>
+                                <small>@ 21 Jan 2023</small>
+                                <div style="color: var(--WHITE);">
+                                  <h4 class="no-margin">Added Symbols</h4>
+                                  <small> TSLA, GOOG, NVDA</small>
+                                </div>
+                                <div style="color: var(--WHITE);">
+                                  <h4 class="no-margin">Removed Symbols</h4>
+                                  <small>AAPL, MSFT, GOLD</small>
+                                </div>                                
+                                <span class="left_cont_arrow"></span>
+                            </div>
+                        </div>
+                        <div class="container right_cont">
+                            <div class="circle bg-accent"></div>
+
+                            <div class="textbox">
+                                <h3>Re-Ballancing update</h3>
+                                <small>@ 21 Jan 2023</small>
+                                <div style="color: var(--WHITE);">
+                                  <h4 class="no-margin">Added Symbols</h4>
+                                  <small> TSLA, GOOG, NVDA</small>
+                                </div>
+                                <div style="color: var(--WHITE);">
+                                  <h4 class="no-margin">Removed Symbols</h4>
+                                  <small>AAPL, MSFT, GOLD</small>
+                                </div>                                
+                                <span class="right_cont_arrow"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-card-content>
+          </mat-card>
+  
+      </div>
+      </div>      
     </div>
+  </div>
 </div>
+
+<!-- <div fxLayout="column" class="pl-20 pr-20 pt-20 dashboard-widget">
+  <div fxLayout="row wrap" class="form-row">
+    <div fxFlex="50" fxFlex.sm="100" fxFlex.xs="100" class="form-group pb-20">
+      <h3 class="mat-h3 text-center font-600">Fundamental Data Widget</h3>
+      <div style="width: 100%" #TradingFundamentalDataWidget></div>
+    </div>
+    <div fxFlex="50" fxFlex.sm="100" fxFlex.xs="100" class="form-group pb-20">
+      <h3 class="mat-h3 text-center font-600">Company Profile Widget</h3>
+      <p id="four" #TradingCompanyProfileWidget></p>
+    </div>
+    <div fxFlex="50" fxFlex.sm="100" fxFlex.xs="100" class="form-group pb-20">
+      <h3 class="mat-h3 text-center font-600">Min Chart Widget</h3>
+      <div #tradingMinChartWidget></div>
+    </div>
+    <div fxFlex="50" fxFlex.sm="100" fxFlex.xs="100" class="form-group pb-20">
+      <h3 class="mat-h3 text-center font-600">Technical Analysis Widget</h3>
+      <div #TradingTechnicalAnalysisWidget></div>
+    </div>
+  </div>
+</div> -->

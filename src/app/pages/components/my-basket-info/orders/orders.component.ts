@@ -15,15 +15,10 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 import { ConfirmTradeComponent } from '../confirm-trade/confirm-trade.component';
 import { BrokerageService } from 'src/app/services/brokerage.service';
-// export interface PeriodicElement {
-//   symbol: string;
-//   Quantity: number;
-//   UpdatedAt: string;
-//   OrderID: string;
-// }
+
 
 export interface PeriodicElement {
   account_id: number;
@@ -39,183 +34,6 @@ export interface InsideOrders {
   order_id: string;
   price_at_request: string
 }
-
-export interface PositionOrders {
-  account_id: number;
-  POSITION_ID: number;
-  QUANTITY: number;
-  PRICE: number;
-}
-
-
-
-let ELEMENT_DATA: PeriodicElement[] = [
-
-  {
-    account_id: 4546564878,
-    transaction_id: 9965564878,
-    transaction_type: "4382",
-    transaction_date: '2022-08-29',
-    order_status: "Confirmed",
-  },
-  //   {
-  //     account_id: 9846564878,
-  //     transaction_id: 4546564878,
-  //     transaction_type: 4382,
-  //     transaction_date :  '2022-08-09',
-  //     order_status : "Pending",
-  //   },
-  //   {
-  //     account_id: 8879954662,
-  //     transaction_id: 4546564878,
-  //     transaction_type: 4382,
-  //     transaction_date :  '2022-08-19',
-  //     order_status : "Pending",
-  //   },
-  //   {
-  //     account_id: 6685244332,
-  //     transaction_id: 4546564878,
-  //     transaction_type: 4382,
-  //     transaction_date :  '2022-08-29',
-  //     order_status : "Confirmed",
-  //   },
-  //   {
-  //     account_id: 5562242488,
-  //     transaction_id: 4546564878,
-  //     transaction_type: 4382,
-  //     transaction_date :  '2022-08-29',
-  //     order_status : "Confirmed",
-  //   },
-  //   {
-  //     account_id: 56632485131,
-  //     transaction_id: 4546564878,
-  //     transaction_type: 4382,
-  //     transaction_date :  '2022-08-09',
-  //     order_status : "Pending",
-  //   },
-  //   {
-  //     account_id: 77521235785,
-  //     transaction_id: 4546564878,
-  //     transaction_type: 4382,
-  //     transaction_date :  '2022-08-19',
-  //     order_status : "Confirmed",
-  //   },
-  //   {
-  //     account_id: 6568234232,
-  //     transaction_id: 4546564878,
-  //     transaction_type: 4382,
-  //     transaction_date :  '2022-08-29',
-  //     order_status : "Pending",
-  //   },
-  //   {
-  //     account_id: 7756219998,
-  //     transaction_id: 4546564878,
-  //     transaction_type: 4382,
-  //     transaction_date :  '2022-08-29',
-  //     order_status : "Confirmed",
-  //   },
-  //   {
-  //     account_id: 77561324551,
-  //     transaction_id: 4546564878,
-  //     transaction_type: 4382,
-  //     transaction_date :  '2022-08-29',
-  //     order_status : "Confirmed",
-  //   },
-];
-
-const ELEMENT_DATA2: InsideOrders[] = [
-  {
-    symbol: 'TSLA',
-    filled_qty: 4382,
-    order_id: "Confirmed",
-    price_at_request: "222"
-  },
-  {
-    symbol: 'TSLA',
-    filled_qty: 4382,
-    order_id: "Pending",
-    price_at_request: "222"
-
-  },
-  {
-    symbol: 'TSLA',
-    filled_qty: 4382,
-    order_id: "Pending",
-    price_at_request: "222"
-
-  },
-
-  {
-    symbol: 'TSLA',
-    filled_qty: 4382,
-    order_id: "Confirmed",
-    price_at_request: "222"
-
-  },
-  {
-    symbol: 'TSLA',
-    filled_qty: 4382,
-    order_id: "Confirmed",
-    price_at_request: "222"
-
-  },
-];
-
-const ELEMENT_DATA_POSITION: PositionOrders[] = [
-  {
-    account_id: 4546564878,
-    POSITION_ID: 88456224,
-    QUANTITY: 120,
-    PRICE: 333.25,
-  },
-  {
-    account_id: 4546564878,
-    POSITION_ID: 88456224,
-    QUANTITY: 120,
-    PRICE: 333.25,
-  },
-  {
-    account_id: 4546564878,
-    POSITION_ID: 88456224,
-    QUANTITY: 120,
-    PRICE: 333.25,
-  },
-  {
-    account_id: 4546564878,
-    POSITION_ID: 88456224,
-    QUANTITY: 120,
-    PRICE: 333.25,
-  },
-  {
-    account_id: 4546564878,
-    POSITION_ID: 88456224,
-    QUANTITY: 120,
-    PRICE: 333.25,
-  },
-  {
-    account_id: 4546564878,
-    POSITION_ID: 88456224,
-    QUANTITY: 120,
-    PRICE: 333.25,
-  },
-
-]
-
-// export interface PeriodicElement {
-//   symbol: string;
-//   Quantity: number;
-//   UpdatedAt: string;
-// }
-// const ELEMENT_DATA: PeriodicElement[] = [
-//   { symbol: 'TSLA', Quantity: 1734, UpdatedAt: '19660',OrderID:'AAA'},
-//   { symbol: 'DCTH', Quantity: 1500, UpdatedAt: '100',OrderID:"AAAA"},
-//   { symbol: 'KC', Quantity: 500, UpdatedAt: '200',OrderID:'OrderIDOrderID'}];
-
-// const CONFIRMELEMENT_DATA: PeriodicElement[] = [
-//   { symbol: 'META', Quantity: 2000, UpdatedAt: '200',OrderID:"AAA"},
-//   { symbol: 'GOOG', Quantity: 3000, UpdatedAt: '300',OrderID:"AAA"},
-//   { symbol: 'IBM', Quantity: 1000, UpdatedAt: '100' ,OrderID:"AAA"},
-// ];
 
 @Component({
   selector: 'app-orders',
@@ -238,26 +56,36 @@ export class OrdersComponent implements OnInit {
   pendingDataSource = new MatTableDataSource<any>();
   dataSourcePosition = new MatTableDataSource<any>();
   displayedColumnsForPositions: string[] = ['symbol', 'Quantity', 'Last', 'TotalCost', 'MarketValue'];
-  columnsToDisplayConfirm = ['ACTION', 'account_id', 'transaction_id', 'transaction_type', 'transaction_date', 'order_status'];
-  columnsToDisplay = ['ACTION', 'account_id', 'transaction_id', 'transaction_type', 'transaction_date', 'order_status', 'edit'];
+  columnsToDisplayConfirm = ['ACTION', 'account_id', 'transaction_id', 'transaction_type', 'transaction_execution_date', 'order_status'];
+  columnsToDisplay = ['ACTION', 'account_id', 'transaction_id', 'transaction_type', 'transaction_created_date', 'order_status', 'edit'];
   columnsToDisplayInside = ['symbol', 'filled_qty', 'order_id', "price_at_request", 'transaction_type'];
+  columnsToDisplayConfirmInside = ['symbol', 'filled_qty', 'order_id', "price_at_request", 'transaction_type',"message"];
+  option:any=[10];
+  pendingOption:any=[10];
+
   // columnsToDisplayPositions = ['account_id', 'POSITION_ID', 'QUANTITY', 'PRICE']
   expandedElement!: InsideOrders | null;
   getChangeStyle(STATUS: string): string {
-    if (STATUS === 'confirmed') {
+    if (STATUS.toLowerCase() === 'confirmed') {
       return 'positive-value'; // CSS class for positive values
-    } else if (STATUS === 'pending') {
+    } else if (STATUS.toLowerCase() === 'pending') {
       return 'negative-value'; // CSS class for negative values
-    } else if (STATUS === 'SELL') {
+    } else if (STATUS.toLowerCase() === 'sell') {
       return 'negative-value'; // CSS class for negative values
-    } else if (STATUS === 'BUY') {
+    } else if (STATUS.toLowerCase() === 'buy') {
       return 'positive-value'; // CSS class for negative values
+    }else if (STATUS.toLowerCase() === 'failed') {
+      return 'negative-value'; // CSS class for negative values
     } else {
       return ''; // No special style for zero values
     }
   }
-  @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>;
-  @ViewChild(MatSort, { static: true }) sort!: MatSort;
+  @ViewChild("paginator") paginator !:MatPaginator //pagination for executed orders
+  @ViewChild("pendingPaginator") pendingPaginator !:MatPaginator //pendingPaginator for pending orders
+
+  @ViewChild(MatSort) sort!: MatSort;
+  // @ViewChild(MatSort) pendingSort!: MatSort;
+
   showSpinner: boolean = false;
   user_id: any = null;
   isPosition: boolean = true;
@@ -266,11 +94,11 @@ export class OrdersComponent implements OnInit {
   constructor(public dialog: MatDialog, private basketTradeService: BasketTradeService, private userService: UserService, private utilityService: UtilitiesService, @Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, private brokerageService: BrokerageService) { }
 
   ngAfterViewInit(id = null) {
-
+    
   }
   ngOnInit(id = null) {
     // Initialize dataSource and load data
-    this.dataSource.paginator = this.paginator.first;
+    // this.dataSource.paginator = this.paginator.first;
 
     this.basketId = id || this.parentComponent.getBasketId();
     this.getBrokerageAccount('ts');
@@ -363,24 +191,30 @@ export class OrdersComponent implements OnInit {
 
   getConfirmedOrder() {
     // this.showSpinner= true;
-    this.basketTradeService.getOrderByBasketId('ts', this.basketId, "confirmed").then((data) => {
+    this.basketTradeService.getOrderByBasketId('ts', this.basketId).then((data) => {
       // this.showSpinner =false;
+      var executedOrders:any=[];
+      this.option=[]
       if (data && data.success) {
         data.orders.forEach((ele: any) => {
-          // ele.transaction_created_date = new Date(ele.transaction_created_date)
-          // ele.transaction_execution_date = new Date(ele.transaction_execution_date)
-
-          ele.symbols.forEach((elesub: any) => {
-            elesub.price_at_request = Number(elesub.filled_price);
-          })
+          if(ele.order_status.toLowerCase()!='pending'){
+            ele.symbols.forEach((eleSub: any) => {
+              eleSub.price_at_request = eleSub.price_at_request?Number(eleSub.price_at_request):null;
+              eleSub.filled_price = eleSub.filled_price?Number(eleSub.filled_price):null;
+            })
+            executedOrders.push(ele)
+          }
         })
-        this.dataSource = new MatTableDataSource<any>(data.orders.reverse());
+        this.dataSource = new MatTableDataSource<any>(executedOrders);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.pagination(executedOrders.length)
       }
     })
   }
   getPendingOrder() {
     // this.showSpinner= true;
-    this.basketTradeService.getOrderByBasketId('ts', this.basketId, "pending").then((data) => {
+    this.basketTradeService.getOrderByBasketId('ts', this.basketId, "Pending").then((data) => {
       // this.showSpinner =false;
       if (data && data.success) {
         data.orders.forEach((ele: any) => {
@@ -394,7 +228,11 @@ export class OrdersComponent implements OnInit {
             elesub.new_invested = elesub.price * elesub.new_shares;
           });
         })
-        this.pendingDataSource = new MatTableDataSource<any>(data.orders.reverse());
+        this.pendingDataSource = new MatTableDataSource<any>(data.orders);
+        // this.pendingDataSource.sort = this.pendingSort;
+        this.pendingDataSource.paginator = this.pendingPaginator;
+        this.pendingPagination(data.orders.length)
+
 
       }
     })
@@ -407,29 +245,46 @@ export class OrdersComponent implements OnInit {
   account_balance: any;
   cash_balance: any;
   account_id: any;
+  isEdit:boolean=false;
   confirmOrder(ele: any) {
-    // this.webSocketService.closeConnection();
-    let inputArray = null
-    let inputModelPopup = {
-      account_balance: this.account_balance,
-      cash_balance: Number(this.cash_balance),
-      basket_id: this.basketId,
-      account_id: this.account_id,
-      transaction_id: ele.transaction_id,
-      symbols: JSON.parse(JSON.stringify(ele.symbols)),
-    }
+    this.isEdit = true
 
-    const dialogRef = this.dialog.open(ConfirmTradeComponent, {
-      panelClass: 'custom-modal',
-      disableClose: true,
-      width: "70%",
-      data: inputModelPopup
-    });
-    dialogRef.afterClosed().subscribe((result: any) => {
-      if (result) {
+    /**
+     * getTransActionStatus service is used to edit the order 
+     *  if it is pending then only editable 
+     */
+    this.basketTradeService.getTransActionStatus('ts', ele.transaction_id).then((data) => {
+      if (data && data.success && data.data.length > 0 && data.data[0].OrderStatus === 'Pending') {
+        // this.webSocketService.closeConnection();
+        let inputArray = null
+        let inputModelPopup = {
+          account_balance: this.account_balance,
+          cash_balance: Number(this.cash_balance),
+          basket_id: this.basketId,
+          account_id: this.account_id,
+          transaction_id: ele.transaction_id,
+          symbols: JSON.parse(JSON.stringify(ele.symbols)),
+        }
+
+        const dialogRef = this.dialog.open(ConfirmTradeComponent, {
+          panelClass: 'custom-modal',
+          disableClose: true,
+          width: "70%",
+          data: inputModelPopup
+        });
+        dialogRef.afterClosed().subscribe((result: any) => {
+          this.isEdit = false;
+          if (result) {
+            this.getPendingOrder();
+          }
+        });
+      } else {
+        this.utilityService.displayInfoMessage('Unable to edit this order because the order is confirmed ', true);
         this.getPendingOrder();
+        this.isEdit = false;
       }
-    });
+    })
+
   }
 
 
@@ -437,9 +292,9 @@ export class OrdersComponent implements OnInit {
   getBrokerageAccount(brokerage: any) {
     this.brokerageService.getBrokerageAccounts(brokerage).then((data) => {
       if (data && data.Accounts && data.Accounts.length > 0) {
-        this.account_balance = data.Accounts[3].BuyingPower;
-        this.cash_balance = data.Accounts[3].CashBalance;
-        this.account_id = data.Accounts[3].AccountID;
+        this.account_balance = data.Accounts[0].BuyingPower;
+        this.cash_balance = data.Accounts[0].CashBalance;
+        this.account_id = data.Accounts[0].AccountID;
       }
 
     })
@@ -448,4 +303,36 @@ export class OrdersComponent implements OnInit {
   setInputForEdit(data: any) {
 
   }
+
+  pagination(data: number) {
+    // this.option = [10]
+   if (data < 10) {
+     this.option = [10, data]
+   } else if (data <= 50) {
+     this.option = [10, 25, data]
+   } else if (data <= 100) {
+     this.option = [10, 25, 50, data]
+   } else if (100 < data) {
+     this.option = [10, 25, 50, 100, data]
+   }
+ }
+ pendingPagination(data: number) {
+ if (data < 10) {
+   this.pendingOption = [10, data]
+ } else if (data <= 50) {
+   this.pendingOption = [10, 25, data]
+ } else if (data <= 100) {
+   this.pendingOption = [10, 25, 50, data]
+ } else if (100 < data) {
+   this.pendingOption = [10, 25, 50, 100, data]
+ }
+}
+
+ sortData(sort:Sort){
+  if(sort.direction){
+    this.dataSource.sort = this.sort;
+  }
+
+ }
+
 }

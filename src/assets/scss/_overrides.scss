@@ -30,6 +30,8 @@
 
 // Input
 
+
+
 .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
     padding-top: 14px;
     padding-bottom: 14px;
@@ -55,10 +57,15 @@
     }
 }
 
-.mat-mdc-paginator {
-    border: 1px solid rgba(0, 0, 0, .12);
-    border-top: none;
+.mdc-notched-outline__notch{
+    border: none;
+}
 
+.mat-mdc-paginator {
+    // border: 1px solid rgba(0, 0, 0, .12);
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, .12);
+    
     .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
         padding-top: 6px;
         padding-bottom: 6px;
@@ -69,13 +76,13 @@
     }
 }
 
-.mat-primary.mat-mdc-outlined-button:not(:disabled) {
-    border-color: var(--PRIMARY_COLOR);
-}
+// .mat-primary.mat-mdc-outlined-button:not(:disabled) {
+//     border-color: var(--PRIMARY_COLOR);
+// }
 
-.mat-mdc-dialog-container .mdc-dialog__content {
-    color: #333 !important;
-}
+// .mat-mdc-dialog-container .mdc-dialog__content {
+//     color: #333 !important;
+// }
 
 .mat-mdc-menu-panel.mat-mdc-menu-panel {
     overflow: hidden;
@@ -101,9 +108,9 @@
 }
 
 .trade-tabs {
-    .mat-mdc-tab-header {
-        border-bottom: 1px solid #eee;
-    }
+    // .mat-mdc-tab-header {
+    //     border-bottom: 1px solid #eee;
+    // }
 
     .count {
         font-size: 12px;

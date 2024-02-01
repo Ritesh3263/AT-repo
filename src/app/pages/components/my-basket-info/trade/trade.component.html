@@ -8,12 +8,17 @@
         <span>/</span>
         <a class="bold">Trade</a>
     </div>
+    <div class="main_wrapper trade_module bg-body text-dark">
     <h1 class="mat-h1 font-700 pt-10 pl-20 pr-20">Account Basket Summary</h1>
-    <div class="primary-sub-section">
+    <div class="primary-sub-section trade-prime-section">
         <div fxLayout="row wrap" fxLayoutAlign="start center" class="form-row">
             <div fxFlex="20" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" class="form-group pt-5 pb-5">
-                <span fxFlex="initial">
-                    <img src="/assets/images/trade-basket-icon.svg" />
+                <span fxFlex="initial" class="trade-icon-round">
+                    <mat-icon
+                    class="icon_symbol text-primary"
+                    fontIcon="shopping_basket"
+                ></mat-icon>
+                    <!-- <img src="/assets/images/trade-basket-icon.svg" /> -->
                 </span>
                 <div fxLayout="column">
                     <p class="no-margin">Basket</p>
@@ -21,8 +26,12 @@
                 </div>
             </div>
             <div fxFlex="20" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" class="form-group pt-5 pb-5">
-                <span fxFlex="initial">
-                    <img src="/assets/images/trade-balance-icon.svg" />
+                <span fxFlex="initial" class="trade-icon-round">
+                    <mat-icon
+                class="icon_symbol text-primary"
+                fontIcon="account_balance_wallet"
+            ></mat-icon>
+                    <!-- <img src="/assets/images/trade-balance-icon.svg" /> -->
                 </span>
                 <div fxLayout="column">
                     <p class="no-margin">Account Balance</p>
@@ -30,8 +39,12 @@
                 </div>
             </div>
             <div fxFlex="20" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" class="form-group pt-5 pb-5">
-                <span fxFlex="initial">
-                    <img src="/assets/images/trade-cash-icon.svg" />
+                <span fxFlex="initial" class="trade-icon-round">
+                    <mat-icon
+                    class="icon_symbol text-primary"
+                    fontIcon="payments"
+                ></mat-icon>
+                    <!-- <img src="/assets/images/trade-cash-icon.svg" /> -->
                 </span>
                 <div fxLayout="column">
                     <p class="no-margin">Current Cash Balance</p>
@@ -39,8 +52,12 @@
                 </div>
             </div>
             <div fxFlex="20" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" class="form-group pt-5 pb-5">
-                <span fxFlex="initial">
-                    <img src="/assets/images/trade-invested-icon.svg" />
+                <span fxFlex="initial" class="trade-icon-round">
+                    <mat-icon
+                    class="icon_symbol text-primary"
+                    fontIcon="currency_exchange"
+                ></mat-icon>
+                    <!-- <img src="/assets/images/trade-invested-icon.svg" /> -->
                 </span>
                 <div fxLayout="column">
                     <p class="no-margin">Invested</p>
@@ -48,8 +65,12 @@
                 </div>
             </div>
             <div fxFlex="20" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" class="form-group pt-5 pb-5">
-                <span fxFlex="initial">
-                    <img src="/assets/images/trade-market-icon.svg" />
+                <span fxFlex="initial" class="trade-icon-round">
+                    <mat-icon
+                class="icon_symbol text-primary"
+                fontIcon="query_stats"
+            ></mat-icon>
+                    <!-- <img src="/assets/images/trade-market-icon.svg" /> -->
                 </span>
                 <div fxLayout="column">
                     <p class="no-margin">Market Value</p>
@@ -88,12 +109,12 @@
 
                 </mat-form-field>
             </span>
-            <span fxFlex="initial" fxFlex.md="25" fxFlex.sm="100" fxFlex.xs="100" class="form-group">
-                <button mat-flat-button color="primary" [disabled]="!isFormValid()" (click)="calculateDialog()">Calculate</button>
+            <span fxFlex="initial" fxFlex.md="25" fxLayoutGap="10px" fxFlex.sm="100" fxFlex.xs="100" class="form-group" >
+                <button mat-flat-button class="custom-button-disabled" [disabled]="!isFormValid()" (click)="calculateDialog()">Calculate</button>
             </span>
             <span fxFlex fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px" class="form-group pt-md-15 pt-sm-15">
-                <button mat-stroked-button color="primary" (click)="closeAllPositions()">Close Positions</button>
-                <button mat-stroked-button color="primary" (click)="reBalance()">Rebalance</button>
+                <button mat-stroked-button class="primary-btn" (click)="closeAllPositions()">Close Positions</button>
+                <button mat-stroked-button class="primary-btn" (click)="reBalance()">Rebalance</button>
             </span>
         </form>
 
@@ -107,7 +128,8 @@
             <app-spinner></app-spinner>
           </div>
         <div *ngIf="isPositions" class="trading-table height-auto table-scroll trade-c-table with-padding pt-15">
-            <table mat-table [dataSource]="dataSource">
+            <table mat-table [dataSource]="dataSource"             class="trade_multiheader_table"
+            >
 
                 <ng-container matColumnDef="select">
                     <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}">
@@ -243,8 +265,9 @@
            
         </div>
         <div *ngIf="isPositions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px" class="pt-15 pb-15">
-            <button mat-stroked-button color="primary" (click)="cancel()">Cancel</button>
-            <button mat-flat-button color="primary" (click)="confirmTrade()">Submit</button>
+            <button mat-stroked-button class="secondary-btn" (click)="cancel()">Cancel</button>
+            <button mat-flat-button  class="primary-btn" (click)="confirmTrade()">Submit</button>
         </div>
     </div>
+</div>
 </div>

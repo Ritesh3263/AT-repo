@@ -44,7 +44,7 @@
                                 <button mat-flat-button color="primary" (click)="selectFile()">
                                     Change
                                 </button>
-                                <button mat-stroked-button color="primary">
+                                <button mat-stroked-button  class="secondary-btn">
                                     Remove
                                 </button>
                             </div>
@@ -82,7 +82,7 @@
         </form>
     </div>
     <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
-        <button mat-stroked-button mat-dialog-close color="primary">
+        <button mat-stroked-button mat-dialog-close  class="secondary-btn">
             Cancel
         </button>
         <button mat-flat-button color="primary" [disabled]="isLoading" (click)="updateProfile()">

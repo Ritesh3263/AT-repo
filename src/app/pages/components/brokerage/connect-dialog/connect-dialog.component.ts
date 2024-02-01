@@ -14,7 +14,7 @@ export class ConnectDialogComponent {
   brokerageURl:any=null;
   constructor(private brokerage:BrokerageService,public dialogRef: MatDialogRef<ConnectDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any){
-    if(data == 'TS'){
+    if(data === 'ts'){
       this.redirectedUrls();
     }else{
       this.brokerageURl = null;

@@ -74,7 +74,15 @@ import { EditBrokerComponent } from './pages/admin/components/modals/edit-broker
 import { AdminBrokeragesComponent } from './pages/admin/components/admin-brokerages/admin-brokerages.component';
 
 import { MatTooltipModule} from "@angular/material/tooltip";
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import { OrderComponent } from './pages/components/order/order.component';
+import { MatDatepickerModule } from '@angular/material/datepicker'
+import { MatNativeDateModule } from '@angular/material/core';
 import { AuditLogComponent } from './pages/components/my-basket-info/audit-log/audit-log.component';
+
+
 
 @NgModule({
   declarations: [
@@ -126,6 +134,7 @@ import { AuditLogComponent } from './pages/components/my-basket-info/audit-log/a
     InfoModalComponent,
     EditBrokerComponent,
     AdminBrokeragesComponent,
+    OrderComponent,
     AuditLogComponent
   ],
   imports: [
@@ -155,7 +164,12 @@ import { AuditLogComponent } from './pages/components/my-basket-info/audit-log/a
     MatSnackBarModule,
     MatButtonToggleModule,
     MatSortModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatProgressBarModule,
+    MatExpansionModule,
+    MatToolbarModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [],
   bootstrap: [AppComponent]
