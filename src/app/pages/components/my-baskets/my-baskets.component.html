@@ -106,7 +106,7 @@
                 </div>
               </div>
               <div fxFlex="initial" fxLayout="column" fxLayoutGap="10px">
-                <span fxFlex="initial" class="public-chip" [hidden]="!basket.public" *ngIf="basket.is_owner">Marketplace</span>
+                <span fxFlex="initial" class="public-chip" [hidden]="!basket.public" *ngIf="basket.is_owner">Public</span>
                 <span fxFlex="initial" class="public-chip" *ngIf="!basket.is_owner && basket.public">Marketplace</span>
                 <span fxFlex="initial" class="public-chip inactive" *ngIf="!basket.is_owner && !basket.public">Inactive</span>
                 <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
