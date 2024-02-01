@@ -11,10 +11,10 @@ export class UserService {
 
   constructor() { }
 
-  getHeaders(method: string = "GET", body:any = null, formData: boolean = false, includeCredentials: boolean = true): RequestInit {
+  getHeaders(method: string = "GET", body:any = null, formData: boolean = false): RequestInit {
     let headers: RequestInit = {
       method: method,
-      credentials: includeCredentials ? "include" : undefined,
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
@@ -113,7 +113,7 @@ export class UserService {
 
   async getLoginUri(provider: string): Promise<any> {
     try{
-      let res = await fetch(`${environment.apiBaseUrl}/api/user/federatedLoginRedirectUri?provider=${provider}`, this.getHeaders('GET', undefined, false, false));
+      let res = await fetch(`${environment.apiBaseUrl}/api/user/federatedLoginRedirectUri?provider=${provider}`, this.getHeaders());
       let data = await res.json();
       return data;
     }
@@ -141,8 +141,7 @@ export class UserService {
 
   async login(email: string | null, password: string | null) {
     try{
-
-      let res = await fetch(`${environment.apiBaseUrl}/api/user/login`, this.getHeaders('POST', {email: email, password: password}, false, false));
+      let res = await fetch(`${environment.apiBaseUrl}/api/user/login`, this.getHeaders('POST', {email: email, password: password}));
       let data = await res.json();
       if(data && data.user) {
         this.loadUserEvent.emit("LOAD_USER");
