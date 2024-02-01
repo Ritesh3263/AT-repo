@@ -20,11 +20,11 @@
               <div fxFlex="20" fxFlex.md="30" fxFlex.sm="50" fxFlex.xs>
                 <img src="{{broker.logo_url}}" style="width: 220px;" />
               </div>
-              <button [disabled]="broker.isDisableConnect"  mat-flat-button  class="primary-btn custom-button-disabled" (click)="connectDialog(broker.broker_code)">
+              <button [disabled]="broker.isDisableConnect || broker.broker_code == 'at'"  mat-flat-button  class="primary-btn custom-button-disabled" (click)="connectDialog(broker.broker_code)">
                 Connect
               </button>
-              <button *ngIf="broker.isDisableConnect"  mat-flat-button  class="primary-btn custom-button-disabled" (click)="disConnect(i)">
-                DisConnect
+              <button *ngIf="broker.isDisableConnect && broker.broker_code != 'at'"  mat-flat-button  class="primary-btn custom-button-disabled" (click)="disConnect(i)">
+                Disconnect
               </button>
             </div>
         </mat-tab>
