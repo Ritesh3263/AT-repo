@@ -104,3 +104,23 @@
         }
     }
 }
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--PRIMARY_COLOR);
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--PRIMARY_COLOR);
+  color: white;
+  font-size: 40px;
+  font-weight: 600;
+}

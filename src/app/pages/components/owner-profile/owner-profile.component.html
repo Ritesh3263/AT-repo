@@ -13,7 +13,10 @@
   <div fxLayout="row wrap" fxLayoutAlign="start center" class="owner-header form-row">
     <div fxFlex="initial" class="form-group">
       <div fxLayout="column" fxLayoutAlign="center center" class="owner-img">
-        <img src="{{trader.profilePhoto}}" />
+        <img *ngIf="trader.profilePhoto" src="{{trader.profilePhoto}}" />
+        <div *ngIf='!trader.profilePhoto' fxLayout="column" fxLayoutAlign="center center" class="profile-avatar">
+          {{trader.initials}}
+        </div>
       </div>
     </div>
     <div fxFlex fxFlex.xs="100" fxLayout="row wrap" fxLayoutAlign="start center" class="form-group pt-xs-10">
@@ -88,7 +91,10 @@
             </div>
             <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
               <div fxFlex="initial" fxLayout="column" fxLayoutAlign="center center" class="profile-icon">
-                <img src="{{basket.owner_image}}" />
+                <img *ngIf='basket.owner_image' src="{{basket.owner_image}}" />
+                <div *ngIf='!basket.owner_image' fxLayout="column" fxLayoutAlign="center center" class="avatar">
+                  {{basket.owner_initials}}
+                </div>
               </div>
               <div fxFlex fxLayout="row" fxLayoutAlign="start stretch" class="profile-info-border">
                 <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">

@@ -125,7 +125,10 @@
             </div>
             <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
               <div fxFlex="initial" fxLayout="column" fxLayoutAlign="center center" class="profile-icon" (click)="openOwnerProfile(basket)">
-                <img src="{{basket.owner_image}}" />
+                <img *ngIf='basket.owner_image' src="{{basket.owner_image}}" />
+                <div *ngIf='!basket.owner_image' fxLayout="column" fxLayoutAlign="center center" class="avatar">
+                  {{basket.owner_initials}}
+                </div>
               </div>
               <div fxFlex fxLayout="row" fxLayoutAlign="start stretch" class="profile-info-border">
                 <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">
@@ -237,7 +240,10 @@
             </div>
             <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
               <div fxFlex="initial" fxLayout="column" fxLayoutAlign="center center" class="profile-icon" (click)="openOwnerProfile(basket)">
-                <img src="{{basket.owner_image}}" />
+                <img *ngIf='basket.owner_image' src="{{basket.owner_image}}" />
+                <div *ngIf='!basket.owner_image' fxLayout="column" fxLayoutAlign="center center" class="avatar">
+                  {{basket.owner_initials}}
+                </div>
               </div>
               <div fxFlex fxLayout="row" fxLayoutAlign="start stretch" class="profile-info-border">
                 <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">

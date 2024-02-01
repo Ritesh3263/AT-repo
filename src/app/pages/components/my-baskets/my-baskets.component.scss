@@ -74,3 +74,12 @@
         }
     }
 }
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--PRIMARY_COLOR);
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+}
