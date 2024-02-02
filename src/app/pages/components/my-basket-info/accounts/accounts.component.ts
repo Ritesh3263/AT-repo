@@ -8,6 +8,7 @@ import { JourneyInfoComponent } from '../journey-info/journey-info.component';
 import { BasketsService } from 'src/app/services/baskets.service';
 import { EditAccountsComponent } from '../edit-accounts/edit-accounts.component';
 import { UtilitiesService } from 'src/app/services/utilities.service';
+import {BrokerageService} from "../../../../services/brokerage.service";
 
 @Component({
   selector: 'app-accounts',
@@ -20,16 +21,24 @@ export class AccountsComponent {
   selection = new SelectionModel<any>(true, []);
 
   basketId!: number;
+  brokerMaster: any;
+  constructor(@Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, public dialog: MatDialog, private basketService: BasketsService, private utilityService: UtilitiesService,private brokerageService: BrokerageService) {}
 
-  constructor(@Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, public dialog: MatDialog, private basketService: BasketsService, private utilityService: UtilitiesService) {}
-
-  ngOnInit() {
+  async ngOnInit() {
     this.basketId = this.parentComponent.getBasketId();
-    this.basketService.getBasketAccounts(this.basketId).then((data) => {
-      if(data && data.success && data.accounts) {
-        this.dataSource = new MatTableDataSource<any>(data.accounts);
+    let data = await this.basketService.getBasketAccounts(this.basketId)
+    if(data && data.success && data.accounts) {
+      this.dataSource = new MatTableDataSource<any>(data.accounts);
+    }
+
+    // Get all active brokers and connected accounts done async to avoid blocking
+    this.brokerageService.getAllBrokerageAccounts().then((data) => {
+      if(!data.brokers) {
+        this.utilityService.displayInfoMessage("Error retrieving broker list: " + JSON.stringify(data), true)
       }
-    })
+
+      this.brokerMaster = data.brokers;
+    });
   }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -67,7 +76,7 @@ export class AccountsComponent {
     let dialogRef= this.dialog.open(EditAccountsComponent, {
       panelClass: 'custom-modal',
       disableClose: true,
-      data: {header: "Link account to the Basket", basketId: this.basketId, mode: "ADD"}
+      data: {header: "Link account to the Basket", basketId: this.basketId, mode: "ADD", brokerMaster: this.brokerMaster}
     });
 
     dialogRef.afterClosed().subscribe(result => {

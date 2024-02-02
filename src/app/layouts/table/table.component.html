@@ -55,7 +55,7 @@
       <!-- Text or Date or Currency Column -->
       <div *ngIf="column.type == 'date' || column.type == 'currency' || column.type == 'text'">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by {{column.label}}"> {{column.label}} </th>
-        <td mat-cell style="{{(column.type == 'currency' || column.type == 'date') ? 'text-align: right' : ''}}" *matCellDef="let element"> {{column.type == 'date' ?  (element[column.key] | date) : (column.type == 'currency' ? (element[column.key] | currency:'USD':'symbol':'1.2-2')  : element[column.key])}} </td>
+        <td mat-cell style="{{(column.type == 'currency' || column.type == 'date') ? 'text-align: left' : ''}}" *matCellDef="let element"> {{column.type == 'date' ?  (element[column.key] | date) : (column.type == 'currency' ? (element[column.key] | currency:'USD':'symbol':'1.2-2')  : element[column.key])}} </td>
       </div>
 
     </ng-container>

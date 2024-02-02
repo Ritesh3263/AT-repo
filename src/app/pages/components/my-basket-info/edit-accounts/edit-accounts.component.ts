@@ -23,44 +23,14 @@ export class EditAccountsComponent {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private basketService: BasketsService, private utilityService: UtilitiesService, private dialogRef: MatDialogRef<EditAccountsComponent>, private brokerService: BrokerService,private brokerageService:BrokerageService) {
     this.basketId = data.basketId;
+    this.brokerMaster = data.brokerMaster
   }
 
-  ngOnInit() {
-    this.brokerService.getBrokerMaster().then((data) => {
-      if(data && data.success && data.brokers) {
-        this.brokerMaster = data.brokers;
-        this.selectedBrokerId = this.brokerMaster[0];
-        this.getBrokerAccounts();
-      }
-    })
-  }
-
-  getBrokerAccounts() {
-    this.dataSource = new MatTableDataSource<any>([]);
+  updateAccountList(broker: any) {
+    this.dataSource = new MatTableDataSource<any>(broker.accounts.Accounts);
     this.selection = new SelectionModel<any>(false, []);
-      this.brokerageService.getBrokerageAccounts(this.selectedBrokerId.broker_code).then((data) => {
-        if(data.error || !data.success) {
-          this.utilityService.displayInfoMessage(data.error, true)
-        }
-        else {
-          data.Accounts.forEach((element:any) => {
-            element.account_number=element.AccountID;
-            element.accountBalance= element.BuyingPower
-          });
-          this.dataSource = new MatTableDataSource<any>(data.Accounts);
-          this.selection = new SelectionModel<any>(false, []);
-        }
-        
-      })
-
-      // this.brokerService.getBrokerAccounts(this.selectedBrokerId).then((data) => {
-      //   if(data && data.success && data.accounts) {
-      //     this.dataSource = new MatTableDataSource<any>(data.accounts);
-      //     this.selection = new SelectionModel<any>(false, []);
-      //   }
-      // })
-    // }
   }
+
 
   updateBasket() {
     this.basketService.setBasketAccount(this.basketId,this.selection.selected[0].AccountID, this.data.mode == 'ADD' ? 'PUT' : 'DELETE',this.selectedBrokerId.id).then((data) => {
