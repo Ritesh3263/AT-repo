@@ -167,9 +167,10 @@ export class BasketsService {
     }
   }
 
-  async setBasketAccount(basketId: number, accountId: number, method = 'PUT'): Promise<any> {
+  async setBasketAccount(basketId: number, accountNumber: number, method = 'PUT',brokerageId=null): Promise<any> {
     try{
-      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/basket/${basketId}/accounts/${accountId}`, this.getHeaders(method));
+
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/basket/${basketId}/accounts/${accountNumber}`, method == 'PUT'?this.getHeaders(method, {brokerageId : brokerageId}):this.getHeaders(method));
       let data = await res.json();
       return data;
     }
