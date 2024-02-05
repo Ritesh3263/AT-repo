@@ -68,7 +68,7 @@ export class BrokerageComponent {
       type: 'text'
     }
   ]
-
+  
   constructor(public dialog: MatDialog,private brokerageService:BrokerageService,private route: ActivatedRoute,private location:LocationStrategy,private userService: UserService,
               private utilityService: UtilitiesService, private brokerService: BrokerService) {
     /* getting access code from tradeStation */
@@ -88,10 +88,10 @@ export class BrokerageComponent {
     }
     this.brokerMaster = data.brokers;
     this.showSpinner = false;
-  }
+     }
 
   async getAccounts(pageNumber:any, pageSize:any, sortColumn:any, sortMode:any, search:any, optionalParam:any, self:any) {
-    if(!self.selectedBroker) {
+    if(!self.selectedBroker && self.selectedBroker != 0) {
       return {Accounts: []}
     }
     if(!self.brokerMaster) {
@@ -101,7 +101,7 @@ export class BrokerageComponent {
         },50)
       })
     }
-    return self.brokerMaster[1].accounts
+    return  self.brokerMaster[self.selectedBroker].accounts
   }
 
   selectBroker() {
