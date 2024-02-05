@@ -22,7 +22,7 @@
                 </span>
                 <div fxLayout="column">
                     <p class="no-margin">Basket</p>
-                    <h3 class="mat-h3 no-margin font-600">Demo Basket</h3>
+                    <h3 class="mat-h3 no-margin font-600">{{basket.name}}</h3>
                 </div>
             </div>
             <div fxFlex="20" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" class="form-group pt-5 pb-5">
@@ -79,7 +79,9 @@
             </div>
         </div>
     </div>
-    <div class="pl-20 pr-20">
+    <!-- Show the primary content only if there is an account linked to this basket and we are ready to trade -->
+    <div *ngIf="linkedAccount && linkedAccount.broker_account_id">
+      <div class="pl-20 pr-20">
         <div fxLayout="row wrap" fxLayoutAlign="start center" class="pt-15 form-row">
             <form class="example-form" [formGroup]="form">
 
@@ -128,8 +130,7 @@
             <app-spinner></app-spinner>
           </div>
         <div *ngIf="isPositions" class="trading-table height-auto table-scroll trade-c-table with-padding pt-15">
-            <table mat-table [dataSource]="dataSource"             class="trade_multiheader_table"
-            >
+            <table mat-table [dataSource]="dataSource" class="trade_multiheader_table" >
 
                 <ng-container matColumnDef="select">
                     <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}">
@@ -268,6 +269,11 @@
             <button mat-stroked-button class="secondary-btn" (click)="cancel()">Cancel</button>
             <button mat-flat-button  class="primary-btn" (click)="confirmTrade()">Submit</button>
         </div>
+      </div>
+    </div>
+    <div *ngIf="!(linkedAccount && linkedAccount.broker_account_id)">
+      <br>
+      <h3>You must <a style="color: blue;" (click)="navigateLinkAccount()"><u>link an account</u></a> in order to execute trades</h3>
     </div>
 </div>
 </div>

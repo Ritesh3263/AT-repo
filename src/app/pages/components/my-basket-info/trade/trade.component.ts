@@ -66,6 +66,7 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
   symbols: any =[]
   isReBalance :boolean =false;
   linkedAccount: any = {}
+  basket: any = {}
 
   constructor(private fb: FormBuilder,private renderer: Renderer2, public dialog: MatDialog,private basketTradeService :BasketTradeService,private webSocketService: WebsocketService,private basketService:BasketsService,@Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, private utilityService: UtilitiesService,private brokerageService:BrokerageService,private userService:UserService) {
     // this.getAccountBasketPosition();
@@ -101,19 +102,27 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
 
   async ngOnInit(id = null){
     this.basketId = id || this.parentComponent.getBasketId();
+    let basket = await this.basketService.getBasketDetails(this.basketId);
+    console.log(basket)
+    if(basket.error || !basket.basket) {
+      this.utilityService.displayInfoMessage(basket.error, true)
+    }
+    else {
+      this.basket = basket.basket;
+    }
     // Get account linked to basket to get broker code
     let data = await this.basketService.getBasketAccounts(this.basketId)
-    if(data && data.success && data.accounts && data.accounts.length) {
+      if(data && data.success && data.accounts && data.accounts.length) {
       let account = this.linkedAccount = data.accounts[0];
       if(account.brokerageAccountData && account.brokerageAccountData.Accounts && account.brokerageAccountData.Accounts.length) {
         this.account_balance = account.brokerageAccountData.Accounts[0].BuyingPower;
         this.cash_balance = account.brokerageAccountData.Accounts[0].CashBalance;
         this.market_value = account.brokerageAccountData.Accounts[0].MarketValue;
       }
-
     }
     else {
-      this.utilityService.displayInfoMessage("Error retrieving account information")
+      // Can happen when no account is linked to this basket
+      //this.utilityService.displayInfoMessage("Error retrieving account information", true)
     }
 
     this.getSymbolsAlongWithPosition();
@@ -558,6 +567,10 @@ getColor(price: any) {
   setPercentageBasedOnAmount() {
     let amount = this.form.controls['amount'].value
     this.form.controls['percent'].setValue((amount / this.cash_balance) * 100.0)
+  }
+
+  navigateLinkAccount() {
+    this.utilityService.navigate(`baskets/${this.basketId}/account`)
   }
 
 }
