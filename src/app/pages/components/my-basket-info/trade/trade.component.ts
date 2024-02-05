@@ -57,7 +57,6 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
   account_balance :any = 0.00;
   invested:any=0.00;
   market_value:any = 0.00;
-  account_id:any = null;
   length = 0;
   pageSize = 0;
   pageIndex = 0;
@@ -66,6 +65,8 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
   isDisplayColumn:boolean=true;
   symbols: any =[]
   isReBalance :boolean =false;
+  linkedAccount: any = {}
+  basket: any = {}
 
   constructor(private fb: FormBuilder,private renderer: Renderer2, public dialog: MatDialog,private basketTradeService :BasketTradeService,private webSocketService: WebsocketService,private basketService:BasketsService,@Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, private utilityService: UtilitiesService,private brokerageService:BrokerageService,private userService:UserService) {
     // this.getAccountBasketPosition();
@@ -81,7 +82,7 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   basketId:number=0;
 
- 
+
    ngAfterViewInit(id = null) {
     //this.webSocketService.connect('ws/intrinio').then((data)=>{})
     //this.webSocketService.receiveMessages().then((data)=>{})
@@ -95,13 +96,36 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
   //     })
   //   }
   // });
-    
-    
+
+
   }
-  ngOnInit(id = null){
+
+  async ngOnInit(id = null){
     this.basketId = id || this.parentComponent.getBasketId();
+    let basket = await this.basketService.getBasketDetails(this.basketId);
+    console.log(basket)
+    if(basket.error || !basket.basket) {
+      this.utilityService.displayInfoMessage(basket.error, true)
+    }
+    else {
+      this.basket = basket.basket;
+    }
+    // Get account linked to basket to get broker code
+    let data = await this.basketService.getBasketAccounts(this.basketId)
+      if(data && data.success && data.accounts && data.accounts.length) {
+      let account = this.linkedAccount = data.accounts[0];
+      if(account.brokerageAccountData && account.brokerageAccountData.Accounts && account.brokerageAccountData.Accounts.length) {
+        this.account_balance = account.brokerageAccountData.Accounts[0].BuyingPower;
+        this.cash_balance = account.brokerageAccountData.Accounts[0].CashBalance;
+        this.market_value = account.brokerageAccountData.Accounts[0].MarketValue;
+      }
+    }
+    else {
+      // Can happen when no account is linked to this basket
+      //this.utilityService.displayInfoMessage("Error retrieving account information", true)
+    }
+
     this.getSymbolsAlongWithPosition();
-    this.getBrokerageAccount('ts');
     this.dataSource.paginator = this.paginator;
   }
 
@@ -146,7 +170,7 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
      account_balance:this.account_balance,
      cash_balance :Number(this.cash_balance),
      basket_id : this.basketId,
-     account_id : this.account_id,
+     linkedAccount: this.linkedAccount,
      transaction_id:null,
      symbols :inputArray
     }
@@ -245,7 +269,7 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
     this.isReBalance = false;
     this.displayedColumns = ['select', 'symbol', 'price', 'shares', 'invested'];
     this.dataSource = new MatTableDataSource<any>(this.symbols);
-    this.selection = new SelectionModel<any>(this.symbols, []);          
+    this.selection = new SelectionModel<any>(this.symbols, []);
   }
 
   getErrorMessage(value: string) {
@@ -275,7 +299,7 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
   }
 
 /****
- * on selected investmentment type onSelectInvestmentType function is called 
+ * on selected investmentment type onSelectInvestmentType function is called
  */
   onSelectInvestmentType(investmentType:any){
     this.form.controls['percent'].setValue(null);
@@ -283,7 +307,7 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
   }
 
 /****
- * on entering percent value onChangePercent function is called 
+ * on entering percent value onChangePercent function is called
  */
   onChangePercent(percent:any){
     percent = Number(percent);
@@ -321,7 +345,7 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
                       selectedPosition[i].new_shares = -1 *  selectedPosition[i].new_shares;
                       selectedPosition[i].new_invested = -1 *  selectedPosition[i].new_invested;
                   }
-              
+
           }
         }
         }
@@ -340,7 +364,7 @@ onChangeAmount(amount:any){
       var selectedTickers = this.selection.selected;
       /***
        * mValue is selected tickers sum of market value, Used for calculating the percent
-       * 
+       *
        */
       var mValue = selectedTickers.reduce(function (total:any, currentValue:any) {
           return total + currentValue.current_market_value; // Add the value of the 'value' key to the total
@@ -363,7 +387,7 @@ onChangeAmount(amount:any){
                 }else {
                   this.unselectRow(selectedTickers[i])
                 }
-            
+
           }
           else {
               let percent = Number(((amount * 100) / mValue).toFixed(2));
@@ -374,10 +398,10 @@ onChangeAmount(amount:any){
                   this.form.controls['percent'].setValue(percent)
               }
               if (this.form.controls['investmentType'].value == 'Scale Down' && selectedTickers[i].shares != 0 && selectedTickers[i].new_shares != 0) {
-                selectedTickers[i].transaction_type = 'SELL';  
+                selectedTickers[i].transaction_type = 'SELL';
                 selectedTickers[i].new_shares = -1 *  selectedTickers[i].new_shares;
                   selectedTickers[i].new_invested = -1 *  selectedTickers[i].new_invested;
-              } 
+              }
           }
       }
     }
@@ -393,7 +417,7 @@ closeAllPositions(){
  if(selectedPosition.length>0){
   for(let i =0;i<selectedPosition.length;i++){
     if(selectedPosition[i].shares != 0){
-    selectedPosition[i].transaction_type = 'SELL';  
+    selectedPosition[i].transaction_type = 'SELL';
     selectedPosition[i].new_shares = -1 * selectedPosition[i].shares
     selectedPosition[i].new_invested =-1 * Number((selectedPosition[i].shares * selectedPosition[i].price).toFixed(3))
     }else {
@@ -428,7 +452,7 @@ getColor(price: any) {
 
   /**
   * setSymbolsForBrokeragePrice function is used for set symbols for price or remove symbols from price list
-  * track is true set symbol for price 
+  * track is true set symbol for price
   * track is false remove symbol for price list
   */
   setSymbolsForBrokeragePrice(symbols: any, track: boolean) {
@@ -478,40 +502,13 @@ getColor(price: any) {
           this.isPositions=true
           this.symbols = data.symbols
           this.dataSource = new MatTableDataSource<any>(data.symbols);
-          this.selection = new SelectionModel<any>(data.symbols, []);          
+          this.selection = new SelectionModel<any>(data.symbols, []);
           this.originalData = JSON.parse(JSON.stringify([...data.symbols]));
           this.symbolInput.length>0?this.setSymbolsForBrokeragePrice(this.symbolInput,true):null
           this.isDisplayColumn =false;
       }
     })
   }
-
-    /***getBrokerageAccount function is used to get  active Accounts related to brokerage*/
-    getBrokerageAccount(brokerage:any){
-      this.brokerageService.getBrokerageAccounts(brokerage).then((data) => {
-        if(data && data.error || !data.success) {
-          this.utilityService.displayInfoMessage('Unable to get accounts', true)
-        }
-        else if(data && data.Accounts) {
-          this.account_balance = data.Accounts[0].BuyingPower;
-          this.cash_balance = data.Accounts[0].CashBalance;
-          this.account_id = data.Accounts[0].AccountID;
-          this.market_value = data.Accounts[0].MarketValue;
-
-        }
-        
-      })
-    }
-  // /***loadUserDetails function is used to get user information  */
-  // loadUserDetails() {
-  //   // this.showSpinner = true;
-  //   this.userService.getUserDetails().then((user:any) => {
-  //     // this.showSpinner = false;
-  //     this.user_id = user.firstName?user.firstName:null
-  //   })
-  // }
-
-
 
 
   async getActivePositionsByBasketId(){
@@ -538,12 +535,12 @@ getColor(price: any) {
         this.isPositions=true;
         this.symbols = data.symbols;
         this.dataSource = new MatTableDataSource<any>(data.symbols);
-        this.selection = new SelectionModel<any>(data.symbols, []);          
+        this.selection = new SelectionModel<any>(data.symbols, []);
         this.originalData = JSON.parse(JSON.stringify([...data.symbols]));
         // this.symbolInput.length>0?this.setSymbolsForBrokeragePrice(this.symbolInput,true):null
         this.isDisplayColumn =false;
       }
-      
+
     })
   }
 
@@ -555,7 +552,7 @@ getColor(price: any) {
     if(selectedPosition.length>0){
      for(let i =0;i<selectedPosition.length;i++){
        if(selectedPosition[i].shares != 0 && selectedPosition[i].reBalance == 2 ){
-       selectedPosition[i].transaction_type = 'SELL';  
+       selectedPosition[i].transaction_type = 'SELL';
        selectedPosition[i].new_shares = -1 * selectedPosition[i].shares
        selectedPosition[i].new_invested =-1 * Number((selectedPosition[i].shares * selectedPosition[i].price).toFixed(3))
        }else if(selectedPosition[i].reBalance == 1){
@@ -566,8 +563,14 @@ getColor(price: any) {
       }
     }
   }
-  
+  // If amount changes, calculate percentage
+  setPercentageBasedOnAmount() {
+    let amount = this.form.controls['amount'].value
+    this.form.controls['percent'].setValue((amount / this.cash_balance) * 100.0)
+  }
+
+  navigateLinkAccount() {
+    this.utilityService.navigate(`baskets/${this.basketId}/account`)
+  }
+
 }
-
-
-

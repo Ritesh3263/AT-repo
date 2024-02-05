@@ -18,6 +18,7 @@ import {
 import { MatSort, Sort } from '@angular/material/sort';
 import { ConfirmTradeComponent } from '../confirm-trade/confirm-trade.component';
 import { BrokerageService } from 'src/app/services/brokerage.service';
+import { BasketsService } from 'src/app/services/baskets.service';
 
 
 export interface PeriodicElement {
@@ -90,18 +91,33 @@ export class OrdersComponent implements OnInit {
   user_id: any = null;
   isPosition: boolean = true;
   basketId: number = 0;
+  linkedAccount: any = {}
 
-  constructor(public dialog: MatDialog, private basketTradeService: BasketTradeService, private userService: UserService, private utilityService: UtilitiesService, @Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, private brokerageService: BrokerageService) { }
+  constructor(public dialog: MatDialog, private basketTradeService: BasketTradeService, private userService: UserService, private utilityService: UtilitiesService, @Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, private brokerageService: BrokerageService, private basketService: BasketsService) { }
 
   ngAfterViewInit(id = null) {
-    
+
   }
-  ngOnInit(id = null) {
+  async ngOnInit(id = null) {
     // Initialize dataSource and load data
     // this.dataSource.paginator = this.paginator.first;
 
     this.basketId = id || this.parentComponent.getBasketId();
-    this.getBrokerageAccount('ts');
+
+    // Get account linked to basket to get broker code
+    let data = await this.basketService.getBasketAccounts(this.basketId)
+    if(data && data.success && data.accounts && data.accounts.length) {
+      let account = this.linkedAccount = data.accounts[0];
+      if(account.brokerageAccountData && account.brokerageAccountData.Accounts && account.brokerageAccountData.Accounts.length) {
+        this.account_balance = account.brokerageAccountData.Accounts[0].BuyingPower;
+        this.cash_balance = account.brokerageAccountData.Accounts[0].CashBalance;
+      }
+
+    }
+    else {
+      this.utilityService.displayInfoMessage("Error retrieving account information")
+    }
+
     this.getConfirmedOrder();
     this.getPendingOrder();
     this.getBrokerageAccountPosition();
@@ -123,7 +139,7 @@ export class OrdersComponent implements OnInit {
 
 
   async getBrokerageAccountPosition() {
-    this.basketTradeService.getBrokerageAccountPosition('ts', 'SIM2568116M').then((data) => {
+    this.basketTradeService.getBrokerageAccountPosition(this.linkedAccount.broker_code, this.linkedAccount.broker_account_id).then((data) => {
       this.isPosition = false;
       if (data && data.success && data.Positions) {
         this.isPosition = true;
@@ -191,7 +207,7 @@ export class OrdersComponent implements OnInit {
 
   getConfirmedOrder() {
     // this.showSpinner= true;
-    this.basketTradeService.getOrderByBasketId('ts', this.basketId).then((data) => {
+    this.basketTradeService.getOrderByBasketId(this.linkedAccount.broker_code, this.basketId).then((data) => {
       // this.showSpinner =false;
       var executedOrders:any=[];
       this.option=[]
@@ -214,7 +230,7 @@ export class OrdersComponent implements OnInit {
   }
   getPendingOrder() {
     // this.showSpinner= true;
-    this.basketTradeService.getOrderByBasketId('ts', this.basketId, "Pending").then((data) => {
+    this.basketTradeService.getOrderByBasketId(this.linkedAccount.broker_code, this.basketId, "Pending").then((data) => {
       // this.showSpinner =false;
       if (data && data.success) {
         data.orders.forEach((ele: any) => {
@@ -250,10 +266,10 @@ export class OrdersComponent implements OnInit {
     this.isEdit = true
 
     /**
-     * getTransActionStatus service is used to edit the order 
-     *  if it is pending then only editable 
+     * getTransActionStatus service is used to edit the order
+     *  if it is pending then only editable
      */
-    this.basketTradeService.getTransActionStatus('ts', ele.transaction_id).then((data) => {
+    this.basketTradeService.getTransActionStatus(this.linkedAccount.broker_code, ele.transaction_id).then((data) => {
       if (data && data.success && data.data.length > 0 && data.data[0].OrderStatus === 'Pending') {
         // this.webSocketService.closeConnection();
         let inputArray = null
@@ -261,7 +277,7 @@ export class OrdersComponent implements OnInit {
           account_balance: this.account_balance,
           cash_balance: Number(this.cash_balance),
           basket_id: this.basketId,
-          account_id: this.account_id,
+          account_id: this.linkedAccount.broker_account_id,
           transaction_id: ele.transaction_id,
           symbols: JSON.parse(JSON.stringify(ele.symbols)),
         }
@@ -287,18 +303,6 @@ export class OrdersComponent implements OnInit {
 
   }
 
-
-  /***getBrokerageAccount function is used to get  active Accounts related to brokerage*/
-  getBrokerageAccount(brokerage: any) {
-    this.brokerageService.getBrokerageAccounts(brokerage).then((data) => {
-      if (data && data.Accounts && data.Accounts.length > 0) {
-        this.account_balance = data.Accounts[0].BuyingPower;
-        this.cash_balance = data.Accounts[0].CashBalance;
-        this.account_id = data.Accounts[0].AccountID;
-      }
-
-    })
-  }
 
   setInputForEdit(data: any) {
 
