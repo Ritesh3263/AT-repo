@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import {FormControl, Validators, FormGroup} from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { UtilitiesService } from 'src/app/services/utilities.service';
+import { BrokerageService } from 'src/app/services/brokerage.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -17,7 +18,7 @@ export class SignUpComponent {
   emailForm: FormGroup = new FormGroup('')
   signupForm: FormGroup = new FormGroup('')
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private userService: UserService, public utilityService: UtilitiesService) {  }
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private userService: UserService, public utilityService: UtilitiesService,private brokerageService:BrokerageService) {  }
 
   async ngOnInit() {
     let signupFormSchema = [
@@ -66,6 +67,7 @@ export class SignUpComponent {
     let result = await this.userService.signup(this.signupToken, this.signupForm.getRawValue())
     if(result && result.success && !result.error) {
       this.utilityService.displayInfoMessage('Registration Completed!');
+      this.brokerageService.getSync().then((data: any) => {}); //  (TODO--Multiple brokerage handling) 
       this.router.navigate(['/baskets']);
     }
     else {
