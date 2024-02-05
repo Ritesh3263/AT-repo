@@ -126,7 +126,7 @@ export class ConfirmTradeComponent implements OnInit, OnDestroy {
     let input: { Type: string, Orders: object[], BasketId: string, TransactionId: string } = { "Type": "NORMAL", Orders: [], BasketId: this.data.basket_id, TransactionId: this.data.transaction_id ? this.data.transaction_id : 'null' };
     for (let i = 0; i < this.data.symbols.length; i++) {
       let object = {
-        AccountID: this.data.account_id,
+        AccountID: this.data.linkedAccount.broker_account_id,
         Symbol: 'null',
         RequestQty: 'null',
         OrderType: "Market",
@@ -142,12 +142,12 @@ export class ConfirmTradeComponent implements OnInit, OnDestroy {
       input.Orders.push(object);
     }
     /**
-     * if symbols length is 1 the single order submit 
+     * if symbols length is 1 the single order submit
      * else bulkOrder submits
      */
     this.showSpinner = true;
 
-    this.basketTradeService.setOrders(input, 'ts').then((data) => {
+    this.basketTradeService.setOrders(input, this.data.linkedAccount.broker_code).then((data) => {
       this.showSpinner = false;
       if (data && data.msg) {
         this.dialogRef.close(true);
@@ -218,7 +218,7 @@ export class ConfirmTradeComponent implements OnInit, OnDestroy {
 
   /**
   * setSymbolsForBrokeragePrice function is used for set symbols for price or remove symbols from price list
-  * track is true set symbol for price 
+  * track is true set symbol for price
   * track is false remove symbol for price list
   */
   setSymbolsForBrokeragePrice(symbols: any, track: boolean) {
