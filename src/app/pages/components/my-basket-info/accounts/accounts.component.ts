@@ -9,6 +9,7 @@ import { BasketsService } from 'src/app/services/baskets.service';
 import { EditAccountsComponent } from '../edit-accounts/edit-accounts.component';
 import { UtilitiesService } from 'src/app/services/utilities.service';
 import {BrokerageService} from "../../../../services/brokerage.service";
+import { BasketTradeService } from 'src/app/services/basket-trade.service';
 
 @Component({
   selector: 'app-accounts',
@@ -19,18 +20,32 @@ export class AccountsComponent {
   displayedColumns: string[] = [/*'select',*/ 'account_number', 'timestamp', 'linked_basket_count', 'broker_name', 'actions'];
   dataSource = new MatTableDataSource<any>([]);
   selection = new SelectionModel<any>(true, []);
-
+  linkedAccount: any = {}
   basketId!: number;
   brokerMaster: any;
-  constructor(@Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, public dialog: MatDialog, private basketService: BasketsService, private utilityService: UtilitiesService,private brokerageService: BrokerageService) {}
+  hasPendingOrders = false;
+
+  constructor(@Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, public dialog: MatDialog, private basketService: BasketsService, private utilityService: UtilitiesService,
+    private brokerageService: BrokerageService, private basketTradeService: BasketTradeService) {}
 
   async ngOnInit() {
     this.basketId = this.parentComponent.getBasketId();
     let data = await this.basketService.getBasketAccounts(this.basketId)
-    if(data && data.success && data.accounts) {
+    if(data && data.success && data.accounts && data.accounts.length) {
+      this.linkedAccount = data.accounts[0]
       this.dataSource = new MatTableDataSource<any>(data.accounts);
     }
 
+    let orders = await this.basketTradeService.getOrderByBasketId(this.linkedAccount.broker_code, this.basketId, "Pending")
+    if(orders && orders.orders && orders.orders.length) {
+      this.hasPendingOrders = true;
+    }
+    this.basketTradeService.getBrokerageAccountPosition(this.linkedAccount.broker_code, this.linkedAccount.broker_account_id).then((data) => {
+      if (data && data.success && data.Positions) {
+        if(data.Positions.length)
+          this.hasPendingOrders = true;
+      }
+    })
     // Get all active brokers and connected accounts done async to avoid blocking
     this.brokerageService.getAllBrokerageAccounts().then((data) => {
       if(!data.brokers) {
@@ -87,6 +102,10 @@ export class AccountsComponent {
   }
 
   removeAccount(account: any) {
+    if(this.hasPendingOrders) {
+      this.utilityService.displayInfoMessage("You cannot unlink an account with pending orders.", true)
+      return;
+    }
     this.basketService.setBasketAccount(this.basketId, account.account_id, 'DELETE').then((data) => {
       if(data && data.success && data.results) {
         this.utilityService.displayInfoMessage("Account unlinked from basket.")
