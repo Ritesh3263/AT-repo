@@ -54,3 +54,25 @@ th.mat-sort-header-sorted {
 .highlight-red {
   background-color: crimson;
 }
+
+.trading-table {
+  .mat-mdc-cell {
+    &.positive-value {
+      color: #049501;
+    }
+
+    &.negative-value {
+      color: #D80032;
+    }
+  }
+}
+
+.trade_multiheader_table{
+  th.mat-mdc-header-cell.mdc-data-table__header-cell.cdk-header-cell{
+    border: 1px solid rgba(0, 0, 0, 0.20);;
+  }
+}
+
+.right-align-cell {
+  text-align: right !important;
+}
