@@ -89,9 +89,9 @@ export class BrokerageService {
       return {error: e.message}
     }
   }
-  async getSync(broker_id:any){
+  async getSync(){
     try{
-        let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/brokerage/${broker_id}/sync`, this.getHeaders());
+        let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/brokerage/sync`, this.getHeaders());
         let data = await res.json();
         return data;
       }
