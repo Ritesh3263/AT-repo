@@ -39,7 +39,7 @@
 
 <!-- </form> -->
 
-<div class="main_wrapper basket_dashboard_module bg-body text-dark">
+<!-- <div class="main_wrapper basket_dashboard_module bg-body text-dark">
   <div fxLayout="column wrap" fxLayoutAlign="start stretch">
     <h1 class="mat-h1 font-700 ">Technology Industry Giants</h1>
 
@@ -195,25 +195,21 @@
           <mat-card-content>
             <mat-card-title>Top Performing Symbols</mat-card-title>
             <table mat-table [dataSource]="dataSource" class="trading-table top_performing_table">
-                <!-- Symbol Column -->
                 <ng-container matColumnDef="symbol">
                   <th mat-header-cell *matHeaderCellDef> SYMBOL </th>
                   <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
                 </ng-container>
               
-                <!-- Name Column -->
                 <ng-container matColumnDef="name">
                   <th mat-header-cell *matHeaderCellDef> NAME </th>
                   <td mat-cell *matCellDef="let element"> {{element.name}} </td>
                 </ng-container>
               
-                <!-- Invested Column -->
                 <ng-container matColumnDef="invested">
                   <th mat-header-cell *matHeaderCellDef> INVESTED </th>
                   <td mat-cell *matCellDef="let element"> ${{element.invested}} </td>
                 </ng-container>
               
-                <!-- Change Column -->
                 <ng-container matColumnDef="change">
                   <th mat-header-cell *matHeaderCellDef> CHANGE % </th>
                   <td mat-cell *matCellDef="let element"> {{element.change}} </td>
@@ -228,25 +224,21 @@
           <mat-card-content>
             <mat-card-title>Least Performing Symbols</mat-card-title>
             <table mat-table [dataSource]="dataSource" class="trading-table top_performing_table least_performing_table">
-              <!-- Symbol Column -->
               <ng-container matColumnDef="symbol">
                 <th mat-header-cell *matHeaderCellDef> SYMBOL </th>
                 <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
               </ng-container>
             
-              <!-- Name Column -->
               <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef> NAME </th>
                 <td mat-cell *matCellDef="let element"> {{element.name}} </td>
               </ng-container>
             
-              <!-- Invested Column -->
               <ng-container matColumnDef="invested">
                 <th mat-header-cell *matHeaderCellDef> INVESTED </th>
                 <td mat-cell *matCellDef="let element"> ${{element.invested}} </td>
               </ng-container>
             
-              <!-- Change Column -->
               <ng-container matColumnDef="change">
                 <th mat-header-cell *matHeaderCellDef> CHANGE % </th>
                 <td mat-cell *matCellDef="let element"> {{element.change}} </td>
@@ -421,7 +413,7 @@
       </div>      
     </div>
   </div>
-</div>
+</div> -->
 
 <!-- <div fxLayout="column" class="pl-20 pr-20 pt-20 dashboard-widget">
   <div fxLayout="row wrap" class="form-row">

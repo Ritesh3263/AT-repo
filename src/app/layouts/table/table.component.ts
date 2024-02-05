@@ -69,8 +69,8 @@ export class TableComponent {
     if(resetPagination) {
       this.pagination.pageNumber = 0;
     }
-    let results = await this.dataCallback(this.pagination.pageNumber, this.pagination.pageSize, this.sortColumn, this.sortMode, this.search, this.dataCallbackOptionalParameter);
-    if(results && results.success && results[this.apiDataKey]) {
+    let results = await this.dataCallback(this.pagination.pageNumber, this.pagination.pageSize, this.sortColumn, this.sortMode, this.search, this.dataCallbackOptionalParameter, this.mainComponent);
+    if(results && !results.error && results[this.apiDataKey]) {
       this.dataSource = new MatTableDataSource<any>(results[this.apiDataKey]);
       this.pagination.totalRows = results[this.apiDataKey].length ? results[this.apiDataKey][0].totalRows : 0;
     }
