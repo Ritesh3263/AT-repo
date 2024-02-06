@@ -117,7 +117,8 @@ export class OrdersComponent implements OnInit {
 
     }
     else {
-      this.utilityService.displayInfoMessage("Error retrieving account information")
+      // Maybe there is just no account linked, no need to show error message
+      //this.utilityService.displayInfoMessage("Error retrieving account information", true)
     }
 
     this.getConfirmedOrder();
