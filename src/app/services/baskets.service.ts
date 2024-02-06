@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class BasketsService {
-
+  currentBasket: any = {}
   constructor() { }
 
   getHeaders(method: string = "GET", body:any = null): RequestInit {
@@ -80,11 +80,15 @@ export class BasketsService {
     }
   }
 
-  async getBasketDetails(basketId: number): Promise<any> {
+  async getBasketDetails(basketId: number, reload = false): Promise<any> {
     try{
+      if(this.currentBasket && this.currentBasket.basket && this.currentBasket.basket.id && (this.currentBasket.basket.id == basketId) && !reload) {
+        return this.currentBasket;
+      }
+
       let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/basket/${basketId}`, this.getHeaders());
-      let data = await res.json();
-      return data;
+      this.currentBasket = await res.json();
+      return this.currentBasket;
     }
     catch(e: any) {
       return {error: e.message}

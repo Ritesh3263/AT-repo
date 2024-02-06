@@ -1,12 +1,12 @@
 <div fxLayout="column">
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="breadcrumb pt-15 pb-15 pl-20 pr-20">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="breadcrumb with-border pt-10 pb-10 pl-20 pr-20">
         <a routerLink="/" fxLayout="column" fxLayoutAlign="center center">
             <img src="/assets/images/home-icon.svg" />
         </a>
         <span>/</span>
         <a routerLink="/baskets" class="bold">Baskets</a>
         <span>/</span>
-        <a class="bold">Orders</a>
+        <a class="bold">{{basket.name}} / Orders</a>
     </div>
     <div class="pl-20 pr-20">
         <div *ngIf="showSpinner" class="spinner-wrapper">
@@ -34,7 +34,7 @@
                                 </ng-container>
 
                                 <ng-container matColumnDef="account_id">
-                                    <th mat-header-cell *matHeaderCellDef 
+                                    <th mat-header-cell *matHeaderCellDef
                                         >
                                         Account Id
                                     </th>
@@ -44,7 +44,7 @@
                                 </ng-container>
 
                                 <ng-container matColumnDef="transaction_id">
-                                    <th mat-header-cell *matHeaderCellDef 
+                                    <th mat-header-cell *matHeaderCellDef
                                       >
                                         Transaction Id
                                     </th>
@@ -54,7 +54,7 @@
                                 </ng-container>
 
                                 <ng-container matColumnDef="transaction_type">
-                                    <th mat-header-cell *matHeaderCellDef 
+                                    <th mat-header-cell *matHeaderCellDef
                                         >
                                         Transaction Type
                                     </th>
@@ -74,7 +74,7 @@
                                 </ng-container>
 
                                 <ng-container matColumnDef="order_status">
-                                    <th mat-header-cell *matHeaderCellDef 
+                                    <th mat-header-cell *matHeaderCellDef
                                         >
                                         Status
                                     </th>
@@ -83,7 +83,7 @@
                                 </ng-container>
                                 <ng-container matColumnDef="edit">
                                     <th mat-header-cell *matHeaderCellDef >
-                                        
+
                                     </th>
                                     <td mat-cell *matCellDef="let element"
                                         ><button mat-icon-button  [disabled]="isEdit"(click)="confirmOrder(element)">
@@ -189,7 +189,7 @@
                                 </ng-container>
 
                                 <ng-container matColumnDef="transaction_id">
-                                    <th mat-header-cell *matHeaderCellDef 
+                                    <th mat-header-cell *matHeaderCellDef
                                         >
                                         Transaction Id
                                     </th>
@@ -199,7 +199,7 @@
                                 </ng-container>
 
                                 <ng-container matColumnDef="transaction_type">
-                                    <th mat-header-cell *matHeaderCellDef 
+                                    <th mat-header-cell *matHeaderCellDef
                                         >
                                         Transaction Type
                                     </th>
@@ -219,7 +219,7 @@
                                 </ng-container>
 
                                 <ng-container matColumnDef="order_status">
-                                    <th mat-header-cell *matHeaderCellDef 
+                                    <th mat-header-cell *matHeaderCellDef
                                        >
                                         Status
                                     </th>
@@ -270,7 +270,7 @@
                                                     </td>
                                                 </ng-container>
                                                 <ng-container matColumnDef="transaction_type">
-                                                    <th mat-header-cell *matHeaderCellDef 
+                                                    <th mat-header-cell *matHeaderCellDef
                                                         >
                                                         Order Type
                                                     </th>
@@ -278,9 +278,9 @@
                                                         [ngClass]="getChangeStyle(ele.transaction_type)">{{ ele.transaction_type
                                                         }}</td>
                                                 </ng-container>
-                                                
+
                                                 <ng-container matColumnDef="message">
-                                                    <th mat-header-cell *matHeaderCellDef 
+                                                    <th mat-header-cell *matHeaderCellDef
                                                         >
                                                         Remarks
                                                     </th>

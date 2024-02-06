@@ -13,6 +13,7 @@ import {InfoModalComponent} from "../../../../layouts/info-modal/info-modal.comp
 })
 export class AuditLogComponent {
   basketId!: number;
+  basket: any = {}
   columnDetails = [
     {
       label: 'Action',
@@ -45,6 +46,7 @@ export class AuditLogComponent {
 
   async ngOnInit(id = null) {
     this.basketId = id || this.parentComponent.getBasketId();
+    this.basket = await this.parentComponent.getBasket()
   }
 
   async getAuditLog(pageNumber: number, pageSize: number, sortColumn : string | null = null, sortMode : string | null = null, search : string | null = null, param : any = null) {

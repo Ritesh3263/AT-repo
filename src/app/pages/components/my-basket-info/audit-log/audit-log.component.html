@@ -1,5 +1,3 @@
-
-
 <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="breadcrumb with-bg with-border pt-10 pb-10 pl-20 pr-20">
   <a routerLink="/" fxLayout="column" fxLayoutAlign="center center">
     <img src="/assets/images/home-icon.svg" />
@@ -7,7 +5,7 @@
   <span>/</span>
   <a routerLink="/baskets" class="bold">Baskets</a>
   <span>/</span>
-  <a class="bold">History</a>
+  <a class="bold">{{basket.name}} / History</a>
 </div>
 <div fxLayout="column" class="pt-10 pl-20 pr-20 pb-20">
   <div fxLayout="row" fxLayoutAlign="start center" class="pb-15">
