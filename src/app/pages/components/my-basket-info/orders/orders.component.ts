@@ -277,7 +277,7 @@ export class OrdersComponent implements OnInit {
           account_balance: this.account_balance,
           cash_balance: Number(this.cash_balance),
           basket_id: this.basketId,
-          account_id: this.linkedAccount.broker_account_id,
+          linkedAccount: this.linkedAccount,
           transaction_id: ele.transaction_id,
           symbols: JSON.parse(JSON.stringify(ele.symbols)),
         }

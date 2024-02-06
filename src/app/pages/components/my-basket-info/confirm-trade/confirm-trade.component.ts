@@ -77,7 +77,7 @@ export class ConfirmTradeComponent implements OnInit, OnDestroy {
   inputForSymbolPrice: any = [];
   tableBackgroundColor: any = '';
   user_id: any = null;
-  isSubmit: boolean = false;
+  isSubmit: boolean = true;
   dataSource !: any;
   displayedColumns: string[] = ['tickersymbol', 'shares', 'currentprice', 'investaccount', 'action'];
   displayedColumns2: string[] = ['empty', 'empty', 'title', 'amount', 'action1'];
@@ -87,16 +87,9 @@ export class ConfirmTradeComponent implements OnInit, OnDestroy {
 
   constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<ConfirmTradeComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private basketTradeService: BasketTradeService, private matSnackBar: MatSnackBar, private webSocketService: WebsocketService, private userService: UserService, private utilityService: UtilitiesService) {
-    this.loadUserDetails();
-    if (this.data && this.data.symbols && this.data.symbols.length > 0) {
-      this.dataSource = new MatTableDataSource<any>(this.data.symbols);
-      this.originalData = JSON.parse(JSON.stringify([...this.data.symbols]));
-      this.data.symbols.forEach((element: any) => {
-        this.investedAmount = this.investedAmount + element.new_invested;
-        this.netInvestedAmount = this.netInvestedAmount + element.new_invested
-        this.inputForSymbolPrice.push(element.symbol)
-      });
-      if (!this.data.transaction_id) {
+    this.loadUserDetails();    
+    if (this.data) {
+      if (!this.data.transaction_id) {  // based on transaction_id i am checking new trade or existing trade
         this.displayedColumns = ['tickersymbol', 'shares', 'currentprice', 'investaccount'];
         this.displayedColumns2 = ['empty', 'empty', 'title', 'amount'];
         this.displayedColumns3 = ['empty2', 'empty2', 'title2', 'amount2'];
@@ -104,10 +97,19 @@ export class ConfirmTradeComponent implements OnInit, OnDestroy {
       } else {
         this.data.cash_balance = this.data.cash_balance + this.investedAmount;
       }
-      this.availableCashBalance = this.data.cash_balance - this.investedAmount
-      this.originalAvailableCashBalance = JSON.parse(JSON.stringify(this.data.cash_balance))
-    } else {
-      this.isSubmit = true;
+      if(this.data.symbols && this.data.symbols.length > 0){
+        console.log("skcbisdj",this.data)
+        this.isSubmit = false;
+        this.dataSource = new MatTableDataSource<any>(this.data.symbols);
+        this.originalData = JSON.parse(JSON.stringify([...this.data.symbols]));
+        this.data.symbols.forEach((element: any) => {
+          this.investedAmount = this.investedAmount + element.new_invested;
+          this.netInvestedAmount = this.netInvestedAmount + element.new_invested
+          this.inputForSymbolPrice.push(element.symbol)
+        });
+        this.availableCashBalance = this.data.cash_balance - this.investedAmount
+        this.originalAvailableCashBalance = JSON.parse(JSON.stringify(this.data.cash_balance))
+      }
     }
     /** set symbols for price */
     this.setSymbolsForBrokeragePrice(this.inputForSymbolPrice, true)
