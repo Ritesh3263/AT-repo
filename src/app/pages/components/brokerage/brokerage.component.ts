@@ -132,7 +132,13 @@ export class BrokerageComponent {
   }
   disConnect(index:number){
     // Shouldn't this call an API to delink the brokerage?
-    this.brokerMaster[index].is_connected = false;
-
+    this.brokerageService.DisconnectBrokerage(this.brokerMaster[index].broker_code).then((data) => {
+      if (data && data.success){
+        this.utilityService.displayInfoMessage(data.message);
+        this.ngOnInit()
+      }else{
+        this.utilityService.displayInfoMessage(data, true)
+      }
+    })
   }
 }
