@@ -100,4 +100,17 @@ export class BrokerageService {
       }
   }
 
+
+  
+  async DisconnectBrokerage(brokerageType: string): Promise<any> {
+    try{
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/brokerages/${brokerageType}`, this.getHeaders('DELETE'));
+      let data = await res.json();
+      return data;
+    }
+    catch(e: any) {
+      return {error: e.message}
+    }
+  }
+
 }
