@@ -102,14 +102,8 @@ export class TradeComponent implements AfterViewInit,OnDestroy {
 
   async ngOnInit(id = null){
     this.basketId = id || this.parentComponent.getBasketId();
-    let basket = await this.basketService.getBasketDetails(this.basketId);
-    console.log(basket)
-    if(basket.error || !basket.basket) {
-      this.utilityService.displayInfoMessage(basket.error, true)
-    }
-    else {
-      this.basket = basket.basket;
-    }
+    this.basket = await this.parentComponent.getBasket()
+
     // Get account linked to basket to get broker code
     let data = await this.basketService.getBasketAccounts(this.basketId)
       if(data && data.success && data.accounts && data.accounts.length) {

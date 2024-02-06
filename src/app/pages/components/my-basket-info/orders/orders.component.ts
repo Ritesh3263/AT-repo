@@ -19,6 +19,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { ConfirmTradeComponent } from '../confirm-trade/confirm-trade.component';
 import { BrokerageService } from 'src/app/services/brokerage.service';
 import { BasketsService } from 'src/app/services/baskets.service';
+import { Basket } from 'src/app/interfaces/basket';
 
 
 export interface PeriodicElement {
@@ -92,6 +93,7 @@ export class OrdersComponent implements OnInit {
   isPosition: boolean = true;
   basketId: number = 0;
   linkedAccount: any = {}
+  basket: any = {}
 
   constructor(public dialog: MatDialog, private basketTradeService: BasketTradeService, private userService: UserService, private utilityService: UtilitiesService, @Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, private brokerageService: BrokerageService, private basketService: BasketsService) { }
 
@@ -103,7 +105,7 @@ export class OrdersComponent implements OnInit {
     // this.dataSource.paginator = this.paginator.first;
 
     this.basketId = id || this.parentComponent.getBasketId();
-
+    this.basket = await this.parentComponent.getBasket()
     // Get account linked to basket to get broker code
     let data = await this.basketService.getBasketAccounts(this.basketId)
     if(data && data.success && data.accounts && data.accounts.length) {

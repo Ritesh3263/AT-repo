@@ -24,12 +24,15 @@ export class AccountsComponent {
   basketId!: number;
   brokerMaster: any;
   hasPendingOrders = false;
+  basket: any = {}
 
   constructor(@Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, public dialog: MatDialog, private basketService: BasketsService, private utilityService: UtilitiesService,
     private brokerageService: BrokerageService, private basketTradeService: BasketTradeService) {}
 
   async ngOnInit() {
     this.basketId = this.parentComponent.getBasketId();
+    this.basket = await this.parentComponent.getBasket()
+
     let data = await this.basketService.getBasketAccounts(this.basketId)
     if(data && data.success && data.accounts && data.accounts.length) {
       this.linkedAccount = data.accounts[0]

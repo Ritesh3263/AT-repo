@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Renderer2 } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild, ElementRef, AfterViewInit, Renderer2 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {MatTableModule} from '@angular/material/table';
 // import * as XLSX from 'xlsx';
@@ -9,6 +9,7 @@ import { debounceTime, finalize, switchMap, tap } from 'rxjs/operators';
 declare const TradingView: any;
 declare var google: any;
 
+import { JourneyInfoComponent } from '../journey-info/journey-info.component';
 
 export interface PeriodicElement {
   symbol: string;
@@ -36,10 +37,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['symbol', 'name', 'invested', 'change'];
   dataSource = ELEMENT_DATA;
 
+  basket: any = {}
 
   public form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private _renderer2: Renderer2) {
+  constructor(@Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, private formBuilder: FormBuilder, private _renderer2: Renderer2) {
     this.form = this.formBuilder.group({
       'SymbolChange': ['AAPL']
     })
@@ -132,8 +134,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   //////////////////////////////////////////////////////////////
 
 
-  ngOnInit(): void {
-
+  async ngOnInit() {
+    this.basket = await this.parentComponent.getBasket()
     /////////////////// For Google Charts //////////////////////////
 
     google.charts.load('current', {packages: ['corechart']});
