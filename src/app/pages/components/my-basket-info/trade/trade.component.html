@@ -1,5 +1,6 @@
 <div fxLayout="column">
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="breadcrumb with-bg with-border pt-10 pb-10 pl-20 pr-20">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px"
+        class="breadcrumb with-bg with-border pt-10 pb-10 pl-20 pr-20">
         <a routerLink="/" fxLayout="column" fxLayoutAlign="center center">
             <img src="/assets/images/home-icon.svg" />
         </a>
@@ -9,269 +10,303 @@
         <a class="bold">{{basket.name}} / Trade</a>
     </div>
     <div class="main_wrapper trade_module bg-body text-dark">
-    <h1 class="mat-h1 font-700 pt-10 pl-20 pr-20">Account Basket Summary</h1>
-    <div class="primary-sub-section trade-prime-section">
-        <div fxLayout="row wrap" fxLayoutAlign="start center" class="form-row">
-            <div fxFlex="20" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" class="form-group pt-5 pb-5">
-                <span fxFlex="initial" class="trade-icon-round">
-                    <mat-icon
-                    class="icon_symbol text-primary"
-                    fontIcon="shopping_basket"
-                ></mat-icon>
-                    <!-- <img src="/assets/images/trade-basket-icon.svg" /> -->
-                </span>
-                <div fxLayout="column">
-                    <p class="no-margin">Basket</p>
-                    <h3 class="mat-h3 no-margin font-600">{{basket.name}}</h3>
+        <h1 class="mat-h1 font-700 pt-10 pl-20 pr-20">Account Basket Summary</h1>
+        <div class="primary-sub-section trade-prime-section">
+            <div fxLayout="row wrap" fxLayoutAlign="start center" class="form-row">
+                <div fxFlex="20" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" fxLayout="row"
+                    fxLayoutAlign="start start" fxLayoutGap="10px" class="form-group pt-5 pb-5">
+                    <span fxFlex="initial" class="trade-icon-round">
+                        <mat-icon class="icon_symbol text-primary" fontIcon="shopping_basket"></mat-icon>
+                        <!-- <img src="/assets/images/trade-basket-icon.svg" /> -->
+                    </span>
+                    <div fxLayout="column">
+                        <p class="no-margin">Basket</p>
+                        <h3 class="mat-h3 no-margin font-600">{{basket.name}}</h3>
+                    </div>
                 </div>
-            </div>
-            <div fxFlex="20" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" class="form-group pt-5 pb-5">
-                <span fxFlex="initial" class="trade-icon-round">
-                    <mat-icon
-                class="icon_symbol text-primary"
-                fontIcon="account_balance_wallet"
-            ></mat-icon>
-                    <!-- <img src="/assets/images/trade-balance-icon.svg" /> -->
-                </span>
-                <div fxLayout="column">
-                    <p class="no-margin">Buying Power</p>
-                    <h3 class="mat-h3 no-margin font-600">{{account_balance | currency:'USD':'symbol':'1.2-2' }}</h3>
+                <div fxFlex="20" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" fxLayout="row"
+                    fxLayoutAlign="start start" fxLayoutGap="10px" class="form-group pt-5 pb-5">
+                    <span fxFlex="initial" class="trade-icon-round">
+                        <mat-icon class="icon_symbol text-primary" fontIcon="account_balance_wallet"></mat-icon>
+                        <!-- <img src="/assets/images/trade-balance-icon.svg" /> -->
+                    </span>
+                    <div fxLayout="column">
+                        <p class="no-margin">Buying Power</p>
+                        <h3 class="mat-h3 no-margin font-600">{{account_balance | currency:'USD':'symbol':'1.2-2' }}
+                        </h3>
+                    </div>
                 </div>
-            </div>
-            <div fxFlex="20" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" class="form-group pt-5 pb-5">
-                <span fxFlex="initial" class="trade-icon-round">
-                    <mat-icon
-                    class="icon_symbol text-primary"
-                    fontIcon="payments"
-                ></mat-icon>
-                    <!-- <img src="/assets/images/trade-cash-icon.svg" /> -->
-                </span>
-                <div fxLayout="column">
-                    <p class="no-margin">Cash Balance</p>
-                    <h3 class="mat-h3 no-margin font-600">{{cash_balance | currency:'USD':'symbol':'1.2-2' }}</h3>
+                <div fxFlex="20" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" fxLayout="row"
+                    fxLayoutAlign="start start" fxLayoutGap="10px" class="form-group pt-5 pb-5">
+                    <span fxFlex="initial" class="trade-icon-round">
+                        <mat-icon class="icon_symbol text-primary" fontIcon="payments"></mat-icon>
+                        <!-- <img src="/assets/images/trade-cash-icon.svg" /> -->
+                    </span>
+                    <div fxLayout="column">
+                        <p class="no-margin">Cash Balance</p>
+                        <h3 class="mat-h3 no-margin font-600">{{cash_balance | currency:'USD':'symbol':'1.2-2' }}</h3>
+                    </div>
                 </div>
-            </div>
-            <div fxFlex="20" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" class="form-group pt-5 pb-5">
-                <span fxFlex="initial" class="trade-icon-round">
-                    <mat-icon
-                    class="icon_symbol text-primary"
-                    fontIcon="currency_exchange"
-                ></mat-icon>
-                    <!-- <img src="/assets/images/trade-invested-icon.svg" /> -->
-                </span>
-                <div fxLayout="column">
-                    <p class="no-margin">Invested</p>
-                    <h3 class="mat-h3 no-margin font-600">{{invested | currency:'USD':'symbol':'1.2-2' }}</h3>
+                <div fxFlex="20" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" fxLayout="row"
+                    fxLayoutAlign="start start" fxLayoutGap="10px" class="form-group pt-5 pb-5">
+                    <span fxFlex="initial" class="trade-icon-round">
+                        <mat-icon class="icon_symbol text-primary" fontIcon="currency_exchange"></mat-icon>
+                        <!-- <img src="/assets/images/trade-invested-icon.svg" /> -->
+                    </span>
+                    <div fxLayout="column">
+                        <p class="no-margin">Invested</p>
+                        <h3 class="mat-h3 no-margin font-600">{{invested | currency:'USD':'symbol':'1.2-2' }}</h3>
+                    </div>
                 </div>
-            </div>
-            <div fxFlex="20" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" class="form-group pt-5 pb-5">
-                <span fxFlex="initial" class="trade-icon-round">
-                    <mat-icon
-                class="icon_symbol text-primary"
-                fontIcon="query_stats"
-            ></mat-icon>
-                    <!-- <img src="/assets/images/trade-market-icon.svg" /> -->
-                </span>
-                <div fxLayout="column">
-                    <p class="no-margin">Market Value</p>
-                    <h3 class="mat-h3 no-margin font-600">{{market_value | currency:'USD':'symbol':'1.2-2' }}</h3>
+                <div fxFlex="20" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" fxLayout="row"
+                    fxLayoutAlign="start start" fxLayoutGap="10px" class="form-group pt-5 pb-5">
+                    <span fxFlex="initial" class="trade-icon-round">
+                        <mat-icon class="icon_symbol text-primary" fontIcon="query_stats"></mat-icon>
+                        <!-- <img src="/assets/images/trade-market-icon.svg" /> -->
+                    </span>
+                    <div fxLayout="column">
+                        <p class="no-margin">Market Value</p>
+                        <h3 class="mat-h3 no-margin font-600">{{market_value | currency:'USD':'symbol':'1.2-2' }}</h3>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Show the primary content only if there is an account linked to this basket and we are ready to trade -->
-    <div *ngIf="linkedAccount && linkedAccount.broker_account_id">
-      <div class="pl-20 pr-20">
-        <div fxLayout="row wrap" fxLayoutAlign="start center" class="pt-15 form-row">
-            <form class="example-form" [formGroup]="form">
+        <!-- Show the primary content only if there is an account linked to this basket and we are ready to trade -->
+        <div *ngIf="linkedAccount && linkedAccount.broker_account_id">
+            <div class="pl-20 pr-20">
+                <div fxLayout="row wrap" fxLayoutAlign="start center" class="pt-15 form-row">
+                    <form class="example-form" [formGroup]="form">
 
-            <span fxFlex="20" fxFlex.md="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group mb-sm-10">
-                <mat-form-field appearance="outline" class="no-error" >
-                    <mat-label>Investment Type *</mat-label>
-                    <mat-select class="form-control" formControlName="investmentType" [disabled]="isReBalance">
-                        <div *ngFor="let a of dropDownDetails">
-                            <mat-option [value]="a" (click)="onSelectInvestmentType(a)">{{a}}</mat-option>
-                          </div>
-                    </mat-select>
-                </mat-form-field>
-            </span>
-            <span fxFlex="20" fxFlex.md="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group mb-sm-10">
-                <mat-form-field appearance="outline" class="no-error">
-                    <mat-label>Percentage (%)</mat-label>
-                    <input type="number" matInput  class="form-control" formControlName="percent" (input)="onChangePercent(form.controls['percent'].value)"  >
-                    <!-- <mat-error *ngIf="isControlValid('name')">{{getErrorMessage('name')}}</mat-error> -->
+                        <span fxFlex="20" fxFlex.md="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group mb-sm-10">
+                            <mat-form-field appearance="outline" class="no-error">
+                                <mat-label>Investment Type *</mat-label>
+                                <mat-select class="form-control" formControlName="investmentType">
+                                    <div *ngFor="let a of dropDownDetails">
+                                        <mat-option [value]="a" (click)="onSelectInvestmentType(a)">{{a}}</mat-option>
+                                    </div>
+                                </mat-select>
+                            </mat-form-field>
+                        </span>
+                        <span fxFlex="20" fxFlex.md="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group mb-sm-10">
+                            <mat-form-field appearance="outline" class="no-error">
+                                <mat-label>Percentage (%)</mat-label>
+                                <input type="number" matInput class="form-control" formControlName="percent"
+                                    (input)="onChangePercent(form.controls['percent'].value)">
+                                <!-- <mat-error *ngIf="isControlValid('name')">{{getErrorMessage('name')}}</mat-error> -->
 
-                </mat-form-field>
-            </span>
-            <span fxFlex="20" fxFlex.md="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group mb-sm-10">
-                <mat-form-field appearance="outline" class="no-error">
-                    <mat-label>Amount</mat-label>
-                    <input type="number" matInput  class="form-control" formControlName="amount" (input)="onChangeAmount(form.controls['amount'].value)"  >
-                    <!-- <mat-error *ngIf="isControlValid('name')">{{getErrorMessage('name')}}</mat-error> -->
+                            </mat-form-field>
+                        </span>
+                        <span fxFlex="20" fxFlex.md="25" fxFlex.sm="50" fxFlex.xs="100" class="form-group mb-sm-10">
+                            <mat-form-field appearance="outline" class="no-error">
+                                <mat-label>Amount</mat-label>
+                                <input type="number" matInput class="form-control" formControlName="amount"
+                                    (input)="onChangeAmount(form.controls['amount'].value)">
+                                <!-- <mat-error *ngIf="isControlValid('name')">{{getErrorMessage('name')}}</mat-error> -->
 
-                </mat-form-field>
-            </span>
-            <span fxFlex fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px" class="form-group pt-md-15 pt-sm-15">
-                <button mat-flat-button class="custom-button-disabled" [disabled]="!isFormValid()" (click)="calculateDialog()">Calculate</button>
-                <button mat-stroked-button class="primary-btn" (click)="closeAllPositions()">Close Positions</button>
-                <button mat-stroked-button class="primary-btn" (click)="reBalance()">Rebalance</button>
-            </span>
-        </form>
+                            </mat-form-field>
+                        </span>
+                        <span fxFlex fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100" fxLayout="row"
+                            fxLayoutAlign="end center" fxLayoutGap="10px" class="form-group pt-md-15 pt-sm-15">
+                            <button mat-flat-button class="custom-button-disabled"
+                                [disabled]="isReBalance?isReBalance:!isFormValid()"
+                                (click)="calculateDialog()">Calculate</button>
+                            <div matTooltip="If you have active shares in the bellow table then only this button is enabled"
+                                matTooltipClass="custom-tooltip"
+                                [matTooltipDisabled]="!isClosePositionsButtonDisabledOrEnabled">
+                                <button mat-stroked-button class="custom-button-disabled" (click)="closeAllPositions()"
+                                    [disabled]="isClosePositionsButtonDisabledOrEnabled">Close Positions</button>
+                            </div>
+                            <div matTooltip="In the bellow table is there any new symbol add or removed existing symbol then only this button is enabled"
+                                matTooltipClass="custom-tooltip"
+                                [matTooltipDisabled]="!isRebalanceButtonDisableOrEnable">
+                                <button mat-stroked-button [disabled]="isRebalanceButtonDisableOrEnable"
+                                    class="custom-button-disabled" (click)="reBalance()">Rebalance</button>
+                            </div>
+                        </span>
+                    </form>
 
-        </div>
-        <p class="pt-10">*Equal Distribution:  Please select the symbols for an equal investment and enter the percentage/amount.</p>
-        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="trade-info" *ngIf="form.controls['amount'].value">
-          <img src="/assets/images/alert-info-icon.svg" />
-          <p class="no-margin">$ {{ form.controls['amount'].value }} will be equally invested into each of the selected {{selection.selected.length}} stocks.</p>
-        </div>
-        <div *ngIf="showSpinner" class="spinner-wrapper">
+                </div>
+                <p class="pt-10" *ngIf="selection.selected.length >0">*Equal Distribution: Please select the symbols for
+                    an equal investment and enter the percentage/amount.</p>
+                <h3 class="pt-10" *ngIf="selection.selected.length<=0">*Please select the symbols first.</h3>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="trade-info"
+                    *ngIf="form.controls['amount'].value">
+                    <img src="/assets/images/alert-info-icon.svg" />
+                    <p class="no-margin">$ {{ form.controls['amount'].value }} will be equally invested into each of the
+                        selected {{selection.selected.length}} stocks.</p>
+                </div>
+                <!-- <div *ngIf="showSpinner" class="spinner-wrapper">
             <app-spinner></app-spinner>
-          </div>
-        <div *ngIf="isPositions" class="trading-table height-auto table-scroll trade-c-table with-padding pt-15">
-            <table mat-table [dataSource]="dataSource" class="trade_multiheader_table" >
+          </div> -->
+                <div *ngIf="isPositions"
+                    class="trading-table height-auto table-scroll trade-c-table with-padding pt-15">
+                    <table mat-table [dataSource]="dataSource" class="trade_multiheader_table">
 
-                <ng-container matColumnDef="select">
-                    <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}">
-                        <mat-checkbox (change)="$event ? toggleAllRows() : null" color="primary"
-                            [checked]="selection.hasValue() && isAllSelected()"
-                            [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
-                        </mat-checkbox>
-                    </th>
-                    <td mat-cell *matCellDef="let row">
-                        <mat-checkbox (click)="$event.stopPropagation()" color="primary"
-                            (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"
-                            [aria-label]="checkboxLabel(row)">
-                        </mat-checkbox>
-                    </td>
-                    <td mat-footer-cell *matFooterCellDef>  </td>
-                </ng-container>
+                        <ng-container matColumnDef="select">
+                            <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}">
+                                <mat-checkbox (change)="$event ? toggleAllRows() : null" color="primary"
+                                    [checked]="selection.hasValue() && isAllSelected()"
+                                    [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                    [aria-label]="checkboxLabel()">
+                                </mat-checkbox>
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <mat-checkbox (click)="singleSelect($event,row)" color="primary"
+                                    (change)="$event ? selection.toggle(row) : null"
+                                    [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                                </mat-checkbox>
+                            </td>
+                            <td mat-footer-cell *matFooterCellDef> </td>
+                        </ng-container>
 
-                <ng-container matColumnDef="selecthide">
-                    <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">
-                        <mat-checkbox (change)="$event ? toggleAllRows() : null" color="primary"
-                            [checked]="selection.hasValue() && isAllSelected()"
-                            [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
-                        </mat-checkbox>
-                    </th>
-                    <td mat-footer-cell *matFooterCellDef>  </td>
-                </ng-container>
+                        <ng-container matColumnDef="selecthide">
+                            <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">
+                                <mat-checkbox (change)="$event ? toggleAllRows() : null" color="primary"
+                                    [checked]="selection.hasValue() && isAllSelected()"
+                                    [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                    [aria-label]="checkboxLabel()">
+                                </mat-checkbox>
+                            </th>
+                            <td mat-footer-cell *matFooterCellDef> </td>
+                        </ng-container>
 
-                <ng-container matColumnDef="symbol">
-                    <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"> Symbol </th>
-                    <td mat-cell *matCellDef="let element">
-                        <!-- <div style="display: flex;">
+                        <ng-container matColumnDef="symbol">
+                            <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"> Symbol </th>
+                            <td mat-cell *matCellDef="let element">
+                                <!-- <div style="display: flex;">
                             <a (click)="$event.stopPropagation()">{{element.symbol}}
                             </a> &nbsp;&nbsp;&nbsp;
                             <div *ngIf="element.reBalance == 0" style="color: green;">&#9733;</div>
                              <div *ngIf="element.reBalance == 2" style="color: red;">&#9733;</div>
                         </div> -->
-                        <div class="indicator_parent">
-                            <a (click)="$event.stopPropagation()">{{element.symbol}}
-                            </a>
-                            <div class="indicators">
-                                <img *ngIf="element.reBalance == 0" style="color: green;" src="assets/images/new-added-badge.svg">
-                                <img *ngIf="element.reBalance == 2" style="color: red;" src="assets/images/removed-badge.svg">
+                                <div class="indicator_parent">
+                                    <a (click)="$event.stopPropagation()">{{element.symbol}}
+                                    </a>
+                                    <div class="indicators">
+                                        <img *ngIf="element.reBalance == 0" style="color: green;"
+                                            src="assets/images/new-added-badge.svg">
+                                        <img *ngIf="element.reBalance == 2" style="color: red;"
+                                            src="assets/images/removed-badge.svg">
 
-                            </div>
-                        </div>
-                                             </td>
-                     <td mat-footer-cell *matFooterCellDef>  </td>
-                </ng-container>
+                                    </div>
+                                </div>
+                            </td>
+                            <td mat-footer-cell *matFooterCellDef> </td>
+                        </ng-container>
 
-                <ng-container matColumnDef="symbolhide">
-                    <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2"> Symbol </th>
-                    <td mat-footer-cell *matFooterCellDef>  </td>
-                </ng-container>
-
-
-                <ng-container matColumnDef="price">
-                    <th mat-header-cell  *matHeaderCellDef [ngStyle]="{'display': 'none'}" class="right-align-cell" > Price </th>
-                    <td mat-cell *matCellDef="let element" class="right-align-cell" >
-                        <span  *ngIf="getColor(element)"   [@fadeInOut] >{{ element.price | currency:'USD':'symbol':'1.2-2' }}</span>
-                        <span  *ngIf="!getColor(element)"  >{{ element.price | currency:'USD':'symbol':'1.2-2' }}</span>
-                         </td>
-                     <td mat-footer-cell *matFooterCellDef>  </td>
-                </ng-container>
-
-                <ng-container matColumnDef="pricehide">
-                    <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2" class="right-align-cell" > Price </th>
-                    <td mat-footer-cell *matFooterCellDef>  </td>
-                </ng-container>
-
-                <ng-container matColumnDef="shares">
-                    <th mat-header-cell *matHeaderCellDef  [ngStyle]="isDisplayColumn?{'display': 'center','text-align':'right'}:{'display': 'none'}" > Current </th>
-                    <td mat-cell *matCellDef="let element" class="right-align-cell" >
-                        {{ element.shares  }}
-                    </td>
-                    <td mat-footer-cell *matFooterCellDef> Total </td>
-                </ng-container>
-                <ng-container *ngIf="isDisplayColumn" matColumnDef="new_shares">
-                    <th mat-header-cell *matHeaderCellDef class="right-align-cell"> New </th>
-                    <td mat-cell *matCellDef="let element" class="with-grey-bg right-align-cell" [ngClass]="getChangeStyle(element.new_shares)">
-                        {{ element.new_shares  }}
-                    </td>
-                    <td mat-footer-cell *matFooterCellDef> </td>
-                </ng-container>
+                        <ng-container matColumnDef="symbolhide">
+                            <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2"> Symbol </th>
+                            <td mat-footer-cell *matFooterCellDef> </td>
+                        </ng-container>
 
 
-                <ng-container matColumnDef="shareshide">
-                    <th mat-header-cell *matHeaderCellDef [attr.colspan]="isDisplayColumn?2:1" [attr.rowspan]="isDisplayColumn?1:2" class="text-center"> Shares </th>
-                </ng-container>
+                        <ng-container matColumnDef="price">
+                            <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"
+                                class="right-align-cell"> Price </th>
+                            <td mat-cell *matCellDef="let element" class="right-align-cell">
+                                <span *ngIf="getColor(element)" [@fadeInOut]>{{ element.price |
+                                    currency:'USD':'symbol':'1.2-2' }}</span>
+                                <span *ngIf="!getColor(element)">{{ element.price | currency:'USD':'symbol':'1.2-2'
+                                    }}</span>
+                            </td>
+                            <td mat-footer-cell *matFooterCellDef> </td>
+                        </ng-container>
 
-                <ng-container matColumnDef="invested">
-                    <th mat-header-cell *matHeaderCellDef [ngStyle]="isDisplayColumn?{'display': 'center','text-align':'right'}:{'display': 'none'}" > Current </th>
-                    <td mat-cell *matCellDef="let element" class="right-align-cell">
-                        {{ element.invested | currency:'USD':'symbol':'1.2-2' }}
-                    </td>
-                    <!-- <td mat-footer-cell *matFooterCellDef>  </td> -->
-                    <td mat-footer-cell *matFooterCellDef  class="right-align-cell" > {{  (calculateTotal('invested') | currency:'USD':'symbol':'1.2-2') }} </td>
-                </ng-container>
-                <ng-container *ngIf="isDisplayColumn" matColumnDef="new_invested">
-                    <th mat-header-cell *matHeaderCellDef class="right-align-cell"> New </th>
-                    <td mat-cell *matCellDef="let element" class="with-grey-bg right-align-cell" [ngClass]="getChangeStyle(element.new_shares)">
-                        {{ element.new_invested | currency:'USD':'symbol':'1.2-2' }}
-                    </td>
-                    <td mat-footer-cell *matFooterCellDef  class="right-align-cell" > {{  (calculateTotal('new_invested') | currency:'USD':'symbol':'1.2-2') }} </td>
-                </ng-container>
+                        <ng-container matColumnDef="pricehide">
+                            <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2" class="right-align-cell"> Price
+                            </th>
+                            <td mat-footer-cell *matFooterCellDef> </td>
+                        </ng-container>
 
-                <ng-container matColumnDef="investedhide">
-                    <th mat-header-cell *matHeaderCellDef [attr.colspan]="isDisplayColumn?2:1" [attr.rowspan]="isDisplayColumn?1:2" class="text-center"> Invested </th>
-                    <td mat-footer-cell *matFooterCellDef>  </td>
-                </ng-container>
+                        <ng-container matColumnDef="shares">
+                            <th mat-header-cell *matHeaderCellDef
+                                [ngStyle]="isDisplayColumn?{'display': 'center','text-align':'right'}:{'display': 'none'}">
+                                Current </th>
+                            <td mat-cell *matCellDef="let element" class="right-align-cell">
+                                {{ element.shares }}
+                            </td>
+                            <td mat-footer-cell *matFooterCellDef> Total </td>
+                        </ng-container>
+                        <ng-container *ngIf="isDisplayColumn" matColumnDef="new_shares">
+                            <th mat-header-cell *matHeaderCellDef class="right-align-cell"> New </th>
+                            <td mat-cell *matCellDef="let element" class="with-grey-bg right-align-cell"
+                                [ngClass]="getChangeStyle(element.new_shares)">
+                                {{ element.new_shares }}
+                            </td>
+                            <td mat-footer-cell *matFooterCellDef> </td>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="shareshide">
+                            <th mat-header-cell *matHeaderCellDef [attr.colspan]="isDisplayColumn?2:1"
+                                [attr.rowspan]="isDisplayColumn?1:2" class="text-center"> Shares </th>
+                        </ng-container>
+
+                        <ng-container matColumnDef="invested">
+                            <th mat-header-cell *matHeaderCellDef
+                                [ngStyle]="isDisplayColumn?{'display': 'center','text-align':'right'}:{'display': 'none'}">
+                                Current </th>
+                            <td mat-cell *matCellDef="let element" class="right-align-cell">
+                                {{ element.invested | currency:'USD':'symbol':'1.2-2' }}
+                            </td>
+                            <!-- <td mat-footer-cell *matFooterCellDef>  </td> -->
+                            <td mat-footer-cell *matFooterCellDef class="right-align-cell"> {{
+                                (calculateTotal('invested') | currency:'USD':'symbol':'1.2-2') }} </td>
+                        </ng-container>
+                        <ng-container *ngIf="isDisplayColumn" matColumnDef="new_invested">
+                            <th mat-header-cell *matHeaderCellDef class="right-align-cell"> New </th>
+                            <td mat-cell *matCellDef="let element" class="with-grey-bg right-align-cell"
+                                [ngClass]="getChangeStyle(element.new_shares)">
+                                {{ element.new_invested | currency:'USD':'symbol':'1.2-2' }}
+                            </td>
+                            <td mat-footer-cell *matFooterCellDef class="right-align-cell"> {{
+                                (calculateTotal('new_invested') | currency:'USD':'symbol':'1.2-2') }} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="investedhide">
+                            <th mat-header-cell *matHeaderCellDef [attr.colspan]="isDisplayColumn?2:1"
+                                [attr.rowspan]="isDisplayColumn?1:2" class="text-center"> Invested </th>
+                            <td mat-footer-cell *matFooterCellDef> </td>
+                        </ng-container>
 
 
 
 
-                <tr mat-header-row *matHeaderRowDef="['selecthide', 'symbolhide',  'pricehide','shareshide', 'investedhide',]"></tr>
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns:displayedColumns" (click)="selection.toggle(row)">
-                </tr>
-            </table>
-        </div>
-        <mat-paginator *ngIf="isPositions"  [pageSizeOptions]="[10, 50, 100]" showFirstLastButtons
-            aria-label="Select page of periodic elements">
-        </mat-paginator>
-        <div class="indicator_parent_define" *ngIf="isPositions" >
-            <div class="indicators">
-                <img src="assets/images/new-added-badge.svg">Symbol was Newly added in the Basket
-                <!-- <div class="indicator_new"></div> Newly added -->
+                        <tr mat-header-row
+                            *matHeaderRowDef="['selecthide', 'symbolhide',  'pricehide','shareshide', 'investedhide',]">
+                        </tr>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns:displayedColumns" (click)="selection.toggle(row)">
+                        </tr>
+                    </table>
+                </div>
+                <mat-paginator *ngIf="isPositions" [pageSizeOptions]="[10, 50, 100]" showFirstLastButtons
+                    aria-label="Select page of periodic elements">
+                </mat-paginator>
+                <div class="indicator_parent_define" *ngIf="isPositions">
+                    <div class="indicators">
+                        <img src="assets/images/new-added-badge.svg">Symbol was Newly added in the Basket
+                        <!-- <div class="indicator_new"></div> Newly added -->
+                    </div>
+                    <div class="indicators">
+                        <img src="assets/images/removed-badge.svg">Symbol Was Removed by the Basket Owner
+                        <!-- <div class="indicator_last_traded"></div> Last Traded -->
+                    </div>
+
+                </div>
+                <div *ngIf="isPositions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px"
+                    class="pt-15 pb-15">
+                    <button mat-stroked-button class="secondary-btn" (click)="cancel()">Cancel</button>
+                    <button mat-flat-button class="primary-btn" (click)="confirmTrade()">Submit</button>
+                </div>
             </div>
-            <div class="indicators">
-                <img src="assets/images/removed-badge.svg">Symbol Was Removed by the Basket Owner
-                <!-- <div class="indicator_last_traded"></div> Last Traded -->
-            </div>
-
         </div>
-        <div *ngIf="isPositions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px" class="pt-15 pb-15">
-            <button mat-stroked-button class="secondary-btn" (click)="cancel()">Cancel</button>
-            <button mat-flat-button  class="primary-btn" (click)="confirmTrade()">Submit</button>
+        <div *ngIf="!(linkedAccount && linkedAccount.broker_account_id)">
+            <br>
+            <h3>You must <a style="color: blue;" (click)="navigateLinkAccount()"><u>link an account</u></a> in order to
+                execute trades</h3>
         </div>
-      </div>
     </div>
-    <div *ngIf="!(linkedAccount && linkedAccount.broker_account_id)">
-      <br>
-      <h3>You must <a style="color: blue;" (click)="navigateLinkAccount()"><u>link an account</u></a> in order to execute trades</h3>
-    </div>
-</div>
 </div>
