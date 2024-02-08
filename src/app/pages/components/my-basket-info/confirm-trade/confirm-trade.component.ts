@@ -98,11 +98,13 @@ export class ConfirmTradeComponent implements OnInit, OnDestroy {
         this.data.cash_balance = this.data.cash_balance + this.investedAmount;
       }
       if(this.data.symbols && this.data.symbols.length > 0){
-        console.log("skcbisdj",this.data)
-        this.isSubmit = false;
+      
         this.dataSource = new MatTableDataSource<any>(this.data.symbols);
         this.originalData = JSON.parse(JSON.stringify([...this.data.symbols]));
         this.data.symbols.forEach((element: any) => {
+          if(element.new_shares != 0){
+            this.isSubmit = false;
+          }
           this.investedAmount = this.investedAmount + element.new_invested;
           this.netInvestedAmount = this.netInvestedAmount + element.new_invested
           this.inputForSymbolPrice.push(element.symbol)

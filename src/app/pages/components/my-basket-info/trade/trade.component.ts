@@ -166,7 +166,7 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
 
   confirmTrade() {
     // this.webSocketService.closeConnection();
-    let inputArray = this.selection.selected.filter(element => element.new_shares !== null);
+    let inputArray = this.selection.selected.filter(element => element.new_shares !==  0 || null);
     let inputModelPopup = {
       account_balance: this.account_balance,
       cash_balance: Number(this.cash_balance),
