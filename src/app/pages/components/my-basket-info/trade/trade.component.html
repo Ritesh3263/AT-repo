@@ -219,6 +219,22 @@
                             <td mat-footer-cell *matFooterCellDef> </td>
                         </ng-container>
 
+                        <ng-container matColumnDef="cost">
+                            <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': 'none'}"
+                                class="right-align-cell"> Cost </th>
+                            <td mat-cell *matCellDef="let element" class="right-align-cell">
+                                <span>{{ element.cost | currency:'USD':'symbol':'1.2-2'
+                                    }}</span>
+                            </td>
+                            <td mat-footer-cell *matFooterCellDef> </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="costhide">
+                            <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2" class="right-align-cell"> Cost
+                            </th>
+                            <td mat-footer-cell *matFooterCellDef> </td>
+                        </ng-container>
+
                         <ng-container matColumnDef="shares">
                             <th mat-header-cell *matHeaderCellDef
                                 [ngStyle]="isDisplayColumn?{'display': 'center','text-align':'right'}:{'display': 'none'}">
@@ -274,7 +290,7 @@
 
 
                         <tr mat-header-row
-                            *matHeaderRowDef="['selecthide', 'symbolhide',  'pricehide','shareshide', 'investedhide',]">
+                            *matHeaderRowDef="['selecthide', 'symbolhide',  'pricehide','costhide','shareshide', 'investedhide',]">
                         </tr>
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>

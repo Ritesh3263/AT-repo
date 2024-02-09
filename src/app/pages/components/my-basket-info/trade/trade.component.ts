@@ -48,7 +48,7 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
   isPositions: boolean = false;
   showSpinner: boolean = false;
   user_id: any = null;
-  displayedColumns: string[] = ['select', 'symbol', 'price', 'shares', 'invested'];
+  displayedColumns: string[] = ['select', 'symbol', 'price','cost', 'shares', 'invested'];
   form: FormGroup = new FormGroup(''); // FormGroup
   dropDownDetails = ["Equal Distribution", "Investment Per stock", "Scale Up", "Scale Down"]
   // displayedColumns: string[] = ['select', 'symbol', 'purchasedate', 'costcurrent', 'costnew', 'price', 'sharescurrent', 'sharesnew', 'investedcurrent', 'investednew', 'marketcurrent', 'marketnew', 'pl', 'plpercent'];
@@ -213,7 +213,7 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
 
   calculateDialog() {
     this.isDisplayColumn = true;
-    this.displayedColumns = ['select', 'symbol', 'price', 'shares', 'new_shares', 'invested', 'new_invested'];
+    this.displayedColumns = ['select', 'symbol', 'price',"cost", 'shares', 'new_shares', 'invested', 'new_invested'];
     var selectedData = this.selection.selected;
     this.selection.selected.forEach((element: any) => {
       if (element.new_shares == 0) {
@@ -292,7 +292,7 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
     this.form.reset(); // Reset to initial form values
     this.isDisplayColumn = false;
     this.isReBalance = false;
-    this.displayedColumns = ['select', 'symbol', 'price', 'shares', 'invested'];
+    this.displayedColumns = ['select', 'symbol', 'price','cost', 'shares', 'invested'];
     this.dataSource = new MatTableDataSource<any>(this.symbols);
     this.selection = new SelectionModel<any>(this.symbols, []);
     this.checkedFunction()
@@ -317,7 +317,7 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
     let total: number = this.dataSource.data.reduce((acc, current: any) => acc + current[column], 0)
     if (column === 'invested') {
       this.invested = total
-      this.market_value = total
+      // this.market_value = total
     }
     // Sum the values in the column
     return Number(total);
@@ -573,6 +573,7 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
         this.isPositions = true;
         this.symbols = data.symbols;
         this.symbols.forEach((ele: any) => {
+          this.market_value =  this.market_value+(ele.shares*ele.price)
           if (ele.reBalance === 0 || ele.reBalance === 2) {
             this.isRebalanceButtonDisableOrEnable = false;
           }
@@ -643,11 +644,11 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
     event.stopPropagation()
     this.checkedFunction();
     if (this.form.controls['amount'].value != '' || this.form.controls['amount'].value != '') {
-      if (!target.checked) {
-        row.new_shares = 0
-        row.new_invested = 0
-      }
-      this.onChangePercent(this.form.controls['percent'].value)
+      // if (!target.checked) {
+      //   row.new_shares = 0
+      //   row.new_invested = 0
+      // }
+      // this.onChangePercent(this.form.controls['percent'].value)
     }
   }
 
