@@ -72,7 +72,7 @@
             </div>
         </div>
         <!-- Show the primary content only if there is an account linked to this basket and we are ready to trade -->
-        <div *ngIf="linkedAccount && linkedAccount.broker_account_id">
+        <div *ngIf="linkedAccount && linkedAccount.broker_account_id && brokerageIsDisconnected">
             <div class="pl-20 pr-20">
                 <div fxLayout="row wrap" fxLayoutAlign="start center" class="pt-15 form-row">
                     <form class="example-form" [formGroup]="form">
@@ -307,6 +307,11 @@
             <br>
             <h3>You must <a style="color: blue;" (click)="navigateLinkAccount()"><u>link an account</u></a> in order to
                 execute trades</h3>
+        </div>
+        <div *ngIf="!brokerageIsDisconnected">
+            <br>
+            <h3>Your brokerage account is disconnected so please <a style="color: blue;" (click)="navigateLinkBrokerage()"><u>re-link the brokerage </u></a> in order to
+                execute trades  </h3>
         </div>
     </div>
 </div>

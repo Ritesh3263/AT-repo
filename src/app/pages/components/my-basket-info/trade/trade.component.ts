@@ -70,6 +70,8 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
   basket: any = {}
   isRebalanceButtonDisableOrEnable: boolean = true;
   isClosePositionsButtonDisabledOrEnabled: boolean = true;
+  activeBrokerages:any;
+  brokerageIsDisconnected:boolean = true;
 
   constructor(private fb: FormBuilder, private renderer: Renderer2, public dialog: MatDialog, private basketTradeService: BasketTradeService, private webSocketService: WebsocketService, private basketService: BasketsService, @Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, private utilityService: UtilitiesService, private brokerageService: BrokerageService, private userService: UserService) {
     // this.getAccountBasketPosition();
@@ -107,14 +109,32 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
     this.basketId = id || this.parentComponent.getBasketId();
     this.basket = await this.parentComponent.getBasket()
 
+    if(this.basket.broker_code){
+       // if condition is to check if brokerage is connected
+      this.activeBrokerages = await this.brokerageService.getBrokerages();
+      if(this.activeBrokerages.success && this.activeBrokerages.brokerages.length){
+        this.brokerageIsDisconnected = this.activeBrokerages.brokerages.some((obj:any) => obj.active_brokerage_key === this.basket.broker_code);
+      }
+    }
     // Get account linked to basket to get broker code
     let data = await this.basketService.getBasketAccounts(this.basketId)
     if (data && data.success && data.accounts && data.accounts.length) {
       let account = this.linkedAccount = data.accounts[0];
       if (account.brokerageAccountData && account.brokerageAccountData.Accounts && account.brokerageAccountData.Accounts.length) {
-        this.account_balance = account.brokerageAccountData.Accounts[0].BuyingPower;
-        this.cash_balance = account.brokerageAccountData.Accounts[0].CashBalance;
-        // this.market_value = account.brokerageAccountData.Accounts[0].MarketValue;
+        if(this.basket.broker_code && account.broker_code === this.basket.broker_code){
+          account.brokerageAccountData.Accounts.forEach((ele:any)=>{
+            if(this.basket.account === ele.AccountID){
+              this.account_balance = ele.BuyingPower;
+              this.cash_balance = ele.CashBalance;
+              // this.market_value = account.brokerageAccountData.Accounts[0].MarketValue;
+            }
+          })
+        }else{
+          this.account_balance = account.brokerageAccountData.Accounts[0].BuyingPower;
+          this.cash_balance = account.brokerageAccountData.Accounts[0].CashBalance;
+          // this.market_value = account.brokerageAccountData.Accounts[0].MarketValue;
+        }
+       
       }
     }
     else {
@@ -608,6 +628,9 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
 
   navigateLinkAccount() {
     this.utilityService.navigate(`baskets/${this.basketId}/account`)
+  }
+  navigateLinkBrokerage() {
+    this.utilityService.navigate(`/brokerage`)
   }
 
   /**
