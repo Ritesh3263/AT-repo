@@ -314,8 +314,8 @@
                 </div>
                 <div *ngIf="isPositions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px"
                     class="pt-15 pb-15">
-                    <button mat-stroked-button class="secondary-btn" (click)="cancel()">Cancel</button>
-                    <button mat-flat-button class="primary-btn" (click)="confirmTrade()">Submit</button>
+                    <button mat-stroked-button class="secondary-btn"  (click)="cancel()">Cancel</button>
+                    <button mat-flat-button class="custom-button-disabled" [disabled]="!this.isDisplayColumn" (click)="confirmTrade()">Submit</button>
                 </div>
             </div>
         </div>

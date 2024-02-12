@@ -72,6 +72,8 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
   isClosePositionsButtonDisabledOrEnabled: boolean = true;
   activeBrokerages:any;
   brokerageIsDisconnected:boolean = true;
+  closePositionsButtonClicked:boolean =false;
+  RebalanceButtonClicked:boolean =false;
 
   constructor(private fb: FormBuilder, private renderer: Renderer2, public dialog: MatDialog, private basketTradeService: BasketTradeService, private webSocketService: WebsocketService, private basketService: BasketsService, @Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, private utilityService: UtilitiesService, private brokerageService: BrokerageService, private userService: UserService) {
     // this.getAccountBasketPosition();
@@ -124,14 +126,14 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
         if(this.basket.broker_code && account.broker_code === this.basket.broker_code){
           account.brokerageAccountData.Accounts.forEach((ele:any)=>{
             if(this.basket.account === ele.AccountID){
-              this.account_balance = ele.BuyingPower;
-              this.cash_balance = ele.CashBalance;
+              this.account_balance = Number(ele.BuyingPower);
+              this.cash_balance = Number(ele.CashBalance);
               // this.market_value = account.brokerageAccountData.Accounts[0].MarketValue;
             }
           })
         }else{
-          this.account_balance = account.brokerageAccountData.Accounts[0].BuyingPower;
-          this.cash_balance = account.brokerageAccountData.Accounts[0].CashBalance;
+          this.account_balance = Number(account.brokerageAccountData.Accounts[0].BuyingPower);
+          this.cash_balance = Number(account.brokerageAccountData.Accounts[0].CashBalance);
           // this.market_value = account.brokerageAccountData.Accounts[0].MarketValue;
         }
        
@@ -186,7 +188,8 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
 
   confirmTrade() {
     // this.webSocketService.closeConnection();
-    let inputArray = this.selection.selected.filter(element => element.new_shares !==  0 || null);
+    var inputArray = this.selection.selected.filter(element => element.new_shares !==  0 );
+    if(inputArray.length >0){
     let inputModelPopup = {
       account_balance: this.account_balance,
       cash_balance: Number(this.cash_balance),
@@ -205,10 +208,17 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
       this.isReBalance = false;
       if (result) {
         this.form.reset(); // Reset to initial form values
-        this.getBasketSymbols();
+        this.closePositionsButtonClicked =false;
+        this.RebalanceButtonClicked =false;
+        this.isDisplayColumn=false;
+        this.getSymbolsAlongWithPosition();
         // this.webSocketService.connect('ws/intrinio').then((data)=>{})
       }
     });
+  }
+  else{
+      this.utilityService.displayInfoMessage("Total new invested amount should be grater then zero", true)
+  }
   }
 
   calculateDialog() {
@@ -283,8 +293,8 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
   cancel() {
     this.isClosePositionsButtonDisabledOrEnabled = true;
     this.symbols.forEach((ele: any) => {
-      ele.new_shares = null
-      ele.new_invested = null
+      ele.new_shares = 0;
+      ele.new_invested = 0;
       if (ele.shares != 0) {
         this.isClosePositionsButtonDisabledOrEnabled = false;
       }
@@ -296,6 +306,8 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
     this.dataSource = new MatTableDataSource<any>(this.symbols);
     this.selection = new SelectionModel<any>(this.symbols, []);
     this.checkedFunction()
+    this.closePositionsButtonClicked =false;
+    this.RebalanceButtonClicked =false;
   }
 
   getErrorMessage(value: string) {
@@ -329,6 +341,9 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
   onSelectInvestmentType(investmentType: any) {
     this.form.controls['percent'].setValue(null);
     this.form.controls['amount'].setValue(null);
+    this.setNewSharesToOriginalState();
+    this.isDisplayColumn=false;
+    this.displayedColumns = ['select', 'symbol', 'price',"cost", 'shares', 'invested'];
   }
 
   /****
@@ -374,10 +389,7 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
       }
     } else {
       this.form.controls['amount'].setValue(0);
-      selectedPosition.forEach((ele: any) => {
-        ele.new_shares = 0;
-        ele.new_invested = 0;
-      })
+      this.setNewSharesToOriginalState();
 
 
     }
@@ -387,9 +399,8 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
   onChangeAmount(amount: any) {
     amount = Number(amount);
     var selectedTickers = this.selection.selected;
-
     /**convert string to number **/
-    if (0 < amount < this.cash_balance) {
+    if (0 < amount && amount<this.cash_balance) {
       /***
        * mValue is selected tickers sum of market value, Used for calculating the percent
        *
@@ -423,10 +434,13 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
             selectedTickers[i].new_shares = selectedTickers[i].shares == 0 ? 0 : ~~((selectedTickers[i].shares * percent) / 100);
             selectedTickers[i].new_invested = Number((selectedTickers[i].new_shares * selectedTickers[i].price).toFixed(3));
             selectedTickers[i].transaction_type = 'BUY';
-            if (selectedTickers.length - 1 == i) {
+            if (selectedTickers.length - 1 == i && percent <= 100) {
               this.form.controls['percent'].setValue(percent)
+            }else if(selectedTickers.length - 1 == i ){
+              this.form.controls['percent'].setValue(0)
+              this.setNewSharesToOriginalState();
             }
-            if (this.form.controls['investmentType'].value == 'Scale Down' && selectedTickers[i].shares != 0 && selectedTickers[i].new_shares != 0) {
+            if (this.form.controls['investmentType'].value == 'Scale Down' && selectedTickers[i].shares != 0 && selectedTickers[i].new_shares != 0 && 0 < percent && percent <= 100) {
               selectedTickers[i].transaction_type = 'SELL';
               selectedTickers[i].new_shares = -1 * selectedTickers[i].new_shares;
               selectedTickers[i].new_invested = -1 * selectedTickers[i].new_invested;
@@ -436,16 +450,25 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
       }
     } else {
       this.form.controls['percent'].setValue(0);
-      selectedTickers.forEach((ele: any) => {
-        ele.new_shares = 0;
-        ele.new_invested = 0;
-      })
+      this.setNewSharesToOriginalState();
     }
   }
 
+  setNewSharesToOriginalState(){
+    this.selection.selected.forEach((ele: any) => {
+      if(!this.RebalanceButtonClicked || ele.reBalance != 2){
+        console.log(ele)
+        ele.new_shares = 0;
+        ele.new_invested = 0;
+      }
+    })
+  }
+
   closeAllPositions() {
-    this.toggleAllRows();
+    this.closePositionsButtonClicked = true;
     this.calculateDialog();
+    this.selection.select(...this.dataSource.data);
+    this.form.reset();
     this.form.controls['investmentType'].disable();
     this.form.controls['amount'].disable();
     this.form.controls['percent'].disable();
@@ -498,65 +521,65 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
   }
 
 
-  async getBasketSymbols(resetPage = false) {
-    if (resetPage) {
-      this.pageIndex = 0;
-      this.length = 0;
-    }
-    var positions = await this.getActivePositionsByBasketId();
-    this.basketService.getSymbols(this.basketId, this.pageIndex, this.pageSize, null, null).then((data) => {
-      if (data.error || !data.symbols) {
-        this.utilityService.displayInfoMessage(data.error, true)
-      }
-      else {
-        this.displayedColumns = ['select', 'symbol', 'price', 'shares', 'invested'];
-        if (positions.success && !positions.message) {
-          data.symbols.forEach((ele: any) => {
-            this.symbolInput.push(ele.symbol);
-            ele.price = Number(ele.price);
-            ele.new_shares = null;
-            ele.shares = 0;
-            ele.transactionType = null
-            ele.new_invested = null;
-            positions.orders.forEach((elePosition: any) => {
-              if (elePosition.symbol === ele.symbol) {
-                ele.shares = elePosition.position;
-              }
-            })
-            ele.invested = ele.shares * ele.price;
-          })
-        } else {
-          data.symbols.forEach((ele: any) => {
-            this.symbolInput.push(ele.symbol);
-            ele.price = Number(ele.price);
-            ele.shares = 0;
-            ele.new_shares = null;
-            ele.transactionType = null
-            ele.invested = ele.shares * ele.price;;
-            ele.new_invested = null;
-          })
-        }
+  // async getBasketSymbols(resetPage = false) {
+  //   if (resetPage) {
+  //     this.pageIndex = 0;
+  //     this.length = 0;
+  //   }
+  //   var positions = await this.getActivePositionsByBasketId();
+  //   this.basketService.getSymbols(this.basketId, this.pageIndex, this.pageSize, null, null).then((data) => {
+  //     if (data.error || !data.symbols) {
+  //       this.utilityService.displayInfoMessage(data.error, true)
+  //     }
+  //     else {
+  //       this.displayedColumns = ['select', 'symbol', 'price', 'shares', 'invested'];
+  //       if (positions.success && !positions.message) {
+  //         data.symbols.forEach((ele: any) => {
+  //           this.symbolInput.push(ele.symbol);
+  //           ele.price = Number(ele.price);
+  //           ele.new_shares = null;
+  //           ele.shares = 0;
+  //           ele.transactionType = null
+  //           ele.new_invested = null;
+  //           positions.orders.forEach((elePosition: any) => {
+  //             if (elePosition.symbol === ele.symbol) {
+  //               ele.shares = elePosition.position;
+  //             }
+  //           })
+  //           ele.invested = ele.shares * ele.price;
+  //         })
+  //       } else {
+  //         data.symbols.forEach((ele: any) => {
+  //           this.symbolInput.push(ele.symbol);
+  //           ele.price = Number(ele.price);
+  //           ele.shares = 0;
+  //           ele.new_shares = null;
+  //           ele.transactionType = null
+  //           ele.invested = ele.shares * ele.price;;
+  //           ele.new_invested = null;
+  //         })
+  //       }
 
-        this.isPositions = true
-        this.symbols = data.symbols
-        this.dataSource = new MatTableDataSource<any>(data.symbols);
-        this.selection = new SelectionModel<any>(data.symbols, []);
-        this.originalData = JSON.parse(JSON.stringify([...data.symbols]));
-        this.symbolInput.length > 0 ? this.setSymbolsForBrokeragePrice(this.symbolInput, true) : null
-        this.isDisplayColumn = false;
-      }
-    })
-  }
+  //       this.isPositions = true
+  //       this.symbols = data.symbols
+  //       this.dataSource = new MatTableDataSource<any>(data.symbols);
+  //       this.selection = new SelectionModel<any>(data.symbols, []);
+  //       this.originalData = JSON.parse(JSON.stringify([...data.symbols]));
+  //       this.symbolInput.length > 0 ? this.setSymbolsForBrokeragePrice(this.symbolInput, true) : null
+  //       this.isDisplayColumn = false;
+  //     }
+  //   })
+  // }
 
 
-  async getActivePositionsByBasketId() {
-    try {
-      var oupPut = await this.basketTradeService.getActivePositionsByBasketId(this.basketId)
-      return oupPut.orders.message ? { success: false } : oupPut;
-    } catch (err) {
-      return { success: false }
-    }
-  }
+  // async getActivePositionsByBasketId() {
+  //   try {
+  //     var oupPut = await this.basketTradeService.getActivePositionsByBasketId(this.basketId)
+  //     return oupPut.orders.message ? { success: false } : oupPut;
+  //   } catch (err) {
+  //     return { success: false }
+  //   }
+  // }
 
   isRowSelected(row: any): boolean {
     return this.selection.isSelected(row);
@@ -572,6 +595,7 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
       if (data && data.success && data.symbols) {
         this.isPositions = true;
         this.symbols = data.symbols;
+        this.displayedColumns = ['select', 'symbol', 'price','cost', 'shares', 'invested'];
         this.symbols.forEach((ele: any) => {
           this.market_value =  this.market_value+(ele.shares*ele.price)
           if (ele.reBalance === 0 || ele.reBalance === 2) {
@@ -583,6 +607,7 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
         })
         this.dataSource = new MatTableDataSource<any>(data.symbols);
         this.selection = new SelectionModel<any>(data.symbols, []);
+        this.checkedFunction();
         this.originalData = JSON.parse(JSON.stringify([...data.symbols]));
         // this.symbolInput.length>0?this.setSymbolsForBrokeragePrice(this.symbolInput,true):null
         this.isDisplayColumn = false;
@@ -593,9 +618,10 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
 
 
   reBalance() {
-    this.toggleAllRows();
-    this.isReBalance = true;
+    this.RebalanceButtonClicked = true;
     this.calculateDialog();
+    this.selection.select(...this.dataSource.data);
+    this.isReBalance = true;
     this.form.controls['investmentType'].setValue("Investment Per stock");
     var selectedPosition = this.selection.selected;
     this.form.controls['investmentType'].disable();
@@ -642,14 +668,17 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
   singleSelect(event: Event, row: any) {
     let target = event.target as HTMLInputElement
     event.stopPropagation()
-    this.checkedFunction();
-    if (this.form.controls['amount'].value != '' || this.form.controls['amount'].value != '') {
-      // if (!target.checked) {
-      //   row.new_shares = 0
-      //   row.new_invested = 0
-      // }
-      // this.onChangePercent(this.form.controls['percent'].value)
+    if(!this.closePositionsButtonClicked){
+      this.checkedFunction();
+      if (this.form.controls['amount'].value != '' || this.form.controls['amount'].value != '') {
+        if (!target.checked) {
+          row.new_shares = 0
+          row.new_invested = 0
+        }
+        this.onChangePercent(this.form.controls['percent'].value)
+      }
     }
+
   }
 
   checkedFunction() {

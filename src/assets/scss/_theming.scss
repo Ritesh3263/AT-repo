@@ -153,9 +153,9 @@ $BLACK: #000000;
   .mat-mdc-table {
     
     .mat-mdc-row:hover {
-      transform: scale(1.02);
+      // transform: scale(1.02);
       background-color: rgba(11,99,229,0.1) !important;
-      box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+      // box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
     }
     background-color: mat.get-color-from-palette($primary, pw);
     .mat-mdc-header-row {
