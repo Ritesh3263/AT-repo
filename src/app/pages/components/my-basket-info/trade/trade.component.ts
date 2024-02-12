@@ -210,6 +210,7 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
         this.form.reset(); // Reset to initial form values
         this.closePositionsButtonClicked =false;
         this.RebalanceButtonClicked =false;
+        this.displayedColumns = ['select', 'symbol', 'price','cost', 'shares', 'invested'];
         this.isDisplayColumn=false;
         this.getSymbolsAlongWithPosition();
         // this.webSocketService.connect('ws/intrinio').then((data)=>{})
@@ -457,7 +458,6 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
   setNewSharesToOriginalState(){
     this.selection.selected.forEach((ele: any) => {
       if(!this.RebalanceButtonClicked || ele.reBalance != 2){
-        console.log(ele)
         ele.new_shares = 0;
         ele.new_invested = 0;
       }
@@ -595,7 +595,6 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
       if (data && data.success && data.symbols) {
         this.isPositions = true;
         this.symbols = data.symbols;
-        this.displayedColumns = ['select', 'symbol', 'price','cost', 'shares', 'invested'];
         this.symbols.forEach((ele: any) => {
           this.market_value =  this.market_value+(ele.shares*ele.price)
           if (ele.reBalance === 0 || ele.reBalance === 2) {
