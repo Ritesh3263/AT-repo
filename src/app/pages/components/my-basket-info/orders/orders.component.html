@@ -14,7 +14,7 @@
         </div> -->
         <div class="modal-dialog">
             <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" animationDuration="0ms"
-                class="trade-tabs brokerage-tabs">
+                class="trade-tabs brokerage-tabs" [selectedIndex]="getSelectedTab()">
                 <mat-tab>
                     <ng-template mat-tab-label>
                         <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">

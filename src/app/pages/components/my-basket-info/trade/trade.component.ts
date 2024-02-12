@@ -74,6 +74,7 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
   brokerageIsDisconnected:boolean = true;
   closePositionsButtonClicked:boolean =false;
   RebalanceButtonClicked:boolean =false;
+  Number: any = Number;
 
   constructor(private fb: FormBuilder, private renderer: Renderer2, public dialog: MatDialog, private basketTradeService: BasketTradeService, private webSocketService: WebsocketService, private basketService: BasketsService, @Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, private utilityService: UtilitiesService, private brokerageService: BrokerageService, private userService: UserService) {
     // this.getAccountBasketPosition();
@@ -327,7 +328,7 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
   }
 
   calculateTotal(column: string): number {
-    let total: number = this.dataSource.data.reduce((acc, current: any) => acc + current[column], 0)
+    let total: number = this.dataSource.data.reduce((acc, current: any) => Number(acc) + Number(current[column]), 0)
     if (column === 'invested') {
       this.invested = total
       // this.market_value = total
@@ -588,22 +589,40 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
     this.selection.deselect(row);
   }
   /***getBrokerageAccount function is used to get  active Accounts related to brokerage*/
-  getSymbolsAlongWithPosition() {
-    // this.showSpinner = true;
-    this.basketTradeService.getSymbolsAlongWithPosition(this.basketId).then((data) => {
-      // this.showSpinner=false;
-      if (data && data.success && data.symbols) {
+  async getSymbolsAlongWithPosition(usePythonAPI = false) {
+
+    if(usePythonAPI) {
+      // this.showSpinner = true;
+      this.basketTradeService.getSymbolsAlongWithPosition(this.basketId).then((data) => {
+        // this.showSpinner=false;
+        if (data && data.success && data.symbols) {
+          this.isPositions = true;
+          this.symbols = data.symbols;
+          this.symbols.forEach((ele: any) => {
+            this.market_value =  this.market_value+(ele.shares*ele.price)
+            if (ele.reBalance === 0 || ele.reBalance === 2) {
+              this.isRebalanceButtonDisableOrEnable = false;
+            }
+            if (ele.shares != 0) {
+              this.isClosePositionsButtonDisabledOrEnabled = false;
+            }
+          })
+          this.dataSource = new MatTableDataSource<any>(data.symbols);
+          this.selection = new SelectionModel<any>(data.symbols, []);
+          this.checkedFunction();
+          this.originalData = JSON.parse(JSON.stringify([...data.symbols]));
+          // this.symbolInput.length>0?this.setSymbolsForBrokeragePrice(this.symbolInput,true):null
+          this.isDisplayColumn = false;
+        }
+
+      })
+    }
+    else {
+      let data = await this.basketService.getSymbols(this.basketId, 0, 100, null, null)
+      if(data && data.symbols) {
+        this.market_value = data.symbols[0].basket_market_value;
+        this.invested = data.symbols[0].basket_invested;
         this.isPositions = true;
-        this.symbols = data.symbols;
-        this.symbols.forEach((ele: any) => {
-          this.market_value =  this.market_value+(ele.shares*ele.price)
-          if (ele.reBalance === 0 || ele.reBalance === 2) {
-            this.isRebalanceButtonDisableOrEnable = false;
-          }
-          if (ele.shares != 0) {
-            this.isClosePositionsButtonDisabledOrEnabled = false;
-          }
-        })
         this.dataSource = new MatTableDataSource<any>(data.symbols);
         this.selection = new SelectionModel<any>(data.symbols, []);
         this.checkedFunction();
@@ -612,7 +631,9 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
         this.isDisplayColumn = false;
       }
 
-    })
+    }
+
+
   }
 
 

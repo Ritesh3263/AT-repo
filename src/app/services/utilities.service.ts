@@ -66,4 +66,8 @@ export class UtilitiesService {
     return this.fb.group(form)
   }
 
+  async sleep(ms:number) {
+    return new Promise((resolve) => { setTimeout(() => {resolve({})}, ms) })
+  }
+
 }
