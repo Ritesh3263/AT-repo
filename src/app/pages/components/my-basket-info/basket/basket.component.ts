@@ -150,6 +150,11 @@ export class BasketComponent {
     }
   }
 
+  async reloadBasketData() {
+    this.table.getData(true);
+    this.parentComponent.getBasket(true)
+  }
+
   addSymbols() {
     let dialogRef= this.dialog.open(EditSymbolsComponent, {
       panelClass: 'custom-modal',
@@ -159,7 +164,7 @@ export class BasketComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result && result.success) {
-        this.table.getData(true);
+        this.reloadBasketData()
       }
     });
   }
@@ -172,7 +177,7 @@ export class BasketComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result && result.success) {
-        this.table.getData(true);
+        this.reloadBasketData()
       }
     });
   }
