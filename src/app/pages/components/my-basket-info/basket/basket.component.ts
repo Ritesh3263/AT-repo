@@ -74,7 +74,7 @@ export class BasketComponent {
       {
         label: 'Change %',
         key: 'changepercent',
-        type: 'currency'
+        type: 'percentage'
       },
       {
         label: 'Added At',

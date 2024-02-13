@@ -240,7 +240,7 @@
                                 [ngStyle]="isDisplayColumn?{'display': 'center','text-align':'right'}:{'display': 'none'}">
                                 Current </th>
                             <td mat-cell *matCellDef="let element" class="right-align-cell">
-                                {{ element.shares }}
+                                {{ element.shares | number: '0.0-0' }}
                             </td>
                             <td mat-footer-cell *matFooterCellDef> Total </td>
                         </ng-container>
@@ -248,7 +248,7 @@
                             <th mat-header-cell *matHeaderCellDef class="right-align-cell"> New </th>
                             <td mat-cell *matCellDef="let element" class="with-grey-bg right-align-cell"
                                 [ngClass]="getChangeStyle(element.new_shares)">
-                                {{ element.new_shares }}
+                                {{  element.shares && element.new_shares ? (Number(element.shares) + element.new_shares) : element.new_shares }}
                             </td>
                             <td mat-footer-cell *matFooterCellDef> </td>
                         </ng-container>
@@ -274,10 +274,10 @@
                             <th mat-header-cell *matHeaderCellDef class="right-align-cell"> New </th>
                             <td mat-cell *matCellDef="let element" class="with-grey-bg right-align-cell"
                                 [ngClass]="getChangeStyle(element.new_shares)">
-                                {{ element.new_invested | currency:'USD':'symbol':'1.2-2' }}
+                                {{ Number(element.invested) + element.new_invested | currency:'USD':'symbol':'1.2-2' }}
                             </td>
                             <td mat-footer-cell *matFooterCellDef class="right-align-cell"> {{
-                                (calculateTotal('new_invested') | currency:'USD':'symbol':'1.2-2') }} </td>
+                                (Number(invested) + calculateTotal('new_invested') | currency:'USD':'symbol':'1.2-2') }} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="investedhide">
@@ -326,7 +326,7 @@
         </div>
         <div *ngIf="!brokerageIsDisconnected">
             <br>
-            <h3>Your brokerage account is disconnected so please <a style="color: blue;" (click)="navigateLinkBrokerage()"><u>re-link the brokerage </u></a> in order to
+            <h3>Your brokerage account is disconnected so please <a style="color: blue;" (click)="navigateLinkBrokerage()"><u>link the brokerage </u></a> in order to
                 execute trades  </h3>
         </div>
     </div>

@@ -64,6 +64,12 @@
         <td mat-cell style="text-align: right" *matCellDef="let element"> {{column.type == 'date' ?  (element[column.key] | date) : (element[column.key] | currency:'USD':'symbol':'1.2-2')}} </td>
       </div>
 
+      <!-- Percentage Column -->
+      <div *ngIf="column.type == 'percentage'">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2" class="right-align-cell" mat-sort-header sortActionDescription="Sort by {{column.label}}"> {{column.label}} </th>
+        <td mat-cell style="text-align: right" *matCellDef="let element"> {{element[column.key] / 100 | percent: '1.1-2' }} </td>
+      </div>
+
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

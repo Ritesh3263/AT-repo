@@ -21,6 +21,8 @@ import { BrokerageService } from 'src/app/services/brokerage.service';
 import { BasketsService } from 'src/app/services/baskets.service';
 import { Basket } from 'src/app/interfaces/basket';
 
+import { Router } from "@angular/router";
+import { ActivatedRoute } from '@angular/router';
 
 export interface PeriodicElement {
   account_id: number;
@@ -94,8 +96,13 @@ export class OrdersComponent implements OnInit {
   basketId: number = 0;
   linkedAccount: any = {}
   basket: any = {}
+  routeTransactionId: any = null;
 
-  constructor(public dialog: MatDialog, private basketTradeService: BasketTradeService, private userService: UserService, private utilityService: UtilitiesService, @Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, private brokerageService: BrokerageService, private basketService: BasketsService) { }
+  constructor(public dialog: MatDialog, private basketTradeService: BasketTradeService, private userService: UserService, private utilityService: UtilitiesService,
+    @Inject(JourneyInfoComponent) private parentComponent: JourneyInfoComponent, private brokerageService: BrokerageService, private basketService: BasketsService,
+    private activatedRoute: ActivatedRoute, private router: Router) {
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    }
 
   ngAfterViewInit(id = null) {
 
@@ -105,6 +112,11 @@ export class OrdersComponent implements OnInit {
   async ngOnInit(id = null) {
     // Initialize dataSource and load data
     // this.dataSource.paginator = this.paginator.first;
+
+    const params = this.activatedRoute.snapshot.queryParams;
+    if(params && params['transactionId']) {
+      this.routeTransactionId = params['transactionId']
+    }
 
     this.basketId = id || this.parentComponent.getBasketId();
     this.basket = await this.parentComponent.getBasket()
@@ -363,4 +375,7 @@ export class OrdersComponent implements OnInit {
 
  }
 
+  getSelectedTab() {
+    return this.routeTransactionId ? 1 : 0
+  }
 }

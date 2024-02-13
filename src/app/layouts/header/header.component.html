@@ -26,7 +26,7 @@
                       fontIcon="chat"
                     ></mat-icon>
             </button>
-            <button mat-icon-button [matMenuTriggerFor]="menu" class="notification-btn">
+            <button mat-icon-button [matMenuTriggerFor]="menu" class="{{newNotificationCount > 0 ? 'notification-btn-new-message' : 'notification-btn'}} ">
                 <!-- <img src="/assets/images/notification-icon.svg" /> -->
                 <mat-icon
                 class="material-symbols-rounded text-dark"
@@ -44,7 +44,7 @@
                     <li class="unread" *ngFor="let notification of notifications">
                         <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px" (click)="notificationNavigate(notification)">
                             <img src="{{notification.publisher_image}}" class="profile-img" />
-                            <p><span class="font-600">{{notification.publisher_name}}</span> {{notification.subject}}.  {{notification.notification_data.substring(0, 75) + (notification.notification_data.length > 75 ? '...' : '')}}</p>
+                            <p><img src="assets/images/new-added-badge.svg" *ngIf="!notification.notification_viewed"/><span class="font-600"> {{notification.publisher_name}}</span> {{notification.subject}}.  {{notification.notification_data.substring(0, 75) + (notification.notification_data.length > 75 ? '...' : '')}}</p>
                         </div>
                     </li>
                 </ul>
@@ -58,7 +58,7 @@
                     <mat-icon>expand_more</mat-icon>
                 </div>
             </button>
-            
+
             <mat-menu #beforeMenu="matMenu" xPosition="before">
                 <button mat-menu-item (click)="myProfile()">
                     <mat-icon>person</mat-icon>
@@ -122,6 +122,3 @@
     </ul>
 
 </mat-toolbar>
-
-
-

@@ -7,7 +7,7 @@
   </div>
   <div mat-dialog-content class="no-padding-bottom">
     <div *ngFor="let item of data.details">
-      <b>{{item.key}}:</b>
+      <b>{{(item.key && item.key != ' ') ? item.key + ':' : ''}}</b>
       <br>
       <p *ngIf="!item.type">{{item.value}}</p>
       <pre *ngIf="item.type == 'list'">{{item.value}}</pre>
