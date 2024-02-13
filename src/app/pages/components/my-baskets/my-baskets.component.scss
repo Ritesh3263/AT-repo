@@ -83,3 +83,17 @@
   font-size: 14px;
   font-weight: 600;
 }
+
+.account-image {
+    vertical-align: middle;
+
+    cursor: pointer;
+
+    &:hover {
+
+        img {
+            border: 1px solid var(--PRIMARY_COLOR);
+            border-radius: 50%;
+        }
+    }
+}
