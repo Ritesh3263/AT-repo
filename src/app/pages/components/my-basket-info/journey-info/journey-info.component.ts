@@ -37,19 +37,19 @@ export class JourneyInfoComponent {
     })
   }
 
-  public async getBasket() {
+  public async getBasket(invalidateCache=false) {
     while(this.isLoading) {
       await this.wait(10)
     }
 
     this.isLoading = true;
 
-    if(this.basket && this.basket.id) {
+    if(this.basket && this.basket.id && !invalidateCache) {
       this.isLoading = false;
       return this.basket;
     }
 
-    let data = await this.basketService.getBasketDetails(this.basketId)
+    let data = await this.basketService.getBasketDetails(this.basketId, invalidateCache)
     this.isLoading = false;
     if(data.error || !data.basket) {
       this.utilityService.displayInfoMessage(data.error, true)

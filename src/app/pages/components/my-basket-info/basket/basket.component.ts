@@ -102,13 +102,8 @@ export class BasketComponent {
 
   async ngOnInit(id = null) {
     this.basketId = id || this.parentComponent.getBasketId();
-    let data = await this.basketService.getBasketDetails(this.basketId);
-    if(data.error || !data.basket) {
-      this.utilityService.displayInfoMessage(data.error, true)
-    }
-    else {
-      this.basket = data.basket;
-    }
+    this.basket = await this.parentComponent.getBasket()
+
     // parse querystring for input event information
     const params = this.activatedRoute.snapshot.queryParams;
     if(params && params['event']) {
@@ -150,6 +145,11 @@ export class BasketComponent {
     }
   }
 
+  async reloadBasketData() {
+    this.table.getData(true);
+    this.basket = await this.parentComponent.getBasket(true)
+  }
+
   addSymbols() {
     let dialogRef= this.dialog.open(EditSymbolsComponent, {
       panelClass: 'custom-modal',
@@ -159,7 +159,7 @@ export class BasketComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result && result.success) {
-        this.table.getData(true);
+        this.reloadBasketData()
       }
     });
   }
@@ -172,7 +172,7 @@ export class BasketComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result && result.success) {
-        this.table.getData(true);
+        this.reloadBasketData()
       }
     });
   }

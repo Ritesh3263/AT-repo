@@ -91,7 +91,6 @@ export class EditSymbolsComponent {
         this.utilityService.displayInfoMessage(data.error, true)
       }
       else {
-        this.resetAutocomplete()
         if(data && data.symbols)
           this.concatTickers(data.symbols)
         this.dataSource = new MatTableDataSource<any>(this.data.tickers)
@@ -109,6 +108,8 @@ export class EditSymbolsComponent {
           if(invalidSymbols.length)
             this.utilityService.displayInfoMessage("Some symbols are invalid: " + invalidSymbols.toString(), true, 8000)
         }
+
+        this.resetAutocomplete()
       }
     })
   }
@@ -133,6 +134,9 @@ export class EditSymbolsComponent {
     }
     const filterValue = typeof value == 'string' ? value.toLowerCase() : value.symbol.toLowerCase();
     let results = await this.basketService.getAllSymbols(0, 10, filterValue);
+    if(!(results.symbols && results.symbols.length)) {
+      this.utilityService.displayInfoMessage("Some symbols are invalid: " + value.toString(), true, 8000)
+    }
     return results.symbols;
   }
 
