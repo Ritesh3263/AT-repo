@@ -9,6 +9,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { UserService } from 'src/app/services/user.service';
 import { UtilitiesService } from 'src/app/services/utilities.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { InfoModalComponent } from 'src/app/layouts/info-modal/info-modal.component';
 
 export interface PeriodicElement {
   tickersymbol: string;
@@ -87,7 +88,7 @@ export class ConfirmTradeComponent implements OnInit, OnDestroy {
 
   constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<ConfirmTradeComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private basketTradeService: BasketTradeService, private matSnackBar: MatSnackBar, private webSocketService: WebsocketService, private userService: UserService, private utilityService: UtilitiesService) {
-    this.loadUserDetails();    
+    this.loadUserDetails();
     if (this.data) {
       if (!this.data.transaction_id) {  // based on transaction_id i am checking new trade or existing trade
         this.displayedColumns = ['tickersymbol', 'shares', 'currentprice', 'investaccount'];
@@ -98,7 +99,7 @@ export class ConfirmTradeComponent implements OnInit, OnDestroy {
         this.data.cash_balance = this.data.cash_balance + this.investedAmount;
       }
       if(this.data.symbols && this.data.symbols.length > 0){
-      
+
         this.dataSource = new MatTableDataSource<any>(this.data.symbols);
         this.originalData = JSON.parse(JSON.stringify([...this.data.symbols]));
         this.data.symbols.forEach((element: any) => {
@@ -154,6 +155,12 @@ export class ConfirmTradeComponent implements OnInit, OnDestroy {
     this.basketTradeService.setOrders(input, this.data.linkedAccount.broker_code).then((data) => {
       this.showSpinner = false;
       if (data && data.msg) {
+        // Show Info Modal for success message
+        let dialogRef= this.dialog.open(InfoModalComponent, {
+          panelClass: 'custom-modal',
+          disableClose: true,
+          data: {header: "Order Submitted", details: [{key: ' ', value: "Please allow a few minutes for your order to process.  You will recieve a notification once your order has completed."}]}
+        });
         this.dialogRef.close(true);
         this.utilityService.displayInfoMessage(data.msg);
       } else {

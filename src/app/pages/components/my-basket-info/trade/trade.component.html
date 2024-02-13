@@ -277,7 +277,7 @@
                                 {{ Number(element.invested) + element.new_invested | currency:'USD':'symbol':'1.2-2' }}
                             </td>
                             <td mat-footer-cell *matFooterCellDef class="right-align-cell"> {{
-                                (calculateTotal('new_invested') | currency:'USD':'symbol':'1.2-2') }} </td>
+                                (Number(invested) + calculateTotal('new_invested') | currency:'USD':'symbol':'1.2-2') }} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="investedhide">

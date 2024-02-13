@@ -75,7 +75,7 @@ export class HeaderComponent {
   async notificationNavigate(notification:any) {
     // Set Notification As Viewed
     let viewed = await this.notificationService.setUserNotificationViewed(notification.notification_event_id);
-    this.getNofications();
+    this.getNofications()
     if(notification.action == 'BASKET_EDIT' && notification.basket_id) {
       this.utilitiesService.navigate(`baskets/${notification.basket_id}/basket?event=${btoa(JSON.stringify({timestamp: notification.timestamp}))}`)
     }
@@ -105,15 +105,13 @@ export class HeaderComponent {
     this.notificationPollingInitiated = true
     while(1) {
       await this.getNofications()
-      await this.utilitiesService.sleep(1000 * 30) // Poll new notifications every 30 seconds
+      await this.utilitiesService.sleep(1000 * 20) // Poll new notifications every 20 seconds
     }
   }
 
   async getNofications() {
     let newNotifications = (await this.notificationService.getUserNewNotificationCount()).count
-    if(newNotifications && newNotifications.new_notification_count) {
-      this.newNotificationCount = newNotifications.new_notification_count
-    }
+    this.newNotificationCount = newNotifications.new_notification_count || 0;
     let data = await this.notificationService.getUserNotifications({pageNumber: 0, pageSize: 10}, 0)
     if(data && data.notifications) {
       this.notifications = data.notifications
