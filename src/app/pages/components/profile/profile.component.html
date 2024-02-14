@@ -44,7 +44,7 @@
                                 <button mat-flat-button color="primary" (click)="selectFile()">
                                     Change
                                 </button>
-                                <button mat-stroked-button  class="secondary-btn">
+                                <button mat-stroked-button  class="secondary-btn" (click)="removeAvatar()">
                                     Remove
                                 </button>
                             </div>
@@ -85,7 +85,7 @@
         <button mat-stroked-button mat-dialog-close  class="secondary-btn">
             Cancel
         </button>
-        <button mat-flat-button color="primary" [disabled]="isLoading" (click)="updateProfile()">
+        <button mat-flat-button color="primary" [disabled]="isLoading" (click)="updateProfile(true)">
             Save
         </button>
     </div>

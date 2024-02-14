@@ -42,7 +42,7 @@ export class SignUpComponent {
       }
       else {
         // TODO: Better Login Error Messaging
-        this.utilityService.displayInfoMessage("This link has expired.  Please request another password reset.", true);
+        this.utilityService.displayInfoMessage("This link has expired.  Please request another signup link.", true);
       }
     }
   }
@@ -67,11 +67,11 @@ export class SignUpComponent {
     let result = await this.userService.signup(this.signupToken, this.signupForm.getRawValue())
     if(result && result.success && !result.error) {
       this.utilityService.displayInfoMessage('Registration Completed!');
-      this.brokerageService.getSync().then((data: any) => {}); //  (TODO--Multiple brokerage handling) 
+      this.brokerageService.getSync().then((data: any) => {}); //  (TODO--Multiple brokerage handling)
       this.router.navigate(['/baskets']);
     }
     else {
-      this.utilityService.displayInfoMessage(JSON.stringify(result.error), true);
+      this.utilityService.displayInfoMessage(JSON.stringify(result.message || result.error), true);
     }
   }
 }
