@@ -110,12 +110,15 @@ export class HeaderComponent {
   }
 
   async getNofications() {
-    let newNotifications = (await this.notificationService.getUserNewNotificationCount()).count
-    this.newNotificationCount = newNotifications.new_notification_count || 0;
-    let data = await this.notificationService.getUserNotifications({pageNumber: 0, pageSize: 10}, 0)
-    if(data && data.notifications) {
-      this.notifications = data.notifications
+    try{
+      let newNotifications = (await this.notificationService.getUserNewNotificationCount()).count
+      this.newNotificationCount = newNotifications.new_notification_count || 0;
+      let data = await this.notificationService.getUserNotifications({pageNumber: 0, pageSize: 10}, 0)
+      if(data && data.notifications) {
+        this.notifications = data.notifications
+      }
     }
+    catch(e) {}
   }
 
 }

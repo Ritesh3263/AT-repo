@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { UserService } from 'src/app/services/user.service';
 import { UtilitiesService } from 'src/app/services/utilities.service';
 
@@ -11,7 +11,6 @@ import { UtilitiesService } from 'src/app/services/utilities.service';
 })
 export class ProfileComponent {
   user: any = {}
-  showSpinner: boolean = false;
   isLoading: boolean = false;
   form: FormGroup = new FormGroup('')
   formSchema = [
@@ -24,7 +23,7 @@ export class ProfileComponent {
     { key: 'tradingFullTime', enableUpdate: true  }
   ]
   initialized: boolean = false;
-  selectedFile!: File;
+  selectedFile!: any;
   selectedFileURL: any
 
   jobRoles: string[] = [
@@ -55,7 +54,7 @@ export class ProfileComponent {
     'Education and training'
   ]
 
-  constructor(private userService: UserService, private utilityService: UtilitiesService) { };
+  constructor(private userService: UserService, private utilityService: UtilitiesService, private dialogRef: MatDialogRef<ProfileComponent>) { };
 
   async ngOnInit() {
     await this.loadUserDetails();
@@ -70,14 +69,18 @@ export class ProfileComponent {
     this.form = this.utilityService.initalizeForm(this.formSchema, this.user)
   }
 
-  async updateProfile() {
-    this.showSpinner = this.isLoading = true;
+  async updateProfile(closeModal: boolean, removeProfilePhoto = false) {
+    this.isLoading = true;
 
-    let results = await this.userService.updateProfile(this.form.getRawValue(), this.selectedFile)
+    let results = await this.userService.updateProfile({...this.form.getRawValue(), removeProfilePhoto: removeProfilePhoto}, this.selectedFile)
     await this.loadUserDetails(true);
     this.utilityService.displayInfoMessage(results && results.success ? 'Profile updated successfully' : 'Unable to update profile, please try again.', !(results && results.success))
 
-    this.showSpinner = this.isLoading = false;
+    this.isLoading = false;
+
+    if(closeModal) {
+      this.dialogRef.close({success: true})
+    }
   }
 
   async onFileSelected(event: any) {
@@ -94,5 +97,11 @@ export class ProfileComponent {
 
   async selectFile() {
     document.getElementById('fileInput')?.click();
+  }
+
+  async removeAvatar() {
+    this.selectedFile = null;
+    this.selectedFileURL = null;
+    await this.updateProfile(false, true);
   }
 }
