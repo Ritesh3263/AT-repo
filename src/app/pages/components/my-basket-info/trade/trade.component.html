@@ -107,9 +107,9 @@
                         </span>
                         <span fxFlex fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100" fxLayout="row"
                             fxLayoutAlign="end center" fxLayoutGap="10px" class="form-group pt-md-15 pt-sm-15">
-                            <button mat-flat-button class="custom-button-disabled"
+                            <!-- <button mat-flat-button class="custom-button-disabled"
                                 [disabled]="isReBalance?isReBalance:!isFormValid()"
-                                (click)="calculateDialog()">Calculate</button>
+                                (click)="calculateDialog()">Calculate</button> -->
                             <div matTooltip="If you have active shares in the bellow table then only this button is enabled"
                                 matTooltipClass="custom-tooltip"
                                 [matTooltipDisabled]="!isClosePositionsButtonDisabledOrEnabled">
@@ -125,17 +125,29 @@
                         </span>
                     </form>
 
-                </div>
-                <p class="pt-10" *ngIf="selection.selected.length >0">*Equal Distribution: Please select the symbols for
-                    an equal investment and enter the percentage/amount.</p>
-                <h3 class="pt-10" *ngIf="selection.selected.length<=0">*Please select the symbols first.</h3>
+                </div>                <!-- <p class="pt-10" *ngIf="this.form.controls['investmentType'].value === 'Equal Distribution' && this.form.controls['amount'].value ">{{this.form.controls['amount'].value | currency:'USD':'symbol':'1.2-2'}} will be equally invested into each of the selected {{selection.selected.length}} stocks.</p> -->
+
 
                 <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="trade-info"
-                    *ngIf="form.controls['amount'].value">
+                    *ngIf="(form.controls['amount'].value || selection.selected.length<=0 || closePositionsButtonClicked ) && form.controls['amount'].value <= cash_balance">
                     <img src="/assets/images/alert-info-icon.svg" />
-                    <p class="no-margin">$ {{ form.controls['amount'].value }} will be equally invested into each of the
-                        selected {{selection.selected.length}} stocks.</p>
+                    <p class="no-margin" *ngIf="selection.selected.length<=0">*Please select the symbols first.</p>
+                    <p class="no-margin" *ngIf="this.form.controls['investmentType'].value === 'Equal Distribution'"> {{ form.controls['amount'].value | currency:'USD':'symbol':'1.2-2'}} will be equally invested into each of the selected {{selection.selected.length}} stocks.</p>
+                    <p class="no-margin" *ngIf="this.form.controls['investmentType'].value === 'Investment Per stock'"> {{ form.controls['amount'].value | currency:'USD':'symbol':'1.2-2'}}  amount will be invested into each of the {{selection.selected.length}} stocks.</p>
+                    <p class="no-margin" *ngIf="this.form.controls['investmentType'].value === 'Scale Up'">An additional amount of {{ form.controls['amount'].value | currency:'USD':'symbol':'1.2-2'}} will be invested into each of the selected {{selection.selected.length}} stocks.</p>
+                    <p class="no-margin" *ngIf="this.form.controls['investmentType'].value === 'Scale Down'">The {{selection.selected.length}} selected stocks will be reduced by {{ form.controls['amount'].value | currency:'USD':'symbol':'1.2-2'}}.</p>
+                    <p class="no-margin" *ngIf="closePositionsButtonClicked">The selected stocks will be closed.</p> 
                 </div>
+                <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="trade-warn"
+                *ngIf="form.controls['percent'].value && form.controls['percent'].value > 100">
+                <img src="/assets/images/alert-info-icon.svg" />
+                <p class="no-margin"  > Exceeds 100 %</p>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="trade-warn"
+                *ngIf="form.controls['amount'].value && form.controls['amount'].value > cash_balance">
+                <img src="/assets/images/alert-info-icon.svg" />
+                <p class="no-margin" > Exceeds the cash balance {{cash_balance | currency:'USD':'symbol':'1.2-2'}}</p>
+            </div>
                 <!-- <div *ngIf="showSpinner" class="spinner-wrapper">
             <app-spinner></app-spinner>
           </div> -->
@@ -268,7 +280,7 @@
                             </td>
                             <!-- <td mat-footer-cell *matFooterCellDef>  </td> -->
                             <td mat-footer-cell *matFooterCellDef class="right-align-cell"> {{
-                                (calculateTotal('invested') | currency:'USD':'symbol':'1.2-2') }} </td>
+                                (invested | currency:'USD':'symbol':'1.2-2') }} </td>
                         </ng-container>
                         <ng-container *ngIf="isDisplayColumn" matColumnDef="new_invested">
                             <th mat-header-cell *matHeaderCellDef class="right-align-cell"> New </th>
@@ -315,7 +327,7 @@
                 <div *ngIf="isPositions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px"
                     class="pt-15 pb-15">
                     <button mat-stroked-button class="secondary-btn"  (click)="cancel()">Cancel</button>
-                    <button mat-flat-button class="custom-button-disabled" [disabled]="!this.isDisplayColumn" (click)="confirmTrade()">Submit</button>
+                    <button mat-flat-button class="custom-button-disabled" [disabled]="!this.isDisplayColumn " (click)="confirmTrade()">Submit</button>
                 </div>
             </div>
         </div>
