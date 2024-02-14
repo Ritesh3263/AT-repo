@@ -50,7 +50,7 @@
                 </ul>
             </mat-menu>
             <div fxLayout="column" fxLayoutAlign="center center" class="avatar">
-                {{user.firstName ? (user.firstName[0] + user.lastName[0]) : ""}}
+                {{user.firstName ? (user.firstName[0] + (user.lastName ? user.lastName[0] : "")) : ""}}
             </div>
             <button mat-button [matMenuTriggerFor]="beforeMenu" class="profile-menu">
                 <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
