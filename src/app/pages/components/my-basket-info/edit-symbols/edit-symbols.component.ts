@@ -19,6 +19,8 @@ export class EditSymbolsComponent {
 
   lookupControl!: any;
   filteredOptions!: Observable<any[]>;
+  replaceTickers: boolean = false;
+  isLoading: boolean = false;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private basketService: BasketsService, private utilityService: UtilitiesService, private dialogRef: MatDialogRef<EditSymbolsComponent>) {
     this.dataSource = new MatTableDataSource<any>(data.tickers)
@@ -32,14 +34,14 @@ export class EditSymbolsComponent {
   resetAutocomplete() {
     this.lookupControl.setValue('')
     this.filteredOptions = this.lookupControl.valueChanges
-    .pipe(
-      startWith(''),
-      debounceTime(400),
-      distinctUntilChanged(),
-      switchMap(val => {
-        return this._filter(this.lookupControl.getRawValue())
-      })
-    );
+      .pipe(
+        startWith(''),
+        debounceTime(400),
+        distinctUntilChanged(),
+        switchMap(val => {
+          return this._filter(this.lookupControl.getRawValue())
+        })
+      );
   }
 
   deleteTicker(index: number) {
@@ -89,7 +91,6 @@ export class EditSymbolsComponent {
         this.utilityService.displayInfoMessage(data.error, true)
       }
       else {
-        this.resetAutocomplete()
         if(data && data.symbols)
           this.concatTickers(data.symbols)
         this.dataSource = new MatTableDataSource<any>(this.data.tickers)
@@ -107,12 +108,16 @@ export class EditSymbolsComponent {
           if(invalidSymbols.length)
             this.utilityService.displayInfoMessage("Some symbols are invalid: " + invalidSymbols.toString(), true, 8000)
         }
+
+        this.resetAutocomplete()
       }
     })
   }
 
   updateBasket() {
-    this.basketService.editSymbols(this.data.basket.id, this.data.tickers, this.data.mode == 'ADD' ? 'PATCH' : 'DELETE').then((data) => {
+    this.isLoading = true;
+    this.basketService.editSymbols(this.data.basket.id, this.data.tickers, this.data.mode == 'ADD' ? 'PATCH' : 'DELETE', this.replaceTickers).then((data) => {
+      this.isLoading = false;
       if(data.error || !data.success) {
         this.utilityService.displayInfoMessage(data.error, true)
       }
@@ -129,6 +134,9 @@ export class EditSymbolsComponent {
     }
     const filterValue = typeof value == 'string' ? value.toLowerCase() : value.symbol.toLowerCase();
     let results = await this.basketService.getAllSymbols(0, 10, filterValue);
+    if(!(results.symbols && results.symbols.length)) {
+      this.utilityService.displayInfoMessage("Some symbols are invalid: " + value.toString(), true, 8000)
+    }
     return results.symbols;
   }
 

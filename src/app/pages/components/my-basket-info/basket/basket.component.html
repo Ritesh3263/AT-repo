@@ -6,14 +6,16 @@
         <span>/</span>
         <a routerLink="/baskets" class="bold">Baskets</a>
         <span>/</span>
-        <a class="bold">Basket / Symbols</a>
+        <a class="bold">{{basket.name}} / Symbols</a>
     </div>
     <div class="primary-sub-section">
 
         <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="pb-10">
             <h1 class="mat-h1 font-700" *ngIf="!isEditMode">{{basket.name}}</h1>
-            <a *ngIf="basket.is_owner && basket.active && !isEditMode" fxLayout="column" fxLayoutAlign="center center"
-                (click)="enterEditMode()"><img src="/assets/images/edit-icon.svg" class="h1-image"/></a>
+            <!-- <a *ngIf="basket.is_owner && basket.active && !isEditMode" fxLayout="column" fxLayoutAlign="center center"
+                (click)="enterEditMode()"><img src="/assets/images/edit-icon.svg" class="h1-image"/></a> -->
+                <mat-icon *ngIf="basket.is_owner && basket.active && !isEditMode"  class="!text-base text-primary"  (click)="enterEditMode()" >edit</mat-icon>
+
             <div *ngIf="isEditMode" fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
                 <span fxFlex="50">
                     <mat-form-field appearance="outline" class="no-error">
@@ -21,7 +23,7 @@
                     </mat-form-field>
                 </span>
                 <button mat-icon-button color="primary" (click)="exitEditMode()">
-                    <mat-icon>save</mat-icon>
+                    <mat-icon class=" text-primary">save</mat-icon>
                 </button>
             </div>
         </span>
@@ -30,8 +32,10 @@
                 <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
                     <span>Description : </span>
                     <span *ngIf="!isDescEditMode" class="font-600">{{basket.description}}</span>
-                    <a *ngIf="basket.is_owner && basket.active && !isDescEditMode" fxLayout="column" fxLayoutAlign="center center"
-                        (click)="enterDescEditMode()"><img src="/assets/images/edit-icon.svg" /></a>
+                    <!-- <a *ngIf="basket.is_owner && basket.active && !isDescEditMode" fxLayout="column" fxLayoutAlign="center center"
+                        (click)="enterDescEditMode()"><img src="/assets/images/edit-icon.svg" /></a> -->
+                        <mat-icon  *ngIf="basket.is_owner && basket.active && !isDescEditMode" class="!text-base text-primary" (click)="enterDescEditMode()" >edit</mat-icon>
+
                     <div *ngIf="isDescEditMode" fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
                         <span fxFlex="50">
                             <mat-form-field appearance="outline" class="no-error">
@@ -39,7 +43,7 @@
                             </mat-form-field>
                         </span>
                         <button mat-icon-button color="primary" (click)="exitDescEditMode()">
-                            <mat-icon>save</mat-icon>
+                            <mat-icon class=" text-primary">save</mat-icon>
                         </button>
                     </div>
                 </span>
@@ -50,8 +54,10 @@
                 <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
                     <span>Tags : </span>
                     <span *ngIf="!isTagsEditMode" class="font-600">{{basket.tags}}</span>
-                    <a *ngIf="basket.is_owner && basket.active && !isTagsEditMode" fxLayout="column" fxLayoutAlign="center center"
-                        (click)="enterTagsEditMode()"><img src="/assets/images/edit-icon.svg" /></a>
+                    <!-- <a *ngIf="basket.is_owner && basket.active && !isTagsEditMode" fxLayout="column" fxLayoutAlign="center center"
+                        (click)="enterTagsEditMode()"><img src="/assets/images/edit-icon.svg" /></a> -->
+                        <mat-icon  *ngIf="basket.is_owner && basket.active && !isTagsEditMode" class="!text-base text-primary" (click)="enterTagsEditMode()" >edit</mat-icon>
+
                     <div *ngIf="isTagsEditMode" fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
                         <span fxFlex="50">
                             <mat-form-field appearance="outline" class="no-error">
@@ -59,20 +65,21 @@
                             </mat-form-field>
                         </span>
                         <button mat-icon-button color="primary" (click)="exitTagsEditMode()">
-                            <mat-icon>save</mat-icon>
+                            <mat-icon class=" text-primary">save</mat-icon>
                         </button>
                     </div>
                 </span>
             </div>
             <div fxFlex.sm="100" fxFlex.xs="100" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px"
                 class="form-group pt-sm-15">
-                <button mat-stroked-button color="primary" (click)="cloneBasket()" >Clone Basket</button>
-                <button mat-stroked-button color="primary" (click)="deleteBasket()" *ngIf="basket.is_owner && basket.active">Delete Basket</button>
+                <button mat-stroked-button class="secondary-btn" (click)="cloneBasket()" >Clone Basket</button>
+                <button mat-stroked-button class="primary-btn" (click)="deleteBasket()" *ngIf="basket.is_owner && basket.active">Delete Basket</button>
             </div>
         </div>
     </div>
     <div class="pl-20 pr-20">
-        <h1 class="mat-h1 font-700 pt-15 mb-0">Symbols</h1>
+        <h1 class="mat-h1 font-700 pt-15 mb-0" style="display: inline-block;" >Symbols</h1>
+        <h1 class="mat-h1 font-700 pt-15 mb-0" style="display: inline-block; float: right;" >Total Symbols: {{basket.active_symbols_count}}</h1>
         <div fxLayout="row wrap" fxLayoutAlign="start center" class="pt-15 form-row">
 
             <span fxFlex="40" fxFlex.md="50" fxFlex.sm="50" fxFlex.xs="100" class="form-group mb-sm-15">
@@ -88,15 +95,16 @@
                     </div>
                 </mat-menu>
                 -->
-                <button mat-stroked-button color="primary" (click)="addSymbols()" *ngIf="basket.is_owner && basket.active">Add Symbols</button>
+                <button mat-stroked-button class="primary-btn" (click)="addSymbols()" *ngIf="basket.is_owner && basket.active">Add Symbols</button>
             </span>
 
             <span fxFlex fxFlex.xs="100" fxLayout="row" fxLayoutAlign="end center" class="form-group">
-                <button mat-stroked-button color="primary" (click)="deleteSymbols()" *ngIf="basket.is_owner && basket.active">Delete Symbols</button>
+                <button mat-stroked-button class="primary-btn" (click)="deleteSymbols()" *ngIf="basket.is_owner && basket.active">Delete Symbols</button>
             </span>
         </div>
 
-        <app-table [columnDetails]="columnDetails" [dataCallback]="getBasketSymol" [dataCallbackOptionalParameter]="basketId" [apiDataKey]="'symbols'" [rowClickCallback]="widgetDialog" [sortColumn]="'timestamp'" [sortMode]="'desc'" [parentComponent]="parentComponent"></app-table>
+        <app-table [columnDetails]="columnDetails" [dataCallback]="getBasketSymol" [dataCallbackOptionalParameter]="basketId" [apiDataKey]="'symbols'" [rowClickCallback]="widgetDialog"
+                   [sortColumn]="'timestamp'" [sortMode]="'desc'" [parentComponent]="parentComponent" [getRowHighlight]="getRowHighlight" [mainComponent]="this"></app-table>
 
     </div>
 </div>

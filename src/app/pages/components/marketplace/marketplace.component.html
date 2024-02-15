@@ -5,7 +5,7 @@
     <span>/</span>
     <a class="bold">Marketplace</a>
 </div>
-<div class="basket-wrapper">
+<div class="main_wrapper basket-wrapper bg-body text-dark" >
     <div fxLayout fxLayoutAlign="end center" class="mt-10">
         <mat-form-field appearance="outline" fxFlex="25" fxFlex.sm="40" fxFlex.xs="100">
             <input matInput placeholder="Search Marketplace" [(ngModel)]="search" (ngModelChange)="getBaskets()">
@@ -58,7 +58,10 @@
                 </div>
                 <div class="basket-profile" fxLayout="row" fxLayoutAlign="space-between center">
                     <div fxFlex="initial" fxLayout="column" fxLayoutAlign="center center" class="profile-icon" (click)="openOwnerProfile(basket)">
-                        <img src="{{basket.owner_image}}" />
+                      <img *ngIf='basket.owner_image' src="{{basket.owner_image}}" />
+                      <div *ngIf='!basket.owner_image' fxLayout="column" fxLayoutAlign="center center" class="avatar">
+                        {{basket.owner_initials}}
+                      </div>
                     </div>
                     <div fxFlex fxLayout="row" fxLayoutAlign="start stretch" class="profile-info-border">
                         <div class="profile-info" fxLayout="column" fxLayoutAlign="start center">

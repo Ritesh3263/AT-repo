@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Renderer2, ViewChild, Inject } from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material/table';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { Router } from "@angular/router";
 import { MatDialog } from '@angular/material/dialog';
 import { CloneBasketComponent } from '../clone-basket/clone-basket.component';
 import { DeleteBasketComponent } from '../delete-basket/delete-basket.component';
@@ -36,10 +36,12 @@ export class BasketComponent {
   columnDetails: any = [];
   defaultSort: any = {sortColumn: 'timestamp', sortMode: 'desc'};
   @ViewChild(TableComponent) table!:TableComponent;
+  public notificationEvent: any;
 
   constructor(@Inject(JourneyInfoComponent) public parentComponent: JourneyInfoComponent, private renderer: Renderer2, public dialog: MatDialog, private basketService: BasketsService, private activatedRoute: ActivatedRoute,
-              private utilityService: UtilitiesService, private adminService: AdminService) {
+              private utilityService: UtilitiesService, private adminService: AdminService, private router: Router) {
     this._setColumnDetails()
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
   _setColumnDetails() {
@@ -72,7 +74,7 @@ export class BasketComponent {
       {
         label: 'Change %',
         key: 'changepercent',
-        type: 'currency'
+        type: 'percentage'
       },
       {
         label: 'Added At',
@@ -100,12 +102,12 @@ export class BasketComponent {
 
   async ngOnInit(id = null) {
     this.basketId = id || this.parentComponent.getBasketId();
-    let data = await this.basketService.getBasketDetails(this.basketId);
-    if(data.error || !data.basket) {
-      this.utilityService.displayInfoMessage(data.error, true)
-    }
-    else {
-      this.basket = data.basket;
+    this.basket = await this.parentComponent.getBasket()
+
+    // parse querystring for input event information
+    const params = this.activatedRoute.snapshot.queryParams;
+    if(params && params['event']) {
+      this.notificationEvent = JSON.parse(atob(params['event']))
     }
   }
 
@@ -143,6 +145,11 @@ export class BasketComponent {
     }
   }
 
+  async reloadBasketData() {
+    this.table.getData(true);
+    this.basket = await this.parentComponent.getBasket(true)
+  }
+
   addSymbols() {
     let dialogRef= this.dialog.open(EditSymbolsComponent, {
       panelClass: 'custom-modal',
@@ -152,7 +159,7 @@ export class BasketComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result && result.success) {
-        this.table.getData(true);
+        this.reloadBasketData()
       }
     });
   }
@@ -165,7 +172,7 @@ export class BasketComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result && result.success) {
-        this.table.getData(true);
+        this.reloadBasketData()
       }
     });
   }
@@ -178,7 +185,7 @@ export class BasketComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result && result.success && result.id) {
-        this.utilityService.navigate(`/my-basket-info/${result.id}/basket`)
+        this.utilityService.navigate(`/baskets/${result.id}/basket`)
         this.ngOnInit(result.id);
       }
     });
@@ -253,5 +260,21 @@ export class BasketComponent {
         this.utilityService.displayInfoMessage(`Symbols Added to basket ${basket.name}`)
       }
     })
+  }
+
+  getRowHighlight(mainComponent: any, row:any) {
+    if(mainComponent && mainComponent.notificationEvent && mainComponent.notificationEvent.timestamp) {
+      let notificationTime = mainComponent.notificationEvent.timestamp.substring(0,10)
+      let updatedTime = row.timestamp.substring(0,10)
+      let deletedTime = row.deleted_at ? row.deleted_at.substring(0,10) : null
+
+      if(notificationTime == deletedTime)
+        return 'removed';//'highlight-red'
+      if(notificationTime == updatedTime)
+        return  'new';// 'highlight-green'
+
+    }
+
+    return ''
   }
 }

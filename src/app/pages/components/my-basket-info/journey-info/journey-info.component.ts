@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
 import { BasketsService } from 'src/app/services/baskets.service';
+import { UtilitiesService } from 'src/app/services/utilities.service';
 
 @Component({
   selector: 'app-journey-info',
@@ -10,10 +11,11 @@ import { BasketsService } from 'src/app/services/baskets.service';
 })
 export class JourneyInfoComponent {
   basketId: number = 0;
-  basket : any = {
+  public basket : any = {
     public: false
   };
-  constructor(private activatedRoute: ActivatedRoute, private basketService: BasketsService) {
+  isLoading: boolean = false;
+  constructor(private activatedRoute: ActivatedRoute, private basketService: BasketsService, private utilityService: UtilitiesService) {
     this.activatedRoute.params.forEach((param) => {
       for(let key in param) {
         if(key == 'id') {
@@ -23,19 +25,40 @@ export class JourneyInfoComponent {
     })
   }
 
-  ngOnInit() {
-    this.getBasket();
+  async ngOnInit() {
+    await this.getBasket();
   }
 
-  public getBasket() {
-    this.basketService.getBasketDetails(this.basketId).then((data) => {
-      if(data.error || !data.basket) {
-        //this.utilityService.displayInfoMessage(data.error, true)
-      }
-      else {
-        this.basket = data.basket;
-      }
+  async wait(ms: number) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({})
+      }, ms)
     })
+  }
+
+  public async getBasket(invalidateCache=false) {
+    while(this.isLoading) {
+      await this.wait(10)
+    }
+
+    this.isLoading = true;
+
+    if(this.basket && this.basket.id && !invalidateCache) {
+      this.isLoading = false;
+      return this.basket;
+    }
+
+    let data = await this.basketService.getBasketDetails(this.basketId, invalidateCache)
+    this.isLoading = false;
+    if(data.error || !data.basket) {
+      this.utilityService.displayInfoMessage(data.error, true)
+    }
+    else {
+      this.basket = data.basket;
+    }
+
+    return this.basket;
   }
 
   public getBasketId() {

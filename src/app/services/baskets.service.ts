@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class BasketsService {
-
+  currentBasket: any = {}
   constructor() { }
 
   getHeaders(method: string = "GET", body:any = null): RequestInit {
@@ -80,11 +80,15 @@ export class BasketsService {
     }
   }
 
-  async getBasketDetails(basketId: number): Promise<any> {
+  async getBasketDetails(basketId: number, reload = false): Promise<any> {
     try{
+      if(this.currentBasket && this.currentBasket.basket && this.currentBasket.basket.id && (this.currentBasket.basket.id == basketId) && !reload) {
+        return this.currentBasket;
+      }
+
       let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/basket/${basketId}`, this.getHeaders());
-      let data = await res.json();
-      return data;
+      this.currentBasket = await res.json();
+      return this.currentBasket;
     }
     catch(e: any) {
       return {error: e.message}
@@ -124,11 +128,10 @@ export class BasketsService {
     }
   }
 
-  async editSymbols(basketId: Number, tickers: any, method: string): Promise<any> {
+  async editSymbols(basketId: Number, tickers: any, method: string, replaceTickers: boolean = false): Promise<any> {
     try{
-      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/basket/${basketId}/symbols`, this.getHeaders(method, {tickers: tickers}));
-      let data = await res.json();
-      return data;
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/basket/${basketId}/symbols`, this.getHeaders(method, {tickers: tickers, replaceTickers: replaceTickers}));
+      return await res.json();
     }
     catch(e: any) {
       return {error: e.message}
@@ -168,11 +171,22 @@ export class BasketsService {
     }
   }
 
-  async setBasketAccount(basketId: number, accountId: number, method = 'PUT'): Promise<any> {
+  async setBasketAccount(basketId: number, accountNumber: number, method = 'PUT',brokerageId=null): Promise<any> {
     try{
-      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/basket/${basketId}/accounts/${accountId}`, this.getHeaders(method));
+
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/basket/${basketId}/accounts/${accountNumber}`, method == 'PUT'?this.getHeaders(method, {brokerageId : brokerageId}):this.getHeaders(method));
       let data = await res.json();
       return data;
+    }
+    catch(e: any) {
+      return {error: e.message}
+    }
+  }
+
+  async getAuditLog(basketId: Number, pageNumber: Number, pageSize: Number, sortColumn: string | null, sortMode: string|null): Promise<any> {
+    try{
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/basket/${basketId}/audit-log?pageNumber=${pageNumber}&pageSize=${pageSize}&sortColumn=${sortColumn}&sortMode=${sortMode}`, this.getHeaders());
+      return await res.json();
     }
     catch(e: any) {
       return {error: e.message}

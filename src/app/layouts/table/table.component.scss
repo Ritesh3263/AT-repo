@@ -42,3 +42,62 @@ th.mat-sort-header-sorted {
       }
   }
 }
+
+.search-input {
+  padding-right: 20px;
+}
+
+.highlight-green {
+  background-color: lightgreen !important;
+}
+
+.highlight-red {
+  background-color: crimson !important;
+}
+
+.trading-table {
+  .mat-mdc-cell {
+    &.positive-value {
+      color: #049501;
+    }
+
+    &.negative-value {
+      color: #D80032;
+    }
+  }
+}
+
+.trade_multiheader_table{
+  th.mat-mdc-header-cell.mdc-data-table__header-cell.cdk-header-cell{
+    border: 1px solid rgba(0, 0, 0, 0.20);;
+  }
+}
+
+.right-align-cell {
+  text-align: right !important;
+}
+
+.indicator_parent{
+  display: flex;
+  justify-content: space-between;
+  .indicators{
+      display: flex;
+      gap: 0.1rem;
+  }
+
+}
+
+.indicator_parent_define{
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  align-items: flex-start;
+  .indicators{
+      display: flex;
+      gap: 0.3rem;
+      align-items: center;
+  }
+
+}

@@ -58,6 +58,7 @@ export class EditUserComponent {
     ]
 
     if(this.data.user && this.data.user.roles) {
+      this.data.user.isSuperAdmin = this.data.user.roles.includes('super-admin')
       this.data.user.roles = JSON.parse(this.data.user.roles)[0]
     }
 

@@ -1,0 +1,16 @@
+<div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="breadcrumb with-bg with-border pt-10 pb-10 pl-20 pr-20">
+  <a routerLink="/" fxLayout="column" fxLayoutAlign="center center">
+    <img src="/assets/images/home-icon.svg" />
+  </a>
+  <span>/</span>
+  <a routerLink="/baskets" class="bold">Baskets</a>
+  <span>/</span>
+  <a class="bold">{{basket.name}} / History</a>
+</div>
+<div fxLayout="column" class="pt-10 pl-20 pr-20 pb-20">
+  <div fxLayout="row" fxLayoutAlign="start center" class="pb-15">
+    <h1 fxFlex class="mat-h1 font-700" style="margin: 0px">Basket History</h1>
+  </div>
+  <app-table [columnDetails]="columnDetails" [dataCallback]="getAuditLog" [dataCallbackOptionalParameter]="basketId" [apiDataKey]="'results'"
+             [rowClickCallback]="openModal" [sortColumn]="'timestamp'" [sortMode]="'desc'" [parentComponent]="parentComponent" [jsonRowFormatter]="jsonRowFormatter"></app-table>
+</div>

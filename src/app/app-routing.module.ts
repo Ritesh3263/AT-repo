@@ -25,6 +25,9 @@ import { FeedbackFormComponent } from './pages/admin/components/feedback-form/fe
 import { SignUpComponent } from './layouts/sign-up/sign-up.component';
 import { WebsocketComponent } from './pages/components/websocket/websocket.component';
 import { OrdersComponent } from './pages/components/my-basket-info/orders/orders.component';
+import {AdminBrokeragesComponent} from "./pages/admin/components/admin-brokerages/admin-brokerages.component";
+import { OrderComponent } from './pages/components/order/order.component';
+import {AuditLogComponent} from "./pages/components/my-basket-info/audit-log/audit-log.component";
 
 const routes: Routes = [
   {
@@ -54,7 +57,7 @@ const routes: Routes = [
     canActivate: [AuthenticationGuard]
   },
   {
-    path: 'my-basket-info/:id',
+    path: 'baskets/:id',
     component: JourneyInfoComponent,
     canActivate: [AuthenticationGuard],
     children: [
@@ -89,6 +92,10 @@ const routes: Routes = [
       {
         path: 'orders',
         component: OrdersComponent,
+      },
+      {
+        path: 'history',
+        component: AuditLogComponent,
       }
     ]
   },
@@ -113,6 +120,11 @@ const routes: Routes = [
     canActivate: [AuthenticationGuard]
   },
   {
+    path: 'order',
+    component: OrderComponent,
+    canActivate: [AuthenticationGuard]
+  },
+  {
     path: 'admin',
     canActivate: [AdminAuthenticationGuard],
     children: [
@@ -127,10 +139,14 @@ const routes: Routes = [
       {
         path: 'feedback-form',
         component: FeedbackFormComponent,
+      },
+      {
+        path: 'brokerages',
+        component: AdminBrokeragesComponent,
       }
     ]
   },{
-    
+
     path: 'websocket',
     component: WebsocketComponent,
     canActivate: [AuthenticationGuard]

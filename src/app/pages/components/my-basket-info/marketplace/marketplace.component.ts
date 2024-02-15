@@ -25,14 +25,10 @@ export class MarketplaceComponent {
     this.basket = {}
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.basketId = this.parentComponent.getBasketId();
-    this.basketService.getBasketDetails(this.basketId).then((data) => {
-      if(data && data.basket) {
-        this.basket = data.basket;
-        this.form.controls['public'].setValue(this.basket.public)
-      }
-    })
+    this.basket = await this.parentComponent.getBasket()
+    this.form.controls['public'].setValue(this.basket.public)
   }
 
   onToggleChange() {

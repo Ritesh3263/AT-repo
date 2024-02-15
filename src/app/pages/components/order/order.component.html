@@ -1,0 +1,294 @@
+<div
+  fxLayout="row"
+  fxLayoutAlign="start center"
+  fxLayoutGap="10px"
+  class="breadcrumb with-bg with-border pt-10 pb-10 pl-20 pr-20"
+>
+  <a routerLink="/home" fxLayout="column" fxLayoutAlign="center center">
+    <img src="/assets/images/home-icon.svg" />
+  </a>
+  <span>/</span>
+  <a class="bold">Orders</a>
+</div>
+
+<!-- <div class="main_wrapper order_module">
+  <div fxLayout="column wrap" fxLayoutAlign="start stretch">
+    <h1 class="mat-h1 font-700 ">Orders</h1>
+    
+    <div class="pos_relative">
+        <mat-tab-group
+          mat-stretch-tabs="false"
+          mat-align-tabs="start"
+          animationDuration="0ms"
+          class="trade-tabs"
+        >
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+                <span>Orders</span>
+              </span>
+            </ng-template>
+
+            <div class="tableToolbar">
+              <mat-form-field class="max-w-200" appearance="outline">
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                  <input matStartDate placeholder="Start date" />
+                  <input matEndDate placeholder="End date" />
+                </mat-date-range-input>
+                <mat-datepicker-toggle
+                  matIconSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+              </mat-form-field>
+
+              <button mat-flat-button color="primary" class="ml-auto primary-btn">
+                <mat-icon class="icon_sync"  aria-hidden="false" aria-label="Example sync icon" fontIcon="sync"></mat-icon>
+                Sync
+              </button>
+            </div>
+
+            <div class="main-content-card tableParent trading-table">
+              <table
+                mat-table
+                [dataSource]="dataSource"
+                matSort
+                multiTemplateDataRows
+                class="collapsible-table"
+              >
+                <ng-container matColumnDef="ACTION">
+                  <th mat-header-cell *matHeaderCellDef></th>
+                  <td mat-cell *matCellDef="let element" class="text-center ">
+                    <mat-icon
+                      class="iconDark "
+                      aria-hidden="false"
+                      aria-label="Example add icon"
+                      fontIcon="add_circle"
+                    ></mat-icon>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="ACCOUNT_ID">
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    sortActionDescription="Sort by Acc ID"
+                  >
+                    ACCOUNT ID
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.ACCOUNT_ID }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="BASKET_ID">
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    sortActionDescription="Sort by Basket ID"
+                  >
+                    BASKET ID
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.BASKET_ID }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="ORDER_ID">
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    sortActionDescription="Sort by Order ID"
+                  >
+                    ORDER ID
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{ element.ORDER_ID }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="ORDER_DATE">
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    sortActionDescription="Sort by Date"
+                  >
+                    ORDER DATE
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.ORDER_DATE }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="STATUS">
+                  <th
+                    mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    sortActionDescription="Sort by Status"
+                  >
+                    STATUS
+                  </th>
+                  <td mat-cell *matCellDef="let element" [ngClass]="getChangeStyle(element.STATUS)">{{ element.STATUS }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="expandedDetail">
+                  <td
+                    mat-cell
+                    *matCellDef="let element"
+                    [attr.colspan]="columnsToDisplay.length"
+                  >
+
+                  
+                    <div
+                      class="example-element-detail epandTableParent dFlex"
+                      [@detailExpand]="
+                        element == expandedElement ? 'expanded' : 'collapsed'
+                      "
+                    >
+                      <table
+                        mat-table
+                        [dataSource]="dataSource2"
+                        multiTemplateDataRows
+                        class="expanded-table"
+                      >
+                        <ng-container matColumnDef="SYMBOL">
+                          <th mat-header-cell *matHeaderCellDef>SYMBOL</th>
+                          <td mat-cell *matCellDef="let element"><a>{{ element.SYMBOL }}</a>
+                            
+                          </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="QUANTITY">
+                          <th mat-header-cell *matHeaderCellDef>QUANTITY</th>
+                          <td mat-cell *matCellDef="let element">
+                            {{ element.QUANTITY }}
+                          </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="TRADE_ACTION">
+                          <th mat-header-cell *matHeaderCellDef>TRADE ACTION</th>
+                          <td mat-cell *matCellDef="let element" >
+                            {{ element.TRADE_ACTION }}
+                          </td>
+                        </ng-container>
+
+                        <tr
+                          mat-header-row
+                          *matHeaderRowDef="columnsToDisplayInside"
+                        ></tr>
+                        <tr
+                          mat-row
+                          *matRowDef="let row; columns: columnsToDisplayInside"
+                        ></tr>
+                      </table>
+                    </div>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let element; columns: columnsToDisplay"
+                  class="example-element-row"
+                  [class.example-expanded-row]="expandedElement === element"
+                  (click)="
+                    expandedElement = expandedElement === element ? null : element
+                  "
+                ></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: ['expandedDetail']"
+                  class="example-detail-row inner_row_h0"
+                ></tr>
+              </table>
+              <mat-paginator
+                [pageSizeOptions]="[4, 50, 100]"
+                showFirstLastButtons
+                aria-label="Select page of periodic elements"
+              >
+              </mat-paginator>
+            </div>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+                <span>Positions</span>
+              </span>
+            </ng-template>
+
+            <div class="tableToolbar">
+              <mat-form-field class="max-w-200" appearance="outline">
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                  <input matStartDate placeholder="Start date" />
+                  <input matEndDate placeholder="End date" />
+                </mat-date-range-input>
+                <mat-datepicker-toggle
+                  matIconSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+              </mat-form-field>
+              <button mat-flat-button color="primary" class="ml-auto primary-btn">
+                <mat-icon class="icon_sync" aria-hidden="false" aria-label="Example sync icon" fontIcon="sync"></mat-icon>
+                Sync
+              </button>
+            </div>
+            <div class="main-content-card tableParent trading-table ">
+              <table
+                mat-table
+                [dataSource]="dataSourcePosition"
+                multiTemplateDataRows
+                class="position-table"
+              >
+                <ng-container matColumnDef="ACCOUNT_ID">
+                  <th mat-header-cell *matHeaderCellDef> ACCOUNT ID </th>
+                  <td mat-cell *matCellDef="let element" > {{element.ACCOUNT_ID}}</td>
+                </ng-container>
+                <ng-container matColumnDef="POSITION_ID">
+                  <th mat-header-cell *matHeaderCellDef> POSITION ID </th>
+                  <td mat-cell *matCellDef="let element" > {{element.POSITION_ID}}</td>
+                </ng-container>
+                <ng-container matColumnDef="QUANTITY">
+                  <th mat-header-cell *matHeaderCellDef> QUANTITY </th>
+                  <td mat-cell *matCellDef="let element" > {{element.QUANTITY}}</td>
+                </ng-container>
+                <ng-container matColumnDef="PRICE">
+                  <th mat-header-cell *matHeaderCellDef> PRICE </th>
+                  <td mat-cell *matCellDef="let element" > {{element.PRICE}}</td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="columnsToDisplayPositions"></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: columnsToDisplayPositions"
+                  
+                ></tr>
+              </table>
+              <mat-paginator [pageSizeOptions]="[5, 50, 100]" showFirstLastButtons
+                aria-label="Select page of periodic elements">
+              </mat-paginator>
+            </div>
+
+
+          </mat-tab>
+
+          
+        </mat-tab-group>
+        <div class="broker_dropdown_insameline">
+          <mat-form-field appearance="outline" class="select_broker">
+            <mat-label>Select Broker</mat-label>
+            <mat-select>
+              <mat-option value="trade_station">Trade Station</mat-option>
+              <mat-option value="interactive_brokers"
+                >Interactive Brokers</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+    </div>
+  </div>
+</div> -->

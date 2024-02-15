@@ -5,12 +5,13 @@
     <span>/</span>
     <a routerLink="/baskets" class="bold">Baskets</a>
     <span>/</span>
-    <a class="bold">Account</a>
+    <a class="bold">{{basket.name}} / Account</a>
 </div>
+<div class="main_wrapper account_module bg-body text-dark">
 <div fxLayout="column" class="pt-10 pl-20 pr-20 pb-20">
     <div fxLayout="row" fxLayoutAlign="start center" class="pb-15">
         <h1 fxFlex class="mat-h1 font-700" style="margin: 0px">Linked Account</h1>
-        <button mat-flat-button color="primary" (click)="addAccount()" [disabled]="dataSource.data.length > 0">Link Account</button>
+        <button mat-flat-button class="primary-btn" (click)="addAccount()" [disabled]="dataSource.data.length > 0">Link Account</button>
     </div>
     <div class="trading-table height-auto table-scroll">
         <table mat-table [dataSource]="dataSource">
@@ -65,4 +66,5 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></tr>
         </table>
     </div>
+</div>
 </div>

@@ -11,7 +11,10 @@
         <mat-form-field appearance="outline" fxFlex="100" fxFlex.sm="100" fxFlex.xs="100">
             <mat-label>Select Brokerage</mat-label>
             <mat-select [(value)]="selectedBrokerId">
-                <mat-option *ngFor="let broker of brokerMaster" [value]="broker.id" (click)="getBrokerAccounts()">{{broker.name}}</mat-option>
+                <div *ngFor="let broker of brokerMaster">
+                  <mat-option *ngIf="broker.is_connected" [value]="broker" (click)="updateAccountList(broker)">{{broker.name}}</mat-option>
+                </div>
+
             </mat-select>
         </mat-form-field>
     </div>
@@ -32,13 +35,13 @@
             <ng-container matColumnDef="account_number">
                 <th mat-header-cell *matHeaderCellDef> Account Number </th>
                 <td mat-cell *matCellDef="let element">
-                    {{element.account_number}}
+                    {{element.AccountID}}
                 </td>
             </ng-container>
 
             <ng-container matColumnDef="accountBalance">
                 <th mat-header-cell *matHeaderCellDef class="text-center"> Account Balance </th>
-                <td mat-cell *matCellDef="let element" class="text-center"> {{element.accountBalance}} </td>
+                <td mat-cell *matCellDef="let element" class="text-right"> {{element.BuyingPower  | currency:'USD':'symbol':'1.2-2' }} </td>
             </ng-container>
             <!--
             <ng-container matColumnDef="openPositions">

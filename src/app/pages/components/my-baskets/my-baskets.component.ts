@@ -46,8 +46,9 @@ export class MyBasketsComponent {
   // Private / Public Visibility Filter Set
   visibilityFilter: any = {
     'All': (item:any) => { return true; },
-    'Public (Pulished to Marketplace)': (item:any) => { return item.public == true },
-    'Private': (item:any) => { return item.public == false }
+    'Public (Pulished to Marketplace)': (item:any) => { return item.public && item.is_owner },
+    'Private': (item:any) => { return item.public == false },
+    'Subscribed': (item:any) => { return item.public && !item.is_owner }
   }
   // Chain all the filters together
   filterChain:any = {
@@ -64,7 +65,7 @@ export class MyBasketsComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result && result.success && result.id) {
-        this.utilityService.navigate(`/my-basket-info/${result.id}/basket`);
+        this.utilityService.navigate(`/baskets/${result.id}/basket`);
       }
     });
   }
@@ -172,7 +173,7 @@ export class MyBasketsComponent {
   }
 
   navigate(basket: Basket, path: string) {
-    this.utilityService.navigate(`/my-basket-info/${basket.id}/${path}`)
+    this.utilityService.navigate(`/baskets/${basket.id}/${path}`)
   }
 
   removeFromBasket(baskets: Basket[], basket: Basket, extraCondition:boolean = true) {

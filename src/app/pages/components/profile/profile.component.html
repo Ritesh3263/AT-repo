@@ -6,29 +6,23 @@
         </button>
     </div>
     <div mat-dialog-content class="no-padding-bottom">
-        <form class="example-form">
+        <form class="example-form" [formGroup]="form" *ngIf="initialized">
             <div fxLayout="row wrap" fxLayoutAlign="start center" class="form-row">
-                <div fxFlex="100" fxFlex.sm="100" fxFlex.xs="100" class="form-group">
-                    <mat-form-field appearance="outline">
-                        <mat-label>First Name</mat-label>
-                        <input matInput [formControl]="firstName">
-                    </mat-form-field>
+                <div fxFlex="100" fxFlex.sm="100" fxFlex.xs="100" class="form-group" >
+                  <app-input-text [formGroup]="form" [label]="'First Name'" [type]="'text'" [field]="'firstName'"></app-input-text>
+
+                  <app-input-text [formGroup]="form" [label]="'Last Name'" [type]="'text'" [field]="'lastName'"></app-input-text>
+
+                  <app-input-text [formGroup]="form" [label]="'Phone Number'" [type]="'text'" [field]="'phoneNumber'"></app-input-text>
+
+                  <app-input-text [formGroup]="form" [label]="'Email'" [type]="'email'" [field]="'email'"></app-input-text>
                 </div>
-                <div fxFlex="100" fxFlex.sm="100" fxFlex.xs="100" class="form-group">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Last Name</mat-label>
-                        <input matInput [formControl]="lastName">
-                    </mat-form-field>
-                </div>
-                <div fxFlex="100" fxFlex.sm="100" fxFlex.xs="100" class="form-group">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Phone</mat-label>
-                        <input matInput [formControl]="phoneNumber">
-                    </mat-form-field>
-                </div>
+
                 <div fxFlex="100" class="form-group pb-20">
-                    <p class="form-label">Profile Picture</p>
+                    <p><b>Date of Joining:</b> {{user.createdAt | date}}</p>
+                    <p class="form-label"><b>Profile Picture</b></p>
                     <div class="mb-3">
+                        <!--
                         <div class="logo-upload">
                             <div fxLayout="row" fxLayoutAlign="start center">
                                 <label>
@@ -38,15 +32,19 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="pic-uploaded mt-15" [hidden]="!user.profilePhoto">
+                        -->
+                      <input #fileInput id="fileInput" type="file" name="upload" class="upload-input" [hidden]="true"
+                             placeholder="Upload" (change)="onFileSelected($event)"/>
+
+                        <div class="pic-uploaded mt-15" >
                             <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-                                <div fxLayout="column" fxLayoutAlign="center center" class="profile-pic">
-                                    <img src="{{user.profilePhoto}}" />
+                                <div fxLayout="column" fxLayoutAlign="center center" class="profile-pic" *ngIf="(selectedFileURL || user.profilePhoto)">
+                                    <img src="{{selectedFileURL || user.profilePhoto}}" />
                                 </div>
-                                <button mat-flat-button color="primary">
+                                <button mat-flat-button color="primary" (click)="selectFile()">
                                     Change
                                 </button>
-                                <button mat-stroked-button color="primary">
+                                <button mat-stroked-button  class="secondary-btn" (click)="removeAvatar()">
                                     Remove
                                 </button>
                             </div>
@@ -60,39 +58,38 @@
                 <div fxFlex="100" fxFlex.sm="100" fxFlex.xs="100" class="form-group">
                     <mat-form-field appearance="outline">
                         <mat-label>Job Role</mat-label>
-                        <mat-select>
-                            <mat-option value="option1">Option 1</mat-option>
-                            <mat-option value="option2">Option 2</mat-option>
-                            <mat-option value="option3">Option 3</mat-option>
+                        <mat-select formControlName="jobRole">
+                          <mat-option *ngFor="let role of jobRoles" value="{{role}}">{{ role }}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
                 <div fxFlex="100" fxFlex.sm="100" fxFlex.xs="100" class="form-group">
                     <mat-form-field appearance="outline">
                         <mat-label>Industry</mat-label>
-                        <mat-select>
-                            <mat-option value="option1">Option 1</mat-option>
-                            <mat-option value="option2">Option 2</mat-option>
-                            <mat-option value="option3">Option 3</mat-option>
+                        <mat-select formControlName="industry">
+                            <mat-option *ngFor="let industry of industries" value="{{industry}}">{{ industry }}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
                 <div fxFlex="100" fxFlex.sm="100" fxFlex.xs="100" fxLayout="column" class="form-group">
                     <span>Trading</span>
-                    <mat-radio-group aria-label="Select an option" color="primary">
-                        <mat-radio-button value="1">Full Time</mat-radio-button>
-                        <mat-radio-button value="2">Part Time</mat-radio-button>
+                    <mat-radio-group aria-label="Select an option" color="primary" formControlName="tradingFullTime">
+                        <mat-radio-button value="{{1}}">Full Time</mat-radio-button>
+                        <mat-radio-button value="{{0}}">Part Time</mat-radio-button>
                     </mat-radio-group>
                 </div>
             </div>
         </form>
     </div>
     <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
-        <button mat-stroked-button mat-dialog-close color="primary">
+        <button mat-stroked-button mat-dialog-close  class="secondary-btn">
             Cancel
         </button>
-        <button mat-flat-button color="primary">
+        <button mat-flat-button color="primary" [disabled]="isLoading" (click)="updateProfile(true)">
             Save
         </button>
     </div>
 </div>
+<!-- <div *ngIf="showSpinner" class="spinner-wrapper">
+  <app-spinner></app-spinner>
+</div> -->

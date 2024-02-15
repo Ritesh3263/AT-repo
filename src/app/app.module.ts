@@ -69,6 +69,19 @@ import { SpinnerComponent } from './pages/components/spinner/spinner.component';
 import { WebsocketComponent } from './pages/components/websocket/websocket.component';
 import { OrdersComponent } from './pages/components/my-basket-info/orders/orders.component';
 import { EditOrderComponent } from './pages/components/my-basket-info/edit-order/edit-order.component';
+import { InfoModalComponent } from './layouts/info-modal/info-modal.component';
+import { EditBrokerComponent } from './pages/admin/components/modals/edit-broker/edit-broker.component';
+import { AdminBrokeragesComponent } from './pages/admin/components/admin-brokerages/admin-brokerages.component';
+
+import { MatTooltipModule} from "@angular/material/tooltip";
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import { OrderComponent } from './pages/components/order/order.component';
+import { MatDatepickerModule } from '@angular/material/datepicker'
+import { MatNativeDateModule } from '@angular/material/core';
+import { AuditLogComponent } from './pages/components/my-basket-info/audit-log/audit-log.component';
+
 
 
 @NgModule({
@@ -117,7 +130,12 @@ import { EditOrderComponent } from './pages/components/my-basket-info/edit-order
     SpinnerComponent,
     WebsocketComponent,
     OrdersComponent,
-    EditOrderComponent
+    EditOrderComponent,
+    InfoModalComponent,
+    EditBrokerComponent,
+    AdminBrokeragesComponent,
+    OrderComponent,
+    AuditLogComponent
   ],
   imports: [
     BrowserModule,
@@ -146,6 +164,12 @@ import { EditOrderComponent } from './pages/components/my-basket-info/edit-order
     MatSnackBarModule,
     MatButtonToggleModule,
     MatSortModule,
+    MatTooltipModule,
+    MatProgressBarModule,
+    MatExpansionModule,
+    MatToolbarModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [],
   bootstrap: [AppComponent]

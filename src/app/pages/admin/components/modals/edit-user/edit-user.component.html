@@ -15,14 +15,16 @@
 
             <app-input-text [formGroup]="form" [label]="'Password'" [field]="'password'" [hidden]="!showPassword()" [type]="'password'"></app-input-text>
 
-            <mat-checkbox formControlName="loginLocked" *ngIf="mode == 'EDIT'">Block Login</mat-checkbox>
+            <div *ngIf="!data.user.isSuperAdmin">
+              <mat-checkbox formControlName="loginLocked" *ngIf="mode == 'EDIT'">Block Login</mat-checkbox>
 
-            <p>Role</p>
-            <mat-button-toggle-group name="roles" aria-label="Roles" formControlName="roles">
+              <p>Role</p>
+              <mat-button-toggle-group name="roles" aria-label="Roles" formControlName="roles">
                 <mat-button-toggle value="trader">Trader</mat-button-toggle>
                 <mat-button-toggle value="admin">Admin</mat-button-toggle>
-            </mat-button-toggle-group>
-            <br>
+              </mat-button-toggle-group>
+              <br>
+            </div>
             <br>
             <p>Login Provider</p>
             <mat-button-toggle-group label="Login Provider" name="authenticationProvider" aria-label="Login Provider" formControlName="authenticationProvider">

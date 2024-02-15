@@ -20,6 +20,7 @@ export class TableComponent {
   dataSource = new MatTableDataSource<any>([])
   selection = new SelectionModel<any>(true, []);
   search!: string
+  showSpinner: boolean = false;
 
   @Input() dataCallback: any;
   @Input() rowClickCallback: any;
@@ -31,6 +32,9 @@ export class TableComponent {
   @Input() sortColumn: string | null = null;
   @Input() sortMode: SortDirection = 'asc';
   @Input() parentComponent: any = null;
+  @Input() getRowHighlight: Function = (mainComponent: any, row:any) => { return ''}
+  @Input() mainComponent: any = null;
+  @Input() jsonRowFormatter: Function = (row: any) => { return row }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -49,6 +53,7 @@ export class TableComponent {
   }
 
   async ngOnInit() {
+    this.showSpinner = true;
     for(let i = 0; i < this.columnDetails.length; i++) {
       this.displayedColumns.push(this.columnDetails[i].key)
       if(this.columnDetails[i].type == 'menu') {
@@ -57,14 +62,15 @@ export class TableComponent {
     }
 
     await this.getData();
+    this.showSpinner = false;
   }
 
   async getData(resetPagination = false) {
     if(resetPagination) {
       this.pagination.pageNumber = 0;
     }
-    let results = await this.dataCallback(this.pagination.pageNumber, this.pagination.pageSize, this.sortColumn, this.sortMode, this.search, this.dataCallbackOptionalParameter);
-    if(results && results.success && results[this.apiDataKey]) {
+    let results = await this.dataCallback(this.pagination.pageNumber, this.pagination.pageSize, this.sortColumn, this.sortMode, this.search, this.dataCallbackOptionalParameter, this.mainComponent);
+    if(results && !results.error && results[this.apiDataKey]) {
       this.dataSource = new MatTableDataSource<any>(results[this.apiDataKey]);
       this.pagination.totalRows = results[this.apiDataKey].length ? results[this.apiDataKey][0].totalRows : 0;
     }

@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "build:qa": "ng build --configuration=qa",
+    "build:dev": "ng build --configuration=dev",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -22,7 +23,9 @@
     "@angular/platform-browser": "^16.2.11",
     "@angular/platform-browser-dynamic": "^16.2.11",
     "@angular/router": "^16.2.11",
+    "postcss": "^8.4.33",
     "rxjs": "~7.8.0",
+    "tailwindcss": "^3.4.1",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.3"
   },

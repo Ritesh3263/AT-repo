@@ -76,7 +76,7 @@ export class OwnerProfileComponent {
   }
 
   navigate(basket: Basket, path: string) {
-    this.utilityService.navigate(`/my-basket-info/${basket.id}/${path}`)
+    this.utilityService.navigate(`/baskets/${basket.id}/${path}`)
   }
 
   setFavoriteBasket(basket: Basket) {

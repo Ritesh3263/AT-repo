@@ -1,0 +1,26 @@
+<div class="modal-dialog">
+  <div fxLayout="row" fxLayoutAlign="start center" class="dialog-header">
+    <h2 fxFlex class="mat-h2">{{data.header}}</h2>
+    <button mat-icon-button mat-dialog-close class="close-btn">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content class="no-padding-bottom">
+    <div *ngFor="let item of data.details">
+      <b>{{(item.key && item.key != ' ') ? item.key + ':' : ''}}</b>
+      <br>
+      <p *ngIf="!item.type">{{item.value}}</p>
+      <pre *ngIf="item.type == 'list'">{{item.value}}</pre>
+      <div *ngIf="item.type == 'json'">
+        <p *ngFor="let key of Object.keys(item.value)">{{key | titlecase }}: {{item.value[key]}}</p>
+      </div>
+
+
+    </div>
+  </div>
+  <div class="dialog-footer" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
+    <button mat-stroked-button mat-dialog-close color="primary">
+      Close
+    </button>
+  </div>
+</div>

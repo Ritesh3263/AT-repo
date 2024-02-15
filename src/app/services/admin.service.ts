@@ -59,9 +59,20 @@ export class AdminService {
     }
   }
 
+  async getNotifications(pageNumber: number, pageSize: number, sortColumn: string | null = null, sortMode: string | null = null, search: string | null = null) {
+    try{
+      let res = await fetch(`${environment.apiBaseUrl}/admin-api/notifications?pageNumber=${pageNumber}&pageSize=${pageSize}${sortColumn ? `&sortColumn=${sortColumn}` : ''}${sortMode ? `&sortMode=${sortMode}` : ''}${search ? `&search=${encodeURIComponent(search)}` : ''}`, this.getHeaders());
+      let data = await res.json();
+      return data;
+    }
+    catch(e: any) {
+      return {error: e.message}
+    }
+  }
+
   async getUsers(pageNumber: number, pageSize: number, sortColumn: string | null = null, sortMode: string | null = null, search: string | null = null) {
     try{
-      let res = await fetch(`${environment.apiBaseUrl}/admin-api/users?pageNumber=${pageNumber}&pageSize=${pageSize}${sortColumn ? `&sortColumn=${sortColumn}` : ''}${sortMode ? `&sortMode=${sortMode}` : ''}${search ? `&search=${search}` : ''}`, this.getHeaders());
+      let res = await fetch(`${environment.apiBaseUrl}/admin-api/users?pageNumber=${pageNumber}&pageSize=${pageSize}${sortColumn ? `&sortColumn=${sortColumn}` : ''}${sortMode ? `&sortMode=${sortMode}` : ''}${search ? `&search=${encodeURIComponent(search)}` : ''}`, this.getHeaders());
       let data = await res.json();
       return data;
     }
@@ -99,6 +110,33 @@ export class AdminService {
       let res = await fetch(`${environment.apiBaseUrl}/admin-api/feedback-forms?pageNumber=${pageNumber}&pageSize=${pageSize}${sortColumn ? `&sortColumn=${sortColumn}` : ''}${sortMode ? `&sortMode=${sortMode}` : ''}${search ? `&search=${search}` : ''}`, this.getHeaders());
       let data = await res.json();
       return data;
+    }
+    catch(e: any) {
+      return {error: e.message}
+    }
+  }
+
+  async getBrokers(pageNumber: number, pageSize: number, sortColumn: string | null = null, sortMode: string | null = null, search: string | null = null) {
+    try{
+      let res = await fetch(`${environment.apiBaseUrl}/admin-api/broker/broker-master?pageNumber=${pageNumber}&pageSize=${pageSize}${sortColumn ? `&sortColumn=${sortColumn}` : ''}${sortMode ? `&sortMode=${sortMode}` : ''}${search ? `&search=${encodeURIComponent(search)}` : ''}`, this.getHeaders());
+      return await res.json();
+    }
+    catch(e: any) {
+      return {error: e.message}
+    }
+  }
+
+  async setBroker(broker: any, file: File | null) {
+    try{
+      const formData = new FormData();
+      if(file) {
+        formData.append("file", file, file.name);
+      }
+
+      formData.append("broker", JSON.stringify(broker));
+
+      let res = await fetch(`${environment.apiBaseUrl}/admin-api/broker/broker-master`, this.getHeaders('PUT',formData, true));
+      return await res.json();
     }
     catch(e: any) {
       return {error: e.message}

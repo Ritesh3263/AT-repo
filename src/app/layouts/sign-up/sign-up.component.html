@@ -1,28 +1,46 @@
 <div fxFill fxLayout.gt-xs="column" fxLayoutAlign.gt-xs="center center">
-    <div class="login-wrapper">
-        <header fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px" >
-            <h2 fxFlex="initial" class="mat-h2 font-600 mb-0">{{mode == 'signup' ? 'Please complete your registration' : 'Please verify your email to register'}}</h2>
-        </header>
-        <div class="h-line"></div>
-        <div fxLayout="column">
-            <div *ngIf="mode == 'verifyEmail'">
-                <app-input-text [formGroup]="emailForm" [label]="'Email'" [type]="'email'" [field]="'email'"></app-input-text>
+    <div class="login-wrapper md:min-h-[450px]">
+        <div class="bg-pattern-1"></div>
+        <div class="login-content">
+
+            <header fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+                <h2 fxFlex="initial" class="mat-h2 font-600 mb-0">{{mode == 'signup' ? 'Please complete your
+                    registration' : 'Please verify your email to register'}}</h2>
+            </header>
+            <div class="h-line"></div>
+            <div fxLayout="column">
+                <div *ngIf="mode == 'verifyEmail'">
+                    <app-input-text [formGroup]="emailForm" [label]="'Email'" [type]="'email'"
+                        [field]="'email'"></app-input-text>
+                </div>
+
+                <div *ngIf="mode == 'signup'">
+                    <app-input-text [formGroup]="signupForm" [label]="'Email'" [type]="'email'"
+                        [field]="'email'"></app-input-text>
+                    <app-input-text [formGroup]="signupForm" [label]="'First Name'" [type]="'text'"
+                        [field]="'firstName'"></app-input-text>
+                    <app-input-text [formGroup]="signupForm" [label]="'Last Name'" [type]="'text'"
+                        [field]="'lastName'"></app-input-text>
+                    <app-input-text [formGroup]="signupForm" [label]="'Password'" [type]="'password'"
+                        [field]="'password'"></app-input-text>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                </div>
             </div>
 
-            <div *ngIf="mode == 'signup'">
-                <app-input-text [formGroup]="signupForm" [label]="'Email'" [type]="'email'" [field]="'email'" ></app-input-text>
-                <app-input-text [formGroup]="signupForm" [label]="'First Name'" [type]="'text'" [field]="'firstName'"></app-input-text>
-                <app-input-text [formGroup]="signupForm" [label]="'Last Name'" [type]="'text'" [field]="'lastName'"></app-input-text>
-                <app-input-text [formGroup]="signupForm" [label]="'Password'" [type]="'password'" [field]="'password'"></app-input-text>
-            </div>
+            <button mat-flat-button color="primary" (click)="sendEmailVerificationEmail()" class="login-btn"
+                [disabled]="!utilityService.isFormValid(emailForm)" *ngIf="mode == 'verifyEmail'">Verify Email
+                Address</button>
+            <button mat-flat-button color="primary" (click)="signup()" class="login-btn"
+                [disabled]="!utilityService.isFormValid(signupForm)" *ngIf="mode != 'verifyEmail'">Signup</button>
 
-            <div fxLayout="row" fxLayoutAlign="space-between center">
-            </div>
+            <p class="signup-link" (click)="login()"><a>Return to login page</a></p>
         </div>
-
-        <button mat-flat-button color="primary" (click)="sendEmailVerificationEmail()" class="login-btn" [disabled]="!utilityService.isFormValid(emailForm)" *ngIf="mode == 'verifyEmail'">Verify Email Address</button>
-        <button mat-flat-button color="primary" (click)="signup()" class="login-btn" [disabled]="!utilityService.isFormValid(signupForm)" *ngIf="mode != 'verifyEmail'">Signup</button>
-
-        <p class="signup-link" (click)="login()"><a>Return to login page</a></p>
+        <div class="hero-wrapper">
+            <img class="vector-img" src="../../../assets/images/trading-vector.svg">
+            <p class="!font-semibold !m-0 bottom-logo">Angular Trading°</p>
+        </div>
+        <div class="bg-pattern-2"></div>
     </div>
 </div>
