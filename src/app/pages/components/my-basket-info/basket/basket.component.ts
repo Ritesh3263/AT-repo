@@ -268,10 +268,11 @@ export class BasketComponent {
       let updatedTime = row.timestamp.substring(0,10)
       let deletedTime = row.deleted_at ? row.deleted_at.substring(0,10) : null
 
-      if(notificationTime == updatedTime)
-        return 'highlight-green'
       if(notificationTime == deletedTime)
-        return 'highlight-red'
+        return 'removed';//'highlight-red'
+      if(notificationTime == updatedTime)
+        return  'new';// 'highlight-green'
+
     }
 
     return ''

@@ -48,11 +48,11 @@ th.mat-sort-header-sorted {
 }
 
 .highlight-green {
-  background-color: lightgreen;
+  background-color: lightgreen !important;
 }
 
 .highlight-red {
-  background-color: crimson;
+  background-color: crimson !important;
 }
 
 .trading-table {
@@ -75,4 +75,29 @@ th.mat-sort-header-sorted {
 
 .right-align-cell {
   text-align: right !important;
+}
+
+.indicator_parent{
+  display: flex;
+  justify-content: space-between;
+  .indicators{
+      display: flex;
+      gap: 0.1rem;
+  }
+
+}
+
+.indicator_parent_define{
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  align-items: flex-start;
+  .indicators{
+      display: flex;
+      gap: 0.3rem;
+      align-items: center;
+  }
+
 }
