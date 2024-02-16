@@ -40,7 +40,8 @@
     justify-content: space-between;
     .indicators{
         display: flex;
-        gap: 0.1rem;
+        gap: 0.3rem;
+        font-size: 10px;
     }
     
 }
@@ -48,7 +49,7 @@
 .indicator_parent_define{
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: flex-start;
     gap: 0.5rem;
     margin-top: 1rem;
     align-items: flex-start;
@@ -56,19 +57,27 @@
         display: flex;
         gap: 0.3rem;
         align-items: center;
+        font-size: 10px;
     }
     
 }
 
-.trading-table.trade-c-table .mat-column-symbolhide, .trading-table.trade-c-table .mat-column-symbol {
-    min-width: 0px !important;
-    max-width: 160px !important;
+// @media screen and (min-width: 1280px) {
+//     .primary-sub-section {
+//         .form-group {
+//             border-right: 1px solid rgba(0,0,0,.12);
+
+//             &:last-child {
+//                 border-right: none;
+//             }
+//         }
+//     }
+// }
+
+.tbl{
+    height: auto;
+}
+.head{
+    text-align: center;
 }
 
-
-.trade-warn {
-    padding: 8px 15px;
-    border-radius: 4px;
-    color: #000000;
-    background-color: #ec5954 !important;
-}

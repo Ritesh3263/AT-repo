@@ -2,8 +2,10 @@
 * Generated theme by Material Theme Generator
 * https://materialtheme.arcsine.dev
 */
-@use '@angular/material' as mat;
-@use 'palette';
+@use "@angular/material" as mat;
+@use "palette";
+
+mat.$theme-ignore-duplication-warnings: true;
 
 @include mat.core();
 
@@ -156,6 +158,9 @@ $BLACK: #000000;
       // transform: scale(1.02);
       background-color: rgba(11,99,229,0.1) !important;
       // box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+      td{
+        border: 0;
+      }
     }
     background-color: mat.get-color-from-palette($primary, pw);
     .mat-mdc-header-row {
@@ -198,6 +203,10 @@ $BLACK: #000000;
       background: none;
     }
   }
+  button.green-button {
+    background-color: var(--GREEN) !important;
+    color: var(--WHITE) !important;
+}
   .basket-card{
     color: mat.get-color-from-palette($primary, dark-accent);
     .invested {
@@ -231,7 +240,7 @@ $BLACK: #000000;
     .mat-button-toggle-appearance-standard.mat-button-toggle-checked{
       background-color: mat.get-color-from-palette($primary, dark);
       color: mat.get-color-from-palette($primary, pw);
-
+      border-radius: 4px;
     }
   }
   .main-nav{
@@ -292,16 +301,7 @@ $BLACK: #000000;
   .mat-mdc-paginator {
     background-color: transparent;
   }
-  .custom-button-disabled {
-    /* Styles for the button */
-    background-color: mat.get-color-from-palette($primary, 500) !important; /* Primary color */
-    color: mat.get-color-from-palette($primary, pw) !important; /* Text color */
-  }
   
-  .custom-button-disabled:disabled {
-    /* Styles for the disabled state */
-    background-color: mat.get-color-from-palette($primary, dark-accent) !important; /* Grayed-out color */
-  }
 }
 
 // Dark-Theme
@@ -338,7 +338,7 @@ $BLACK: #000000;
     background-color: mat.get-color-from-palette($primary, prime-accent);
   }
   .bg-body {
-    background-color: mat.get-color-from-palette($primary, 500);
+    background-color: mat.get-color-from-palette($primary, 500);   
   }
   .bg-dark-transp {
     background-color: transparent;
@@ -532,6 +532,7 @@ $BLACK: #000000;
     .mat-button-toggle-appearance-standard.mat-button-toggle-checked{
       background-color: mat.get-color-from-palette($primary, dark);
       color: mat.get-color-from-palette($primary, pw);
+      border-radius: 4px;
 
     }
   }
@@ -640,14 +641,16 @@ $BLACK: #000000;
         border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
       }
       .mat-mdc-row:hover {
-        transform: scale(1.02);
+        // transform: scale(1.02);
         background-color: rgba(255,255,255,0.1) !important;
-        box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+        // box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+        td{
+          border: 0;
+        }
       }
   
     }
   }
-  
   .basket-wrapper {
     .basket-card{
       .basket-content{
@@ -661,18 +664,14 @@ $BLACK: #000000;
         }
       } 
     }
+  }
+  .home_module{
+    .symbol_broker_parent{
+      .market_value{
+        color: mat.get-color-from-palette($primary, pw);
+      }
+    }
   }  
-
-  .custom-button-disabled {
-    /* Styles for the button */
-    background-color: mat.get-color-from-palette($primary, dark-accent3) !important; /* Primary color */
-    color: mat.get-color-from-palette($primary, pw) !important; /* Text color */
-  }
-  
-  .custom-button-disabled:disabled {
-    /* Styles for the disabled state */
-    background-color: mat.get-color-from-palette($primary, light) !important; /* Grayed-out color */
-  }
 }
 // Theme Config End
 
