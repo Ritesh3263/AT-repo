@@ -350,7 +350,7 @@ class="breadcrumb with-bg with-border pt-10 pb-10 pl-20 pr-20">
 </div>
 <div class="main_wrapper trade_module bg-body text-dark">
     <h1 class="mat-h1 font-700 ">Account Basket Summary</h1>
-    <div class="primary-sub-section-white">
+    <div class="primary-sub-section-white primary-sub-section">
         <div fxLayout="row wrap" fxLayoutAlign="start center" class="form-row">
             <div fxFlex="20" fxFlex.md="33.3" fxFlex.sm="50" fxFlex.xs="100" fxLayout="row" fxLayoutAlign="start center"
                 class="form-group pt-5 pb-5">
@@ -461,7 +461,7 @@ class="breadcrumb with-bg with-border pt-10 pb-10 pl-20 pr-20">
                                 </mat-checkbox>
                             </th>
                             <td mat-cell *matCellDef="let row" class="head">
-                                <mat-checkbox (click)="$event.stopPropagation()" color="primary"
+                                <mat-checkbox (click)="singleSelect($event,row)" color="primary"
                                     (change)="$event ? selection.toggle(row) : null"
                                     [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
                                 </mat-checkbox>
@@ -610,7 +610,7 @@ class="breadcrumb with-bg with-border pt-10 pb-10 pl-20 pr-20">
                     aria-label="Select page of periodic elements">
                 </mat-paginator> -->
             </div>
-            <div class="calculate-section sideSection" fxFlex="25" fxLayout="column"  fxLayoutAlign="space-between">
+            <div class="calculate-section primary-sub-section-white primary-sub-section" fxFlex="25" fxLayout="column"  fxLayoutAlign="space-between">
                 <div class="top-section">
                     <h3 class="mat-h2 no-margin font-600">Trade</h3><br>
                     <form class="example-form" [formGroup]="form">
