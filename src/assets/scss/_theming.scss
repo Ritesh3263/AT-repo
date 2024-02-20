@@ -302,6 +302,16 @@ $BLACK: #000000;
     background-color: transparent;
   }
   
+  .custom-button-disabled {
+    /* Styles for the button */
+    background-color: mat.get-color-from-palette($primary, 500) !important; /* Primary color */
+    color: mat.get-color-from-palette($primary, pw) !important; /* Text color */
+  }
+  
+  .custom-button-disabled:disabled {
+    /* Styles for the disabled state */
+    background-color: mat.get-color-from-palette($primary, dark-accent) !important; /* Grayed-out color */
+  }
 }
 
 // Dark-Theme
@@ -672,6 +682,18 @@ $BLACK: #000000;
       }
     }
   }  
+
+  
+  .custom-button-disabled {
+    /* Styles for the button */
+    background-color: mat.get-color-from-palette($primary, dark-accent3) !important; /* Primary color */
+    color: mat.get-color-from-palette($primary, pw) !important; /* Text color */
+  }
+  
+  .custom-button-disabled:disabled {
+    /* Styles for the disabled state */
+    background-color: mat.get-color-from-palette($primary, light) !important; /* Grayed-out color */
+  }
 }
 // Theme Config End
 
@@ -725,4 +747,9 @@ $fontConfig: mat.define-typography-config(
   --FONT_REGULAR: 400;
   --FONT_MEDIUM: 500;
   --FONT_BOLD: 700;
+}
+
+
+.trade-form {
+  @include mat.form-field-density(-5);
 }

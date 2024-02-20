@@ -633,8 +633,8 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
     else {
       let data = await this.basketService.getSymbols(this.basketId, 0, 100, null, null)
       if(data && data.symbols) {
-        this.market_value = data.symbols[0].basket_market_value;
-        this.invested = data.symbols[0].basket_invested;
+        this.market_value = data.symbols[0].basket_market_value?data.symbols[0].basket_market_value:0;
+        this.invested = data.symbols[0].basket_invested?data.symbols[0].basket_invested:0;
         this.UpdatedInvestmentTypeDropDownValues()
         this.isPositions = true;
           for(let i = data.symbols.length - 1; i >= 0; i--){
