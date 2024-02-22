@@ -192,4 +192,15 @@ export class BasketsService {
       return {error: e.message}
     }
   }
+
+  async updateBasketSymbolPrices(basketId: Number): Promise<any>{
+    try{
+      let res = await fetch(`${environment.apiBaseUrl}/authenticated-api/basket/${basketId}/updateBasketSymbolPrices`, this.getHeaders());
+      return await res.json();
+    }
+    catch(e: any) {
+      return {error: e.message}
+
+  }
+}
 }

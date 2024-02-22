@@ -103,6 +103,7 @@ export class BasketComponent {
   async ngOnInit(id = null) {
     this.basketId = id || this.parentComponent.getBasketId();
     this.basket = await this.parentComponent.getBasket()
+    this.basketService.updateBasketSymbolPrices(this.basketId)
 
     // parse querystring for input event information
     const params = this.activatedRoute.snapshot.queryParams;
