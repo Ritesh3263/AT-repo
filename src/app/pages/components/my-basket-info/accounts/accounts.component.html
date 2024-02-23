@@ -11,7 +11,7 @@
 <div fxLayout="column" class="pt-10 pl-20 pr-20 pb-20">
     <div fxLayout="row" fxLayoutAlign="start center" class="pb-15">
         <h1 fxFlex class="mat-h1 font-700" style="margin: 0px">Linked Account</h1>
-        <button mat-flat-button class="primary-btn" (click)="addAccount()" [disabled]="dataSource.data.length > 0">Link Account</button>
+        <button mat-flat-button class="primary-btn" (click)="addAccount()" [disabled]="dataSource.data.length > 0 || !(brokerMaster && brokerMaster.length)">Link Account</button>
     </div>
     <div class="trading-table height-auto table-scroll">
         <table mat-table [dataSource]="dataSource">

@@ -33,28 +33,33 @@ export class AccountsComponent {
     this.basketId = this.parentComponent.getBasketId();
     this.basket = await this.parentComponent.getBasket()
 
-    let data = await this.basketService.getBasketAccounts(this.basketId)
-    if(data && data.success && data.accounts && data.accounts.length) {
-      this.linkedAccount = data.accounts[0]
-      this.dataSource = new MatTableDataSource<any>(data.accounts);
-    }
+    // Get all active brokers and connected accounts
+    this.brokerageService.getAllBrokerageAccounts().then((brokerages) => {
+      if(!brokerages.brokers) {
+        this.utilityService.displayInfoMessage("Error retrieving brokerages: " + JSON.stringify(brokerages), true)
+      }
+      this.brokerMaster = brokerages.brokers;
+    })
 
-    let orders = await this.basketTradeService.getOrderByBasketId(this.linkedAccount.broker_code, this.basketId, "Pending")
-    if(orders && orders.orders && orders.orders.length) {
-      this.hasPendingOrders = true;
-    }
+    this.basketService.getBasketAccounts(this.basketId).then((data) => {
+      if(data && data.success && data.accounts && data.accounts.length) {
+        this.linkedAccount = data.accounts[0]
+        this.dataSource = new MatTableDataSource<any>(data.accounts);
+      }
+    })
+
+    this.basketTradeService.getOrderByBasketId(this.linkedAccount.broker_code, this.basketId, "Pending").then((orders) => {
+      if(orders && orders.orders && orders.orders.length) {
+        this.hasPendingOrders = true;
+      }
+    })
+
     this.basketTradeService.getBrokerageAccountPosition(this.linkedAccount.broker_code, this.linkedAccount.broker_account_id).then((data) => {
       if (data && data.success && data.Positions) {
         if(data.Positions.length)
           this.hasPendingOrders = true;
       }
     })
-    // Get all active brokers and connected accounts
-    let brokerages = await this.brokerageService.getAllBrokerageAccounts()
-    if(!brokerages.brokers) {
-      this.utilityService.displayInfoMessage("Error retrieving brokerages: " + JSON.stringify(brokerages), true)
-    }
-    this.brokerMaster = brokerages.brokers;
   }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
