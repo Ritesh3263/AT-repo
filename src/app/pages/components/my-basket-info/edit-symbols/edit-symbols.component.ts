@@ -56,7 +56,16 @@ export class EditSymbolsComponent {
   clipboardEventHandler(event: any, trigger: any) {
     if(event.type == 'paste') {
       // Event fires before data binding has completed, give a few ms before triggering the lookup
-      setTimeout(() => { this.symbolLookup(); trigger.closePanel() }, 5);
+      setTimeout(() => {
+        let symbols = this.lookupControl.getRawValue();
+        symbols = symbols.replace(/,/g, ' ')   // Replace all commas with a space
+        symbols = symbols.replace(/\t/g, ' ')  // Replace all tabs with a space
+        symbols = symbols.replace(/\s+/g, ',') // Replace all spaces with a comma
+        this.lookupControl.setValue(symbols)
+
+        this.symbolLookup();
+        trigger.closePanel()
+      }, 5);
     }
   }
 
