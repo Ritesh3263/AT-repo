@@ -49,14 +49,12 @@ export class AccountsComponent {
           this.hasPendingOrders = true;
       }
     })
-    // Get all active brokers and connected accounts done async to avoid blocking
-    this.brokerageService.getAllBrokerageAccounts().then((data) => {
-      if(!data.brokers) {
-        this.utilityService.displayInfoMessage("Error retrieving broker list: " + JSON.stringify(data), true)
-      }
-
-      this.brokerMaster = data.brokers;
-    });
+    // Get all active brokers and connected accounts
+    let brokerages = await this.brokerageService.getAllBrokerageAccounts()
+    if(!brokerages.brokers) {
+      this.utilityService.displayInfoMessage("Error retrieving brokerages: " + JSON.stringify(brokerages), true)
+    }
+    this.brokerMaster = brokerages.brokers;
   }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
