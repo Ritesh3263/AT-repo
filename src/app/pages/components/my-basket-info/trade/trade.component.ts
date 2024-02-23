@@ -112,6 +112,7 @@ export class TradeComponent implements AfterViewInit, OnDestroy {
 
   async ngOnInit(id = null) {
     this.basketId = id || this.parentComponent.getBasketId();
+    this.basketService.updateBasketSymbolPrices(this.basketId)
     this.basket = await this.parentComponent.getBasket()
 
     if(this.basket.broker_code){
